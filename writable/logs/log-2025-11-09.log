@@ -1,0 +1,617 @@
+WARNING - 2025-11-09 22:34:48 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:35:48 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:36:05 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:36:11 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:36:39 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:36:48 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:37:23 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:37:48 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:38:19 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:39:43 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:39:54 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:40:39 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:40:42 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:42:40 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:44:21 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:44:28 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:46:44 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:46:47 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:46:59 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:47:05 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:47:13 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+WARNING - 2025-11-09 22:52:47 --> [DEPRECATED] Creation of dynamic property App\Controllers\Bridging_apotek::$db is deprecated in APPPATH\Controllers\Bridging_apotek.php on line 14.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Bridging_apotek->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(498): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 15:59:50 --> ErrorException: Undefined property: App\Libraries\BpjsFarmasiService::$user_key
+[Method: GET, Route: bpjs/peserta/nokartu/0001234567890]
+in APPPATH\Libraries\BpjsFarmasiService.php on line 68.
+ 1 APPPATH\Libraries\BpjsFarmasiService.php(68): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: App\\Libraries\\BpjsFarmasiService::$user_key', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Libraries\\BpjsFarmasiService.php', 68)
+ 2 APPPATH\Controllers\BpjsController.php(26): App\Libraries\BpjsFarmasiService->request('GET', 'Peserta/nokartu/0001234567890')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsController->getPesertaByNoKartu('0001234567890')
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:00:51 --> ErrorException: Undefined variable $logs
+[Method: GET, Route: /]
+in APPPATH\Views\dashboard\monitoring.php on line 22.
+ 1 APPPATH\Views\dashboard\monitoring.php(22): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $logs', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php', 22)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('/dashboard/monitoring', [], true)
+ 5 APPPATH\Controllers\Home.php(9): view('/dashboard/monitoring')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:00:54 --> ErrorException: Undefined variable $logs
+[Method: GET, Route: /]
+in APPPATH\Views\dashboard\monitoring.php on line 22.
+ 1 APPPATH\Views\dashboard\monitoring.php(22): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $logs', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php', 22)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('/dashboard/monitoring', [], true)
+ 5 APPPATH\Controllers\Home.php(9): view('/dashboard/monitoring')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Home->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-11-09 16:02:01 --> Error connecting to the database: CodeIgniter\Database\Exceptions\DatabaseException: ERROR:  invalid value for parameter "client_encoding": "utf8mb4" in C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php:98
+Stack trace:
+#0 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(419): CodeIgniter\Database\Postgre\Connection->connect(false)
+#1 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*)...', Array, false)
+#3 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Model.php(675): CodeIgniter\Database\BaseBuilder->countAllResults(false)
+#4 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\BaseModel.php(1277): CodeIgniter\Model->countAllResults(false)
+#5 C:\xampp\htdocs\2025_monitoring_bridging\app\Controllers\MonitoringController.php(13): CodeIgniter\BaseModel->paginate(10, 'group1')
+#6 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+#7 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+#8 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#10 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 C:\xampp\htdocs\2025_monitoring_bridging\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 {main}
+CRITICAL - 2025-11-09 16:02:01 --> CodeIgniter\Database\Exceptions\DatabaseException: Unable to connect to the database.
+Main connection [Postgre]: ERROR:  invalid value for parameter "client_encoding": "utf8mb4"
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Database\BaseConnection.php on line 465.
+ 1 SYSTEMPATH\Database\BaseConnection.php(614): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS "numrows"
+FROM "bpjs_logs"', [], false)
+ 3 SYSTEMPATH\Model.php(675): CodeIgniter\Database\BaseBuilder->countAllResults(false)
+ 4 SYSTEMPATH\BaseModel.php(1277): CodeIgniter\Model->countAllResults(false)
+ 5 APPPATH\Controllers\MonitoringController.php(13): CodeIgniter\BaseModel->paginate(10, 'group1')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:03:53 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "monitoring/index.php"
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('monitoring/index.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('monitoring/index', [], true)
+ 3 APPPATH\Controllers\MonitoringController.php(17): view('monitoring/index', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:04:09 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "monitoring/monitoring.php"
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('monitoring/monitoring.php')
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('monitoring/monitoring', [], true)
+ 3 APPPATH\Controllers\MonitoringController.php(17): view('monitoring/monitoring', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:04:22 --> CodeIgniter\Pager\Exceptions\PagerException: "bootstrap_pagination" is not a valid Pager template.
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Pager\Pager.php on line 124.
+ 1 SYSTEMPATH\Pager\Pager.php(124): CodeIgniter\Pager\Exceptions\PagerException::forInvalidTemplate('bootstrap_pagination')
+ 2 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 3 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 4 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 5 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 7 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:04:53 --> CodeIgniter\Pager\Exceptions\PagerException: "bootstrap_pagination" is not a valid Pager template.
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Pager\Pager.php on line 124.
+ 1 SYSTEMPATH\Pager\Pager.php(124): CodeIgniter\Pager\Exceptions\PagerException::forInvalidTemplate('bootstrap_pagination')
+ 2 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 3 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 4 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 5 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 7 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-11-09 16:25:15 --> ErrorException: pg_query(): Query failed: ERROR:  relation &quot;bpjs_logss&quot; does not exist
+LINE 2: FROM &quot;bpjs_logss&quot;
+             ^ in C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT COUNT(*)...')
+#2 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT COUNT(*)...')
+#3 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*)...')
+#4 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*)...', Array, false)
+#5 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Model.php(675): CodeIgniter\Database\BaseBuilder->countAllResults(false)
+#6 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\BaseModel.php(1277): CodeIgniter\Model->countAllResults(false)
+#7 C:\xampp\htdocs\2025_monitoring_bridging\app\Controllers\MonitoringController.php(13): CodeIgniter\BaseModel->paginate(10, 'group1')
+#8 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+#9 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+#10 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\2025_monitoring_bridging\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 {main}
+CRITICAL - 2025-11-09 16:25:15 --> CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  relation &quot;bpjs_logss&quot; does not exist
+LINE 2: FROM &quot;bpjs_logss&quot;
+             ^
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS "numrows"
+FROM "bpjs_logss"', [], false)
+ 2 SYSTEMPATH\Model.php(675): CodeIgniter\Database\BaseBuilder->countAllResults(false)
+ 3 SYSTEMPATH\BaseModel.php(1277): CodeIgniter\Model->countAllResults(false)
+ 4 APPPATH\Controllers\MonitoringController.php(13): CodeIgniter\BaseModel->paginate(10, 'group1')
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:25:15 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: pg_query(): Query failed: ERROR:  relation &quot;bpjs_logss&quot; does not exist
+LINE 2: FROM &quot;bpjs_logss&quot;
+             ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 211.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT COUNT(*) AS "numrows"
+FROM "bpjs_logss"')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS "numrows"
+FROM "bpjs_logss"')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS "numrows"
+FROM "bpjs_logss"', [], false)
+ 4 SYSTEMPATH\Model.php(675): CodeIgniter\Database\BaseBuilder->countAllResults(false)
+ 5 SYSTEMPATH\BaseModel.php(1277): CodeIgniter\Model->countAllResults(false)
+ 6 APPPATH\Controllers\MonitoringController.php(13): CodeIgniter\BaseModel->paginate(10, 'group1')
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:25:15 --> [Caused by] ErrorException: pg_query(): Query failed: ERROR:  relation &quot;bpjs_logss&quot; does not exist
+LINE 2: FROM &quot;bpjs_logss&quot;
+             ^
+in SYSTEMPATH\Database\Postgre\Connection.php on line 206.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Query failed: ERROR:  relation &quot;bpjs_logss&quot; does not exist
+LINE 2: FROM &quot;bpjs_logss&quot;
+             ^', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\vendor\\codeigniter4\\framework\\system\\Database\\Postgre\\Connection.php', 206)
+ 2 SYSTEMPATH\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT COUNT(*) AS "numrows"
+FROM "bpjs_logss"')
+ 3 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT COUNT(*) AS "numrows"
+FROM "bpjs_logss"')
+ 4 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT COUNT(*) AS "numrows"
+FROM "bpjs_logss"')
+ 5 SYSTEMPATH\Database\BaseBuilder.php(1733): CodeIgniter\Database\BaseConnection->query('SELECT COUNT(*) AS "numrows"
+FROM "bpjs_logss"', [], false)
+ 6 SYSTEMPATH\Model.php(675): CodeIgniter\Database\BaseBuilder->countAllResults(false)
+ 7 SYSTEMPATH\BaseModel.php(1277): CodeIgniter\Model->countAllResults(false)
+ 8 APPPATH\Controllers\MonitoringController.php(13): CodeIgniter\BaseModel->paginate(10, 'group1')
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:25:33 --> ErrorException: Undefined property: App\Libraries\BpjsFarmasiService::$user_key
+[Method: GET, Route: bpjs/peserta/nokartu/0001234567890]
+in APPPATH\Libraries\BpjsFarmasiService.php on line 68.
+ 1 APPPATH\Libraries\BpjsFarmasiService.php(68): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: App\\Libraries\\BpjsFarmasiService::$user_key', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Libraries\\BpjsFarmasiService.php', 68)
+ 2 APPPATH\Controllers\BpjsController.php(26): App\Libraries\BpjsFarmasiService->request('GET', 'Peserta/nokartu/0001234567890')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsController->getPesertaByNoKartu('0001234567890')
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:27:04 --> CodeIgniter\Pager\Exceptions\PagerException: "bootstrap_pagination" is not a valid Pager template.
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Pager\Pager.php on line 124.
+ 1 SYSTEMPATH\Pager\Pager.php(124): CodeIgniter\Pager\Exceptions\PagerException::forInvalidTemplate('bootstrap_pagination')
+ 2 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 3 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 4 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 5 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 7 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:27:07 --> CodeIgniter\Pager\Exceptions\PagerException: "bootstrap_pagination" is not a valid Pager template.
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Pager\Pager.php on line 124.
+ 1 SYSTEMPATH\Pager\Pager.php(124): CodeIgniter\Pager\Exceptions\PagerException::forInvalidTemplate('bootstrap_pagination')
+ 2 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 3 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 4 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 5 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 7 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:29:11 --> CodeIgniter\Pager\Exceptions\PagerException: "bootstrap_pagination" is not a valid Pager template.
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Pager\Pager.php on line 124.
+ 1 SYSTEMPATH\Pager\Pager.php(124): CodeIgniter\Pager\Exceptions\PagerException::forInvalidTemplate('bootstrap_pagination')
+ 2 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 3 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 4 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 5 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 7 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:40:35 --> CodeIgniter\Pager\Exceptions\PagerException: "bootstrap_pagination" is not a valid Pager template.
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Pager\Pager.php on line 124.
+ 1 SYSTEMPATH\Pager\Pager.php(124): CodeIgniter\Pager\Exceptions\PagerException::forInvalidTemplate('bootstrap_pagination')
+ 2 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 3 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 4 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 5 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 7 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:40:39 --> CodeIgniter\Pager\Exceptions\PagerException: "bootstrap_pagination" is not a valid Pager template.
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Pager\Pager.php on line 124.
+ 1 SYSTEMPATH\Pager\Pager.php(124): CodeIgniter\Pager\Exceptions\PagerException::forInvalidTemplate('bootstrap_pagination')
+ 2 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 3 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 4 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 5 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 7 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:42:58 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "bootstrap_pagination.php"
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('bootstrap_pagination.php')
+ 2 SYSTEMPATH\Pager\Pager.php(130): CodeIgniter\View\View->render('bootstrap_pagination')
+ 3 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 4 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 5 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 6 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 8 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:43:20 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "bootstrap_pagination.php"
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('bootstrap_pagination.php')
+ 2 SYSTEMPATH\Pager\Pager.php(130): CodeIgniter\View\View->render('bootstrap_pagination')
+ 3 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 4 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 5 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 6 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 8 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:43:34 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "bootstrap_pagination.php"
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('bootstrap_pagination.php')
+ 2 SYSTEMPATH\Pager\Pager.php(130): CodeIgniter\View\View->render('bootstrap_pagination')
+ 3 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 4 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 5 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 6 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 8 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:43:40 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "bootstrap_pagination.php"
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('bootstrap_pagination.php')
+ 2 SYSTEMPATH\Pager\Pager.php(130): CodeIgniter\View\View->render('bootstrap_pagination')
+ 3 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 4 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 5 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 6 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 8 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:44:16 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "CodeIgniter\Pager\Views\Pager\bootstrap_pagination.php"
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('CodeIgniter\\Pager\\Views\\Pager\\bootstrap_pagination.php')
+ 2 SYSTEMPATH\Pager\Pager.php(130): CodeIgniter\View\View->render('CodeIgniter\\Pager\\Views\\Pager\\bootstrap_pagination')
+ 3 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 4 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 5 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 6 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 8 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:44:48 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "CodeIgniter\App\Views\Pager\bootstrap_pagination.php"
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('CodeIgniter\\App\\Views\\Pager\\bootstrap_pagination.php')
+ 2 SYSTEMPATH\Pager\Pager.php(130): CodeIgniter\View\View->render('CodeIgniter\\App\\Views\\Pager\\bootstrap_pagination')
+ 3 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 4 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 5 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 6 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 8 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:45:14 --> CodeIgniter\View\Exceptions\ViewException: Invalid file: "CodeIgniter\App\Views\Pager\bootstrap_pagination.php"
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 39.
+ 1 SYSTEMPATH\View\View.php(214): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('CodeIgniter\\App\\Views\\Pager\\bootstrap_pagination.php')
+ 2 SYSTEMPATH\Pager\Pager.php(130): CodeIgniter\View\View->render('CodeIgniter\\App\\Views\\Pager\\bootstrap_pagination')
+ 3 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 4 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 5 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 6 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 8 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 16:46:25 --> CodeIgniter\Pager\Exceptions\PagerException: "bootstrap_pagination" is not a valid Pager template.
+[Method: GET, Route: monitoring]
+in SYSTEMPATH\Pager\Pager.php on line 124.
+ 1 SYSTEMPATH\Pager\Pager.php(124): CodeIgniter\Pager\Exceptions\PagerException::forInvalidTemplate('bootstrap_pagination')
+ 2 SYSTEMPATH\Pager\Pager.php(87): CodeIgniter\Pager\Pager->displayLinks('group1', 'bootstrap_pagination')
+ 3 APPPATH\Views\dashboard\monitoring.php(46): CodeIgniter\Pager\Pager->links('group1', 'bootstrap_pagination')
+ 4 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\dashboard\\monitoring.php')
+ 5 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 6 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('dashboard/monitoring', [], true)
+ 7 APPPATH\Controllers\MonitoringController.php(17): view('dashboard/monitoring', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\MonitoringController->index()
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\MonitoringController))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 17:32:37 --> ErrorException: Undefined property: App\Libraries\BpjsFarmasiService::$user_key
+[Method: GET, Route: bpjs/peserta/nokartu/0001234567890]
+in APPPATH\Libraries\BpjsFarmasiService.php on line 68.
+ 1 APPPATH\Libraries\BpjsFarmasiService.php(68): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: App\\Libraries\\BpjsFarmasiService::$user_key', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Libraries\\BpjsFarmasiService.php', 68)
+ 2 APPPATH\Controllers\BpjsController.php(26): App\Libraries\BpjsFarmasiService->request('GET', 'Peserta/nokartu/0001234567890')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsController->getPesertaByNoKartu('0001234567890')
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 17:33:42 --> ErrorException: Undefined property: App\Libraries\BpjsFarmasiService::$user_key
+[Method: GET, Route: bpjs/peserta/nokartu/0001234567890]
+in APPPATH\Libraries\BpjsFarmasiService.php on line 68.
+ 1 APPPATH\Libraries\BpjsFarmasiService.php(68): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: App\\Libraries\\BpjsFarmasiService::$user_key', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Libraries\\BpjsFarmasiService.php', 68)
+ 2 APPPATH\Controllers\BpjsController.php(26): App\Libraries\BpjsFarmasiService->request('GET', 'Peserta/nokartu/0001234567890')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsController->getPesertaByNoKartu('0001234567890')
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-11-09 17:48:52 --> ErrorException: Undefined property: App\Libraries\BpjsFarmasiService::$user_key
+[Method: GET, Route: bpjs/peserta/nokartu/0001234567890]
+in APPPATH\Libraries\BpjsFarmasiService.php on line 68.
+ 1 APPPATH\Libraries\BpjsFarmasiService.php(68): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: App\\Libraries\\BpjsFarmasiService::$user_key', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Libraries\\BpjsFarmasiService.php', 68)
+ 2 APPPATH\Controllers\BpjsController.php(26): App\Libraries\BpjsFarmasiService->request('GET', 'Peserta/nokartu/0001234567890')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsController->getPesertaByNoKartu('0001234567890')
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
