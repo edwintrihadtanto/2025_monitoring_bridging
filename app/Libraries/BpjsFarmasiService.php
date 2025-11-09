@@ -117,13 +117,30 @@ class BpjsFarmasiService
 
         $url = $this->baseURL . $endpoint;
         
-        $logData = [
+        /*$logData = [
             'endpoint' => $url,
             'method' => $method,
             'request_header' => json_encode($headers),
             'request_body' => json_encode($data),
+        ];*/
+
+        // Siapkan data untuk log
+        $logData = [
+            'endpoint' => $url,
+            'method' => $method,
+            'request_header' => json_encode($headers),
         ];
 
+        // --- PERBAIKAN DI SINI ---
+        // Log request body HANYA untuk metode POST yang memiliki data
+        if ($method === 'POST' && $data !== null) {
+            $logData['request_body'] = json_encode($data);
+        } else {
+            // Untuk GET, DELETE, dll., body-nya kosong.
+            $logData['request_body'] = ''; // Simpan sebagai string kosong
+        }
+        // ... lanjutan kode untuk mengirim request ...
+        
         $response = $this->client->request($method, $url, $options);
         $responseBody = $response->getBody();
         $responseCode = $response->getStatusCode();

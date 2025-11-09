@@ -12,3 +12,4 @@ WARNING - 2025-11-10 02:01:52 --> [DEPRECATED] Creation of dynamic property App\
  4 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
  5 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
  6 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2025-11-10 02:17:03 --> BPJS API: OpenSSL decryption (CBC) failed.

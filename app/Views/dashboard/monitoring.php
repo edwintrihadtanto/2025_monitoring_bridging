@@ -71,13 +71,31 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
- $('#detailModal').on('show.bs.modal', function (event) {
+ /*$('#detailModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget)
   var request = button.data('request')
   var response = button.data('response')
   var modal = $(this)
   modal.find('#modalRequest').text(request);
   modal.find('#modalResponse').text(response);
+})*/
+
+ $('#detailModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+  
+  // Ambil data dari atribut 'data-request' dan 'data-response'
+  var request = button.data('request')
+  var response = button.data('response')
+
+  var modal = $(this)
+  
+  // Tampilkan request (ini biasanya sudah berupa string)
+  modal.find('#modalRequest').text(request);
+  
+  // --- PERBAIKAN DI SINI ---
+  // Ubah objek JavaScript 'response' menjadi string JSON yang terformat
+  // JSON.stringify(objek, null, 2) akan membuat JSON dengan indentasi 2 spasi agar mudah dibaca
+  modal.find('#modalResponse').text(JSON.stringify(response, null, 2));
 })
 </script>
 </body>
