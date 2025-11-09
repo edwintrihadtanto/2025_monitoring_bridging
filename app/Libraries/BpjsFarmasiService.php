@@ -3,6 +3,7 @@
 namespace App\Libraries;
 
 use CodeIgniter\HTTP\CURLRequest;
+use LZCompressor\LZString; // Impor library LZ-String
 
 class BpjsFarmasiService
 {
@@ -14,7 +15,6 @@ class BpjsFarmasiService
 
     public function __construct()
     {
-        // Mengambil konfigurasi dari .env
         $this->baseURL = env('BPJS.api.baseURL');
         $this->consID = env('BPJS.ConsID');
         $this->secretKey = env('BPJS.SekretKey');
@@ -24,37 +24,72 @@ class BpjsFarmasiService
     }
 
     /**
-     * Menghasilkan timestamp Unix saat ini dalam format string.
+     * Menghasilkan timestamp sesuai contoh CI3 (WIB).
      */
     private function getTimestamp(): string
     {
-        // BPJS memerlukan format UTC
-        date_default_timezone_set('UTC');
-        return strval(time() - strtotime('1970-01-01 00:00:00'));
+        // Ini adalah cara untuk mendapatkan timestamp WIB tanpa mengubah timezone server
+        return strval(time() - strtotime('1970-01-01 07:00:00'));
     }
 
     /**
      * Membuat signature untuk autentikasi API BPJS.
-     * Mengikuti contoh yang diberikan oleh BPJS.
      */
     private function generateSignature(string $timestamp): string
     {
-        // Data yang akan di-hash adalah ConsID + "&" + Timestamp
         $data = $this->consID . "&" . $timestamp;
-        
-        // Menggunakan HMAC-SHA256
         $signature = hash_hmac('sha256', $data, $this->secretKey, true);
-        
-        // Encode hasilnya dengan Base64
         return base64_encode($signature);
     }
 
     /**
+     * Menghasilkan kunci untuk dekripsi response.
+     */
+    private function generateKey(string $timestamp): string
+    {
+        return $this->consID . $this->secretKey . $timestamp;
+    }
+
+    /**
+     * Mendekripsi data response dari BPJS (LOGIKA YANG BENAR).
+     * @param string $key Kunci untuk dekripsi.
+     * @param string $encryptedData Data terenkripsi (dari key 'response').
+     * @return string|false Data JSON yang sudah didekripsi, atau false jika gagal.
+     */
+    private function decryptResponse(string $key, string $encryptedData)
+    {
+        // 1. Buat hash dari key untuk mendapatkan kunci dan IV
+        $key_hash = hex2bin(hash('sha256', $key));
+        $iv = substr(hex2bin(hash('sha256', $key)), 0, 16);
+
+        // 2. Dekripsi dengan AES-256-CBC
+        $output = openssl_decrypt(
+            base64_decode($encryptedData),
+            'AES-256-CBC',
+            $key_hash,
+            OPENSSL_RAW_DATA,
+            $iv
+        );
+
+        if ($output === false) {
+            log_message('error', "BPJS API: OpenSSL decryption (CBC) failed.");
+            return false;
+        }
+
+        // 3. Dekompres hasil dekripsi dengan LZ-String
+        $decompressed = LZString::decompressFromEncodedURIComponent($output);
+
+        if ($decompressed === null) {
+            log_message('error', "BPJS API: LZ-String decompression failed.");
+            return false;
+        }
+        
+        // 4. Kembalikan string JSON yang sudah bersih
+        return $decompressed;
+    }
+
+    /**
      * Melakukan request ke API BPJS.
-     * @param string $method Metode HTTP (GET, POST)
-     * @param string $endpoint Endpoint API (contoh: "Peserta/nokartu/0001234567890")
-     * @param array|null $data Data untuk request POST (jika ada)
-     * @return array
      */
     public function request(string $method, string $endpoint, array $data = null): array
     {
@@ -65,14 +100,15 @@ class BpjsFarmasiService
             'X-cons-id'   => $this->consID,
             'X-timestamp' => $timestamp,
             'X-signature' => $signature,
-            'user_key'    => $this->user_key,
+            'user_key'    => $this->userKey,
             'Accept'      => 'application/json',
         ];
 
         $options = [
             'headers' => $headers,
-            'debug' => true, // Set ke false di production
-            'http_errors' => false, // Agar kita bisa handle error manual
+            'debug' => false,
+            'http_errors' => false,
+            'verify' => false, // Sama dengan 'verify_peer' => false
         ];
 
         if ($method === 'POST' && $data !== null) {
@@ -81,7 +117,6 @@ class BpjsFarmasiService
 
         $url = $this->baseURL . $endpoint;
         
-        // Simpan log request sebelum dikirim
         $logData = [
             'endpoint' => $url,
             'method' => $method,
@@ -93,16 +128,29 @@ class BpjsFarmasiService
         $responseBody = $response->getBody();
         $responseCode = $response->getStatusCode();
 
+        $responseArray = json_decode($responseBody, true);
+
+        // --- PROSES DEKRIPSI YANG BENAR ---
+        if ($responseCode == 200 && isset($responseArray['response'])) {
+            $key = $this->generateKey($timestamp);
+            $decryptedJsonString = $this->decryptResponse($key, $responseArray['response']);
+
+            if ($decryptedJsonString !== false) {
+                $responseArray['response'] = json_decode($decryptedJsonString, true);
+            } else {
+                $responseArray['response'] = "FAILED TO DECRYPT RESPONSE";
+                $responseArray['decryption_error'] = true;
+            }
+        }
+        
         // Simpan log response
         $logData['response_code'] = $responseCode;
-        $logData['response_body'] = $responseBody;
-
-        // Panggil helper untuk menyimpan log
+        $logData['response_body'] = json_encode($responseArray);
         log_to_db($logData);
 
         return [
             'status_code' => $responseCode,
-            'body' => json_decode($responseBody, true)
+            'body' => $responseArray
         ];
     }
 }

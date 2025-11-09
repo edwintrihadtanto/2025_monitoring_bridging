@@ -58,4 +58,164 @@ class BpjsController extends BaseController
 
         return $this->response->setJSON($result);
     }
+
+    /**
+     * =================================================================
+     *              ENDPOINT UNTUK REFERENSI
+     * =================================================================
+     */
+
+    /**
+     * Mencari data obat berdasarkan kriteria.
+     * URL: /bpjs/referensi/obat/{kdObat}/{tgl}/{parameter}
+     * Contoh: /bpjs/referensi/obat/1/2024-09-01/asam
+     */
+    public function getReferensiObat($kdObat, $tgl, $parameter)
+    {
+        $endpoint = "referensi/obat/{$kdObat}/{$tgl}/{$parameter}";
+        $result = $this->bpjsService->request('GET', $endpoint);
+
+        if ($result['status_code'] == 200) {
+            $response = [
+                'status' => 'sukses',
+                'pesan'  => 'Berhasil',
+                'data'   => $result['body']['response'] // Data sudah didekripsi di service
+            ];
+        } else {
+            $response = [
+                'status' => 'gagal',
+                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+            ];
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * Mendapatkan data referensi spesialistik.
+     * URL: /bpjs/referensi/spesialistik
+     */
+    public function getReferensiSpesialistik()
+    {
+        $endpoint = "referensi/spesialistik";
+        $result = $this->bpjsService->request('GET', $endpoint);
+
+        if ($result['status_code'] == 200) {
+            $response = [
+                'status' => 'sukses',
+                'pesan'  => 'Berhasil',
+                'data'   => $result['body']['response']
+            ];
+        } else {
+            $response = [
+                'status' => 'gagal',
+                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+            ];
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * Mendapatkan data setting PPK.
+     * URL: /bpjs/referensi/settingppk/{ppk}
+     * Contoh: /bpjs/referensi/settingppk/0216A026
+     */
+    public function getReferensiSettingPpk($ppk)
+    {
+        $endpoint = "referensi/settingppk/read/{$ppk}";
+        $result = $this->bpjsService->request('GET', $endpoint);
+
+        if ($result['status_code'] == 200) {
+            $response = [
+                'status' => 'sukses',
+                'pesan'  => 'Berhasil',
+                'data'   => $result['body']['response']
+            ];
+        } else {
+            $response = [
+                'status' => 'gagal',
+                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+            ];
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * Mencari data PPK.
+     * URL: /bpjs/referensi/ppk/{jenis}/{nama}
+     * Contoh: /bpjs/referensi/ppk/2/darmayu
+     */
+    public function getReferensiPpk($jenis, $nama)
+    {
+        $endpoint = "referensi/ppk/{$jenis}/{$nama}";
+        $result = $this->bpjsService->request('GET', $endpoint);
+
+        if ($result['status_code'] == 200) {
+            $response = [
+                'status' => 'sukses',
+                'pesan'  => 'Berhasil',
+                'data'   => $result['body']['response']
+            ];
+        } else {
+            $response = [
+                'status' => 'gagal',
+                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+            ];
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * Mencari data poli.
+     * URL: /bpjs/referensi/poli/{nama}
+     * Contoh: /bpjs/referensi/poli/INT
+     */
+    public function getReferensiPoli($nama)
+    {
+        $endpoint = "referensi/poli/{$nama}";
+        $result = $this->bpjsService->request('GET', $endpoint);
+
+        if ($result['status_code'] == 200) {
+            $response = [
+                'status' => 'sukses',
+                'pesan'  => 'Berhasil',
+                'data'   => $result['body']['response']
+            ];
+        } else {
+            $response = [
+                'status' => 'gagal',
+                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+            ];
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * Mendapatkan data DPHO.
+     * URL: /bpjs/referensi/dpho
+     */
+    public function getReferensiDpho()
+    {
+        $endpoint = "referensi/dpho";
+        $result = $this->bpjsService->request('GET', $endpoint);
+
+        if ($result['status_code'] == 200) {
+            $response = [
+                'status' => 'sukses',
+                'pesan'  => 'Berhasil',
+                'data'   => $result['body']['response']
+            ];
+        } else {
+            $response = [
+                'status' => 'gagal',
+                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+            ];
+        }
+
+        return $this->response->setJSON($response);
+    }
 }
