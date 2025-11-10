@@ -2,48 +2,95 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Monitoring API BPJS</title>
+    <title><?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/app.css'); ?>">
+    <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/app-dark.css'); ?>">
+    <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/iconly.css'); ?>">
 </head>
 <body>
 <div class="container mt-4">
-    <h2>Log API Bridging BPJS Farmasi</h2>
-    <table class="table table-bordered table-striped">
-        <thead class="thead-dark">
-            <tr>
-                <th>Waktu</th>
-                <th>Endpoint</th>
-                <th>Method</th>
-                <th>Response Code</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($logs as $log): ?>
-            <tr>
-                <td><?= $log['created_at'] ?></td>
-                <td><?= $log['endpoint'] ?></td>
-                <td><?= $log['method'] ?></td>
-                <td>
-                    <?php if ($log['response_code'] == 200): ?>
-                        <span class="badge badge-success"><?= $log['response_code'] ?></span>
-                    <?php else: ?>
-                        <span class="badge badge-danger"><?= $log['response_code'] ?></span>
-                    <?php endif; ?>
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#detailModal" 
-                            data-request='<?= htmlspecialchars($log['request_header'] . "\n" . $log['request_body'], ENT_QUOTES, 'UTF-8') ?>'
-                            data-response='<?= htmlspecialchars($log['response_body'], ENT_QUOTES, 'UTF-8') ?>'>
-                        Detail
-                    </button>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <div class="page-heading">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-md-6 order-md-1 order-last">
+                        <h3>API Bridging BPJS Farmasi</h3>
+                        <p class="text-subtitle text-muted">-----------</p>
+                    </div>
+                    <div class="col-12 col-md-6 order-md-2 order-first">
+                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Hal.</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Monitoring</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <section class="section">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            Log Monitoring
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>Endpoint</th>
+                                    <th>Method</th>
+                                    <th>Response Code</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($logs as $log): ?>
+                                <tr>
+                                    <td><?= $log['created_at'] ?></td>
+                                    <td><?= $log['endpoint'] ?></td>
+                                    <td><?= $log['method'] ?></td>
+                                    <td>
+                                        <?php if ($log['response_code'] == 200): ?>
+                                            <span class="badge badge-success"><?= $log['response_code'] ?></span>
+                                        <?php else: ?>
+                                            <span class="badge badge-danger"><?= $log['response_code'] ?></span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#detailModal" 
+                                                data-request='<?= htmlspecialchars($log['request_header'] . "\n" . $log['request_body'], ENT_QUOTES, 'UTF-8') ?>'
+                                                data-response='<?= htmlspecialchars($log['response_body'], ENT_QUOTES, 'UTF-8') ?>'>
+                                            Detail
+                                        </button>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
 
-    <?= $pager->links('group1', 'default_full') ?>
+                        
+                        <!-- <table class="table table-striped" id="table1">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>City</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table> -->
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+    
 </div>
 
 <!-- Modal -->
@@ -70,6 +117,12 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="<?= base_url('public/assets/dist/assets/static/js/components/dark.js'); ?>"></script>
+<script src="<?= base_url('public/assets/dist/assets/compiled/js/app.js'); ?> "></script>
+<script src="<?= base_url('public/assets/dist/assets/extensions/simple-datatables/umd/simple-datatables.js'); ?> "></script>
+<script src="<?= base_url('public/assets/dist/assets/static/js/pages/simple-datatables.js'); ?> "></script>
+
 <script>
  /*$('#detailModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget)
