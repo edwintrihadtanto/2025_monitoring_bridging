@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
+<head>    
     <meta charset="UTF-8">
-    <title><?php echo SITE_NAME; ?></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo SITE_NAME; ?></title>    
+
+    <link rel="stylesheet" href="<?= base_url('public/assets/dist/assets/extensions/simple-datatables/style.css'); ?> ">
     <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/app.css'); ?>">
     <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/app-dark.css'); ?>">
     <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/iconly.css'); ?>">
@@ -35,8 +37,8 @@
                         </h5>
                     </div>
                     <div class="card-body">
-                        <table class="table table-bordered table-striped">
-                            <thead class="thead-dark">
+                        <table class="table table-striped" id="table1">
+                            <thead>
                                 <tr>
                                     <th>Waktu</th>
                                     <th>Endpoint</th>
@@ -69,21 +71,6 @@
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-
-                        
-                        <!-- <table class="table table-striped" id="table1">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>City</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table> -->
                     </div>
                 </div>
 
@@ -114,9 +101,6 @@
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script src="<?= base_url('public/assets/dist/assets/static/js/components/dark.js'); ?>"></script>
 <script src="<?= base_url('public/assets/dist/assets/compiled/js/app.js'); ?> "></script>
