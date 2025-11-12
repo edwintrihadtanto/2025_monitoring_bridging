@@ -36,3 +36,8 @@ $routes->group('/', ['namespace' => 'App\Controllers'], static function ($routes
     // Route untuk monitoring
     $routes->get('monitoring', 'MonitoringController::index');
 });
+
+$routes->get('/', 'Dashboard::index');
+$routes->get('/dashboard', 'Dashboard::index');
+$routes->get('/components/accordion', 'Components::accordion');
+$routes->get('/forms/input', 'Forms::input');

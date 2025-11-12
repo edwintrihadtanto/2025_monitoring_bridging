@@ -55,4 +55,31 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = service('session');
     }
+
+    protected function renderView(string $view, array $data = [])
+    {
+        // Set judul halaman default jika tidak ada
+        if (!isset($data['page_title'])) {
+            $data['page_title'] = 'Dashboard'; // Bisa diambil dari config
+        }
+        
+        // Render view konten utama dengan data yang diberikan
+        $contentView = view($view, $data);
+        
+        // Jika request AJAX, kembalikan hanya konten
+        if ($this->request->isAJAX()) {
+            return $contentView;
+        }
+        
+        // Siapkan data untuk layout
+        $layoutData = [
+            'page_title' => $data['page_title'],
+            'content'    => $contentView,
+            // Kirim seluruh $data agar bisa diakses oleh header, sidebar, dll
+            'data'       => $data
+        ];
+        
+        // Return view utama dengan data layout
+        return view('templates/main_layout', $layoutData);
+    }
 }
