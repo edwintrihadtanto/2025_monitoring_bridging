@@ -1,6 +1,11 @@
+# C:/xampp/htdocs/2025_monitoring_bridging/.htaccess
+
 <IfModule mod_rewrite.c>
-    RewriteEngine On
+    RewriteEngine on
+
+    # Arahkan semua permintaan ke folder public
+    # kecuali jika permintaan tersebut untuk file atau folder yang benar-benar ada
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php/$1 [L]
+    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
