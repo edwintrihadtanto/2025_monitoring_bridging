@@ -5,7 +5,13 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+// $routes->get('/', 'Home::index');
+$routes->get('/', 'Dashboard::index');
+
+$routes->get('/dashboard', 'Dashboard::index');
+$routes->get('/components/accordion', 'Components::accordion');
+$routes->get('/forms/input', 'Forms::input');
+
 
 $routes->post('Bridging_apotek/(:any)', 'Bridging_apotek::$1');
 $routes->get('Bridging_apotek/(:any)', 'Bridging_apotek::$1');
@@ -37,7 +43,3 @@ $routes->group('/', ['namespace' => 'App\Controllers'], static function ($routes
     $routes->get('monitoring', 'MonitoringController::index');
 });
 
-$routes->get('/', 'Dashboard::index');
-$routes->get('/dashboard', 'Dashboard::index');
-$routes->get('/components/accordion', 'Components::accordion');
-$routes->get('/forms/input', 'Forms::input');

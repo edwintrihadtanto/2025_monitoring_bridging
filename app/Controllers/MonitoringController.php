@@ -14,6 +14,6 @@ class MonitoringController extends BaseController
             'pager' => $logModel->pager,
         ];
 
-        return view('dashboard/monitoring', $data);
+        return view('dashboard/monitoringX', $data);
     }
 }
