@@ -1,0 +1,85 @@
+CRITICAL - 2025-12-29 00:03:57 --> Error: Class "App\Controllers\Api" not found
+[Method: GET, Route: Bridging/cekNik]
+in APPPATH\Controllers\Bridging.php on line 17.
+ 1 VENDORPATH\composer\ClassLoader.php(576): include()
+ 2 VENDORPATH\composer\ClassLoader.php(427): Composer\Autoload\{closure}('C:\\xampp\\htdocs\\2025_monitoring_bridging\\vendor\\composer/../../app\\Controllers\\Bridging.php')
+ 3 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Controllers\\Bridging')
+ 4 SYSTEMPATH\CodeIgniter.php(885): class_exists('\\App\\Controllers\\Bridging', true)
+ 5 SYSTEMPATH\CodeIgniter.php(494): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-12-29 00:04:01 --> Error: Class "App\Controllers\Api" not found
+[Method: GET, Route: Bridging/cekNik]
+in APPPATH\Controllers\Bridging.php on line 17.
+ 1 VENDORPATH\composer\ClassLoader.php(576): include()
+ 2 VENDORPATH\composer\ClassLoader.php(427): Composer\Autoload\{closure}('C:\\xampp\\htdocs\\2025_monitoring_bridging\\vendor\\composer/../../app\\Controllers\\Bridging.php')
+ 3 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Controllers\\Bridging')
+ 4 SYSTEMPATH\CodeIgniter.php(885): class_exists('\\App\\Controllers\\Bridging', true)
+ 5 SYSTEMPATH\CodeIgniter.php(494): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-12-29 00:04:07 --> Error: Class "App\Controllers\Api" not found
+[Method: GET, Route: Bridging/cekNik/35770103]
+in APPPATH\Controllers\Bridging.php on line 17.
+ 1 VENDORPATH\composer\ClassLoader.php(576): include()
+ 2 VENDORPATH\composer\ClassLoader.php(427): Composer\Autoload\{closure}('C:\\xampp\\htdocs\\2025_monitoring_bridging\\vendor\\composer/../../app\\Controllers\\Bridging.php')
+ 3 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Controllers\\Bridging')
+ 4 SYSTEMPATH\CodeIgniter.php(885): class_exists('\\App\\Controllers\\Bridging', true)
+ 5 SYSTEMPATH\CodeIgniter.php(494): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-12-29 00:04:50 --> ErrorException: Attempt to read property "nik" on null
+[Method: GET, Route: Bridging/cekNik/35770103]
+in APPPATH\Controllers\Bridging.php on line 149.
+ 1 APPPATH\Controllers\Bridging.php(149): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "nik" on null', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Controllers\\Bridging.php', 149)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Bridging->cekNik('35770103')
+ 3 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Bridging))
+ 4 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-12-29 00:24:30 --> ParseError: syntax error, unexpected single-quoted string "tes", expecting "]"
+[Method: POST, Route: pasien/search]
+in APPPATH\Controllers\BpjsPasienController.php on line 148.
+ 1 VENDORPATH\composer\ClassLoader.php(427): Composer\Autoload\{closure}('C:\\xampp\\htdocs\\2025_monitoring_bridging\\vendor\\composer/../../app\\Controllers\\BpjsPasienController.php')
+ 2 [internal function]: Composer\Autoload\ClassLoader->loadClass('App\\Controllers\\BpjsPasienController')
+ 3 SYSTEMPATH\CodeIgniter.php(885): class_exists('\\App\\Controllers\\BpjsPasienController', true)
+ 4 SYSTEMPATH\CodeIgniter.php(494): CodeIgniter\CodeIgniter->startController()
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-12-29 01:01:33 --> CodeIgniter\HTTP\Exceptions\HTTPException: 6 : Could not resolve host: apijkn-dev.bpjs-kesehatan.go.id
+[Method: GET, Route: bpjs/referensi/obat/1/2024-09-01/asam]
+in SYSTEMPATH\HTTP\CURLRequest.php on line 699.
+ 1 SYSTEMPATH\HTTP\CURLRequest.php(699): CodeIgniter\HTTP\Exceptions\HTTPException::forCurlError('6', 'Could not resolve host: apijkn-dev.bpjs-kesehatan.go.id')
+ 2 SYSTEMPATH\HTTP\CURLRequest.php(381): CodeIgniter\HTTP\CURLRequest->sendRequest([...])
+ 3 SYSTEMPATH\HTTP\CURLRequest.php(150): CodeIgniter\HTTP\CURLRequest->send('GET', 'https://apijkn-dev.bpjs-kesehatan.go.id/apotek-rest-dev/referensi/obat/1/2024-09-01/asam')
+ 4 APPPATH\Libraries\BpjsFarmasiService.php(144): CodeIgniter\HTTP\CURLRequest->request('GET', 'https://apijkn-dev.bpjs-kesehatan.go.id/apotek-rest-dev/referensi/obat/1/2024-09-01/asam', [...])
+ 5 APPPATH\Controllers\BpjsController.php(79): App\Libraries\BpjsFarmasiService->request('GET', 'referensi/obat/1/2024-09-01/asam')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsController->getReferensiObat('1', '2024-09-01', 'asam')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2025-12-29 01:01:33 --> CodeIgniter\HTTP\Exceptions\HTTPException: 6 : Could not resolve host: apijkn.bpjs-kesehatan.go.id
+[Method: GET, Route: bpjs/peserta/nik/3577010308920001]
+in SYSTEMPATH\HTTP\CURLRequest.php on line 699.
+ 1 SYSTEMPATH\HTTP\CURLRequest.php(699): CodeIgniter\HTTP\Exceptions\HTTPException::forCurlError('6', 'Could not resolve host: apijkn.bpjs-kesehatan.go.id')
+ 2 SYSTEMPATH\HTTP\CURLRequest.php(381): CodeIgniter\HTTP\CURLRequest->sendRequest([...])
+ 3 SYSTEMPATH\HTTP\CURLRequest.php(150): CodeIgniter\HTTP\CURLRequest->send('GET', 'https://apijkn.bpjs-kesehatan.go.id/vclaim-rest/Peserta/nik/3577010308920001/tglSEP/2025-12-29')
+ 4 APPPATH\Libraries\BpjsVclaimService.php(144): CodeIgniter\HTTP\CURLRequest->request('GET', 'https://apijkn.bpjs-kesehatan.go.id/vclaim-rest/Peserta/nik/3577010308920001/tglSEP/2025-12-29', [...])
+ 5 APPPATH\Controllers\BpjsController.php(43): App\Libraries\BpjsVclaimService->request('GET', 'Peserta/nik/3577010308920001/tglSEP/2025-12-29')
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsController->getPesertaByNik('3577010308920001')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

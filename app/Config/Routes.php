@@ -5,26 +5,28 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-// $routes->get('/', 'Home::index');
-$routes->get('/', 'Dashboard::index');
 
-$routes->get('/dashboard', 'Dashboard::index');
-$routes->get('/components/accordion', 'Components::accordion');
-$routes->get('/forms/input', 'Forms::input');
+ $routes->get('/', 'Auth::login');
+ $routes->get('/login', 'Auth::login');
+ $routes->post('/auth/attemptLogin', 'Auth::attemptLogin');
+ $routes->get('/logout', 'Auth::logout');
+
+ $routes->get('/dashboard', 'Dashboard::index', ['filter' => 'auth']);
 
 
-$routes->post('Bridging_apotek/(:any)', 'Bridging_apotek::$1');
-$routes->get('Bridging_apotek/(:any)', 'Bridging_apotek::$1');
+ // Agar API BPJS juga tidak bisa diakses sembarangan
+ $routes->post('Bridging_apotek/(:any)', 'Bridging_apotek::$1', ['filter' => 'auth']);
+ $routes->get('Bridging_apotek/(:any)', 'Bridging_apotek::$1', ['filter' => 'auth']);
 
-$routes->get('tes', 'Bridging_apotek::index');
 
-$routes->group('/', ['namespace' => 'App\Controllers'], static function ($routes) {
-    // ... route default CI4
-
+ $routes->group('/', ['namespace' => 'App\Controllers'], static function ($routes) {
+ 
     // Route untuk API BPJS
     $routes->group('bpjs', static function ($routes) {
+        // API VCLAIM
         $routes->get('peserta/nokartu/(:num)', 'BpjsController::getPesertaByNoKartu/$1');
         $routes->get('peserta/nik/(:num)', 'BpjsController::getPesertaByNik/$1');
+        // END API VCLAIM
         $routes->post('sep', 'BpjsController::createSEP');
 
         // --- ROUTE UNTUK REFERENSI DI SINI ---
@@ -39,7 +41,15 @@ $routes->group('/', ['namespace' => 'App\Controllers'], static function ($routes
 
     });
 
-    // Route untuk monitoring
-    $routes->get('monitoring', 'MonitoringController::index');
+    // --- TAMBAHKAN FILTER DI SINI (Bagian Monitoring di dalam Group) ---
+    $routes->get('monitoring', 'MonitoringController::index', ['filter' => 'auth']);
+
+    $routes->get('/profile', 'Profile::index');
+    $routes->post('/profile/update', 'Profile::updatePassword');
+
+    // TAMBAHKAN ROUTE PENCARIAN PASIEN UI
+    $routes->get('pasien', 'BpjsPasienController::index');
+    $routes->post('pasien/search', 'BpjsPasienController::search');
 });
 
+ $routes->get('/BridgingTES/(:any)', 'BridgingTES::$1');

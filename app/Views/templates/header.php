@@ -6,11 +6,96 @@
     <title><?= isset($page_title) ? $page_title . ' - ' : '' ?><?php echo SITE_NAME; ?></title>
     
     <link rel="shortcut icon" href="" type="image/x-icon">
-    <link rel="shortcut icon" href="" type="image/png">
+    <link rel="shortcut icon" href="<?= base_url('public/rssmico.png') ?>" type="image/png">
     <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/app.css'); ?>">
     <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/app-dark.css'); ?>">
     <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/iconly.css'); ?>">
-    <link rel="stylesheet" href="<?= base_url('public/assets/dist/assets/extensions/simple-datatables/style.css'); ?> ">
+    <!-- PENTING: Pastikan CSS jQuery DataTables juga terpanggil -->
+    <link rel="stylesheet" href="<?= base_url('public/assets/dist/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') ?>">
+
+    <style>
+        /* --- PAKSA STYLE BOOTSTRAP 5 PAGINATION --- */
+        /* Reset margin list pagination */
+        nav ul.pagination {
+            margin: 0;
+            display: flex;
+            list-style: none;
+            padding-left: 0;
+            border-radius: 0.25rem;
+        }
+
+        /* Style Link Item */
+        .page-item {
+            margin-bottom: 0;
+            margin-left: -1px;
+        }
+
+        .page-link {
+            position: relative;
+            display: block;
+            padding: 0.375rem 0.75rem;
+            line-height: 1.25;
+            color: #0d6efd; /* Warna Biru Bootstrap */
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Hover State */
+        .page-link:hover {
+            z-index: 2;
+            color: #0a58ca;
+            background-color: #000000;
+            border-color: #dee2e6;
+        }
+
+        /* Active State (Halaman yang sedang aktif) */
+        .page-item.active .page-link {
+            z-index: 3;
+            color: #fff;
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+        /* Disabled State (Tombol First/Prev/Next/Last saat ujung) */
+        .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+
+        /* Rounded First & Last items (Supaya ujung tombol bulat) */
+        .page-item:first-child .page-link {
+            margin-left: 0;
+            border-top-left-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+        .page-item:last-child .page-link {
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            /* Kurangi padding card di HP */
+            .card-body {
+                padding: 10px !important;
+            }
+            
+            /* Sesuaikan ukuran font tabel di HP */
+            .table td, .table th {
+                font-size: 0.85rem; /* Font sedikit lebih kecil */
+                padding: 0.5rem;    /* Jarak sel lebih rapat */
+                vertical-align: middle;
+            }
+
+            /* Sembunyikan kolom yang kurang penting di HP jika perlu */
+            /* Contoh: Sembunyikan kolom 'Method' jika di HP (Opsional) */
+            /* .table td:nth-child(3), .table th:nth-child(3) { display: none; } */
+        }
+    </style>
 </head>
 <body>
     <script src="<?= base_url('public/assets/dist/assets/static/js/initTheme.js'); ?>"></script>

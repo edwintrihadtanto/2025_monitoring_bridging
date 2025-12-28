@@ -3,14 +3,17 @@
 namespace App\Controllers;
 
 use App\Libraries\BpjsFarmasiService;
+use App\Libraries\BpjsVclaimService;
 
 class BpjsController extends BaseController
 {
     protected $bpjsService;
+    protected $bpjsvclaimService;
 
     public function __construct()
     {
         $this->bpjsService = new BpjsFarmasiService();
+        $this->bpjsvclaimService = new BpjsVclaimService();
     }
 
     /**
@@ -19,11 +22,9 @@ class BpjsController extends BaseController
      */
     public function getPesertaByNoKartu($noKartu)
     {
-        // Endpoint dari dokumentasi API BPJS
-        $endpoint = "Peserta/nokartu/" . $noKartu;
-        
-        // Lakukan request GET ke BPJS
-        $result = $this->bpjsService->request('GET', $endpoint);
+        $tgl        = date("Y-m-d");
+        $endpoint = "Peserta/nokartu/" . $noKartu . '/tglSEP/' . $tgl;
+        $result = $this->bpjsvclaimService->request('GET', $endpoint);
 
         // Kembalikan response ke client (aplikasi Anda)
         // Anda bisa menambahkan logika lain di sini
@@ -36,8 +37,10 @@ class BpjsController extends BaseController
      */
     public function getPesertaByNik($nik)
     {
-        $endpoint = "Peserta/nik/" . $nik;
-        $result = $this->bpjsService->request('GET', $endpoint);
+        
+        $tgl        = date("Y-m-d");
+        $endpoint   = "Peserta/nik/" . $nik . '/tglSEP/' . $tgl;
+        $result     = $this->bpjsvclaimService->request('GET', $endpoint);
         return $this->response->setJSON($result);
     }
     
