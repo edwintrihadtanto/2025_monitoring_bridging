@@ -26,13 +26,14 @@
                     <!-- Username (Read Only) -->
                     <div class="form-group mb-3">
                         <label class="form-label text-muted">Username</label>
-                        <input type="text" class="form-control" value="<?= $user['username'] ?>" disabled>
+                        <input type="text" class="form-control form-control-sm" value="<?= $user['username'] ?>" disabled>
                     </div>
 
                     <!-- Full Name (Read Only) -->
                     <div class="form-group mb-3">
                         <label class="form-label text-muted">Full Name</label>
-                        <input type="text" class="form-control" value="<?= $user['full_name'] ?>" disabled>
+                        <input type="text" class="form-control form-control-sm" name="full_name" value="<?= $user['full_name'] ?>" required>
+                        <p><small class="text-muted"><i>*) Abaikan jika tidak ada perubahan nama</i></small></p>
                     </div>
 
                     <hr>

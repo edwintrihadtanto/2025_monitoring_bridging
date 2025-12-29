@@ -21,14 +21,13 @@ use CodeIgniter\Router\RouteCollection;
 
  $routes->group('/', ['namespace' => 'App\Controllers'], static function ($routes) {
  
-    // Route untuk API BPJS
     $routes->group('bpjs', static function ($routes) {
         // API VCLAIM
         $routes->get('peserta/nokartu/(:num)', 'BpjsController::getPesertaByNoKartu/$1');
         $routes->get('peserta/nik/(:num)', 'BpjsController::getPesertaByNik/$1');
         // END API VCLAIM
         $routes->post('sep', 'BpjsController::createSEP');
-
+        
         // --- ROUTE UNTUK REFERENSI DI SINI ---
         $routes->group('referensi', static function ($routes) {
             $routes->get('obat/(:segment)/(:segment)/(:segment)', 'BpjsController::getReferensiObat/$1/$2/$3');
@@ -39,16 +38,19 @@ use CodeIgniter\Router\RouteCollection;
             $routes->get('dpho', 'BpjsController::getReferensiDpho');
         });
 
+        $routes->get('monitoringklaim/(:num)/(:num)/(:num)/(:num)', 'BpjsController::getMonitoringKlaim/$1/$2/$3/$4');
+        $routes->get('rekapprb/(:num)/(:num)', 'BpjsController::getRekapPasienPRB/$1/$2');
+
     });
 
     // --- TAMBAHKAN FILTER DI SINI (Bagian Monitoring di dalam Group) ---
     $routes->get('monitoring', 'MonitoringController::index', ['filter' => 'auth']);
 
-    $routes->get('/profile', 'Profile::index');
+    $routes->get('/profile', 'Profile::index', ['filter' => 'auth']);
     $routes->post('/profile/update', 'Profile::updatePassword');
 
     // TAMBAHKAN ROUTE PENCARIAN PASIEN UI
-    $routes->get('pasien', 'BpjsPasienController::index');
+    $routes->get('/pasien', 'BpjsPasienController::index', ['filter' => 'auth']);
     $routes->post('pasien/search', 'BpjsPasienController::search');
 });
 

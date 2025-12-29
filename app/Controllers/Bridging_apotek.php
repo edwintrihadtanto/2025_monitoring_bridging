@@ -537,4 +537,29 @@ class Bridging_apotek extends BaseController
         $hasil['data']      = $rujukan;
         echo json_encode($hasil);
     }
+
+    public function getrekapprb($Parameter1, $Parameter2)
+    {
+
+        $input    	= json_decode(file_get_contents('php://input'));
+        $tStamp 	= $this->tStamp();
+        $method 	= 'GET';
+        $param  	= '';
+        $request 	= '/Prb/rekappeserta/tahun/'.$Parameter1.'/bulan/'.$Parameter2;
+        // http://localhost/clone/DartoMakanYuyu/cross_ci3/Bridging_apotek/getrekapprb/1/2024
+        $string = $this->url($request, $param, $method, $tStamp);
+        if ($string->metaData->code != 200) {
+            $hasil = array();
+            $hasil['status'] = 'gagal';
+            $hasil['pesan'] = $string->metaData->message;
+            echo json_encode($hasil);
+            return;
+        }
+        $response = $string->response;
+        $rujukan = $this->Decrypt($response, $tStamp);
+        $hasil['status']    = 'sukses';
+        $hasil['pesan']     = '';
+        $hasil['data']      = $rujukan;
+        echo json_encode($hasil);
+    }
 }

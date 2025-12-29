@@ -46,7 +46,7 @@
                 <li class="sidebar-item m-0">
                     <a href="<?= site_url('dashboard') ?>" class='sidebar-link' data-page="dashboard">
                         <i class="bi bi-hexagon-fill"></i>
-                        <span>Cek Noka Pasien</span>
+                        <span>Cek SEP Pasien</span>
                     </a>
                 </li>
                 <li class="sidebar-item m-0">

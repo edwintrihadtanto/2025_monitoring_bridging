@@ -18,10 +18,12 @@
     <script src="<?= base_url('public/assets/dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js'); ?>"></script>
     <script src="<?= base_url('public/assets/dist/assets/compiled/js/app.js'); ?> "></script>
     
-    <!-- PERTAHANKAN INI -->
     <script src="<?= base_url('public/assets/dist/assets/extensions/jquery/jquery.min.js') ?> "></script>
     <script src="<?= base_url('public/assets/dist/assets/extensions/datatables.net/js/jquery.dataTables.min.js') ?> "></script>
     <script src="<?= base_url('public/assets/dist/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js')?> "></script>
+
+    <script src="<?= base_url('public/js/page-pasien.js') ?>"></script>
+    <script src="<?= base_url('public/js/page-monitoring.js') ?>"></script>
 
     <script>
         // --- 1. GLOBAL VARIABLES (Agar bisa diakses semua fungsi) ---
@@ -66,6 +68,16 @@
                 return response.text();
             })
             .then(html => {
+                // --- TAMBAHKAN LOGIKA CEK LOGIN INI ---
+                // Jika HTML yang dimuat mengandung id="auth" (ada di view Login),
+                // berarti user terlempar ke halaman login karena session habis.
+                if (html.includes('id="auth"')) {
+                    // Paksa reload halaman secara penuh ke URL tersebut (Login)
+                    window.location.href = url; 
+                    return; // Stop proses agar tidak dimasukkan ke main-content
+                }
+                // ----------------------------------------------
+
                 mainContent.innerHTML = html;
                 history.pushState({page: pageIdentifier}, '', url);
 
@@ -285,6 +297,16 @@
                     });
                 }
             }
+
+            const pasienForm = document.getElementById('pencarianPasienForm');
+            
+            if (pasienForm) {
+                console.log("Menjalankan initPasienPage...");
+                
+                if (typeof initPasienPage === 'function') {
+                    initPasienPage();
+                }
+            }
         }
 
         // --- 3. DOM CONTENT LOADED (Hanya untuk menempel Event Listener Awal) ---
@@ -321,8 +343,7 @@
                 }
             });
 
-            // TAMBAHKAN EVENT LISTENER INI DI DALAM document.addEventListener('DOMContentLoaded', ...)
-            document.body.addEventListener('submit', function(e) {
+            /*document.body.addEventListener('submit', function(e) {
                 // Cek apakah form yang disubmit adalah form ganti password
                 const form = e.target.closest('#changePasswordForm');
                 
@@ -369,6 +390,62 @@
                         btnSubmit.innerHTML = originalBtnText;
                     });
                 }
+            });*/
+
+            // Submit Universal
+            document.body.addEventListener('submit', function(e) {
+                const form = e.target.closest('form');
+                if (!form) return;
+
+                // Jika ini FORM PROFILE (Ganti Password)
+                if (form.id === 'changePasswordForm') {
+                    e.preventDefault(); // Stop reload halaman
+                    
+                    const btnSubmit = form.querySelector('button[type="submit"]');
+                    const originalBtnText = btnSubmit.innerHTML;
+                    
+                    // Loading State pada Tombol
+                    btnSubmit.disabled = true;
+                    btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Memproses...';
+
+                    // Ambil data form
+                    const formData = new FormData(form);
+                    
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const alertContainer = document.getElementById('alert-container');
+                        
+                        if (data.status) {
+                            // SUKSES
+                            alertContainer.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                            // Reset form
+                            form.reset();
+                        } else {
+                            // GAGAL
+                            alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                        }
+                    })
+                    .catch(error => {
+                        const alertContainer = document.getElementById('alert-container');
+                        alertContainer.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan sistem.</div>`;
+                        console.error('Error:', error);
+                    })
+                    .finally(() => {
+                        // Kembalikan tombol ke kondisi normal
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerHTML = originalBtnText;
+                    });
+                
+                }else if (form.id === 'pencarianPasienForm') {
+                    if (typeof handlePasienSubmit === 'function') {
+                        handlePasienSubmit(e, form);
+                    }
+                }
             });
             
             // Handle Back Button
@@ -380,6 +457,96 @@
                 }
             });
         });
+
+
+        // --- Khusus untuk Halaman Pencarian Pasien ---
+        /*document.body.addEventListener('change', function(e) {
+            const radioNIK = document.getElementById('opt_nik');
+            const radioKartu = document.getElementById('opt_kartu');
+            
+            // Cek apakah user mengganti radio button
+            if (e.target === radioNIK || e.target === radioKartu) {
+                const wrapperNik = document.getElementById('wrapper_nik');
+                const wrapperKartu = document.getElementById('wrapper_kartu');
+                const hiddenType = document.getElementById('search_type');
+
+                if (radioNIK.checked) {
+                    // Pilih NIK
+                    hiddenType.value = 'nik';
+                    wrapperNik.classList.remove('d-none'); // Tampil
+                    wrapperKartu.classList.add('d-none'); // Sembunyi
+                    document.getElementById('input_nik').focus();
+                } else {
+                    // Pilih Kartu
+                    hiddenType.value = 'kartu';
+                    wrapperNik.classList.add('d-none'); // Sembunyi
+                    wrapperKartu.classList.remove('d-none'); // Tampil
+                    document.getElementById('input_kartu').focus();
+                }
+            }
+        });
+
+        document.body.addEventListener('submit', function(e) {
+            const form = e.target.closest('#pencarianPasienForm');
+            
+            if (form) {
+                e.preventDefault();
+                
+                const btnSubmit = form.querySelector('button[type="submit"]');
+                const resultContainer = document.getElementById('result-container');
+                const alertContainer = document.getElementById('alert-container');
+                const type = document.getElementById('search_type').value;
+                
+                // Tentukan value berdasarkan tipe (Ambil dari input yang terlihat)
+                let value = '';
+                if (type === 'nik') {
+                    value = document.getElementById('input_nik').value;
+                } else {
+                    value = document.getElementById('input_kartu').value;
+                }
+
+                // Validasi Sederhana di JS
+                if(!value) {
+                    alert('Mohon isi data pencarian terlebih dahulu.');
+                    return;
+                }
+
+                // Buat FormData Manual agar nilai search_value terkirim dengan benar
+                const formData = new FormData();
+                formData.append('search_type', type);
+                formData.append('search_value', value);
+                formData.append('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
+
+                // UI Loading
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari...';
+                resultContainer.innerHTML = '';
+                alertContainer.innerHTML = '';
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = '<i class="bi bi-search me-2"></i> Cari Data Pasien';
+
+                    if (data.status) {
+                        resultContainer.innerHTML = data.html;
+                    } else {
+                        alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = '<i class="bi bi-search me-2"></i> Cari Data Pasien';
+                    alertContainer.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan sistem.</div>`;
+                });
+            }
+        });*/
     </script>
 </body>
 </html>

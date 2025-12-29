@@ -74,6 +74,13 @@ class BpjsPasienController extends BaseController
         $searchType = $this->request->getPost('search_type'); 
         $searchVal  = $this->request->getPost('search_value');
 
+        if (empty($searchType)) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Jenis pencarian belum di pilih!'
+            ]);
+        }
+
         if (empty($searchVal)) {
             return $this->response->setJSON([
                 'status' => false,

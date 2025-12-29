@@ -30,8 +30,9 @@ class Profile extends BaseController
 
         // 1. Validasi Input
         $rules = [
+            'full_name'  => 'required',
             'current_password' => 'required',
-            'new_password'     => 'required|min_length[6]', // Min 6 karakter
+            'new_password'     => 'required|min_length[6]',
             'confirm_password'  => 'required|matches[new_password]'
         ];
 
@@ -55,7 +56,8 @@ class Profile extends BaseController
         // 3. Update Password Baru
         $newPass = $this->request->getPost('new_password');
         $userModel->update($userId, [
-            'password_hash' => password_hash($newPass, PASSWORD_DEFAULT)
+            'password_hash' => password_hash($newPass, PASSWORD_DEFAULT),
+            'full_name'  => $this->request->getPost('full_name')
         ]);
 
         return $this->response->setJSON([

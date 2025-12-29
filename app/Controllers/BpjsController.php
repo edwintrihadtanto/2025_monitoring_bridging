@@ -221,4 +221,48 @@ class BpjsController extends BaseController
 
         return $this->response->setJSON($response);
     }
+
+    public function getMonitoringKlaim($bulan, $tahun, $jenisobat, $status)
+    {
+
+        $endpoint   = "monitoring/klaim/{$bulan}/{$tahun}/{$jenisobat}/{$status}";
+        $result     = $this->bpjsService->request('GET', $endpoint);
+
+        if ($result['status_code'] == 200) {
+            $response = [
+                'status' => 'sukses',
+                'pesan'  => 'Berhasil',
+                'data'   => $result['body']
+            ];
+        } else {
+            $response = [
+                'status' => 'gagal',
+                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+            ];
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    public function getRekapPasienPRB($tahun, $bulan)
+    {
+
+        $endpoint   = "Prb/rekappeserta/tahun/{$tahun}/bulan/{$bulan}";
+        $result     = $this->bpjsService->request('GET', $endpoint);
+
+        if ($result['status_code'] == 200) {
+            $response = [
+                'status' => 'sukses',
+                'pesan'  => 'Berhasil',
+                'data'   => $result['body']
+            ];
+        } else {
+            $response = [
+                'status' => 'gagal',
+                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+            ];
+        }
+
+        return $this->response->setJSON($result);
+    }
 }
