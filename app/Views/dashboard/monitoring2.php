@@ -2,7 +2,7 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>API Bridging BPJS Farmasi</h3>
+                <h5>Log Monitoring API Bridging BPJS Farmasi</h5>
             </div>
         </div>
     </div>
@@ -30,11 +30,11 @@
                         <!-- <table class="table table-striped dt-responsive" id="table1" width="100%"> -->
                             <thead>
                                 <tr>
-                                    <th>Waktu</th>
+                                    <th width="150">Waktu</th>
                                     <th>Endpoint</th>
-                                    <th>Method</th>
-                                    <th>Response Code</th>
-                                    <th>Aksi</th>
+                                    <th width="15">Method</th>
+                                    <th width="150">Response Code</th>
+                                    <th width="20">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,7 +42,7 @@
                                 <tr>
                                     <td><?= $log['created_at'] ?></td>
                             
-                                    <td><span class="d-inline-block text-truncate" style="max-width: 150px;" title="<?= $log['endpoint'] ?>"><?= $log['endpoint'] ?></span></td>
+                                    <td><span class="d-inline-block text-truncate" style="max-width: 550px;" title="<?= $log['endpoint'] ?>"><?= $log['endpoint'] ?></span></td>
                                     
                                     <td><?= $log['method'] ?></td>
                                     <td>

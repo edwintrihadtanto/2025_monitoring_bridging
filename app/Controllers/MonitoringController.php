@@ -16,7 +16,7 @@ class MonitoringController extends BaseController
             // 'pager'         => $logModel->pager,
             'logs'          => $logModel->orderBy('created_at', 'DESC')->paginate($perPage, 'group1'),
             // 'pager'         => $logModel->pager,
-            'pagination'  => $logModel->pager,
+            'pagination'    => $logModel->pager,
             'perPage'       => $perPage, // Kirim kembali ke view agar dropdown tahu posisi aktif
         ];
 

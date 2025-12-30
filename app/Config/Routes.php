@@ -21,7 +21,7 @@ use CodeIgniter\Router\RouteCollection;
 
  $routes->group('/', ['namespace' => 'App\Controllers'], static function ($routes) {
  
-    $routes->group('bpjs', static function ($routes) {
+    $routes->group('bpjs', ['namespace' => 'App\Controllers', 'filter' => 'internal'], static function ($routes) {
         // API VCLAIM
         $routes->get('peserta/nokartu/(:num)', 'BpjsController::getPesertaByNoKartu/$1');
         $routes->get('peserta/nik/(:num)', 'BpjsController::getPesertaByNik/$1');
@@ -51,7 +51,7 @@ use CodeIgniter\Router\RouteCollection;
 
     // TAMBAHKAN ROUTE PENCARIAN PASIEN UI
     $routes->get('/pasien', 'BpjsPasienController::index', ['filter' => 'auth']);
-    $routes->post('pasien/search', 'BpjsPasienController::search');
+    $routes->post('pasien/search', 'BpjsPasienController::search', ['filter' => 'auth']);
 });
 
  $routes->get('/BridgingTES/(:any)', 'BridgingTES::$1');

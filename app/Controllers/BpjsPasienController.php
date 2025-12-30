@@ -99,7 +99,10 @@ class BpjsPasienController extends BaseController
             }
 
             $client = Services::curlrequest();
-            $response = $client->get($targetUrl);
+            // $response = $client->get($targetUrl);
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE']
+            ]);
             
             // Decode
             $wrapper = json_decode($response->getBody(), true);
