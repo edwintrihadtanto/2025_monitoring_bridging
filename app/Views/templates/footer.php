@@ -59,7 +59,8 @@
         window.loadPageContent = function(url, pageIdentifier, clickedLinkElement = null) {
             const mainContent = document.getElementById('main-content');
             if(mainContent) {
-                mainContent.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div></div>';
+                // mainContent.innerHTML = '<div class="text-center p-5"><div class="spinner-grow text-info" role="status"></div><h5>sedang memuat halaman...</h5></div>';
+                mainContent.innerHTML = '<div class="text-center p-5"><img src="<?= base_url('public/loading.svg'); ?>" class="me-4" style="width: 3rem" alt="audio"><h6>sedang memuat halaman...</h6></div>';
             }
             
             fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })

@@ -17,58 +17,6 @@ class BpjsPasienController extends BaseController
         return $this->renderView('pasien/pasien', []);
     }
 
-    public function searchCARA_AWAL()
-    {
-        // 1. Ambil Input Form
-        $searchType = $this->request->getPost('search_type'); // nik atau kartu
-        $searchVal  = $this->request->getPost('search_value');
-
-        // 2. Validasi Sederhana
-        if (empty($searchVal)) {
-            return $this->response->setJSON([
-                'status' => false,
-                'message' => 'Nomor pencarian tidak boleh kosong.'
-            ]);
-        }
-
-        // 3. Panggil Controller BPJS (Logic Existing)
-        // Kita buat instance BpjsController dan panggil methodnya
-        // Method tersebut biasanya mengembalikan JSON response atau Array
-        $bpjsController = new BpjsController();
-
-        try {
-            // Cek tipe pencarian
-            if ($searchType === 'nik') {
-                // Panggil method getByNIK
-                // Catatan: Pastikan method di BpjsController tidak meng-echo langsung,
-                // tapi return data atau mengembalikan response->setJSON()
-                $result = $bpjsController->getPesertaByNik($searchVal);
-            } else {
-                // Panggil method getByNoKartu
-                $result = $bpjsController->getPesertaByNoKartu($searchVal);
-            }
-
-            // Jika result adalah object Response (JSON), kita parsing dulu
-            // Atau jika BpjsController hanya return array:
-            $dataPasien = json_decode($result->getBody(), true);
-
-            // 4. Load View Hasil Pencarian (Partial)
-            // Kita render hanya tampilan kartu pasien, bukan full layout
-            $html = view('pasien/partial_pasien_result', ['pasien' => $dataPasien['response'] ?? []]);
-
-            return $this->response->setJSON([
-                'status' => true,
-                'html' => $html
-            ]);
-
-        } catch (\Exception $e) {
-            return $this->response->setJSON([
-                'status' => false,
-                'message' => 'Gagal menghubungi server BPJS: ' . $e->getMessage()
-            ]);
-        }
-    }
-
     public function search()
     {
         $searchType = $this->request->getPost('search_type'); 
@@ -129,10 +77,8 @@ class BpjsPasienController extends BaseController
                     $message = 'Data Peserta kosong.';
                 }
             }
-            // --- 3. TAMBAHAN: Cek ERROR (Code Selain 200, misal 201) ---
+            // --- 3. Cek ERROR (Code Selain 200, misal 201) ---
             elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] != "200") {
-                // Ambil pesan error dari BPJS
-                // Contoh: "No.Kartu Tidak Sesuai"
                 $message = $bpjsJson['metaData']['message'];
             }
             else {

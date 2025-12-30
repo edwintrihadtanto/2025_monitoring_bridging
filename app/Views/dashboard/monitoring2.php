@@ -31,7 +31,7 @@
                             <thead>
                                 <tr>
                                     <th width="150">Waktu</th>
-                                    <th>Endpoint</th>
+                                    <th width="550">Endpoint</th>
                                     <th width="15">Method</th>
                                     <th width="150">Response Code</th>
                                     <th width="20">Aksi</th>
@@ -42,7 +42,7 @@
                                 <tr>
                                     <td><?= $log['created_at'] ?></td>
                             
-                                    <td><span class="d-inline-block text-truncate" style="max-width: 550px;" title="<?= $log['endpoint'] ?>"><?= $log['endpoint'] ?></span></td>
+                                    <td><span class="d-inline-block text-truncate" style="max-width: 450px;" title="<?= $log['endpoint'] ?>"><?= $log['endpoint'] ?></span></td>
                                     
                                     <td><?= $log['method'] ?></td>
                                     <td>

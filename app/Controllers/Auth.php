@@ -73,8 +73,8 @@ class Auth extends BaseController
     private function generateCaptcha()
     {
         // Buat bilangan acak
-        $angka1 = rand(1, 10);
-        $angka2 = rand(1, 10);
+        $angka1 = rand(2, 15);
+        $angka2 = rand(2, 15);
         $hasil   = $angka1 + $angka2;
 
         // Simpan hasil jawaban ke session
