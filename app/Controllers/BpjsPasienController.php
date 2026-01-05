@@ -159,8 +159,8 @@ class BpjsPasienController extends BaseController
                 
                 if (!empty($bpjsJson['response']['peserta'])) {
                     $statusResult = true;
-                    $pasienData = $bpjsJson['response']['peserta'];
-                    $htmlResult = view('pasien/partial_pasien_result', ['pasien' => $pasienData]);
+                    $pasienData = $bpjsJson['response'];
+                    $htmlResult = view('pasien/partial_sep_result', ['pasien' => $pasienData]);
                 } else {
                     $message = 'Data SEP kosong.';
                 }
