@@ -1,9 +1,9 @@
-            <footer>
+            <footer style="background-color: white; bottom: 0; position: fixed; width: -webkit-fill-available;">
                 <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start" style="bottom: 0; position: fixed;">
+                    <div class="float-start" style="bottom: 0; /*position: fixed;*/">
                         <p>2025 &copy; ITISI - RSSM</p>
                     </div>
-                    <div class="float-end" style="bottom: 0; right: 0; position: fixed;">
+                    <div class="float-end" style="bottom: 0; right: 0; /*position: fixed;*/">
                         <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
                             by <a href="https://saugi.me">Edwin</a></p>
                     </div>
@@ -23,6 +23,7 @@
     <script src="<?= base_url('public/assets/dist/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js')?> "></script>
 
     <script src="<?= base_url('public/js/page-pasien.js') ?>"></script>
+    <script src="<?= base_url('public/js/page-sep.js') ?>"></script>
     <script src="<?= base_url('public/js/page-monitoring.js') ?>"></script>
 
     <script>
@@ -300,12 +301,19 @@
             }
 
             const pasienForm = document.getElementById('pencarianPasienForm');
+            const pasienSEPForm = document.getElementById('pencarianSEPPasienForm');
             
             if (pasienForm) {
-                console.log("Menjalankan initPasienPage...");
                 
                 if (typeof initPasienPage === 'function') {
                     initPasienPage();
+                }
+            }
+
+            if (pasienSEPForm) {
+                
+                if (typeof initPasienSepPage === 'function') {
+                    initPasienSepPage();
                 }
             }
         }
@@ -445,6 +453,10 @@
                 }else if (form.id === 'pencarianPasienForm') {
                     if (typeof handlePasienSubmit === 'function') {
                         handlePasienSubmit(e, form);
+                    }
+                }else if (form.id === 'pencarianSEPPasienForm') {
+                    if (typeof handleSEPPasienSubmit === 'function') {
+                        handleSEPPasienSubmit(e, form);
                     }
                 }
             });

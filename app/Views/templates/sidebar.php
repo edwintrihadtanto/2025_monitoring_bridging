@@ -44,13 +44,13 @@
                     </a>
                 </li>
                 <li class="sidebar-item m-0">
-                    <a href="<?= site_url('dashboard') ?>" class='sidebar-link' data-page="dashboard">
+                    <a href="<?= site_url('seppasien') ?>" class='sidebar-link' data-page="seppasien">
                         <i class="bi bi-hexagon-fill"></i>
                         <span>Cek SEP Pasien</span>
                     </a>
                 </li>
                 <li class="sidebar-item m-0">
-                    <a href="<?= site_url('dashboard') ?>" class='sidebar-link' data-page="dashboard">
+                    <a href="<?= site_url('bpjs/monitoringklaim') ?>" class='sidebar-link' data-page="monitoringklaim">
                         <i class="bi bi-hexagon-fill"></i>
                         <span>Cek Klaim Pasien</span>
                     </a>

@@ -25,9 +25,6 @@ class BpjsController extends BaseController
         $tgl        = date("Y-m-d");
         $endpoint = "Peserta/nokartu/" . $noKartu . '/tglSEP/' . $tgl;
         $result = $this->bpjsvclaimService->request('GET', $endpoint);
-
-        // Kembalikan response ke client (aplikasi Anda)
-        // Anda bisa menambahkan logika lain di sini
         return $this->response->setJSON($result);
     }
 
@@ -49,7 +46,7 @@ class BpjsController extends BaseController
      * URL: /bpjs/sep
      * Method: POST
      */
-    public function createSEP()
+    public function createSEPX()
     {
         $dataRequest = $this->request->getJSON();
         
@@ -62,6 +59,14 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
+    public function searchingSEPPasien($sep)
+    {
+        
+        $endpoint   = "sep/" . $sep;
+        $result     = $this->bpjsService->request('GET', $endpoint);
+        return $this->response->setJSON($result);
+    }
+    
     /**
      * =================================================================
      *              ENDPOINT UNTUK REFERENSI

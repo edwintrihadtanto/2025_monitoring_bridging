@@ -26,7 +26,8 @@ use CodeIgniter\Router\RouteCollection;
         $routes->get('peserta/nokartu/(:num)', 'BpjsController::getPesertaByNoKartu/$1');
         $routes->get('peserta/nik/(:num)', 'BpjsController::getPesertaByNik/$1');
         // END API VCLAIM
-        $routes->post('sep', 'BpjsController::createSEP');
+        $routes->get('getSEPPasien/(:segment)', 'BpjsController::searchingSEPPasien/$1');
+        // $routes->post('sep', 'BpjsController::createSEP');
         
         // --- ROUTE UNTUK REFERENSI DI SINI ---
         $routes->group('referensi', static function ($routes) {
@@ -52,6 +53,10 @@ use CodeIgniter\Router\RouteCollection;
     // TAMBAHKAN ROUTE PENCARIAN PASIEN UI
     $routes->get('/pasien', 'BpjsPasienController::index', ['filter' => 'auth']);
     $routes->post('pasien/search', 'BpjsPasienController::search', ['filter' => 'auth']);
+
+    $routes->get('/seppasien', 'BpjsPasienController::fomrseppasien', ['filter' => 'auth']);
+    $routes->post('pasien/searchsep', 'BpjsPasienController::searchsep', ['filter' => 'auth']);
+
 });
 
  $routes->get('/BridgingTES/(:any)', 'BridgingTES::$1');
