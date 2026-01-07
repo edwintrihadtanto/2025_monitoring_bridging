@@ -1,10 +1,10 @@
 <!-- SIDEBAR -->
 <div id="sidebar">
     <div class="sidebar-wrapper active">
-        <div class="sidebar-header position-relative p-2">
+        <div class="sidebar-header position-relative p-0">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="<?= base_url(); ?>"><img src="<?= base_url('public/logo_aplikasi.png'); ?>" alt="Logo" srcset="" style="height: 2rem;"></a>
+                    <a href="<?= base_url(); ?>"><img src="<?= base_url('public/logo_aplikasi.png'); ?>" alt="Logo" style="height: 7rem;"></a>
                 </div>
                 <div class="sidebar-toggler  x">
                     <a href="javascript:void(0)" class="sidebar-hide d-xl-none d-block no-ajax"><i class="bi bi-x bi-middle"></i></a>
@@ -50,9 +50,9 @@
                     </a>
                 </li>
                 <li class="sidebar-item m-0">
-                    <a href="<?= site_url('bpjs/monitoringklaim') ?>" class='sidebar-link' data-page="monitoringklaim">
+                    <a href="<?= site_url('monitoringklaim') ?>" class='sidebar-link' data-page="monitoringklaim">
                         <i class="bi bi-hexagon-fill"></i>
-                        <span>Cek Klaim Pasien</span>
+                        <span>Cek Monitoring Klaim</span>
                     </a>
                 </li>
                 

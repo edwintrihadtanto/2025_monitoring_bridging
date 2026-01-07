@@ -1,4 +1,59 @@
-function initMonitoringPage() {
-    console.log("Inisialisasi Halaman Monitoring...");
+function initMonitoringKlaimPage() {
+  
+    window.handlemonitoringklaim = function(e, form) {
+        e.preventDefault();
 
+        const btnSubmit = form.querySelector('button[type="submit"]');
+        const resultContainer = document.getElementById('result-container');
+        const alertContainer = document.getElementById('alert-container');
+        // const type = document.getElementById('searchsep_type').value;
+        
+        // let value = '';
+        // if(type === '1') {
+        //     value = document.getElementById('input_sep').value;
+        // } else {
+        //     value = document.getElementById('input_sep').value;
+        // }
+
+        // if(!value) {
+        //     alert('Mohon isi data pencarian terlebih dahulu.');
+        //     return;
+        // }
+
+        const formData = new FormData();
+        // formData.append('searchsep_type', type);
+        // formData.append('searchsep_value', value);
+        formData.append('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
+
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari...';
+        resultContainer.innerHTML = '';
+        alertContainer.innerHTML = '';
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = '<i class="bi bi-search me-2"></i> Tampilkan Monitoring';
+
+            if (data.status) {
+                resultContainer.innerHTML = data.html;
+                if (typeof initializePageComponents === 'function') {
+                    initializePageComponents();
+                }
+            } else {
+                alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = '<i class="bi bi-search me-2"></i> Tampilkan Monitoring';
+            alertContainer.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan sistem.</div>`;
+        });
+    }
 }

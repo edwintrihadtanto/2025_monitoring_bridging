@@ -302,6 +302,7 @@
 
             const pasienForm = document.getElementById('pencarianPasienForm');
             const pasienSEPForm = document.getElementById('pencarianSEPPasienForm');
+            const monitoringklaimForm = document.getElementById('pencarianMonitoringKlaimForm');
             
             if (pasienForm) {
                 
@@ -314,6 +315,13 @@
                 
                 if (typeof initPasienSepPage === 'function') {
                     initPasienSepPage();
+                }
+            }
+
+            if (monitoringklaimForm) {
+                
+                if (typeof initMonitoringKlaimPage === 'function') {
+                    initMonitoringKlaimPage();
                 }
             }
         }
@@ -457,6 +465,10 @@
                 }else if (form.id === 'pencarianSEPPasienForm') {
                     if (typeof handleSEPPasienSubmit === 'function') {
                         handleSEPPasienSubmit(e, form);
+                    }
+                }else if (form.id === 'monitoringklaim') {
+                    if (typeof handlemonitoringklaim === 'function') {
+                        handlemonitoringklaim(e, form);
                     }
                 }
             });

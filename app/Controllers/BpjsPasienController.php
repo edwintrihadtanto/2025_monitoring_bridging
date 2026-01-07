@@ -22,6 +22,11 @@ class BpjsPasienController extends BaseController
         return $this->renderView('pasien/sep_pasien', []);
     }
 
+    public function viewmonitoring()
+    {
+        return $this->renderView('pasien/monitoring_klaim', []);
+    }
+
     public function search()
     {
         $searchType = $this->request->getPost('search_type'); 
@@ -171,6 +176,105 @@ class BpjsPasienController extends BaseController
             }
             else {
                 $message = 'Respon server BPJS format tidak dikenali.';
+            }
+
+            return $this->response->setJSON([
+                'status' => $statusResult,
+                'message' => $message,
+                'html' => $htmlResult
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Gagal terhubung ke API BPJS: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getmonitoring_obat()
+    {
+        $bulan          = $this->request->getPost('bulan'); 
+        $tahun          = $this->request->getPost('tahun');
+        $jenis_obat     = $this->request->getPost('jenis_obat');
+        $status         = $this->request->getPost('status');
+
+        if (empty($bulan)) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Filter Bulan belum di pilih!'
+            ]);
+        }
+
+        if (empty($tahun)) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Filter Tahun belum di pilih!'
+            ]);
+        }
+
+        if ($jenis_obat == null || $jenis_obat == '') {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Jenis Obat belum di pilih!'
+            ]);
+        }
+
+        if (empty($status)) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Status belum di pilih!'
+            ]);
+        }
+
+        try {
+            $baseUrl = base_url();
+            $targetUrl = "";
+            
+            // if ($searchType === '1') { //rajal
+                $targetUrl = $baseUrl . 'bpjs/monitoringklaim/' . $bulan .'/'. $tahun .'/'. $jenis_obat .'/'. $status;
+            // } else if ($searchType === '2') { //ranap
+            //     $targetUrl = $baseUrl . 'bpjs/monitoringklaim/' . $searchVal;
+            // }
+            var_dump($targetUrl);
+            exit;
+            $client = Services::curlrequest();
+            // $response = $client->get($targetUrl);
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE']
+            ]);
+            
+            // Decode
+            $wrapper = json_decode($response->getBody(), true);
+            
+            // Ambil data asli dari key 'body'
+            $bpjsJson = $wrapper['body'] ?? $wrapper;
+
+            $statusResult = false;
+            $message = '';
+            $htmlResult = '';
+
+            // 1. Cek Error HTTP 404 di Wrapper
+            if (isset($wrapper['status_code']) && $wrapper['status_code'] == 404) {
+                $message = 'Data Monitoring Obat tidak ditemukan (Status 404).';
+            }
+            // 2. Cek SUKSES (Code 200)
+            elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+                
+                if (!empty($bpjsJson['response']['peserta'])) {
+                    $statusResult = true;
+                    $monitoringData = $bpjsJson['response'];
+                    $htmlResult     = view('pasien/partial_monitoring_obat_result', ['monitoringData' => $monitoringData]);
+                } else {
+                    $message = 'Data Monitoring Obat kosong.';
+                }
+            }
+            // --- 3. Cek ERROR (Code Selain 200, misal 201) ---
+            elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] != "200") {
+                $message = $bpjsJson['metaData']['message'];
+            }
+            else {
+                $message =  $bpjsJson['metaData'];
             }
 
             return $this->response->setJSON([

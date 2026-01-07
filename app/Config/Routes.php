@@ -21,7 +21,8 @@ use CodeIgniter\Router\RouteCollection;
 
  $routes->group('/', ['namespace' => 'App\Controllers'], static function ($routes) {
  
-    $routes->group('bpjs', ['namespace' => 'App\Controllers', 'filter' => 'internal'], static function ($routes) {
+    // $routes->group('bpjs', ['namespace' => 'App\Controllers', 'filter' => 'internal'], static function ($routes) {
+    $routes->group('bpjs', static function ($routes) {
         // API VCLAIM
         $routes->get('peserta/nokartu/(:num)', 'BpjsController::getPesertaByNoKartu/$1');
         $routes->get('peserta/nik/(:num)', 'BpjsController::getPesertaByNik/$1');
@@ -44,18 +45,20 @@ use CodeIgniter\Router\RouteCollection;
 
     });
 
-    // --- TAMBAHKAN FILTER DI SINI (Bagian Monitoring di dalam Group) ---
+    // Sidebar
     $routes->get('monitoring', 'MonitoringController::index', ['filter' => 'auth']);
 
     $routes->get('/profile', 'Profile::index', ['filter' => 'auth']);
     $routes->post('/profile/update', 'Profile::updatePassword');
 
-    // TAMBAHKAN ROUTE PENCARIAN PASIEN UI
     $routes->get('/pasien', 'BpjsPasienController::index', ['filter' => 'auth']);
     $routes->post('pasien/search', 'BpjsPasienController::search', ['filter' => 'auth']);
 
     $routes->get('/seppasien', 'BpjsPasienController::fomrseppasien', ['filter' => 'auth']);
     $routes->post('pasien/searchsep', 'BpjsPasienController::searchsep', ['filter' => 'auth']);
+
+    $routes->get('/monitoringklaim', 'BpjsPasienController::viewmonitoring', ['filter' => 'auth']);
+    $routes->post('pasien/monitoring_obat', 'BpjsPasienController::getmonitoring_obat', ['filter' => 'auth']);
 
 });
 

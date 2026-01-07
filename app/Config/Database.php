@@ -24,7 +24,7 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
-    public array $defaultdua = [
+    public array $dbMYSQL = [
         'DSN'          => '',
         'hostname'     => 'localhost',
         'username'     => '',
@@ -48,6 +48,28 @@ class Database extends Config
             'date'     => 'Y-m-d',
             'datetime' => 'Y-m-d H:i:s',
             'time'     => 'H:i:s',
+        ],
+    ];
+
+    public array $dbSIMRS = [
+        'DSN'        => '',
+        'hostname'   => 'localhost',
+        'username'   => 'postgres',
+        'password'   => 'postgres',
+        'database'   => 'localsimrs',
+        'schema'     => 'public',
+        'DBDriver'   => 'Postgre',
+        'DBPrefix'   => '',
+        'pConnect'   => false,
+        'DBDebug'    => true,
+        'charset'    => 'utf8',
+        'swapPre'    => '',
+        'failover'   => [],
+        'port'       => 5432,
+        'dateFormat' => [
+           'date'     => 'Y-m-d',
+           'datetime' => 'Y-m-d H:i:s',
+           'time'     => 'H:i:s',
         ],
     ];
 

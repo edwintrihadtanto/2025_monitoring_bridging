@@ -1,0 +1,41 @@
+CRITICAL - 2026-01-08 01:08:04 --> ParseError: syntax error, unexpected token "endif", expecting end of file
+[Method: GET, Route: monitoringklaim]
+in APPPATH\Views\pasien\monitoring_klaim.php on line 168.
+ 1 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('pasien/monitoring_klaim', [], true)
+ 3 APPPATH\Controllers\BaseController.php(67): view('pasien/monitoring_klaim', [...])
+ 4 APPPATH\Controllers\BpjsPasienController.php(27): App\Controllers\BaseController->renderView('pasien/monitoring_klaim', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsPasienController->viewmonitoring()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsPasienController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-01-08 01:08:15 --> ParseError: syntax error, unexpected token "endif", expecting end of file
+[Method: GET, Route: monitoringklaim]
+in APPPATH\Views\pasien\monitoring_klaim.php on line 168.
+ 1 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('pasien/monitoring_klaim', [], true)
+ 3 APPPATH\Controllers\BaseController.php(67): view('pasien/monitoring_klaim', [...])
+ 4 APPPATH\Controllers\BpjsPasienController.php(27): App\Controllers\BaseController->renderView('pasien/monitoring_klaim', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsPasienController->viewmonitoring()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsPasienController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-01-08 01:08:26 --> ErrorException: Undefined variable $rekap
+[Method: GET, Route: monitoringklaim]
+in APPPATH\Views\pasien\monitoring_klaim.php on line 88.
+ 1 APPPATH\Views\pasien\monitoring_klaim.php(88): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $rekap', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\pasien\\monitoring_klaim.php', 88)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\pasien\\monitoring_klaim.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('pasien/monitoring_klaim', [], true)
+ 5 APPPATH\Controllers\BaseController.php(67): view('pasien/monitoring_klaim', [...])
+ 6 APPPATH\Controllers\BpjsPasienController.php(27): App\Controllers\BaseController->renderView('pasien/monitoring_klaim', [...])
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsPasienController->viewmonitoring()
+ 8 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsPasienController))
+ 9 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
