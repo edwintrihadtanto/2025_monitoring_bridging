@@ -236,8 +236,8 @@ class BpjsPasienController extends BaseController
             // } else if ($searchType === '2') { //ranap
             //     $targetUrl = $baseUrl . 'bpjs/monitoringklaim/' . $searchVal;
             // }
-            var_dump($targetUrl);
-            exit;
+            // var_dump($targetUrl);
+            // exit;
             $client = Services::curlrequest();
             // $response = $client->get($targetUrl);
             $response = $client->get($targetUrl, [
@@ -274,7 +274,7 @@ class BpjsPasienController extends BaseController
                 $message = $bpjsJson['metaData']['message'];
             }
             else {
-                $message =  $bpjsJson['metaData'];
+                $message = 'Respon server BPJS format tidak dikenali.';
             }
 
             return $this->response->setJSON([
