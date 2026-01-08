@@ -3,6 +3,8 @@
 if (isset($monitoringData) && !empty($monitoringData['response']['rekap'])): 
     $rekap = $monitoringData['response']['rekap'];
     $list = $rekap['listsep'];
+
+    echo $monitoringData;
 ?>
 
     <!-- A. SUMMARY CARDS -->

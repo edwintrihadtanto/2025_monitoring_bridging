@@ -466,7 +466,7 @@
                     if (typeof handleSEPPasienSubmit === 'function') {
                         handleSEPPasienSubmit(e, form);
                     }
-                }else if (form.id === 'monitoringklaim') {
+                }else if (form.id === 'pencarianMonitoringKlaimForm') {
                     if (typeof handlemonitoringklaim === 'function') {
                         handlemonitoringklaim(e, form);
                     }

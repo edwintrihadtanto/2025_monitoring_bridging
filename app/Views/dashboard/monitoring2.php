@@ -42,7 +42,7 @@
                                 <tr>
                                     <td><?= $log['created_at'] ?></td>
                             
-                                    <td><span class="d-inline-block text-truncate" style="max-width: 450px;" title="<?= $log['endpoint'] ?>"><?= $log['endpoint'] ?></span></td>
+                                    <td><span class="d-inline-block text-truncate" style="" title="<?= $log['endpoint'] ?>"><?= $log['endpoint'] ?></span></td>
                                     
                                     <td><?= $log['method'] ?></td>
                                     <td>

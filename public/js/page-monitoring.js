@@ -1,38 +1,20 @@
 function initMonitoringKlaimPage() {
-  
+    console.log('initializePagemonitoring');
     window.handlemonitoringklaim = function(e, form) {
-        e.preventDefault();
-
+        e.preventDefault(); // Mencegah reload halaman
+        
         const btnSubmit = form.querySelector('button[type="submit"]');
         const resultContainer = document.getElementById('result-container');
         const alertContainer = document.getElementById('alert-container');
-        // const type = document.getElementById('searchsep_type').value;
         
-        // let value = '';
-        // if(type === '1') {
-        //     value = document.getElementById('input_sep').value;
-        // } else {
-        //     value = document.getElementById('input_sep').value;
-        // }
-
-        // if(!value) {
-        //     alert('Mohon isi data pencarian terlebih dahulu.');
-        //     return;
-        // }
-
-        const formData = new FormData();
-        // formData.append('searchsep_type', type);
-        // formData.append('searchsep_value', value);
-        formData.append('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
-
         btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari...';
+        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Memproses...';
         resultContainer.innerHTML = '';
         alertContainer.innerHTML = '';
 
         fetch(form.action, {
             method: 'POST',
-            body: formData,
+            body: new FormData(form), // Gunakan FormData langsung dari form
             headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
         .then(response => response.json())
@@ -41,7 +23,10 @@ function initMonitoringKlaimPage() {
             btnSubmit.innerHTML = '<i class="bi bi-search me-2"></i> Tampilkan Monitoring';
 
             if (data.status) {
+                // Masukkan HTML Result ke Container
                 resultContainer.innerHTML = data.html;
+                
+                // Re-inisialisasi DataTables (PENTING: Agar tabel bisa di-sort)
                 if (typeof initializePageComponents === 'function') {
                     initializePageComponents();
                 }
