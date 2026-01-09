@@ -291,6 +291,87 @@ class BpjsPasienController extends BaseController
         }
     }
 
+    public function getmonitoring_obat_BISA()
+    {
+        $bulan      = $this->request->getPost('bulan'); 
+        $tahun      = $this->request->getPost('tahun');
+        $jenis_obat = $this->request->getPost('jenis_obat');
+        $status     = $this->request->getPost('status');
+
+        // Validasi Input (Sama)
+        if (empty($bulan)) return $this->response->setJSON(['status' => false, 'message' => 'Filter Bulan belum di pilih!']);
+        if (empty($tahun)) return $this->response->setJSON(['status' => false, 'message' => 'Filter Tahun belum di pilih!']);
+        if ($jenis_obat == null || $jenis_obat == '') return $this->response->setJSON(['status' => false, 'message' => 'Jenis Obat belum di pilih!']);
+        if ($status == null || $status == '') return $this->response->setJSON(['status' => false, 'message' => 'Status belum di pilih!']);
+
+        try {
+            $baseUrl = base_url();
+            
+            // PERHATIKAN: Route ini harus ada di Routes.php
+            $targetUrl = $baseUrl . 'bpjs/monitoringklaim/' . $bulan .'/'. $tahun .'/'. $jenis_obat .'/'. $status;
+
+            // Hapus var_dump sebelum mencoba fetch
+            // var_dump($targetUrl); exit; 
+
+            $client = Services::curlrequest();
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE']
+            ]);
+            
+            // Decode
+            $wrapper = json_decode($response->getBody(), true);
+            
+            // --- LOGIKA NORMALISASI WRAPPER (ADAPTIF) ---
+            // Kadang data ada di 'body', kadang ada di 'data' (karena beda response server/wrapper)
+            $bpjsJson = $wrapper['body'] ?? $wrapper['data'] ?? $wrapper;
+
+            $statusResult = false;
+            $message = '';
+            $htmlResult = '';
+
+            // 1. Cek Error HTTP 404 di Wrapper
+            if (isset($wrapper['status_code']) && $wrapper['status_code'] == 404) {
+                $message = 'Data Monitoring Obat tidak ditemukan (Status 404).';
+            }
+            // 2. Cek SUKSES (Code 200)
+            elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+                
+                // PERBAIKAN 1: Cek 'rekap' BUKAN 'peserta'
+                if (!empty($bpjsJson['response']['rekap'])) {
+                    $statusResult = true;
+                    $monitoringData = $bpjsJson['response'];
+                    
+                    // PERBAIKAN 2: Path view harus 'bpjs/...' bukan 'pasien/...'
+                    // $htmlResult = view('bpjs/partial_monitoring_obat_result', ['monitoringData' => $monitoringData]);
+                    $htmlResult = view('pasien/partial_monitoring_obat_result', ['monitoringData' => $monitoringData]);
+                } else {
+                    $message = 'Data Monitoring Obat kosong.';
+                }
+            }
+            // 3. Cek ERROR (Code Selain 200)
+            elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] != "200") {
+                $message = $bpjsJson['metaData']['message'];
+            }
+            else {
+                // Fallback untuk error "Consumer ID Expired" yang muncul di pesan Anda
+                $message = $bpjsJson['metaData']['message'] ?? 'Respon server BPJS tidak sesuai format.';
+            }
+
+            return $this->response->setJSON([
+                'status' => $statusResult,
+                'message' => $message,
+                'html' => $htmlResult
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Gagal terhubung ke API BPJS: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    
     public function getmonitoring_obat()
     {
         $bulan      = $this->request->getPost('bulan'); 
@@ -324,9 +405,9 @@ class BpjsPasienController extends BaseController
             $bpjsJson = [
                             'response' => [
                                 'rekap' => [
-                                    'jumlahdata' => "3",
-                                    'totalbiayapengajuan' => "150000000",
-                                    'totalbiayasetuju' => "135000000",
+                                    'jumlahdata' => "15",
+                                    'totalbiayapengajuan' => "550000000",
+                                    'totalbiayasetuju' => "935000000",
                                     'listsep' => [
                                         [
                                             "nosepapotek" => "1801A00104190000001",
@@ -349,6 +430,138 @@ class BpjsPasienController extends BaseController
                                             "tglpelayanan" => "2025-01-11",
                                             "biayapengajuan" => "50000000",
                                             "biayasetuju" => "45000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
+                                        ],
+                                        [
+                                            "nosepapotek" => "1801A00104190000003",
+                                            "nosepaasal" => "1801R0010419V000003",
+                                            "nokartu" => "0001289024798",
+                                            "namapeserta" => "BUDI SANTOSO",
+                                            "noresep" => "00003",
+                                            "jnsobat" => "Obat Kronis Blm Stabil",
+                                            "tglpelayanan" => "2025-01-12",
+                                            "biayapengajuan" => "50000000",
+                                            "biayasetuju" => "40000000"
                                         ],
                                         [
                                             "nosepapotek" => "1801A00104190000003",

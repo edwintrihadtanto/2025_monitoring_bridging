@@ -123,111 +123,6 @@
             }
         }
 
-        // Initialize Components (Panggil setupEntriesPerPage)
-        /*window.initializePageComponents = function() {
-            // DataTables Init
-            if (typeof $ !== 'undefined' && $.fn.DataTable) {
-                const $table = $('#table1');
-                if ($table.length > 0) {
-                    if (!$table.hasClass('dataTable')) {
-                        try {
-                            $table.DataTable({
-                                paging: false,
-                                lengthChange: false,
-                                searching: true,
-                                info: true,
-                                ordering: true,
-                                responsive: true,
-                                language: {
-                                    search: "Cari:",
-                                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-                                    infoEmpty: "Tidak ada data ditemukan",
-                                    infoFiltered: "(disaring dari _MAX_ total data)",
-                                    zeroRecords: "Data tidak ditemukan"
-                                }
-                            });
-                        } catch (err) {
-                            console.error("Gagal inisialisasi jQuery DataTables:", err);
-                        }
-                    }
-                }
-            }
-            
-            // Panggil fungsi dropdown
-            window.setupEntriesPerPage();
-        }*/
-
-        /*window.initializePageComponents = function() {
-            if (typeof $ !== 'undefined' && $.fn.DataTable) {
-                
-                // Cari semua tabel dengan class .datatable
-                const $tables = $('.datatable');
-                
-                if ($tables.length > 0) {
-                    $tables.each(function() {
-                        const $table = $(this);
-
-                        // Cek apakah sudah diinisialisasi
-                        if (!$table.hasClass('dataTable')) {
-                            try {
-                                const dataTable = $table.DataTable({
-                                    paging: false,
-                                    lengthChange: false,
-                                    searching: true,
-                                    info: true,
-                                    ordering: true,
-                                    responsive: true,
-                                    language: {
-                                        search: "Cari:",
-                                        info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-                                        infoEmpty: "Tidak ada data ditemukan",
-                                        infoFiltered: "(disaring dari _MAX_ total data)",
-                                        zeroRecords: "Data tidak ditemukan"
-                                    },
-                                    
-                                    // --- INI KUNCI PERBAIKANNYA ---
-                                    initComplete: function() {
-                                        // Ambil ID table (misal: table1)
-                                        var api = this.api();
-                                        var tableId = api.table().node().id;
-                                        
-                                        // Ambil nilai perPage saat ini dari atribut data
-                                        var currentPerPage = $('#' + tableId).data('current-perpage') || 10;
-                                        
-                                        // Generate HTML Dropdown dengan logika selected
-                                        var dropdownHtml = `
-                                            <div class="d-flex align-items-center">
-                                                <span class="me-2" style="font-size: 0.9rem;">Tampilkan:</span>
-                                                <select id="entriesPerPage" class="form-select w-auto" style="width: 80px !important;">
-                                                    <option value="10" ${currentPerPage == 10 ? 'selected' : ''}>10</option>
-                                                    <option value="25" ${currentPerPage == 25 ? 'selected' : ''}>25</option>
-                                                    <option value="50" ${currentPerPage == 50 ? 'selected' : ''}>50</option>
-                                                    <option value="100" ${currentPerPage == 100 ? 'selected' : ''}>100</option>
-                                                </select>
-                                            </div>
-                                        `;
-
-                                        // INJECT HTML KE KOLOM PERTAMA (KOSONG)
-                                        // DataTables membuat struktur: div.row -> div.col-md-6 (kiri) & div.col-md-6 (kanan)
-                                        // Kita cari col-md-6 pertama (sebelah kiri) di wrapper tabel ini.
-                                        $('#' + tableId + '_wrapper .row:first .col-md-6:first').html(dropdownHtml);
-                                        
-                                        // Panggil fungsi setupEntriesPerPage agar event listener aktif
-                                        window.setupEntriesPerPage();
-                                    }
-                                });
-                                
-                                // Simpan instance agar tidak double-init
-                                $table.dataTable = dataTable; 
-                            } catch (err) {
-                                console.error("Gagal inisialisasi DataTables:", err);
-                            }
-                        }
-                    });
-                }
-            }
-        }*/
-
         window.initializePageComponents = function() {
             if (typeof $ !== 'undefined' && $.fn.DataTable) {
                 
@@ -236,12 +131,12 @@
                 if ($tables.length > 0) {
                     $tables.each(function() {
                         const $table = $(this);
+                        const isObatTable = $table.attr('id') === 'table-monitoring-obat';
 
                         if (!$table.hasClass('dataTable')) {
                             try {
-                                const dataTable = $table.DataTable({
-                                    paging: false,
-                                    lengthChange: false,
+                               
+                                const config = {
                                     searching: true,
                                     info: true,
                                     ordering: true,
@@ -250,14 +145,12 @@
                                         search: "Cari:",
                                         info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
                                         infoEmpty: "Tidak ada data ditemukan",
-                                        infoFiltered: "(disaring dari _MAX_ total data)",
                                         zeroRecords: "Data tidak ditemukan"
-                                    },
-                                    
-                                    initComplete: function() {
+                                    }
+                                    /*,initComplete: function() {
                                         var api = this.api();
                                         var tableId = api.table().node().id; // Contoh: 'table1'
-                                        
+                                        console.log(tableId);
                                         // --- A. Handle Top Row (Dropdown Custom) ---
                                         var currentPerPage = $('#' + tableId).data('current-perpage') || 10;
                                         var dropdownHtml = `
@@ -271,27 +164,61 @@
                                                 </select>
                                             </div>
                                         `;
-                                        // Masukkan ke kolom kiri atas (col-md-6 pertama)
-                                        $('#' + tableId + '_wrapper .row:first .col-md-6:first').html(dropdownHtml);
                                         
-                                        // --- B. Handle Bottom Row (Pagination Custom) ---
-                                        // Cek apakah container pagination kita ada
+                                        $('#' + tableId + '_wrapper .row:first .col-md-6:first').html(dropdownHtml);
                                         if ($('#custom-pagination-container').length > 0) {
-                                            // 1. Hapus class d-none (hidden)
-                                            // 2. Tambahkan d-flex justify-content-end (Rata Kanan)
-                                            // 3. Pindahkan container ke kolom kanan bawah (col-md-7)
                                             $('#custom-pagination-container')
                                                 .removeClass('d-none')
                                                 .addClass('d-flex justify-content-end')
                                                 .appendTo('#' + tableId + '_wrapper .row:last .col-md-7');
                                         }
-
-                                        // Panggil setup listener
+                                        
                                         window.setupEntriesPerPage();
-                                    }
-                                });
+                                    }*/
+                                };
                                 
-                                $table.dataTable = dataTable; 
+                                if (isObatTable) {                                    
+                                    // Karena datanya Hardcode/API Result, kita gunakan PAGING DATATABLES
+                                    config.paging = true;
+                                    config.lengthChange = true;
+                                    config.pageLength = 10;
+                                } else {                                    
+                                    // Pakai PAGING PHP (Server-Side), MATIKAN PAGING DATATABLES
+                                    config.paging = false;
+                                    config.lengthChange = false;
+                                }
+
+                                const dataTable = $table.DataTable(config);
+                                $table.dataTable = dataTable;
+
+                                
+                                if (!isObatTable) {
+                                    var api = dataTable;
+                                    var tableId = api.table().node().id;
+                                    console.log(tableId);                                    
+                                    var currentPerPage = $('#' + tableId).data('current-perpage') || 10;
+                                    var dropdownHtml = `
+                                        <div class="d-flex align-items-center">
+                                            <span class="me-2" style="font-size: 0.9rem;">Tampilkan:</span>
+                                            <select id="entriesPerPage" class="form-select w-auto" style="width: 80px !important;">
+                                                <option value="10" ${currentPerPage == 10 ? 'selected' : ''}>10</option>
+                                                <option value="25" ${currentPerPage == 25 ? 'selected' : ''}>25</option>
+                                                <option value="50" ${currentPerPage == 50 ? 'selected' : ''}>50</option>
+                                                <option value="100" ${currentPerPage == 100 ? 'selected' : ''}>100</option>
+                                            </select>
+                                        </div>
+                                    `;
+                                    
+                                    $('#' + tableId + '_wrapper .row:first .col-md-6:first').html(dropdownHtml);
+                                    if ($('#custom-pagination-container').length > 0) {
+                                        $('#custom-pagination-container')
+                                            .removeClass('d-none')
+                                            .addClass('d-flex justify-content-end')
+                                            .appendTo('#' + tableId + '_wrapper .row:last .col-md-7');
+                                    }
+                                    
+                                    window.setupEntriesPerPage();
+                                }
                             } catch (err) {
                                 console.error("Gagal inisialisasi DataTables:", err);
                             }

@@ -1,10 +1,8 @@
 <?php
 // Cek apakah data monitoring ada
-if (isset($monitoringData) && !empty($monitoringData['response']['rekap'])): 
-    $rekap = $monitoringData['response']['rekap'];
+if (isset($monitoringData) && !empty($monitoringData['rekap'])): 
+    $rekap = $monitoringData['rekap'];
     $list = $rekap['listsep'];
-
-    echo $monitoringData;
 ?>
 
     <!-- A. SUMMARY CARDS -->
