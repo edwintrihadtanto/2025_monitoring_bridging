@@ -30,15 +30,39 @@ use CodeIgniter\Router\RouteCollection;
         $routes->get('getSEPPasien/(:segment)', 'BpjsController::searchingSEPPasien/$1');
         // $routes->post('sep', 'BpjsController::createSEP');
         
-        // --- ROUTE UNTUK REFERENSI DI SINI ---
         $routes->group('referensi', static function ($routes) {
+            // http://localhost/2025_monitoring_bridging/bpjs/referensi/obat/1/2024-09-01/asam
             $routes->get('obat/(:segment)/(:segment)/(:segment)', 'BpjsController::getReferensiObat/$1/$2/$3');
+            // http://localhost/2025_monitoring_bridging/bpjs/referensi/spesialistik/
             $routes->get('spesialistik', 'BpjsController::getReferensiSpesialistik');
+            // http://localhost/2025_monitoring_bridging/bpjs/referensi/settingppk/0182A007
             $routes->get('settingppk/(:segment)', 'BpjsController::getReferensiSettingPpk/$1');
+            // http://localhost/2025_monitoring_bridging/bpjs/referensi/ppk/1/pus
             $routes->get('ppk/(:segment)/(:segment)', 'BpjsController::getReferensiPpk/$1/$2');
+            // http://localhost/2025_monitoring_bridging/bpjs/referensi/poli/da
             $routes->get('poli/(:segment)', 'BpjsController::getReferensiPoli/$1');
+            // http://localhost/2025_monitoring_bridging/bpjs/referensi/dpho
             $routes->get('dpho', 'BpjsController::getReferensiDpho');
         });
+
+        $routes->group('insert', static function ($routes) {
+            $routes->post('obatnonracikan', 'BpjsInsertController::obatnonracikan');
+            $routes->post('obatracikan', 'BpjsInsertController::obatracikan');
+            $routes->post('updatestokobat', 'BpjsInsertController::updatestokobat');
+
+            $routes->post('sjpresep', 'BpjsInsertController::sjpresep');
+            $routes->post('daftarresep', 'BpjsInsertController::daftarresep');
+        });
+
+        $routes->group('delete', static function ($routes) {
+            $routes->delete('del_pelayananobat', 'BpjsDeleteController::del_pelayananobat');
+            $routes->delete('del_hapusresep', 'BpjsDeleteController::del_hapusresep');
+        });
+
+        // http://localhost/2025_monitoring_bridging/bpjs/listpelayananobat_perSEP/1801R0010419V000001
+        $routes->get('listpelayananobat_perSEP/(:segment)', 'BpjsController::getListPelayananObat/$1');
+        // http://localhost/2025_monitoring_bridging/bpjs/riwayatpelayananobat/2024-09-01/2024-09-01/12345678
+        $routes->get('riwayatpelayananobat/(:segment)/(:segment)/(:segment)', 'BpjsController::getRiwayatPelayananObat/$1/$2/$3');
 
         $routes->get('monitoringklaim/(:num)/(:num)/(:num)/(:num)', 'BpjsController::getMonitoringKlaim/$1/$2/$3/$4');
         $routes->get('rekapprb/(:num)/(:num)', 'BpjsController::getRekapPasienPRB/$1/$2');
@@ -48,6 +72,8 @@ use CodeIgniter\Router\RouteCollection;
     // Sidebar
     $routes->get('monitoring', 'MonitoringController::index', ['filter' => 'auth']);
 
+    $routes->get('sidebar-faskes', 'MonitoringController::index', ['filter' => 'auth']);
+    
     $routes->get('/profile', 'Profile::index', ['filter' => 'auth']);
     $routes->post('/profile/update', 'Profile::updatePassword');
 

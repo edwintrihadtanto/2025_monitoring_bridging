@@ -30,16 +30,18 @@
                         <!-- <table class="table table-striped dt-responsive" id="table1" width="100%"> -->
                             <thead>
                                 <tr>
-                                    <th width="150">Waktu</th>
-                                    <th width="550">Endpoint</th>
+                                    <th width="5%">No</th>
+                                    <th width="15%">Waktu</th>
+                                    <th>Endpoint</th>
                                     <th width="15">Method</th>
                                     <th width="150">Response Code</th>
                                     <th width="20">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($logs as $log): ?>
+                                <?php foreach ($logs as $i => $log): ?>
                                 <tr>
+                                    <td><?= $i + 1 ?></td>
                                     <td><?= $log['created_at'] ?></td>
                             
                                     <td><span class="d-inline-block text-truncate" style="" title="<?= $log['endpoint'] ?>"><?= $log['endpoint'] ?></span></td>
