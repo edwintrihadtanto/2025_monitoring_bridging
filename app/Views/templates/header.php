@@ -121,6 +121,7 @@
             padding-left: 2rem;
             padding-right: 2rem;
             padding-top: 2px;
+            background-color: white;
         }
         /* Dark mode */
         [data-bs-theme="dark"] .sidebar-footer {
@@ -128,6 +129,7 @@
         }
         [data-bs-theme="dark"] .footer-new {
             border-top: 1px solid white;
+            background-color: var(--bs-body-bg);
         }
     </style>
 </head>

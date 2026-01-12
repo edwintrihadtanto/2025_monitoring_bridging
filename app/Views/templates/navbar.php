@@ -84,7 +84,13 @@
                                 </div>
                                 <div class="user-img d-flex align-items-center">
                                     <div class="avatar avatar-md">
-                                        <img src="<?= base_url('public/assets/dist/assets/compiled/jpg/1.jpg'); ?>">
+                                        <?php if (session()->get('genre') == 't'){ ?>
+                                            <img src="<?= base_url('public/img/iconL.png'); ?>">
+                                        <?php }else if (session()->get('genre') == 'f'){ ?>
+                                            <img src="<?= base_url('public/img/iconP.png'); ?>">
+                                        <?php }else{ ?>
+                                            <img src="<?= base_url('public/img/iconL.png'); ?>">
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>
