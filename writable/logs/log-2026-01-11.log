@@ -1,0 +1,24 @@
+CRITICAL - 2026-01-11 23:23:28 --> ErrorException: Cannot redeclare App\Controllers\BpjsController::getListPelayananObat()
+[Method: GET, Route: bpjs/riwayatpelayananobat/1/1/1]
+in APPPATH\Controllers\BpjsController.php on line 296.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-01-11 23:23:51 --> ErrorException: Cannot redeclare App\Controllers\BpjsController::getListPelayananObat()
+[Method: GET, Route: bpjs/riwayatpelayananobat/2024-11-01/2024-11-01/1]
+in APPPATH\Controllers\BpjsController.php on line 296.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-01-11 23:24:05 --> ErrorException: Cannot redeclare App\Controllers\BpjsController::getListPelayananObat()
+[Method: GET, Route: bpjs/riwayatpelayananobat/2024-11-01/2024-11-01/0000000000044]
+in APPPATH\Controllers\BpjsController.php on line 296.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-01-11 23:24:16 --> ErrorException: Cannot redeclare App\Controllers\BpjsController::getListPelayananObat()
+[Method: GET, Route: bpjs/riwayatpelayananobat/20241101/20241101/0000000000044]
+in APPPATH\Controllers\BpjsController.php on line 296.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-01-11 23:25:26 --> ErrorException: Cannot redeclare App\Controllers\BpjsController::getListPelayananObat()
+[Method: GET, Route: bpjs/riwayatpelayananobat/2024-09-01/2024-09-01/0000000000044]
+in APPPATH\Controllers\BpjsController.php on line 296.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-01-11 23:25:48 --> ErrorException: Cannot redeclare App\Controllers\BpjsController::getListPelayananObat()
+[Method: GET, Route: bpjs/riwayatpelayananobat/2024-09-01/2024-09-01/0000000000044]
+in APPPATH\Controllers\BpjsController.php on line 296.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()

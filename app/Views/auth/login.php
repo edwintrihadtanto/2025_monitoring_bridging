@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($page_title) ? $page_title . ' - ' : '' ?><?php echo SITE_NAME; ?></title>
     
-    <link rel="shortcut icon" href="<?= base_url('public/rssmico.png') ?>" type="image/png">
+    <link rel="shortcut icon" href="<?= base_url('public/img/rssmico.png') ?>" type="image/png">
     <link rel="stylesheet" href="<?= base_url('public/assets/dist/assets/compiled/css/app.css') ?>">
     <link rel="stylesheet" href="<?= base_url('public/assets/dist/assets/compiled/css/app-dark.css') ?>">
     <link rel="stylesheet" href="<?= base_url('public/assets/dist/assets/compiled/css/auth.css') ?>">
@@ -14,7 +14,7 @@
 
 <body>
     <script src="<?= base_url('public/assets/dist/assets/static/js/initTheme.js') ?>"></script>
-    <div id="auth" style="background: url('<?= base_url('public/monitoring_AI.png') ?>') center/cover no-repeat fixed; min-height: 100vh; display: flex; align-items: center;">
+    <div id="auth" style="background: url('<?= base_url('public/img/monitoring_AI.png') ?>') center/cover no-repeat fixed; min-height: 100vh; display: flex; align-items: center;">
         
         <div class="container-fluid h-100">
             <div class="row h-100 align-items-center">
@@ -26,7 +26,7 @@
                         <!-- HEADER: LOGO & JUDUL -->
                         <div class="d-flex align-items-center mb-5">
                             <a href="<?= base_url() ?>">
-                                <img src="<?= base_url('public/rssm.png') ?>" alt="Logo" style="height: 7rem;">
+                                <img src="<?= base_url('public/img/rssm.png') ?>" alt="Logo" style="height: 7rem;">
                             </a>
                             <h1 class="auth-title ms-3 mb-0 text-white">Log in.</h1>
                         </div>

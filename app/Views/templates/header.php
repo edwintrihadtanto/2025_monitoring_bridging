@@ -6,7 +6,7 @@
     <title><?= isset($page_title) ? $page_title . ' - ' : '' ?><?php echo SITE_NAME; ?></title>
     
     <link rel="shortcut icon" href="" type="image/x-icon">
-    <link rel="shortcut icon" href="<?= base_url('public/rssmico.png') ?>" type="image/png">
+    <link rel="shortcut icon" href="<?= base_url('public/img/rssmico.png') ?>" type="image/png">
     <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/app.css'); ?>">
     <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/app-dark.css'); ?>">
     <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/iconly.css'); ?>">
@@ -94,6 +94,40 @@
             /* Sembunyikan kolom yang kurang penting di HP jika perlu */
             /* Contoh: Sembunyikan kolom 'Method' jika di HP (Opsional) */
             /* .table td:nth-child(3), .table th:nth-child(3) { display: none; } */
+        }
+
+        
+        /* Yang scroll hanya menu */
+        .sidebar-menu {
+            overflow-y: auto;
+        }
+
+        /* Area bawah untuk toggle */
+        .sidebar-footer {
+            padding-bottom: 0;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        footer{
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .footer-new {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            bottom: 0;
+            position: fixed;
+            width: -webkit-fill-available;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            padding-top: 2px;
+        }
+        /* Dark mode */
+        [data-bs-theme="dark"] .sidebar-footer {
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+        [data-bs-theme="dark"] .footer-new {
+            border-top: 1px solid white;
         }
     </style>
 </head>

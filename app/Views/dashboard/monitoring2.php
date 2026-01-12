@@ -30,9 +30,10 @@
                         <!-- <table class="table table-striped dt-responsive" id="table1" width="100%"> -->
                             <thead>
                                 <tr>
-                                    <th width="5%">No</th>
                                     <th width="150">Waktu</th>
                                     <th width="550">Endpoint</th>
+                                    <th width="15%">Waktu</th>
+                                    <th>Endpoint</th>
                                     <th width="15">Method</th>
                                     <th width="150">Response Code</th>
                                     <th width="20">Aksi</th>

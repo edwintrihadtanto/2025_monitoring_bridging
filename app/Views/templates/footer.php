@@ -1,11 +1,13 @@
-            <footer style="background-color: white; bottom: 0; position: fixed; width: -webkit-fill-available;">
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start" style="bottom: 0; /*position: fixed;*/">
-                        <p>2025 &copy; ITISI - RSSM</p>
-                    </div>
-                    <div class="float-end" style="bottom: 0; right: 0; /*position: fixed;*/">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
-                            by <a href="https://saugi.me">Edwin</a></p>
+            <footer>
+                <div class="footer-new">
+                    <div class="footer clearfix mb-0 text-muted">
+                        <div class="float-start" style="bottom: 0; /*position: fixed;*/">
+                            <p>2025 &copy; ITISI - RSSM</p>
+                        </div>
+                        <div class="float-end" style="bottom: 0; right: 0; /*position: fixed;*/">
+                            <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
+                                by <a href="https://saugi.me">Edwin</a></p>
+                        </div>
                     </div>
                 </div>
             </footer>
