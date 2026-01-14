@@ -32,17 +32,17 @@ use CodeIgniter\Router\RouteCollection;
         
         $routes->group('referensi', static function ($routes) {
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/obat/1/2024-09-01/asam
-            $routes->get('obat/(:segment)/(:segment)/(:segment)', 'BpjsController::getReferensiObat/$1/$2/$3');
+            $routes->get('getobat/(:segment)/(:segment)/(:segment)', 'BpjsController::getReferensiObat/$1/$2/$3');
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/spesialistik/
-            $routes->get('spesialistik', 'BpjsController::getReferensiSpesialistik');
+            $routes->get('getspesialistik', 'BpjsController::getReferensiSpesialistik');
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/settingppk/0182A007
-            $routes->get('settingppk/(:segment)', 'BpjsController::getReferensiSettingPpk/$1');
+            $routes->get('getsettingppk/(:segment)', 'BpjsController::getReferensiSettingPpk/$1');
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/ppk/1/pus
-            $routes->get('ppk/(:segment)/(:segment)', 'BpjsController::getReferensiPpk/$1/$2');
+            $routes->get('getppk/(:segment)/(:segment)', 'BpjsController::getReferensiPpk/$1/$2');
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/poli/da
-            $routes->get('poli/(:segment)', 'BpjsController::getReferensiPoli/$1');
+            $routes->get('getpoli/(:segment)', 'BpjsController::getReferensiPoli/$1');
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/dpho
-            $routes->get('dpho', 'BpjsController::getReferensiDpho');
+            $routes->get('getdpho', 'BpjsController::getReferensiDpho');
         });
 
         $routes->group('insert', static function ($routes) {
@@ -72,7 +72,13 @@ use CodeIgniter\Router\RouteCollection;
     // Sidebar
     $routes->get('monitoring', 'MonitoringController::index', ['filter' => 'auth']);
 
-    $routes->get('sidebar-faskes', 'MonitoringController::index', ['filter' => 'auth']);
+    $routes->get('sidebar-faskes', 'ReferensiController::viewfaskes', ['filter' => 'auth']);
+    $routes->post('res/search_faskes', 'ReferensiController::search_faskes', ['filter' => 'auth']);
+    $routes->get('sidebar-apotik', 'ReferensiController::viewapotik', ['filter' => 'auth']);
+    $routes->get('sidebar-poli', 'ReferensiController::viewpoli', ['filter' => 'auth']);
+    $routes->get('sidebar-dpho', 'ReferensiController::viewdpho', ['filter' => 'auth']);
+    $routes->get('sidebar-obat', 'ReferensiController::viewobat', ['filter' => 'auth']);
+    $routes->get('sidebar-spesialis', 'ReferensiController::viewspesialis', ['filter' => 'auth']);
     
     $routes->get('/profile', 'Profile::index', ['filter' => 'auth']);
     $routes->post('/profile/update', 'Profile::updatePassword');

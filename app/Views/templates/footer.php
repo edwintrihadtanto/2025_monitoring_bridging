@@ -229,9 +229,14 @@
                 }
             }
 
-            const pasienForm = document.getElementById('pencarianPasienForm');
-            const pasienSEPForm = document.getElementById('pencarianSEPPasienForm');
-            const monitoringklaimForm = document.getElementById('pencarianMonitoringKlaimForm');
+            const pasienForm            = document.getElementById('pencarianPasienForm');
+            const pasienSEPForm         = document.getElementById('pencarianSEPPasienForm');
+            const monitoringklaimForm   = document.getElementById('pencarianMonitoringKlaimForm');
+            const faskesForm            = document.getElementById('pencarianFasKesForm');
+            const apotikForm            = document.getElementById('pencarianFasKesForm');
+            const poliForm              = document.getElementById('pencarianPoliForm');
+            const dphoForm              = document.getElementById('pencarianDPHOForm');
+            const obatForm              = document.getElementById('pencarianObatForm');
             
             if (pasienForm) {
                 
@@ -251,6 +256,13 @@
                 
                 if (typeof initMonitoringKlaimPage === 'function') {
                     initMonitoringKlaimPage();
+                }
+            }
+
+            if ((faskesForm)||(apotikForm)||(poliForm)||(dphoForm)||(obatForm)) {
+                
+                if (typeof initReferensiPage === 'function') {
+                    initReferensiPage();
                 }
             }
         }
@@ -398,6 +410,26 @@
                 }else if (form.id === 'pencarianMonitoringKlaimForm') {
                     if (typeof handlemonitoringklaim === 'function') {
                         handlemonitoringklaim(e, form);
+                    }
+                }else if (form.id === 'pencarianFasKesForm') {
+                    if (typeof handleFaskesPage === 'function') {
+                        handleFaskesPage(e, form);
+                    }
+                }else if (form.id === 'pencarianApotikForm') {
+                    if (typeof handleApotikSubmit === 'function') {
+                        handleApotikSubmit(e, form);
+                    }
+                }else if (form.id === 'pencarianPoliForm') {
+                    if (typeof handlePoliklinikSubmit === 'function') {
+                        handlePoliklinikSubmit(e, form);
+                    }
+                }else if (form.id === 'pencarianDPHOForm') {
+                    if (typeof handleDPHOSubmit === 'function') {
+                        handleDPHOSubmit(e, form);
+                    }
+                }else if (form.id === 'pencarianObatForm') {
+                    if (typeof handleObatSubmit === 'function') {
+                        handleObatSubmit(e, form);
                     }
                 }
             });

@@ -10,7 +10,35 @@
         <section class="section">
             <div class="card">
                 <div class="card-body">
-
+                    <?php
+                        // $rekap = $data['rekap'];
+                    ?>
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-4">
+                            <div class="card bg-danger text-white">
+                                <div class="card-body">
+                                    <h6 class="card-title text-white-50">Total Error Code 404</h6>
+                                    <h2 class="text-white mb-0"><?= number_format($rekap['code404'], 0, ',', '.') ?></h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="card bg-warning text-dark">
+                                <div class="card-body">
+                                    <h6 class="card-title text-dark-50">Total Error Code 403</h6>
+                                    <h2 class="text-dark mb-0"><?= number_format($rekap['code403'], 0, ',', '.') ?></h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="card bg-success text-dark">
+                                <div class="card-body">
+                                    <h6 class="card-title text-white-50">Total Success 200</h6>
+                                    <h2 class="text-white mb-0"><?= number_format($rekap['code200'], 0, ',', '.') ?></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- CUSTOM SHOW ENTRIES DROPDOWN -->
                     <!-- <div class="d-flex justify-content-end mb-3">
                         <div class="d-flex align-items-center">
