@@ -16,21 +16,51 @@
     </div>
     <section class="section">
         <div class="card">
-            <div class="card-header">
+            <!-- <div class="card-header">
                 <h4 class="card-title">Tentang Dashboard</h4>
-            </div>
+            </div> -->
             <div class="card-body">
-                <p>Ini adalah konten halaman Dashboard yang dimuat secara dinamis.</p>
+                <div class="row mb-4">
+                    <div class="col-12 col-md-3">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <h6 class="card-title">Total Bridging</h6>
+                                <h2 class="text-white mb-0"><?= number_format(0, 0, ',', '.') ?></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="card bg-secondary text-white">
+                            <div class="card-body">
+                                <h6 class="card-title">Total Resep</h6>
+                                <h2 class="text-white mb-0"><?= number_format(0, 0, ',', '.') ?></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="card bg-success text-white">
+                            <div class="card-body">
+                                <h6 class="card-title">Keberhasilan Bridging</h6>
+                                <h2 class="text-white mb-0"><?= number_format(0, 0, ',', '.') ?></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="card bg-danger text-white">
+                            <div class="card-body">
+                                <h6 class="card-title">Gagal Bridging</h6>
+                                <h2 class="text-white mb-0"><?= number_format(0, 0, ',', '.') ?></h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 </div>
 
+
 <script>
-// Fungsi ini akan dipanggil oleh spa-loader.js saat halaman dashboard dimuat
-function init_dashboard() {
-    console.log("Halaman Dashboard sudah siap!");
-    // Anda bisa menambahkan logika JavaScript khusus untuk dashboard di sini
-    // Misalnya, memanggil API untuk menampilkan grafik, dll.
-}
+    var btnclosesidebar = document.getElementById("navbarCollapse"); 
+     btnclosesidebar.click();
 </script>

@@ -115,6 +115,7 @@ class Auth extends BaseController
                 'name'      => $user['full_name'],
                 'logged_in' => TRUE,
                 'genre'     => $user['genre'],
+                'role'      => $user['role']
             ];
             session()->set($sessionData);
 

@@ -9,11 +9,12 @@ class MonitoringController extends BaseController
         $logModel   = new \App\Models\BpjsLogModel();
         $rekap      = $logModel
                         ->select('response_code, COUNT(*) as total')
-                        ->whereIn('response_code', [200, 404, 403])
+                        ->whereIn('response_code', [200, 201, 404, 403])
                         ->groupBy('response_code')
                         ->findAll();
         $counts = [
             200 => 0,
+            201 => 0,
             404 => 0,
             403 => 0
         ];
@@ -33,12 +34,13 @@ class MonitoringController extends BaseController
             'perPage'       => $perPage, // Kirim kembali ke view agar dropdown tahu posisi aktif
             'rekap'         => [
                                 'code200' => $counts[200],
+                                'code201' => $counts[201],
                                 'code404' => $counts[404],
                                 'code403' => $counts[403],
                             ]
         ];
 
         // return view('dashboard/monitoringX', $data);
-        return $this->renderView('dashboard/monitoring2', $data);
+        return $this->renderView('dashboard/logmonitoring_bridging', $data);
     }
 }

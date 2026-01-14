@@ -29,6 +29,7 @@
     <script src="<?= base_url('public/js/page-monitoring.js') ?>"></script>
 
     <script>
+        
         // --- 1. GLOBAL VARIABLES (Agar bisa diakses semua fungsi) ---
         let detailModalInstance = null;
 

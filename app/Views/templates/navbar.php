@@ -2,7 +2,7 @@
 <div id="main" class='layout-navbar navbar-fixed'>
     <!-- HEADER -->
     <header>
-        <nav class="navbar navbar-expand navbar-light navbar-top">
+        <nav class="navbar navbar-expand navbar-light navbar-top" id="navbarCollapse">
             <div class="container-fluid">
                 <!-- <a href="#" class="burger-btn d-block">
                     <i class="bi bi-justify fs-3"></i>

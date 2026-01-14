@@ -161,12 +161,14 @@ class BpjsVclaimService
         }
         
         // Simpan log response
-        $logData['response_code'] = $responseCode;
+        // $logData['response_code'] = $responseCode;
+        $logData['response_code'] = $responseArray['metaData']['code'];
         $logData['response_body'] = json_encode($responseArray);
         log_to_db($logData);
 
         return [
-            'status_code' => $responseCode,
+            // 'status_code' => $responseCode,
+            'status_code' => $responseArray['metaData']['code'],
             'body' => $responseArray
         ];
     }

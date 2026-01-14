@@ -14,7 +14,7 @@
                         // $rekap = $data['rekap'];
                     ?>
                     <div class="row mb-4">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                             <div class="card bg-danger text-white">
                                 <div class="card-body">
                                     <h6 class="card-title text-white-50">Total Error Code 404</h6>
@@ -22,19 +22,27 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-4">
-                            <div class="card bg-warning text-dark">
+                        <div class="col-12 col-md-3">
+                            <div class="card bg-warning text-white">
                                 <div class="card-body">
-                                    <h6 class="card-title text-dark-50">Total Error Code 403</h6>
-                                    <h2 class="text-dark mb-0"><?= number_format($rekap['code403'], 0, ',', '.') ?></h2>
+                                    <h6 class="card-title text-white-50">Total Error Code 403</h6>
+                                    <h2 class="text-white mb-0"><?= number_format($rekap['code403'], 0, ',', '.') ?></h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                             <div class="card bg-success text-dark">
                                 <div class="card-body">
                                     <h6 class="card-title text-white-50">Total Success 200</h6>
                                     <h2 class="text-white mb-0"><?= number_format($rekap['code200'], 0, ',', '.') ?></h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="card bg-primary text-dark">
+                                <div class="card-body">
+                                    <h6 class="card-title text-white-50">Total Error Code 201</h6>
+                                    <h2 class="text-white mb-0"><?= number_format($rekap['code201'], 0, ',', '.') ?></h2>
                                 </div>
                             </div>
                         </div>
@@ -58,33 +66,42 @@
                         <!-- <table class="table table-striped dt-responsive" id="table1" width="100%"> -->
                             <thead>
                                 <tr>
-                                    <th width="5%">No</th>
-                                    <th width="15%">Waktu</th>
+                                    <th>No</th>
+                                    <th>Waktu</th>
                                     <th>Endpoint</th>
-                                    <th width="15">Method</th>
-                                    <th width="150">Response Code</th>
-                                    <th width="20">Aksi</th>
+                                    <th>Method</th>
+                                    <th>Response Code</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($logs as $i => $log): ?>
                                 <tr>
-                                    <td><?= $i + 1 ?></td>
-                                    <td><?= $log['created_at'] ?></td>
+                                    <td width="2%"><?= $i + 1 ?></td>
+                                    <td width="13%"><?= $log['created_at'] ?></td>
                             
-                                    <td><span class="d-inline-block text-truncate" style="" title="<?= $log['endpoint'] ?>"><?= $log['endpoint'] ?></span></td>
+                                    <td width="30%"><span class="d-inline-block text-truncate" style="width:500px;" title="<?= $log['endpoint'] ?>"><?= $log['endpoint'] ?></span></td>
                                     
-                                    <td><?= $log['method'] ?></td>
-                                    <td>
+                                    <td width="5%"><?= $log['method'] ?></td>
+                                    <td width="12%" >
                                         <?php if ($log['response_code'] == 200): ?>
-                                            <span class="badge bg-success">200</span>
+                                            <span class="badge bg-success"><?= $log['response_code'] ?></span>
+                                        <?php elseif ($log['response_code'] == 201): ?>
+                                            <span class="badge bg-primary"><?= $log['response_code'] ?></span>
+                                        <?php elseif ($log['response_code'] == 403): ?>
+                                            <span class="badge bg-warning"><?= $log['response_code'] ?></span>
                                         <?php else: ?>
                                             <span class="badge bg-danger"><?= $log['response_code'] ?></span>
                                         <?php endif; ?>
                                     </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-info btn-detail-log" 
+                                    <td width="5%">
+                                       <!--  <button class="btn btn-sm btn-info btn-detail-log" 
                                                 data-request='<?= htmlspecialchars($log['request_header'] . "\n" . $log['request_body'], ENT_QUOTES, 'UTF-8') ?>'
+                                                data-response='<?= htmlspecialchars($log['response_body'], ENT_QUOTES, 'UTF-8') ?>'>
+                                            Detail
+                                        </button> -->
+                                        <button class="btn btn-sm btn-info btn-detail-log" 
+                                                data-request='<?= htmlspecialchars($log['endpoint'] . "\n" . $log['request_body'], ENT_QUOTES, 'UTF-8') ?>'
                                                 data-response='<?= htmlspecialchars($log['response_body'], ENT_QUOTES, 'UTF-8') ?>'>
                                             Detail
                                         </button>

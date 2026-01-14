@@ -159,7 +159,7 @@ class BpjsController extends BaseController
     {
         $endpoint = "referensi/ppk/{$jenis}/{$nama}";
         $result = $this->bpjsService->request('GET', $endpoint);
-
+        // return $this->response->setJSON($result);
         if ($result['status_code'] == 200) {
             $response = [
                 'status' => 'sukses',
@@ -185,21 +185,21 @@ class BpjsController extends BaseController
     {
         $endpoint = "referensi/poli/{$nama}";
         $result = $this->bpjsService->request('GET', $endpoint);
+        return $this->response->setJSON($result);
+        // if ($result['status_code'] == 200) {
+        //     $response = [
+        //         'status' => 'sukses',
+        //         'pesan'  => 'Berhasil',
+        //         'data'   => $result['body']['response']
+        //     ];
+        // } else {
+        //     $response = [
+        //         'status' => 'gagal',
+        //         'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+        //     ];
+        // }
 
-        if ($result['status_code'] == 200) {
-            $response = [
-                'status' => 'sukses',
-                'pesan'  => 'Berhasil',
-                'data'   => $result['body']['response']
-            ];
-        } else {
-            $response = [
-                'status' => 'gagal',
-                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-            ];
-        }
-
-        return $this->response->setJSON($response);
+        // return $this->response->setJSON($response);
     }
 
     /**
@@ -210,21 +210,21 @@ class BpjsController extends BaseController
     {
         $endpoint = "referensi/dpho";
         $result = $this->bpjsService->request('GET', $endpoint);
+        return $this->response->setJSON($result);
+        // if ($result['status_code'] == 200) {
+        //     $response = [
+        //         'status' => 'sukses',
+        //         'pesan'  => 'Berhasil',
+        //         'data'   => $result['body']['response']
+        //     ];
+        // } else {
+        //     $response = [
+        //         'status' => 'gagal',
+        //         'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+        //     ];
+        // }
 
-        if ($result['status_code'] == 200) {
-            $response = [
-                'status' => 'sukses',
-                'pesan'  => 'Berhasil',
-                'data'   => $result['body']['response']
-            ];
-        } else {
-            $response = [
-                'status' => 'gagal',
-                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-            ];
-        }
-
-        return $this->response->setJSON($response);
+        // return $this->response->setJSON($response);
     }
 
     public function getMonitoringKlaim($bulan, $tahun, $jenisobat, $status)
