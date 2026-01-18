@@ -12,9 +12,31 @@
  Target Server Version : 100023 (100023)
  File Encoding         : 65001
 
- Date: 15/01/2026 01:00:50
+ Date: 18/01/2026 23:29:36
 */
 
+
+-- ----------------------------
+-- Sequence structure for bpjs_logs_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."bpjs_logs_id_seq";
+CREATE SEQUENCE "public"."bpjs_logs_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for users_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."users_id_seq";
+CREATE SEQUENCE "public"."users_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
 
 -- ----------------------------
 -- Table structure for bpjs_logs
@@ -56,7 +78,7 @@ CREATE TABLE "public"."ci_sessions" (
 DROP TABLE IF EXISTS "public"."rules";
 CREATE TABLE "public"."rules" (
   "id_rules" int2 NOT NULL,
-  "role" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "rule_name" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "access_sidebar" text COLLATE "pg_catalog"."default" NOT NULL
 )
 ;
@@ -72,9 +94,23 @@ CREATE TABLE "public"."users" (
   "full_name" varchar(100) COLLATE "pg_catalog"."default",
   "created_at" timestamp(6) DEFAULT CURRENT_TIMESTAMP,
   "genre" bool DEFAULT true,
-  "role" varchar(255) COLLATE "pg_catalog"."default" DEFAULT ''::character varying
+  "id_rules" int2 NOT NULL DEFAULT 0
 )
 ;
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."bpjs_logs_id_seq"
+OWNED BY "public"."bpjs_logs"."id";
+SELECT setval('"public"."bpjs_logs_id_seq"', 62, true);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "public"."users_id_seq"
+OWNED BY "public"."users"."id";
+SELECT setval('"public"."users_id_seq"', 1, true);
 
 -- ----------------------------
 -- Primary Key structure for table bpjs_logs
