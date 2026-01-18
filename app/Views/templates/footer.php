@@ -6,7 +6,7 @@
                         </div>
                         <div class="float-end" style="bottom: 0; right: 0; /*position: fixed;*/">
                             <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
-                                by <a href="https://saugi.me">Edwin</a></p>
+                                by <a href="https://www.instagram.com/edwiinbyonicmadiun" target="_blank"><i class="bi bi-instagram icon-mid"></i> Edwiin</a></p>
                         </div>
                     </div>
                 </div>
@@ -234,10 +234,11 @@
             const pasienSEPForm         = document.getElementById('pencarianSEPPasienForm');
             const monitoringklaimForm   = document.getElementById('pencarianMonitoringKlaimForm');
             const faskesForm            = document.getElementById('pencarianFasKesForm');
-            const apotikForm            = document.getElementById('pencarianFasKesForm');
+            const apotikForm            = document.getElementById('pencarianApotikForm');
             const poliForm              = document.getElementById('pencarianPoliForm');
             const dphoForm              = document.getElementById('pencarianDPHOForm');
             const obatForm              = document.getElementById('pencarianObatForm');
+            const spesialisForm         = document.getElementById('pencarianSpesialisForm');
             
             if (pasienForm) {
                 
@@ -260,7 +261,7 @@
                 }
             }
 
-            if ((faskesForm)||(apotikForm)||(poliForm)||(dphoForm)||(obatForm)) {
+            if ((faskesForm)||(apotikForm)||(poliForm)||(dphoForm)||(obatForm)||(spesialisForm)) {
                 
                 if (typeof initReferensiPage === 'function') {
                     initReferensiPage();
@@ -424,13 +425,17 @@
                     if (typeof handlePoliklinikSubmit === 'function') {
                         handlePoliklinikSubmit(e, form);
                     }
-                }else if (form.id === 'pencarianDPHOForm') {
+                /*}else if (form.id === 'pencarianDPHOForm') {
                     if (typeof handleDPHOSubmit === 'function') {
                         handleDPHOSubmit(e, form);
-                    }
+                    }*/
                 }else if (form.id === 'pencarianObatForm') {
                     if (typeof handleObatSubmit === 'function') {
                         handleObatSubmit(e, form);
+                    }
+                }else if (form.id === 'pencarianSpesialisForm') {
+                    if (typeof handleSpesialisSubmit === 'function') {
+                        handleSpesialisSubmit(e, form);
                     }
                 }
             });

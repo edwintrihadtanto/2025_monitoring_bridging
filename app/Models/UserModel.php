@@ -14,4 +14,12 @@ class UserModel extends Model
     protected $useSoftDeletes = false;
 
     protected $allowedFields = ['username', 'password_hash', 'full_name'];
+
+    public function getUserWithRule($username)
+    {
+        return $this->select('users.*, rules.rule_name')
+                    ->join('rules', 'rules.id_rules = users.id_rules', 'left')
+                    ->where('users.username', $username)
+                    ->first();
+    }
 }

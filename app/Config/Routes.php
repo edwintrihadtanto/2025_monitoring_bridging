@@ -73,13 +73,18 @@ use CodeIgniter\Router\RouteCollection;
     $routes->get('monitoring', 'MonitoringController::index', ['filter' => 'auth']);
 
     $routes->get('sidebar-faskes', 'ReferensiController::viewfaskes', ['filter' => 'auth']);
-    $routes->post('res/search_faskes', 'ReferensiController::search_faskes', ['filter' => 'auth']);
+    $routes->post('ref/search_faskes', 'ReferensiController::search_faskes', ['filter' => 'auth']);
     $routes->get('sidebar-apotik', 'ReferensiController::viewapotik', ['filter' => 'auth']);
+    $routes->post('ref/search_apotik', 'ReferensiController::search_apotik', ['filter' => 'auth']);
     $routes->get('sidebar-poli', 'ReferensiController::viewpoli', ['filter' => 'auth']);
+    $routes->post('ref/search_poli', 'ReferensiController::search_poli', ['filter' => 'auth']);
     $routes->get('sidebar-dpho', 'ReferensiController::viewdpho', ['filter' => 'auth']);
+    $routes->post('ref/search_dpho', 'ReferensiController::search_dpho', ['filter' => 'auth']);
     $routes->get('sidebar-obat', 'ReferensiController::viewobat', ['filter' => 'auth']);
+    $routes->post('ref/search_obat', 'ReferensiController::search_obat', ['filter' => 'auth']);    
     $routes->get('sidebar-spesialis', 'ReferensiController::viewspesialis', ['filter' => 'auth']);
-    
+    $routes->post('ref/search_spesialis', 'ReferensiController::search_spesialis', ['filter' => 'auth']);
+
     $routes->get('/profile', 'Profile::index', ['filter' => 'auth']);
     $routes->post('/profile/update', 'Profile::updatePassword');
 

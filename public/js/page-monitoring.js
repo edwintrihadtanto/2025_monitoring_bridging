@@ -53,7 +53,7 @@ function initReferensiPage() {
         const alertContainer = document.getElementById('alert-container');
         
         btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menacri Data...';
+        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari Data...';
         resultContainer.innerHTML = '';
         alertContainer.innerHTML = '';
 
@@ -95,13 +95,13 @@ function initReferensiPage() {
         const alertContainer = document.getElementById('alert-container');
         
         btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menacri Data...';
+        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari Data...';
         resultContainer.innerHTML = '';
         alertContainer.innerHTML = '';
 
         fetch(form.action, {
             method: 'POST',
-            body: new FormData(form), // Gunakan FormData langsung dari form
+            body: new FormData(form),
             headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
         .then(response => response.json())
@@ -137,7 +137,7 @@ function initReferensiPage() {
         const alertContainer = document.getElementById('alert-container');
         
         btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menacri Data...';
+        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari Data...';
         resultContainer.innerHTML = '';
         alertContainer.innerHTML = '';
 
@@ -171,7 +171,7 @@ function initReferensiPage() {
         });
     }
 
-    window.handleDPHOSubmit = function(e, form) {
+    /*window.handleDPHOSubmit = function(e, form) {
         e.preventDefault(); // Mencegah reload halaman
         
         const btnSubmit = form.querySelector('button[type="submit"]');
@@ -179,7 +179,7 @@ function initReferensiPage() {
         const alertContainer = document.getElementById('alert-container');
         
         btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menacri Data...';
+        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari Data...';
         resultContainer.innerHTML = '';
         alertContainer.innerHTML = '';
 
@@ -211,7 +211,7 @@ function initReferensiPage() {
             btnSubmit.innerHTML = '<i class="bi bi-search me-2"></i> Tampilkan Pencarian';
             alertContainer.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan sistem.</div>`;
         });
-    }
+    }*/
 
     window.handleObatSubmit = function(e, form) {
         e.preventDefault(); // Mencegah reload halaman
@@ -221,7 +221,7 @@ function initReferensiPage() {
         const alertContainer = document.getElementById('alert-container');
         
         btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menacri Data...';
+        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari Data...';
         resultContainer.innerHTML = '';
         alertContainer.innerHTML = '';
 

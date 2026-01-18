@@ -2,17 +2,17 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h5>Data Fasilitas Kesehatan</h5>
-                <p class="text-subtitle text-muted">Pencarian Fasilitas Kesehatan Berdasarkan Data BPJS.</p>
+                <h5>Data Poliklinik</h5>
+                <p class="text-subtitle text-muted">Pencarian Daftar Obat Poli Berdasarkan Data BPJS.</p>
             </div>
         </div>
     </div>
 
     <section class="section">
         
-        <div class="row">
+        <!-- <div class="row"> -->
             
-            <div class="col-12 col-md-5">
+            <div class="col-12 col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Filtering Data</h4>
@@ -20,20 +20,13 @@
                     <div class="card-body">
                         <div id="alert-container" class="mb-3"></div>
 
-                        <form id="pencarianFasKesForm" action="<?= site_url('ref/search_faskes') ?>" method="POST">
+                        <form id="pencarianPoliForm" action="<?= site_url('ref/search_poli') ?>" method="POST">
                             <?= csrf_field() ?>
                             
                             <div class="row">
                                 <div class="col-12 mb-3">
-                                    <label class="form-label">Jenis Faskes</label>
-                                    <select name="jns_faskes" class="form-select" required>
-                                        <option value="1">Faskes 1</option>
-                                        <option value="2">Faskes 2 / Rumah Sakit</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label">Nama Faskes</label>
-                                    <input type="text" name="nama_faskes" class="form-control" placeholder="Masukkan nama faskes" required>
+                                    <label class="form-label">Kode / Nama Poliklinik</label>
+                                    <input type="text" name="kode_poli" class="form-control" placeholder="Masukkan kode / nama poli" required>
                                 </div>
                             </div>
 
@@ -45,12 +38,12 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-7">
+            <div class="col-12 col-md-12">
                 <div id="result-container">
                 </div>
             </div>
 
-        </div> <!-- Tutup Row -->
+        <!-- </div> Tutup Row -->
        
     </section>
 </div>

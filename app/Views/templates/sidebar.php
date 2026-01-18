@@ -24,7 +24,7 @@
                 
                 <li class="sidebar-item has-sub m-0">
                     <a href="#" class='sidebar-link'>
-                        <i class="bi bi-stack"></i>
+                        <i class="bi bi-clipboard2-data"></i>
                         <span>Monitoring</span>
                     </a>
                     
@@ -37,7 +37,7 @@
 
                 <li class="sidebar-item has-sub m-0">
                     <a href="#" class='sidebar-link'>
-                        <i class="bi bi-stack"></i>
+                        <i class="bi bi-view-list"></i>
                         <span>Referensi</span>
                     </a>
                     
@@ -67,19 +67,19 @@
                
                 <li class="sidebar-item m-0">
                     <a href="<?= site_url('pasien') ?>" class='sidebar-link' data-page="pasien">
-                        <i class="bi bi-hexagon-fill"></i>
+                        <i class="bi bi-clipboard-check"></i>
                         <span>Cek Data Pasien</<span></span>
                     </a>
                 </li>
                 <li class="sidebar-item m-0">
                     <a href="<?= site_url('seppasien') ?>" class='sidebar-link' data-page="seppasien">
-                        <i class="bi bi-hexagon-fill"></i>
+                        <i class="bi bi-clipboard-check"></i>
                         <span>Cek SEP Pasien</span>
                     </a>
                 </li>
                 <li class="sidebar-item m-0">
                     <a href="<?= site_url('monitoringklaim') ?>" class='sidebar-link' data-page="monitoringklaim">
-                        <i class="bi bi-hexagon-fill"></i>
+                        <i class="bi bi-clipboard-pulse"></i>
                         <span>Cek Monitoring Klaim</span>
                     </a>
                 </li>

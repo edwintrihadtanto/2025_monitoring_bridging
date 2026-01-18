@@ -1,11 +1,11 @@
 <?php
-if (!empty($faskesData)): 
-    $data = $faskesData; // Agar penulisan variabel lebih pendek
+if (!empty($apotikList)): 
+    $data = $apotikList; // Agar penulisan variabel lebih pendek
 ?>
 
     <div class="card">
         <div class="card-header bg-primary text-white">
-            <h4 class="card-title mb-0"><i class="bi bi-building me-2"></i>Profil Faskes</h4>
+            <h4 class="card-title mb-0"><i class="bi bi-building me-2"></i>Profil Apotik</h4>
             <small><?= $data['nama'] ?? '-' ?></small>
         </div>
         <div class="card-body">
@@ -75,7 +75,7 @@ if (!empty($faskesData)):
                 </tr>
                 <tr>
                     <th>NIP Petugas Apotek</th>
-                    <td><?= $data['ippetugasapotek'] ?></td>
+                    <td><?= $data['nippetugasapotek'] ?></td>
                 </tr>
             </table>
         </div>
@@ -84,7 +84,7 @@ if (!empty($faskesData)):
 <?php else: ?>
     <div class="alert alert-warning text-center">
         <i class="bi bi-exclamation-triangle display-4"></i>
-        <h4 class="mt-2">Data Faskes Tidak Ditemukan</h4>
-        <p>Silakan periksa kembali Jenis Faskes atau Nama Faskes.</p>
+        <h4 class="mt-2">Data Apotik Tidak Ditemukan</h4>
+        <p>Silakan periksa kembali Kode Apotik dari BPJS.</p>
     </div>
 <?php endif; ?>
