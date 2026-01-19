@@ -15,6 +15,7 @@ if (!empty($dphoList)):
         <table class="table table-striped datatable" id="table-dpho" width="100%">
             <thead>
                 <tr>
+                    <th>No</th>
                     <th>Kode Obat</th>
                     <th>Nama Obat</th>
                     <th>Generik</th>
@@ -24,8 +25,9 @@ if (!empty($dphoList)):
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($dphoList as $item): ?>
+                <?php foreach ($dphoList as $log => $item): ?>
                 <tr>
+                    <td><strong><?= $log+1 ?></strong></td>
                     <td><strong><?= $item['kodeobat'] ?></strong></td>
                     <td><?= $item['namaobat'] ?></td>
                     <td><?= $item['generik'] ?></td>

@@ -8,10 +8,10 @@
         </div>
     </div>
 
-    <section class="section">
+    <section class="section" id="loadHalamanDPHO">
        
         <div class="col-12 col-md-12">
-            <div id="result-container">
+            <div id="result-container" data-url="<?= site_url('ref/search_dpho') ?>">
             </div>
         </div>
        

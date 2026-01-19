@@ -52,7 +52,7 @@
                             <a href="<?= site_url('sidebar-poli') ?>" class="submenu-link" data-page="poli">Poli</a>
                         </li>
                         <li class="submenu-item"><!-- Daftar Plafon Harga Obat, -->
-                            <a href="<?= site_url('sidebar-dpho') ?>" class="submenu-link" data-page="dpho">DPHO</a>
+                            <a href="<?= site_url('sidebar-dpho') ?>" class="submenu-link" data-page="dpho" data-reload="true">DPHO</a>
                         </li>
                         <li class="submenu-item">
                             <a href="<?= site_url('sidebar-obat') ?>" class="submenu-link" data-page="obat">Obat</a>

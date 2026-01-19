@@ -32,7 +32,8 @@
         
         // --- 1. GLOBAL VARIABLES (Agar bisa diakses semua fungsi) ---
         let detailModalInstance = null;
-
+        let isDPHOLoaded = false;
+        // var isDPHOInitialized = false;
         // --- 2. DEFINISI FUNGSI UTAMA (Dipindahkan ke Luar / Global Scope) ---
 
         // Helper Modal
@@ -66,7 +67,11 @@
                 // mainContent.innerHTML = '<div class="text-center p-5"><div class="spinner-grow text-info" role="status"></div><h5>sedang memuat halaman...</h5></div>';
                 mainContent.innerHTML = '<div class="text-center p-5"><img src="<?= base_url('public/loading.svg'); ?>" class="me-4" style="width: 3rem" alt="audio"><h6>sedang memuat halaman...</h6></div>';
             }
-            
+            // RESET FLAG JIKA PINDAH HALAMAN
+            if (pageIdentifier !== 'dpho') {
+                isDPHOLoaded = false;
+            }
+
             fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then(response => {
                 if (!response.ok) throw new Error('Network error');
@@ -135,6 +140,7 @@
                     $tables.each(function() {
                         const $table = $(this);
                         const isObatTable = $table.attr('id') === 'table-monitoring-obat';
+                        const isDPHOTable = $table.attr('id') === 'table-dpho';
 
                         if (!$table.hasClass('dataTable')) {
                             try {
@@ -180,13 +186,11 @@
                                     }*/
                                 };
                                 
-                                if (isObatTable) {                                    
-                                    // Karena datanya Hardcode/API Result, kita gunakan PAGING DATATABLES
+                                if ((isObatTable)||(isDPHOTable)) {                                                                        
                                     config.paging = true;
                                     config.lengthChange = true;
-                                    config.pageLength = 10;
-                                } else {                                    
-                                    // Pakai PAGING PHP (Server-Side), MATIKAN PAGING DATATABLES
+                                    config.pageLength = 15;
+                                } else {
                                     config.paging = false;
                                     config.lengthChange = false;
                                 }
@@ -198,7 +202,7 @@
                                 if (!isObatTable) {
                                     var api = dataTable;
                                     var tableId = api.table().node().id;
-                                    console.log(tableId);                                    
+                                    console.log(tableId+' footer');                                    
                                     var currentPerPage = $('#' + tableId).data('current-perpage') || 10;
                                     var dropdownHtml = `
                                         <div class="d-flex align-items-center">
@@ -236,7 +240,7 @@
             const faskesForm            = document.getElementById('pencarianFasKesForm');
             const apotikForm            = document.getElementById('pencarianApotikForm');
             const poliForm              = document.getElementById('pencarianPoliForm');
-            const dphoForm              = document.getElementById('pencarianDPHOForm');
+            const dphoForm              = document.getElementById('loadHalamanDPHO');
             const obatForm              = document.getElementById('pencarianObatForm');
             const spesialisForm         = document.getElementById('pencarianSpesialisForm');
             
@@ -261,18 +265,35 @@
                 }
             }
 
-            if ((faskesForm)||(apotikForm)||(poliForm)||(dphoForm)||(obatForm)||(spesialisForm)) {
+            if ((faskesForm)||(apotikForm)||(poliForm)||(obatForm)||(spesialisForm)) {
                 
                 if (typeof initReferensiPage === 'function') {
                     initReferensiPage();
                 }
             }
+
+            if (dphoForm && !isDPHOLoaded) {
+                if (typeof initDphoPage === 'function') {
+                    initDphoPage();
+                }
+            }
+            // const loadHalamanDPHO = document.getElementById('loadHalamanDPHO');            
+            // const dphoTable = document.getElementById('table-dpho');
+            
+            // // Jika ada TRIGGER ATAU TABEL, jalankan init
+            // if (loadHalamanDPHO || (dphoTable)) {
+                
+            //     if (typeof initDPHOPage === 'function') {
+            //         initDPHOPage();
+            //     } else {
+            //         console.error(">>> ERROR: Fungsi initDPHOPage tidak ditemukan atau bukan global.");
+            //     }
+            // }
         }
 
         // --- 3. DOM CONTENT LOADED (Hanya untuk menempel Event Listener Awal) ---
         document.addEventListener('DOMContentLoaded', function() {
             
-            // Event Delegation Link Klik
             document.body.addEventListener('click', function(e) {
                 // Tombol Detail
                 const btnDetail = e.target.closest('.btn-detail-log');
@@ -297,62 +318,24 @@
 
                 const isJSLink = link.getAttribute('href')?.startsWith('javascript');
 
+                /*
                 if (isInternal && !isHash && !isBlank && !isNoAjax && !isJSLink) {
                     e.preventDefault();
                     window.loadPageContent(link.href, link.getAttribute('data-page') || link.href, link);
                 }
+                */
+                if (isInternal && !isHash && !isBlank && !isNoAjax && !isJSLink) {
+                    e.preventDefault();
+
+                    const page = link.getAttribute('data-page');
+                    if (page === 'dpho' && link.dataset.reload === 'true') {
+                        isDPHOLoaded = false;
+                    }
+
+                    window.loadPageContent(link.href, page || link.href, link);
+                }
             });
 
-            /*document.body.addEventListener('submit', function(e) {
-                // Cek apakah form yang disubmit adalah form ganti password
-                const form = e.target.closest('#changePasswordForm');
-                
-                if (form) {
-                    e.preventDefault(); // Stop reload halaman
-                    
-                    const btnSubmit = form.querySelector('button[type="submit"]');
-                    const originalBtnText = btnSubmit.innerHTML;
-                    
-                    // Loading State pada Tombol
-                    btnSubmit.disabled = true;
-                    btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Memproses...';
-
-                    // Ambil data form
-                    const formData = new FormData(form);
-                    
-                    fetch(form.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        const alertContainer = document.getElementById('alert-container');
-                        
-                        if (data.status) {
-                            // SUKSES
-                            alertContainer.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
-                            // Reset form
-                            form.reset();
-                        } else {
-                            // GAGAL
-                            alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
-                        }
-                    })
-                    .catch(error => {
-                        const alertContainer = document.getElementById('alert-container');
-                        alertContainer.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan sistem.</div>`;
-                        console.error('Error:', error);
-                    })
-                    .finally(() => {
-                        // Kembalikan tombol ke kondisi normal
-                        btnSubmit.disabled = false;
-                        btnSubmit.innerHTML = originalBtnText;
-                    });
-                }
-            });*/
-
-            // Submit Universal
             document.body.addEventListener('submit', function(e) {
                 const form = e.target.closest('form');
                 if (!form) return;

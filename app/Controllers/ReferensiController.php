@@ -252,4 +252,66 @@ class ReferensiController extends BaseController
         }
     }
 
+    public function search_dpho()
+    {
+        try {
+            $baseUrl = base_url();
+            $targetUrl = $baseUrl . 'bpjs/referensi/getdpho/';
+            
+            $client = Services::curlrequest();
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE']
+            ]);
+            
+            $wrapper = json_decode($response->getBody(), true);
+            // var_dump($wrapper);
+            $bpjsJson = $wrapper['body'] ?? $wrapper;
+
+            $statusResult = false;
+            $message = '';
+            $htmlResult = '';
+
+            if (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+                
+                if (!is_null($bpjsJson['response'])) {
+                    if (!empty($bpjsJson['response']['list'])) {
+                        $statusResult = true;
+                        $dphoList = $bpjsJson['response']['list'];
+                        $htmlResult = view('referensi/partial_dpho_result', ['dphoList' => $dphoList]);
+                    } else {
+                        $message = 'Data DPHO kosong.';
+                    }
+                } else {
+                    $message = 'Data DPHO tidak ditemukan (Response Null).';
+                }
+            }elseif (isset($bpjsJson['status']) && $bpjsJson['status'] == "sukses") {
+                
+                if (!empty($bpjsJson['data']['list'])) {
+                    $statusResult = true;
+                    $dphoList = $bpjsJson['data']['list'];
+                    $htmlResult = view('referensi/partial_dpho_result', ['dphoList' => $dphoList]);
+                } else {
+                    $message = 'Data DPHO kosong.';
+                }
+            }else {
+                $message = $bpjsJson['metaData']['message'] 
+                        ?? $bpjsJson['pesan'] 
+                        ?? $bpjsJson['message'] 
+                        ?? 'Respon server BPJS tidak dikenali.';
+            }
+
+            return $this->response->setJSON([
+                'status' => $statusResult,
+                'message' => $message,
+                'html' => $htmlResult
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Gagal terhubung ke API BPJS: ' . $e->getMessage()
+            ]);
+        }
+    }
+
 }
