@@ -131,6 +131,48 @@
             border-top: 1px solid white;
             background-color: var(--bs-body-bg);
         }
+        /* Card Body RGB Border Animation */
+        .card-body.rgb-border {
+            position: relative;
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .card-body.rgb-border::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 3px; /* ketebalan border */
+            border-radius: inherit;
+            background: linear-gradient(
+                270deg,
+                #ff0000,
+                #ff9900,
+                #ffff00,
+                #00ff00,
+                #00ffff,
+                #0000ff,
+                #ff00ff,
+                #ff0000
+            );
+            background-size: 400% 400%;
+            animation: rgbBorder 6s linear infinite;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        /* Animasi */
+        @keyframes rgbBorder {
+            0%   { background-position:   0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position:   0% 50%; }
+        }
+
     </style>
 </head>
 <body>

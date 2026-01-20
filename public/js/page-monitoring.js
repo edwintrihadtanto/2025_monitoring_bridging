@@ -217,7 +217,7 @@ function initReferensiPage() {
 function initDphoPage() {
 
     if (isDPHOLoaded) {
-        console.log("DPHO sudah diload, skip fetch ulang.");
+        console.log("InisialisasiDphoPage loaded!. Stop fetching.");
         return;
     }
 
@@ -232,11 +232,13 @@ function initDphoPage() {
     const formData = new FormData();
     formData.append('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
 
-    resultContainer.innerHTML = `
-        <div class="text-center p-5">
-            <div class="spinner-border text-primary"></div>
-        </div>
-    `;
+    // resultContainer.innerHTML = `
+    //     <div class="text-center p-5">
+    //         <div class="spinner-border text-primary"></div>
+    //     </div>
+    // `;
+
+    resultContainer.innerHTML = '<div class="text-center p-5"><div class="spinner-grow text-primary"></div><h6>sedang memuat halaman...</h6></div>';
 
     fetch(dphoUrl, {
         method: 'POST',
@@ -251,12 +253,12 @@ function initDphoPage() {
 
         resultContainer.innerHTML = data.html;
 
-        // Init DataTables SEKALI SAJA
         if (typeof $ !== 'undefined' && $.fn.DataTable) {
-            const $table = $('#table-dpho');
-             
-            if ($table.length && !$table.hasClass('dataTable')) {
-                $table.DataTable({
+            const $tableDPHO = $('#table-dpho');
+
+            if ($tableDPHO.length && !$tableDPHO.hasClass('dataTable')) {
+
+                const tableDPHO = $tableDPHO.DataTable({
                     searching: true,
                     ordering: true,
                     paging: true,
@@ -267,9 +269,32 @@ function initDphoPage() {
                         search: "Cari:",
                         info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
                         zeroRecords: "Data tidak ditemukan"
-                    }
+                    },
+                    order: [[2, 'asc']],
+                    columnDefs: [
+                        {
+                            targets: 2,
+                            type: 'string'
+                        },
+                        {
+                            targets: 0,
+                            orderable: false,
+                            searchable: false
+                        }
+                    ]
                 });
-                $table.order([2, 'ASC']).draw();
+
+                // PENOMORAN DINAMIS
+                tableDPHO.on('order.dt search.dt draw.dt', function () {
+                    tableDPHO
+                        .column(0, { search: 'applied', order: 'applied' })
+                        .nodes()
+                        .each(function (cell, i) {
+                            cell.innerHTML = '<strong>' + (i + 1) + '</strong>';
+                        });
+                });
+
+                tableDPHO.draw(); // !important
             }
         }
     })

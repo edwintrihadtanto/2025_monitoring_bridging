@@ -23,7 +23,7 @@
                 <div class="row mb-4">
                     <div class="col-12 col-md-3">
                         <div class="card bg-info text-white">
-                            <div class="card-body">
+                            <div class="card-body rgb-border">
                                 <h6 class="card-title">Total Bridging</h6>
                                 <h2 class="text-white mb-0"><?= number_format(0, 0, ',', '.') ?></h2>
                             </div>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-12 col-md-3">
                         <div class="card bg-secondary text-white">
-                            <div class="card-body">
+                            <div class="card-body rgb-border">
                                 <h6 class="card-title">Total Resep</h6>
                                 <h2 class="text-white mb-0"><?= number_format(0, 0, ',', '.') ?></h2>
                             </div>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="col-12 col-md-3">
                         <div class="card bg-success text-white">
-                            <div class="card-body">
+                            <div class="card-body rgb-border">
                                 <h6 class="card-title">Keberhasilan Bridging</h6>
                                 <h2 class="text-white mb-0"><?= number_format(0, 0, ',', '.') ?></h2>
                             </div>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-12 col-md-3">
                         <div class="card bg-danger text-white">
-                            <div class="card-body">
+                            <div class="card-body rgb-border">
                                 <h6 class="card-title">Gagal Bridging</h6>
                                 <h2 class="text-white mb-0"><?= number_format(0, 0, ',', '.') ?></h2>
                             </div>

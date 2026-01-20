@@ -2,8 +2,8 @@
 if (!empty($dphoList)): 
 ?>
 
-<div class="alert alert-info">
-    <i class="bi bi-list-check me-2"></i>
+<div class="alert alert-success">
+    <i class="bi bi-check-all me-2"></i>
     Ditemukan <strong><?= count($dphoList) ?></strong> Data Obat DPHO.
 </div>
 
@@ -12,7 +12,7 @@ if (!empty($dphoList)):
         <h4 class="card-title">Daftar Obat & Plafon Harga</h4>
     </div>
     <div class="card-body table-responsive">
-        <table class="table table-striped datatable" id="table-dpho" width="100%">
+        <table class="table table-striped table-hover datatable" id="table-dpho" width="100%">
             <thead>
                 <tr>
                     <th>No</th>
@@ -21,13 +21,14 @@ if (!empty($dphoList)):
                     <th>Generik</th>
                     <th>Kategori (PRB/Kronis/Kemo)</th>
                     <th>Harga</th>
-                    <th>Stok / Sedia</th>
+                    <th>Stok</th>
+                    <th>Tersedia</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($dphoList as $log => $item): ?>
                 <tr>
-                    <td><strong><?= $log+1 ?></strong></td>
+                    <td></td>
                     <td><strong><?= $item['kodeobat'] ?></strong></td>
                     <td><?= $item['namaobat'] ?></td>
                     <td><?= $item['generik'] ?></td>
@@ -47,7 +48,12 @@ if (!empty($dphoList)):
                     </td>
                     <td class="text-center">
                         <span class="badge bg-light text-dark border">
-                            S: <?= $item['stok'] ?> / A: <?= $item['sedia'] ?>
+                            <?= $item['stok'] ?? '0' ?>
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <span class="badge bg-light text-dark border">
+                            <?= $item['sedia'] ?? '0' ?>
                         </span>
                     </td>
                 </tr>

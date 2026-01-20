@@ -29,7 +29,7 @@ class ReferensiController extends BaseController
     }
 
     public function viewobat(){
-        return $this->renderView('referensi/sidebar-faskes');
+        return $this->renderView('referensi/sidebar-obat');
     }
 
     public function search_faskes()
@@ -314,4 +314,79 @@ class ReferensiController extends BaseController
         }
     }
 
+    public function search_obat()
+    {
+        $kd_jenis_obat  = $this->request->getPost('kd_jenis_obat');
+        $tgl_resep  = $this->request->getPost('tgl_resep');
+        $nama_obat  = $this->request->getPost('nama_obat');
+
+        if (empty($kd_jenis_obat)) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Kode Jenis Obat tidak boleh kosong.']);
+        }
+        if (empty($tgl_resep)) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Tgl Resep tidak boleh kosong.']);
+        }
+        if (empty($nama_obat)) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Nama Obat tidak boleh kosong.']);
+        }
+
+        try {
+            $baseUrl = base_url();
+            $targetUrl = $baseUrl . 'bpjs/referensi/getobat/' . $kd_jenis_obat .'/' . $tgl_resep .'/' . $nama_obat;
+            
+            $client = Services::curlrequest();
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE']
+            ]);
+            
+            $wrapper = json_decode($response->getBody(), true);
+            // var_dump($wrapper);
+            $bpjsJson = $wrapper['body'] ?? $wrapper;
+
+            $statusResult = false;
+            $message = '';
+            $htmlResult = '';
+
+            if (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+                
+                if (!is_null($bpjsJson['response'])) {
+                    if (!empty($bpjsJson['response']['list'])) {
+                        $statusResult = true;
+                        $obatList = $bpjsJson['response']['list'];
+                        $htmlResult = view('referensi/partial_obat_result', ['obatList' => $obatList]);
+                    } else {
+                        $message = 'Data Obat kosong.';
+                    }
+                } else {
+                    $message = 'Data Obat tidak ditemukan (Response Null).';
+                }
+            }elseif (isset($bpjsJson['status']) && $bpjsJson['status'] == "sukses") {
+                
+                if (!empty($bpjsJson['data']['list'])) {
+                    $statusResult = true;
+                    $obatList = $bpjsJson['data']['list'];
+                    $htmlResult = view('referensi/partial_obat_result', ['obatList' => $obatList]);
+                } else {
+                    $message = 'Data Obat kosong.';
+                }
+            }else {
+                $message = $bpjsJson['metaData']['message'] 
+                        ?? $bpjsJson['pesan'] 
+                        ?? $bpjsJson['message'] 
+                        ?? 'Respon server BPJS tidak dikenali.';
+            }
+
+            return $this->response->setJSON([
+                'status' => $statusResult,
+                'message' => $message,
+                'html' => $htmlResult
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Gagal terhubung ke API BPJS: ' . $e->getMessage()
+            ]);
+        }
+    }
 }

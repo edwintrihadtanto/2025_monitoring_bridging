@@ -162,8 +162,9 @@ class BpjsFarmasiService
         
         // Simpan log response
         // $logData['response_code'] = $responseCode;
-        $logData['response_code'] = $responseArray['metaData']['code'];
-        $logData['response_body'] = json_encode($responseArray);
+        $logData['response_code']       = $responseArray['metaData']['code'];
+        $logData['response_body']       = json_encode($responseArray);
+        $logData['response_message']    = $responseArray['metaData']['message'];
         log_to_db($logData);
 
         return [

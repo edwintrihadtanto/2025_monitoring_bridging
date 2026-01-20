@@ -82,8 +82,8 @@ class BpjsController extends BaseController
     {
         $endpoint = "referensi/obat/{$kdObat}/{$tgl}/{$parameter}";
         $result = $this->bpjsService->request('GET', $endpoint);
-
-        if ($result['status_code'] == 200) {
+        return $this->response->setJSON($result);
+        /*if ($result['status_code'] == 200) {
             $response = [
                 'status' => 'sukses',
                 'pesan'  => 'Berhasil',
@@ -96,7 +96,7 @@ class BpjsController extends BaseController
             ];
         }
 
-        return $this->response->setJSON($response);
+        return $this->response->setJSON($response);*/
     }
 
     /**
@@ -107,8 +107,8 @@ class BpjsController extends BaseController
     {
         $endpoint = "referensi/spesialistik";
         $result = $this->bpjsService->request('GET', $endpoint);
-
-        if ($result['status_code'] == 200) {
+        return $this->response->setJSON($result);
+        /*if ($result['status_code'] == 200) {
             $response = [
                 'status' => 'sukses',
                 'pesan'  => 'Berhasil',
@@ -121,7 +121,7 @@ class BpjsController extends BaseController
             ];
         }
 
-        return $this->response->setJSON($response);
+        return $this->response->setJSON($response);*/
     }
 
     /**
