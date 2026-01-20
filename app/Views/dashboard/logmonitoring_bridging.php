@@ -17,7 +17,7 @@
                         <div class="col-12 col-md-3">
                             <div class="card bg-danger text-white">
                                 <div class="card-body rgb-border">
-                                    <h6 class="card-title text-white-50">Total Error Code 404</h6>
+                                    <h6 class="card-title text-white-50">Error Code 404</h6>
                                     <h2 class="text-white mb-0"><?= number_format($rekap['code404'], 0, ',', '.') ?></h2>
                                 </div>
                             </div>
@@ -25,7 +25,7 @@
                         <div class="col-12 col-md-3">
                             <div class="card bg-warning text-white">
                                 <div class="card-body rgb-border">
-                                    <h6 class="card-title text-white-50">Total Error Code 403</h6>
+                                    <h6 class="card-title text-white-50">Error Code 403</h6>
                                     <h2 class="text-white mb-0"><?= number_format($rekap['code403'], 0, ',', '.') ?></h2>
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
                         <div class="col-12 col-md-3">
                             <div class="card bg-success text-dark">
                                 <div class="card-body rgb-border">
-                                    <h6 class="card-title text-white-50">Total Success 200</h6>
+                                    <h6 class="card-title text-white-50">Success Code 200</h6>
                                     <h2 class="text-white mb-0"><?= number_format($rekap['code200'], 0, ',', '.') ?></h2>
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                         <div class="col-12 col-md-3">
                             <div class="card bg-primary text-dark">
                                 <div class="card-body rgb-border">
-                                    <h6 class="card-title text-white-50">Total Error Code 201</h6>
+                                    <h6 class="card-title text-white-50">Success Code 201</h6>
                                     <h2 class="text-white mb-0"><?= number_format($rekap['code201'], 0, ',', '.') ?></h2>
                                 </div>
                             </div>

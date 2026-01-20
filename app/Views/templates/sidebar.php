@@ -1,9 +1,8 @@
-<!-- SIDEBAR -->
 <div id="sidebar">
     <div class="sidebar-wrapper active d-flex flex-column">
         <div class="sidebar-header position-relative p-0">
             <div class="d-flex justify-content-between align-items-center">
-                <div class="logo">
+                <div class="logo logo-animasi">
                     <a href="<?= base_url(); ?>"><img src="<?= base_url('public/img/logo_aplikasi.png'); ?>" alt="Logo" style="height: 7rem;"></a>
                 </div>
                 <div class="sidebar-toggler  x">
@@ -99,4 +98,3 @@
         </div>
     </div>
 </div>
-<!-- END SIDEBAR -->

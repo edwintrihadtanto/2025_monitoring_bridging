@@ -173,6 +173,43 @@
             100% { background-position:   0% 50%; }
         }
 
+        .logo-animasi {
+            animation: gerakLogo 30s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+            /*animation: gerakLogo 8s ease-in-out infinite;
+            position: relative;*/
+        }
+
+        @keyframes gerakLogo {
+            0% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(30px, -20px); /* naik serong ke kanan */
+            }
+            50% {
+                transform: translate(30px, 20px);  /* turun ke bawah */
+            }
+            75% {
+                transform: translate(-20px, 0);    /* geser ke kiri */
+            }
+            100% {
+                transform: translate(0, 0);        /* kembali ke posisi awal */
+            }
+        }
+
+        .logo-animasi img {
+            animation: waveFloat 3s ease-in-out infinite;
+        }
+
+        /* Ombak halus */
+        @keyframes waveFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
     </style>
 </head>
 <body>
