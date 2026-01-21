@@ -1,24 +1,24 @@
 function initPasienSepPage() {
-    const opt_rajal = document.getElementById('opt_rajal');
-    const opt_ranap = document.getElementById('opt_ranap');
+    // const opt_rajal = document.getElementById('opt_rajal');
+    // const opt_ranap = document.getElementById('opt_ranap');
 
-    if (opt_rajal && opt_ranap) {
-        function toggleInput() {
-            const wrapper_sep = document.getElementById('wrapper_sep');
-            const hiddenType = document.getElementById('searchsep_type');
+    // if (opt_rajal && opt_ranap) {
+    //     function toggleInput() {
+    //         const wrapper_sep = document.getElementById('wrapper_sep');
+    //         const hiddenType = document.getElementById('searchsep_type');
 
-            if (opt_rajal.checked) {
-                hiddenType.value = '1';
-                document.getElementById('input_sep').focus();
-            } else {
-                hiddenType.value = '2';
-                document.getElementById('input_sep').focus();
-            }
-        }
+    //         if (opt_rajal.checked) {
+    //             hiddenType.value = '1';
+    //             document.getElementById('input_sep').focus();
+    //         } else {
+    //             hiddenType.value = '2';
+    //             document.getElementById('input_sep').focus();
+    //         }
+    //     }
 
-        opt_rajal.addEventListener('change', toggleInput);
-        opt_ranap.addEventListener('change', toggleInput);
-    }
+    //     opt_rajal.addEventListener('change', toggleInput);
+    //     opt_ranap.addEventListener('change', toggleInput);
+    // }
 
     window.handleSEPPasienSubmit = function(e, form) {
         e.preventDefault();
@@ -26,33 +26,15 @@ function initPasienSepPage() {
         const btnSubmit = form.querySelector('button[type="submit"]');
         const resultContainer = document.getElementById('result-container');
         const alertContainer = document.getElementById('alert-container');
-        const type = document.getElementById('searchsep_type').value;
         
-        let value = '';
-        if(type === '1') {
-            value = document.getElementById('input_sep').value;
-        } else {
-            value = document.getElementById('input_sep').value;
-        }
-
-        if(!value) {
-            alert('Mohon isi data pencarian terlebih dahulu.');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('searchsep_type', type);
-        formData.append('searchsep_value', value);
-        formData.append('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
-
         btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari...';
+        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari data...';
         resultContainer.innerHTML = '';
         alertContainer.innerHTML = '';
 
         fetch(form.action, {
             method: 'POST',
-            body: formData,
+            body: new FormData(form),
             headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
         .then(response => response.json())

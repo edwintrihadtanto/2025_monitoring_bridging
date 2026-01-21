@@ -36,7 +36,7 @@
 
                 <li class="sidebar-item has-sub m-0">
                     <a href="#" class='sidebar-link'>
-                        <i class="bi bi-view-list"></i>
+                        <i class="bi bi-ui-checks"></i>
                         <span>Referensi</span>
                     </a>
                     
@@ -62,6 +62,19 @@
                     </ul>
                 </li>
                 
+                <li class="sidebar-item has-sub m-0">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-view-list"></i>
+                        <span>Resep</span>
+                    </a>
+                    
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="<?= site_url('sidebar-daftarresep') ?>" class="submenu-link" data-page="listresep">Daftar Resep</a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="sidebar-title mb-0">Lain-Lain</li>
                
                 <li class="sidebar-item m-0">

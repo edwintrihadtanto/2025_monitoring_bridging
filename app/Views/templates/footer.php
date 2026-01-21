@@ -27,6 +27,7 @@
     <script src="<?= base_url('public/js/page-pasien.js') ?>"></script>
     <script src="<?= base_url('public/js/page-sep.js') ?>"></script>
     <script src="<?= base_url('public/js/page-monitoring.js') ?>"></script>
+    <script src="<?= base_url('public/js/page-insert.js') ?>"></script>
 
     <script>
         
@@ -242,7 +243,8 @@
             const poliForm              = document.getElementById('pencarianPoliForm');
             const dphoForm              = document.getElementById('loadHalamanDPHO');
             const obatForm              = document.getElementById('pencarianObatForm');
-            const spesialisForm         = document.getElementById('pencarianSpesialisForm');
+            const spesialisForm         = document.getElementById('loadHalamanSpesialis');
+            const listResepForm         = document.getElementById('loadHalamanDaftarResep');
             
             if (pasienForm) {
                 
@@ -265,7 +267,7 @@
                 }
             }
 
-            if ((faskesForm)||(apotikForm)||(poliForm)||(obatForm)||(spesialisForm)) {
+            if ((faskesForm)||(apotikForm)||(poliForm)||(obatForm)) {
                 
                 if (typeof initReferensiPage === 'function') {
                     initReferensiPage();
@@ -275,6 +277,18 @@
             if (dphoForm && !isDPHOLoaded) {
                 if (typeof initDphoPage === 'function') {
                     initDphoPage();
+                }
+            }
+
+            if (spesialisForm) {
+                if (typeof initSpesialisPage === 'function') {
+                    initSpesialisPage();
+                }
+            }
+
+            if (listResepForm) {
+                if (typeof initListResepPage === 'function') {
+                    initListResepPage();
                 }
             }
             // const loadHalamanDPHO = document.getElementById('loadHalamanDPHO');            
@@ -408,19 +422,20 @@
                     if (typeof handlePoliklinikSubmit === 'function') {
                         handlePoliklinikSubmit(e, form);
                     }
-                /*}else if (form.id === 'pencarianDPHOForm') {
-                    if (typeof handleDPHOSubmit === 'function') {
-                        handleDPHOSubmit(e, form);
-                    }*/
                 }else if (form.id === 'pencarianObatForm') {
                     if (typeof handleObatSubmit === 'function') {
                         handleObatSubmit(e, form);
+                    }
+                }
+                /*}else if (form.id === 'pencarianDPHOForm') {
+                    if (typeof handleDPHOSubmit === 'function') {
+                        handleDPHOSubmit(e, form);
                     }
                 }else if (form.id === 'pencarianSpesialisForm') {
                     if (typeof handleSpesialisSubmit === 'function') {
                         handleSpesialisSubmit(e, form);
                     }
-                }
+                }*/
             });
             
             // Handle Back Button

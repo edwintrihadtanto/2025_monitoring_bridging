@@ -85,6 +85,9 @@ use CodeIgniter\Router\RouteCollection;
     $routes->get('sidebar-spesialis', 'ReferensiController::viewspesialis', ['filter' => 'auth']);
     $routes->post('ref/search_spesialis', 'ReferensiController::search_spesialis', ['filter' => 'auth']);
 
+    $routes->get('sidebar-daftarresep', 'BpjsInsertController::viewgetdaftar_resep', ['filter' => 'auth']);
+    $routes->post('ref/search_listResep', 'BpjsInsertController::daftarresep', ['filter' => 'auth']);
+    
     $routes->get('/profile', 'Profile::index', ['filter' => 'auth']);
     $routes->post('/profile/update', 'Profile::updatePassword');
 
@@ -97,6 +100,6 @@ use CodeIgniter\Router\RouteCollection;
     $routes->get('/monitoringklaim', 'BpjsPasienController::viewmonitoring', ['filter' => 'auth']);
     $routes->post('pasien/monitoring_obat', 'BpjsPasienController::getmonitoring_obat', ['filter' => 'auth']);
 
-});
+ });
 
  $routes->get('/BridgingTES/(:any)', 'BridgingTES::$1');

@@ -174,7 +174,7 @@
         }
 
         .logo-animasi {
-            animation: gerakLogo 30s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+            animation: gerakLogo 50s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
             /*animation: gerakLogo 8s ease-in-out infinite;
             position: relative;*/
         }
@@ -198,7 +198,7 @@
         }
 
         .logo-animasi img {
-            animation: waveFloat 3s ease-in-out infinite;
+            animation: waveFloat 20s ease-in-out infinite;
         }
 
         /* Ombak halus */

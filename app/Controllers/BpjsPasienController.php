@@ -111,15 +111,7 @@ class BpjsPasienController extends BaseController
 
     public function searchsep()
     {
-        $searchType = $this->request->getPost('searchsep_type'); 
         $searchVal  = $this->request->getPost('searchsep_value');
-
-        if (empty($searchType)) {
-            return $this->response->setJSON([
-                'status' => false,
-                'message' => 'Jenis pencarian belum di pilih!'
-            ]);
-        }
 
         if (empty($searchVal)) {
             return $this->response->setJSON([
@@ -132,23 +124,14 @@ class BpjsPasienController extends BaseController
             $baseUrl = base_url();
             $targetUrl = "";
             
-            if ($searchType === '1') { //rajal
-                $targetUrl = $baseUrl . 'bpjs/getSEPPasien/' . $searchVal;
-            } else if ($searchType === '2') { //ranap
-                $targetUrl = $baseUrl . 'bpjs/getSEPPasien/' . $searchVal;
-            }
-            // var_dump($targetUrl);
-            // exit;
+            $targetUrl = $baseUrl . 'bpjs/getSEPPasien/' . $searchVal;
+            // var_dump($targetUrl); exit;
             $client = Services::curlrequest();
-            // $response = $client->get($targetUrl);
             $response = $client->get($targetUrl, [
                 'headers' => ['X-Internal-Request' => 'TRUE']
             ]);
             
-            // Decode
-            $wrapper = json_decode($response->getBody(), true);
-            
-            // Ambil data asli dari key 'body'
+            $wrapper = json_decode($response->getBody(), true);            
             $bpjsJson = $wrapper['body'] ?? $wrapper;
 
             $statusResult = false;
@@ -169,13 +152,14 @@ class BpjsPasienController extends BaseController
                 } else {
                     $message = 'Data SEP kosong.';
                 }
-            }
-            // --- 3. Cek ERROR (Code Selain 200, misal 201) ---
-            elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] != "200") {
+            }elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] != "200") {
                 $message = $bpjsJson['metaData']['message'];
-            }
-            else {
-                $message = 'Respon server BPJS format tidak dikenali.';
+            }else {
+                $message = $bpjsJson['metaData']['message'] 
+                        ?? $bpjsJson['pesan'] 
+                        ?? $bpjsJson['message'] 
+                        ?? 'Respon server BPJS tidak dikenali.';
+            
             }
 
             return $this->response->setJSON([
@@ -291,7 +275,7 @@ class BpjsPasienController extends BaseController
         }
     }
 
-    public function getmonitoring_obat_BISA()
+    public function getmonitoring_obat()
     {
         $bulan      = $this->request->getPost('bulan'); 
         $tahun      = $this->request->getPost('tahun');
@@ -306,11 +290,8 @@ class BpjsPasienController extends BaseController
 
         try {
             $baseUrl = base_url();
-            
-            // PERHATIKAN: Route ini harus ada di Routes.php
+                        
             $targetUrl = $baseUrl . 'bpjs/monitoringklaim/' . $bulan .'/'. $tahun .'/'. $jenis_obat .'/'. $status;
-
-            // Hapus var_dump sebelum mencoba fetch
             // var_dump($targetUrl); exit; 
 
             $client = Services::curlrequest();
@@ -318,44 +299,57 @@ class BpjsPasienController extends BaseController
                 'headers' => ['X-Internal-Request' => 'TRUE']
             ]);
             
-            // Decode
             $wrapper = json_decode($response->getBody(), true);
             
-            // --- LOGIKA NORMALISASI WRAPPER (ADAPTIF) ---
-            // Kadang data ada di 'body', kadang ada di 'data' (karena beda response server/wrapper)
             $bpjsJson = $wrapper['body'] ?? $wrapper['data'] ?? $wrapper;
 
             $statusResult = false;
             $message = '';
             $htmlResult = '';
-
-            // 1. Cek Error HTTP 404 di Wrapper
-            if (isset($wrapper['status_code']) && $wrapper['status_code'] == 404) {
-                $message = 'Data Monitoring Obat tidak ditemukan (Status 404).';
-            }
-            // 2. Cek SUKSES (Code 200)
-            elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+            if (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
                 
-                // PERBAIKAN 1: Cek 'rekap' BUKAN 'peserta'
+                if (!is_null($bpjsJson['response'])) {
+                    if (!empty($bpjsJson['response']['list'])) {
+                        $statusResult = true;
+                        $monitoringData = $bpjsJson['response']['list'];
+                        $htmlResult = view('pasien/partial_monitoring_obat_result', ['monitoringData' => $monitoringData]);
+                    } else {
+                        $message = 'Data Monitoring kosong.';
+                    }
+                } else {
+                    $message = 'Data Monitoring tidak ditemukan (Response Null).';
+                }
+            }elseif (isset($bpjsJson['status']) && $bpjsJson['status'] == "sukses") {
+                
+                if (!empty($bpjsJson['data']['list'])) {
+                    $statusResult = true;
+                    $monitoringData = $bpjsJson['data']['list'];
+                    $htmlResult = view('pasien/partial_monitoring_obat_result', ['monitoringData' => $monitoringData]);
+                } else {
+                    $message = 'Data Monitoring kosong.';
+                }
+            }else {
+                $message = $bpjsJson['metaData']['message'] 
+                        ?? $bpjsJson['pesan'] 
+                        ?? $bpjsJson['message'] 
+                        ?? 'Respon server BPJS tidak dikenali.';
+            }
+           /* if (isset($wrapper['status_code']) && $wrapper['status_code'] == 404) {
+                $message = 'Data Monitoring Obat tidak ditemukan (Status Error Code 404).';
+            }elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+                
                 if (!empty($bpjsJson['response']['rekap'])) {
                     $statusResult = true;
-                    $monitoringData = $bpjsJson['response'];
-                    
-                    // PERBAIKAN 2: Path view harus 'bpjs/...' bukan 'pasien/...'
-                    // $htmlResult = view('bpjs/partial_monitoring_obat_result', ['monitoringData' => $monitoringData]);
+                    $monitoringData = $bpjsJson['response'];             
                     $htmlResult = view('pasien/partial_monitoring_obat_result', ['monitoringData' => $monitoringData]);
                 } else {
                     $message = 'Data Monitoring Obat kosong.';
                 }
-            }
-            // 3. Cek ERROR (Code Selain 200)
-            elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] != "200") {
+            }elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] != "200") {
                 $message = $bpjsJson['metaData']['message'];
-            }
-            else {
-                // Fallback untuk error "Consumer ID Expired" yang muncul di pesan Anda
+            }else {
                 $message = $bpjsJson['metaData']['message'] ?? 'Respon server BPJS tidak sesuai format.';
-            }
+            }*/
 
             return $this->response->setJSON([
                 'status' => $statusResult,
@@ -371,8 +365,7 @@ class BpjsPasienController extends BaseController
         }
     }
 
-    
-    public function getmonitoring_obat()
+    public function getmonitoring_obatHARDCODE()
     {
         $bulan      = $this->request->getPost('bulan'); 
         $tahun      = $this->request->getPost('tahun');

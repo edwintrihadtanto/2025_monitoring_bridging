@@ -20,29 +20,15 @@
                 <form id="pencarianSEPPasienForm" action="<?= site_url('pasien/searchsep') ?>" method="POST">
                     
                     <?= csrf_field() ?>
-                    <div class="form-group mb-3">
-                        <p class="mb-2 font-weight-bold">Pilih Jenis Pencarian:</p>
-                        <div class="d-flex align-items-center">
-
-                            <input type="hidden" name="searchsep_type" id="searchsep_type" value="">
-
-                            <div class="form-check me-4">
-                                <input class="form-check-input" type="radio" name="option_radio" id="opt_rajal" value="1">
-                                <label class="form-check-label" for="opt_rajal">Rawat Jalan</label>
+                    
+                    <div class="form-group">
+                        <p class="mb-2 font-weight-bold">Pencarian No. Kunjungan / SEP Pasien:</p>
+                            <div class="form-group position-relative has-icon-left mb-3">
+                                <input type="text" class="form-control" name="searchsep_value" id="searchsep_value" placeholder="Masukkan SEP Pasien" maxlength="19" required>
+                                <div class="form-control-icon">
+                                    <i class="bi bi-card-text"></i>
+                                </div>
                             </div>
-                            
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="option_radio" id="opt_ranap" value="2">
-                                <label class="form-check-label" for="opt_ranap">Rawat Inap</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group position-relative has-icon-left mb-3" id="wrapper_sep">
-                        <input type="text" class="form-control" name="searchsep_value" id="input_sep" placeholder="Masukkan SEP Pasien" maxlength="19">
-                        <div class="form-control-icon">
-                            <i class="bi bi-card-text"></i>
-                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary shadow-lg btn-block">

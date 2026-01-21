@@ -232,8 +232,8 @@ class BpjsController extends BaseController
 
         $endpoint   = "monitoring/klaim/{$bulan}/{$tahun}/{$jenisobat}/{$status}";
         $result     = $this->bpjsService->request('GET', $endpoint);
-
-        if ($result['status_code'] == 200) {
+        return $this->response->setJSON($result);
+        /*if ($result['status_code'] == 200) {
             $response = [
                 'status' => 'sukses',
                 'pesan'  => 'Berhasil',
@@ -246,7 +246,7 @@ class BpjsController extends BaseController
             ];
         }
 
-        return $this->response->setJSON($response);
+        return $this->response->setJSON($response);*/
     }
 
     public function getRekapPasienPRB($tahun, $bulan)
