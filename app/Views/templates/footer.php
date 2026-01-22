@@ -244,7 +244,7 @@
             const dphoForm              = document.getElementById('loadHalamanDPHO');
             const obatForm              = document.getElementById('pencarianObatForm');
             const spesialisForm         = document.getElementById('loadHalamanSpesialis');
-            const listResepForm         = document.getElementById('loadHalamanDaftarResep');
+            const listResepForm         = document.getElementById('pencarianListResepForm');
             
             if (pasienForm) {
                 
@@ -425,6 +425,10 @@
                 }else if (form.id === 'pencarianObatForm') {
                     if (typeof handleObatSubmit === 'function') {
                         handleObatSubmit(e, form);
+                    }
+                }else if (form.id === 'pencarianListResepForm') {
+                    if (typeof handleListResepSubmit === 'function') {
+                        handleListResepSubmit(e, form);
                     }
                 }
                 /*}else if (form.id === 'pencarianDPHOForm') {

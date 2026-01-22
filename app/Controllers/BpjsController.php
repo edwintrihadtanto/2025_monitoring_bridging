@@ -4,16 +4,19 @@ namespace App\Controllers;
 
 use App\Libraries\BpjsFarmasiService;
 use App\Libraries\BpjsVclaimService;
+use App\Libraries\BpjsFarmasi_InsertService;
 
 class BpjsController extends BaseController
 {
     protected $bpjsService;
     protected $bpjsvclaimService;
+    protected $bpjsInsertService;
 
     public function __construct()
     {
         $this->bpjsService = new BpjsFarmasiService();
         $this->bpjsvclaimService = new BpjsVclaimService();
+        $this->bpjsInsertService = new BpjsFarmasi_InsertService();
     }
 
     /**
@@ -63,7 +66,7 @@ class BpjsController extends BaseController
     {
         
         $endpoint   = "sep/" . $sep;
-        $result     = $this->bpjsService->request('GET', $endpoint);
+        $result     = $this->bpjsvclaimService->request('GET', $endpoint);
         return $this->response->setJSON($result);
     }
     
@@ -312,6 +315,20 @@ class BpjsController extends BaseController
             ];
         }
 
+        return $this->response->setJSON($result);
+    }
+
+    public function daftarresep($tglawal, $tglakhr)
+    {
+        $payload = json_encode([
+            'kdppk'     => '0216A016',
+            'KdJnsObat' => '0',
+            'JnsTgl'    => 'TGLPELSJP',
+            'TglMulai'  => $tglawal . ' 00:00:00',
+            'TglAkhir'  => $tglakhr . ' 23:59:59'
+        ]);
+        $endpoint = '/daftarresep';
+        $result = $this->bpjsInsertService->request('POST', $endpoint, $payload);
         return $this->response->setJSON($result);
     }
 }

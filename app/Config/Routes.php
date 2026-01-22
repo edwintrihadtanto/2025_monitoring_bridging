@@ -51,7 +51,7 @@ use CodeIgniter\Router\RouteCollection;
             $routes->post('updatestokobat', 'BpjsInsertController::updatestokobat');
 
             $routes->post('sjpresep', 'BpjsInsertController::sjpresep');
-            $routes->post('daftarresep', 'BpjsInsertController::daftarresep');
+            $routes->get('daftarresep/(:segment)/(:segment)', 'BpjsController::daftarresep/$1/$2');
         });
 
         $routes->group('delete', static function ($routes) {
@@ -86,7 +86,7 @@ use CodeIgniter\Router\RouteCollection;
     $routes->post('ref/search_spesialis', 'ReferensiController::search_spesialis', ['filter' => 'auth']);
 
     $routes->get('sidebar-daftarresep', 'BpjsInsertController::viewgetdaftar_resep', ['filter' => 'auth']);
-    $routes->post('ref/search_listResep', 'BpjsInsertController::daftarresep', ['filter' => 'auth']);
+    $routes->post('res/search_listResep', 'BpjsInsertController::getdaftarresep', ['filter' => 'auth']);
     
     $routes->get('/profile', 'Profile::index', ['filter' => 'auth']);
     $routes->post('/profile/update', 'Profile::updatePassword');

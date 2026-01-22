@@ -15,10 +15,10 @@ class BpjsFarmasiService
 
     public function __construct()
     {
-        $this->baseURL = env('BPJS.api.baseURL');
-        $this->consID = env('BPJS.ConsID');
-        $this->secretKey = env('BPJS.SekretKey');
-        $this->userKey = env('BPJS.UserKey');
+        $this->baseURL      = env('BPJS.api.baseURL');
+        $this->consID       = env('BPJS.ConsID');
+        $this->secretKey    = env('BPJS.SekretKey');
+        $this->userKey      = env('BPJS.UserKey');
 
         $this->client = \Config\Services::curlrequest();
     }
