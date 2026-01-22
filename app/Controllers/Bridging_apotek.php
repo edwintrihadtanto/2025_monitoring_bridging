@@ -46,9 +46,9 @@ class Bridging_apotek extends BaseController
 	public function getSignatureVedikaBaru($tStamp)
 	{
 
-		$data = "25668";
-		$secretKey = "4uW6E7DD14";
-		$user_key = "c76f676e3828063dd0dd920fe12af297";
+		$data = "14321";
+		$secretKey = "5iW20C7181";
+		$user_key = "5d50b7d8b05f3207171d1bad86e8ea73";
         
 		$signature = hash_hmac('sha256', $data . "&" . $tStamp, $secretKey, true);
 		$encodedSignature = base64_encode($signature);
@@ -135,6 +135,14 @@ class Bridging_apotek extends BaseController
 		} 
 		';
 
+		$jsonx = '{
+			"kdppk" 	: "0216A016",
+			"KdJnsObat" : "0",
+			"JnsTgl" 	: "TGLPELSJP",
+			"TglMulai" 	: "2019-03-01 08:49:45",
+			"TglAkhir" 	: "2019-03-31 06:18:33"
+		} 
+		';
 		return $json;
 	}
 
