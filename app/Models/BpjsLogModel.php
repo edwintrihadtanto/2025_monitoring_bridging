@@ -9,7 +9,7 @@ class BpjsLogModel extends Model
     protected $table      = 'bpjs_logs';
     protected $primaryKey = 'id';
     protected $allowedFields = [
-        'endpoint', 'method', 'request_header', 'request_body', 'response_code', 'response_body', 'response_message'
+        'endpoint', 'method', 'request_header', 'request_body', 'response_code', 'response_body', 'response_message', 'iduser'
     ];
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';

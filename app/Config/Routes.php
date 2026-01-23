@@ -38,7 +38,7 @@ use CodeIgniter\Router\RouteCollection;
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/settingppk/0182A007
             $routes->get('getsettingppk/(:segment)', 'BpjsController::getReferensiSettingPpk/$1');
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/ppk/1/pus
-            $routes->get('getppk/(:segment)/(:segment)', 'BpjsController::getReferensiPpk/$1/$2');
+            $routes->get('getppk/(:segment)/(:segment)/(:segment)', 'BpjsController::getReferensiPpk/$1/$2/$3');
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/poli/da
             $routes->get('getpoli/(:segment)', 'BpjsController::getReferensiPoli/$1');
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/dpho
@@ -60,7 +60,7 @@ use CodeIgniter\Router\RouteCollection;
         });
 
         // http://localhost/2025_monitoring_bridging/bpjs/listpelayananobat_perSEP/1801R0010419V000001
-        $routes->get('listpelayananobat_perSEP/(:segment)', 'BpjsController::getListPelayananObat/$1');
+        $routes->get('listpelayananobat_perSEP/(:segment)/(:segment)', 'BpjsController::getListPelayananObat/$1/$2');
         // http://localhost/2025_monitoring_bridging/bpjs/riwayatpelayananobat/2024-09-01/2024-09-01/12345678
         $routes->get('riwayatpelayananobat/(:segment)/(:segment)/(:segment)', 'BpjsController::getRiwayatPelayananObat/$1/$2/$3');
 
@@ -100,6 +100,10 @@ use CodeIgniter\Router\RouteCollection;
     $routes->get('/monitoringklaim', 'BpjsPasienController::viewmonitoring', ['filter' => 'auth']);
     $routes->post('pasien/monitoring_obat', 'BpjsPasienController::getmonitoring_obat', ['filter' => 'auth']);
 
+    $routes->get('sidebar-pelobat-listpersep', 'BpjsInsertController::viewpelobat_listpersep', ['filter' => 'auth']);
+    $routes->post('pel_obat/search_dftarresep', 'BpjsInsertController::getdaftar_pelayanan', ['filter' => 'auth']);
+
+    $routes->get('ResepSIMRS', 'BpjsInsertController::getResepSIMRS', ['filter' => 'auth']);
  });
 
  $routes->get('/BridgingTES/(:any)', 'BridgingTES::$1');

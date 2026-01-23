@@ -91,15 +91,15 @@ class BpjsFarmasiService
     /**
      * Melakukan request ke API BPJS.
      */
-    public function request(string $method, string $endpoint, array $data = null): array
+    public function request(string $method, string $endpoint, array $data = null, $userID = null): array
     {
         $timestamp = $this->getTimestamp();
         $signature = $this->generateSignature($timestamp);
 
         $headers = [
-            'X-cons-id'   => $this->consID,
-            'X-timestamp' => $timestamp,
-            'X-signature' => $signature,
+            'X-Cons-ID'   => $this->consID,
+            'X-Timestamp' => $timestamp,
+            'X-Signature' => $signature,
             'user_key'    => $this->userKey,
             'Accept'      => 'application/json',
         ];
@@ -129,6 +129,7 @@ class BpjsFarmasiService
             'endpoint' => $url,
             'method' => $method,
             'request_header' => json_encode($headers),
+            'iduser' => $userID ?? '999'
         ];
 
         // --- PERBAIKAN DI SINI ---
@@ -165,8 +166,9 @@ class BpjsFarmasiService
         // $logData['response_code']       = $responseArray['metaData']['code'];
         $logData['response_body']       = json_encode($responseArray);
         // $logData['response_message']    = $responseArray['metaData']['message'];
-        $logData['response_code']   = $responseArray['metaData']['code'] ?? $responseCode;
-        $logData['response_message'] =$responseArray['metaData']['message'] ?? 'NO METADATA';
+        $logData['response_code']       = $responseArray['metaData']['code'] ?? $responseCode;
+        $logData['response_message']    = $responseArray['metaData']['message'] ?? 'NO METADATA';
+        $logData['iduser']              = $userID ?? '999';
         log_to_db($logData);
 
         return [

@@ -70,11 +70,29 @@
                     
                     <ul class="submenu">
                         <li class="submenu-item">
+                            <a href="<?= site_url('sidebar-daftarresep') ?>" class="submenu-link" data-page="listresep">Resep SIM-RS</a>
+                        </li>
+                        <li class="submenu-item">
                             <a href="<?= site_url('sidebar-daftarresep') ?>" class="submenu-link" data-page="listresep">Daftar Resep</a>
                         </li>
                     </ul>
                 </li>
-
+                
+                <li class="sidebar-item has-sub m-0">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-view-list"></i>
+                        <span>Pelayanan Obat</span>
+                    </a>
+                    
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="<?= site_url('sidebar-pelobat-listpersep') ?>" class="submenu-link" data-page="pelyanan-obat">Daftar Pelayanan Obat</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="<?= site_url('sidebar-pelobat-riwayat') ?>" class="submenu-link" data-page="pelyanan-riwayat">Riwayat Pelayanan Obat</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="sidebar-title mb-0">Lain-Lain</li>
                
                 <li class="sidebar-item m-0">

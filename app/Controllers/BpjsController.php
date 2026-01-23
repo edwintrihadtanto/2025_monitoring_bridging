@@ -158,10 +158,11 @@ class BpjsController extends BaseController
      * URL: /bpjs/referensi/ppk/{jenis}/{nama}
      * Contoh: /bpjs/referensi/ppk/2/darmayu
      */
-    public function getReferensiPpk($jenis, $nama)
-    {
+    public function getReferensiPpk($jenis, $nama, $userID)
+    {   
+        $data = null;
         $endpoint = "referensi/ppk/{$jenis}/{$nama}";
-        $result = $this->bpjsService->request('GET', $endpoint);
+        $result = $this->bpjsService->request('GET', $endpoint, $data, $userID);
         return $this->response->setJSON($result);
         // if ($result['status_code'] == 200) {
         //     $response = [
@@ -274,26 +275,28 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function getListPelayananObat($SEP)
+    public function getListPelayananObat($SEP, $userID)
     {
-
+        // $userID = session()->get('id');
+        $data = null;
         $endpoint   = "obat/daftar/{$SEP}";
-        $result     = $this->bpjsService->request('GET', $endpoint);
-
-        if ($result['status_code'] == 200) {
-            $response = [
-                'status' => 'sukses',
-                'pesan'  => 'Berhasil',
-                'data'   => $result['body']
-            ];
-        } else {
-            $response = [
-                'status' => 'gagal',
-                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-            ];
-        }
-
+        $result     = $this->bpjsService->request('GET', $endpoint, $data, $userID);
+        // var_dump($result);exit();
         return $this->response->setJSON($result);
+        // if ($result['status_code'] == 200) {
+        //     $response = [
+        //         'status' => 'sukses',
+        //         'pesan'  => 'Berhasil',
+        //         'data'   => $result['body']
+        //     ];
+        // } else {
+        //     $response = [
+        //         'status' => 'gagal',
+        //         'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+        //     ];
+        // }
+
+        // return $this->response->setJSON($result);
     }
 
     public function getRiwayatPelayananObat($tglawal,$tglakhr,$nokartu)

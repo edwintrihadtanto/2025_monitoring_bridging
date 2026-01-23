@@ -46,8 +46,9 @@ class ReferensiController extends BaseController
         }
 
         try {
+            $userID = session()->get('id');
             $baseUrl = base_url();
-            $targetUrl = $baseUrl . 'bpjs/referensi/getppk/' . $jns_faskes . '/' . $nama_faskes;
+            $targetUrl = $baseUrl . 'bpjs/referensi/getppk/' . $jns_faskes . '/' . $nama_faskes.'/'.$userID;
             
             $client = Services::curlrequest();
             $response = $client->get($targetUrl, [
@@ -55,7 +56,7 @@ class ReferensiController extends BaseController
             ]);
             
             $wrapper = json_decode($response->getBody(), true);
-            // var_dump($wrapper);
+            // var_dump($targetUrl);
             $bpjsJson = $wrapper['body'] ?? $wrapper;
 
             $statusResult = false;
@@ -178,8 +179,9 @@ class ReferensiController extends BaseController
 
         } catch (\Exception $e) {
             return $this->response->setJSON([
-                'status' => false,
-                'message' => 'Gagal terhubung ke API BPJS: ' . $e->getMessage()
+                'status'    => false,
+                'error'     => $e->getMessage(),
+                'message'   => 'Gagal terhubung ke API BPJS!<br>Error Message: ' . $e->getMessage()
             ]);
         }
     }

@@ -245,6 +245,7 @@
             const obatForm              = document.getElementById('pencarianObatForm');
             const spesialisForm         = document.getElementById('loadHalamanSpesialis');
             const listResepForm         = document.getElementById('pencarianListResepForm');
+            const pelObatList           = document.getElementById('pencarianListPelyananObatForm');
             
             if (pasienForm) {
                 
@@ -289,6 +290,12 @@
             if (listResepForm) {
                 if (typeof initListResepPage === 'function') {
                     initListResepPage();
+                }
+            }
+
+            if (pelObatList) {
+                if (typeof initListPelyananObatPage === 'function') {
+                    initListPelyananObatPage();
                 }
             }
             // const loadHalamanDPHO = document.getElementById('loadHalamanDPHO');            
@@ -430,16 +437,11 @@
                     if (typeof handleListResepSubmit === 'function') {
                         handleListResepSubmit(e, form);
                     }
+                }else if (form.id === 'pencarianListPelyananObatForm') {
+                    if (typeof handleListPelyananObatSubmit === 'function') {
+                        handleListPelyananObatSubmit(e, form);
+                    }
                 }
-                /*}else if (form.id === 'pencarianDPHOForm') {
-                    if (typeof handleDPHOSubmit === 'function') {
-                        handleDPHOSubmit(e, form);
-                    }
-                }else if (form.id === 'pencarianSpesialisForm') {
-                    if (typeof handleSpesialisSubmit === 'function') {
-                        handleSpesialisSubmit(e, form);
-                    }
-                }*/
             });
             
             // Handle Back Button
