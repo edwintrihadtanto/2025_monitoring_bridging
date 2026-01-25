@@ -73,7 +73,7 @@
                                 </div>
 
                                 <!-- Medrec / Nama -->
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label class="form-label mb-1">Medrec / Nama Pasien</label>
                                     <div class="input-group input-group-sm">
                                         <button class="btn btn-outline-primary dropdown-toggle"
@@ -114,7 +114,7 @@
                                 </div>
 
                                 <!-- Button -->
-                                <div class="col-md-1 d-grid">
+                                <div class="col-md-2 d-grid">
                                     <button type="submit"
                                             class="btn btn-primary btn-sm">
                                         <i class="bi bi-search"></i>

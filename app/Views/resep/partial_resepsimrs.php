@@ -5,7 +5,10 @@
         <input type="text" id="searchResep" class="form-control"
                placeholder="Cari SEP / Kode Pasien / Nama Pasien">
     </div>
-
+    <div class="form-check ms-auto">
+        <input class="form-check-input" type="checkbox" id="sepkosong">
+        <label class="form-check-label text-danger" for="sepkosong">Tampilkan SEP Kosong</label>
+    </div>
     <div class="form-check ms-auto">
         <input class="form-check-input" type="checkbox" id="checkAllGlobal">
         <label class="form-check-label fw-semibold" for="checkAllGlobal">Pilih Semua</label>
@@ -53,7 +56,11 @@
 
                     <div>
                         <div class="fw-bold">
-                            SEP : <span class="badge bg-success ms-2"><?= $item['no_sjp'] ?></span>
+                            <?php if ($item['no_sjp'] != ''): ?>
+                            <span class="badge bg-success ms-2"><?= $item['no_sjp'] ?></span> <i class="bi bi-copy text-muted" title="Copy SEP"></i>
+                            <?php else: ?>
+                            <span class="badge bg-danger ms-2">SEP Kosong</span>
+                            <?php endif; ?>
                         </div>
                         <small class="text-muted">
                             Resep : <?= $item['no_resep'] ?>
