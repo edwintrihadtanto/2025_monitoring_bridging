@@ -12,6 +12,7 @@ class BpjsFarmasiService
     protected $userKey;
     protected $baseURL;
     protected $client;
+    protected $ppkFarmasi;
 
     public function __construct()
     {
@@ -19,6 +20,7 @@ class BpjsFarmasiService
         $this->consID       = env('BPJS.ConsID');
         $this->secretKey    = env('BPJS.SekretKey');
         $this->userKey      = env('BPJS.UserKey');
+        $this->ppkFarmasi   = env('BPJS.Ppk');
 
         $this->client = \Config\Services::curlrequest();
     }

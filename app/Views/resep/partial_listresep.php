@@ -27,6 +27,10 @@
                     <div class="collapse" id="collapseDetails<?= $index ?>">
                         <div class="card-body p-3 border-start border-bottom border-4 border-success shadow-sm">
                             <div class="mb-2">
+                                <strong>No. BPJS:</strong>
+                                <span><?= $item['NOKARTU'] ?></span>
+                            </div>
+                            <div class="mb-2">
                                 <strong>Tgl. Entry:</strong>
                                 <span><?= $item['TGLENTRY'] ?></span>
                             </div>

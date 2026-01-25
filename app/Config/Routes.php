@@ -102,8 +102,11 @@ use CodeIgniter\Router\RouteCollection;
 
     $routes->get('sidebar-pelobat-listpersep', 'BpjsInsertController::viewpelobat_listpersep', ['filter' => 'auth']);
     $routes->post('pel_obat/search_dftarresep', 'BpjsInsertController::getdaftar_pelayanan', ['filter' => 'auth']);
+    $routes->get('sidebar-pelobat-riwayat', 'BpjsInsertController::viewpelobat_riwayat', ['filter' => 'auth']);
+    $routes->post('pel_obat/search_riwayat', 'BpjsInsertController::getriwayat_pelayanan', ['filter' => 'auth']);
 
-    $routes->get('ResepSIMRS', 'BpjsInsertController::getResepSIMRS', ['filter' => 'auth']);
+    $routes->get('sidebar-ResepSIMRS', 'BpjsInsertController::viewresepsimrs', ['filter' => 'auth']);
+    $routes->post('res/search_resepSIMRS', 'BpjsInsertController::getResepSIMRS', ['filter' => 'auth']);
  });
 
  $routes->get('/BridgingTES/(:any)', 'BridgingTES::$1');

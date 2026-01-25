@@ -303,6 +303,7 @@ function initDphoPage() {
         isDPHOLoaded = false;
         if (alertContainer) {
             alertContainer.innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
+            resultContainer.innerHTML = '';
         }
     });
 }

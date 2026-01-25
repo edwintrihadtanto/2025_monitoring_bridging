@@ -11,12 +11,14 @@ class BpjsController extends BaseController
     protected $bpjsService;
     protected $bpjsvclaimService;
     protected $bpjsInsertService;
+    protected $ppkFarmasi;
 
     public function __construct()
     {
         $this->bpjsService = new BpjsFarmasiService();
         $this->bpjsvclaimService = new BpjsVclaimService();
         $this->bpjsInsertService = new BpjsFarmasi_InsertService();
+        $this->ppkFarmasi        = env('BPJS.Ppk');
     }
 
     /**
@@ -66,7 +68,8 @@ class BpjsController extends BaseController
     {
         
         $endpoint   = "sep/" . $sep;
-        $result     = $this->bpjsvclaimService->request('GET', $endpoint);
+        $result     = $this->bpjsService->request('GET', $endpoint);
+        // $result     = $this->bpjsvclaimService->request('GET', $endpoint);
         return $this->response->setJSON($result);
     }
     
@@ -301,30 +304,32 @@ class BpjsController extends BaseController
 
     public function getRiwayatPelayananObat($tglawal,$tglakhr,$nokartu)
     {
-
+        $userID = session()->get('id') ?? 0;
+        $data = null;
         $endpoint   = "riwayatobat/{$tglawal}/{$tglakhr}/{$nokartu}";
-        $result     = $this->bpjsService->request('GET', $endpoint);
-
-        if ($result['status_code'] == 200) {
-            $response = [
-                'status' => 'sukses',
-                'pesan'  => 'Berhasil',
-                'data'   => $result['body']
-            ];
-        } else {
-            $response = [
-                'status' => 'gagal',
-                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-            ];
-        }
-
+        $result     = $this->bpjsService->request('GET', $endpoint, $data, $userID);
         return $this->response->setJSON($result);
+
+        // if ($result['status_code'] == 200) {
+        //     $response = [
+        //         'status' => 'sukses',
+        //         'pesan'  => 'Berhasil',
+        //         'data'   => $result['body']
+        //     ];
+        // } else {
+        //     $response = [
+        //         'status' => 'gagal',
+        //         'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
+        //     ];
+        // }
+
+        // return $this->response->setJSON($result);
     }
 
     public function daftarresep($tglawal, $tglakhr)
     {
         $payload = json_encode([
-            'kdppk'     => '0216A016',
+            'kdppk'     => $this->ppkFarmasi,
             'KdJnsObat' => '0',
             'JnsTgl'    => 'TGLPELSJP',
             'TglMulai'  => $tglawal . ' 00:00:00',

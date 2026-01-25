@@ -15,6 +15,14 @@ class BpjsInsertController extends BaseController
         return $this->renderView('resep/sidebar-pelobat-listpel');
     }
 
+    public function viewpelobat_riwayat(){
+        return $this->renderView('resep/sidebar-pelobat-riwayat');
+    }
+
+    public function viewresepsimrs(){
+        return $this->renderView('resep/sidebar-resepsimrs');
+    }
+
     public function getdaftarresep()
     {
         $tgl_awal = $this->request->getPost('tgl_awal');
@@ -169,44 +177,151 @@ class BpjsInsertController extends BaseController
         }
     }
 
-    public function getResepSIMRS()
+    public function getResepSIMRSLAMA()
     {
-        // Inisialisasi model untuk mengambil data resep
         $ResepModel = new ResepModel();
+        $searchType = $this->request->getPost('search_typepasien');
 
-        // Ambil data resep dari model
-        $rekap = $ResepModel->getResepDetails();
-        echo 'a';
-        // Hitung jumlah status berdasarkan response code (200, 201, 404, 403)
-        $counts = [
-            200 => 0,
-            201 => 0,
-            404 => 0,
-            403 => 0
+        $filter = [
+            'tgl_awal'  => trim($this->request->getPost('tgl_awal')),
+            'tgl_akhir' => trim($this->request->getPost('tgl_akhr')),
+            'unit'      => trim($this->request->getPost('option_radio')),
         ];
 
-        foreach ($rekap as $row) {
-            $counts[200] += 1;  // Semua data yang berhasil dihitung di response code 200
+        if ($searchType === 'medrec') {
+            $filter['medrec'] = trim($this->request->getPost('medrec'));
+        } else {
+            $filter['nama_pasien'] = trim($this->request->getPost('nama_pasien'));
         }
 
-        // Tentukan jumlah per halaman untuk pagination
-        $perPage = $this->request->getGet('perPage') ?? 10;
+        if (
+            (!empty($filter['tgl_awal']) && empty($filter['tgl_akhir'])) || (empty($filter['tgl_awal']) && !empty($filter['tgl_akhir']))
+        ) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Tgl Awal & Akhir harus diisi.'
+            ]);
+        }
 
-        // Siapkan data untuk dikirim ke view
-        $data = [
-            'logs' => $rekap,
-            'pagination' => $rekap, // Jika perlu menerapkan pagination manual
-            'perPage' => $perPage,
-            'rekap' => [
-                'code200' => $counts[200],
-                'code201' => $counts[201],
-                'code404' => $counts[404],
-                'code403' => $counts[403],
-            ]
+        if (!empty($filter['tgl_awal']) && !empty($filter['tgl_akhir'])) {
+            if (strtotime($filter['tgl_awal']) > strtotime($filter['tgl_akhir'])) {
+                return $this->response->setJSON([
+                    'status' => false,
+                    'message' => 'Tgl Awal tidak boleh lebih besar dari Tgl Akhir'
+                ]);
+            }
+        }
+
+        try {
+            
+            $statusResult = false;
+            $message = '';
+            $htmlResult = '';
+            
+            $rekap = $ResepModel->getResepGrouped($filter);
+
+            if (!empty($rekap)) {
+                $statusResult = true;
+                $message = 'Data ditemukan';
+                $htmlResult = view('resep/partial_resepsimrs', ['dataList' => $rekap]);
+            } else {
+                $message = 'Data Obat tidak ditemukan!';
+            }
+    
+            return $this->response->setJSON([
+                'status' => $statusResult,
+                'message' => $message,
+                'html' => $htmlResult
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'status'    => false,
+                'message'   => 'Error ' . $e->getMessage(),
+                'error'     => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getResepSIMRS()
+    {
+        $ResepModel = new ResepModel();
+        $searchType = $this->request->getPost('search_typepasien');
+
+        $filter = [
+            'tgl_awal'  => trim($this->request->getPost('tgl_awal')),
+            'tgl_akhir' => trim($this->request->getPost('tgl_akhr')),
+            'unit'      => trim($this->request->getPost('option_radio')),
         ];
 
-        var_dump($data);
-        // Tampilkan hasil di view
-        return $this->renderView('resep/list_resep', $data);
+        if ($searchType === 'medrec') {
+            $filter['medrec'] = trim($this->request->getPost('medrec'));
+        } else {
+            $filter['nama_pasien'] = trim($this->request->getPost('nama_pasien'));
+        }
+
+        /* VALIDASI TANGGAL */
+        if (
+            (!empty($filter['tgl_awal']) && empty($filter['tgl_akhir'])) ||
+            (empty($filter['tgl_awal']) && !empty($filter['tgl_akhir']))
+        ) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Tgl Awal & Akhir harus diisi.'
+            ]);
+        }
+
+        if (!empty($filter['tgl_awal']) && !empty($filter['tgl_akhir'])) {
+            if (strtotime($filter['tgl_awal']) > strtotime($filter['tgl_akhir'])) {
+                return $this->response->setJSON([
+                    'status' => false,
+                    'message' => 'Tgl Awal tidak boleh lebih besar dari Tgl Akhir'
+                ]);
+            }
+        }
+
+        try {
+
+            $rekap = $ResepModel->getResepGrouped($filter);
+
+            if (empty($rekap)) {
+                return $this->response->setJSON([
+                    'status' => false,
+                    'message' => 'Data Obat tidak ditemukan!'
+                ]);
+            }
+
+            $grouped = [];
+
+            foreach ($rekap as $row) {
+
+                $tgl = $row['tgl_out'];
+
+                if (!isset($grouped[$tgl])) {
+                    $grouped[$tgl] = [
+                        'tgl'  => $tgl,
+                        'data' => []
+                    ];
+                }
+
+                $grouped[$tgl]['data'][] = $row;
+            }
+
+
+            return $this->response->setJSON([
+                'status'  => true,
+                'message' => 'Data ditemukan',
+                'html'    => view('resep/partial_resepsimrs', [
+                    'groups' => $grouped
+                ])
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Error ' . $e->getMessage()
+            ]);
+        }
     }
+
 }

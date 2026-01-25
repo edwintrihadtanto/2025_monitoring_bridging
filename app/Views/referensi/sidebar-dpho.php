@@ -11,6 +11,7 @@
     <section class="section" id="loadHalamanDPHO">
        
         <div class="col-12 col-md-12">
+            <div id="alert-container" class="mb-3"></div>
             <div id="result-container" data-url="<?= site_url('ref/search_dpho') ?>">
             </div>
         </div>

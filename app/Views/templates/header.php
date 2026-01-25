@@ -210,6 +210,23 @@
                 transform: translateY(-6px);
             }
         }
+
+        .cursor-pointer {
+            cursor: pointer;
+        }
+
+        .rotate-icon {
+            transition: transform .2s ease;
+        }
+
+        .toggle-detail[aria-expanded="true"] .rotate-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Supaya tombol tidak ikut toggle */
+        .no-toggle {
+            z-index: 2;
+        }
     </style>
 </head>
 <body>

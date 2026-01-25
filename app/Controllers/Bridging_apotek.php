@@ -38,15 +38,19 @@ class Bridging_apotek extends BaseController
 			)
 		);
 		$context = stream_context_create($opts);
-		$string = json_decode(file_get_contents('https://apijkn-dev.bpjs-kesehatan.go.id/apotek-rest-dev' . $request, true, $context));
-		// $string = json_decode(file_get_contents('https://apijkn.bpjs-kesehatan.go.id/apotek-rest' . $request, true, $context));
+		// $string = json_decode(file_get_contents('https://apijkn-dev.bpjs-kesehatan.go.id/apotek-rest-dev' . $request, true, $context));
+		$string = json_decode(file_get_contents('https://apijkn.bpjs-kesehatan.go.id/apotek-rest' . $request, true, $context));
 
 		return $string;
 	}
 	public function getSignatureVedikaBaru($tStamp)
 	{
-
-		$data = "14321";
+		#PO
+		// $data = "25648";
+		// $secretKey = "4nLBDBAD5C";
+		// $user_key = "6a6ee894eae9232d1170ef87c120edf2";
+        
+        $data = "14321";
 		$secretKey = "5iW20C7181";
 		$user_key = "5d50b7d8b05f3207171d1bad86e8ea73";
         
@@ -56,9 +60,14 @@ class Bridging_apotek extends BaseController
 	}
 	public function Decrypt($response, $tStamp)
 	{
-		$data = "25668";
-		$secretKey = "4uW6E7DD14";
-		$user_key = "c76f676e3828063dd0dd920fe12af297";
+		#PO
+		// $data = "25648";
+		// $secretKey = "4nLBDBAD5C";
+		// $user_key = "6a6ee894eae9232d1170ef87c120edf2";
+        
+        $data = "14321";
+		$secretKey = "5iW20C7181";
+		$user_key = "5d50b7d8b05f3207171d1bad86e8ea73";
         
 		$key = $data . $secretKey . $tStamp;
 		$encrypt_method = 'AES-256-CBC';
@@ -219,10 +228,10 @@ class Bridging_apotek extends BaseController
 		$TglAkhir   = $input->TglAkhir;
 		*/
 
-		$kdppk      = '0216A026';
+		$kdppk      = '0182A007';
 		$KdJnsObat  = '0';
 		$JnsTgl     = 'TGLPELSJP';
-		$TglMulai   = date('Y-m-d H:i:s');
+		$TglMulai   = date('2026-01-23 H:i:s');
 		$TglAkhir   = date('Y-m-d H:i:s');
 
 		$tStamp      = $this->tStamp();

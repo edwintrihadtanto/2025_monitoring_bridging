@@ -275,7 +275,7 @@ class BpjsPasienController extends BaseController
         }
     }
 
-    public function getmonitoring_obat()
+    public function getmonitoring_obatASLI()
     {
         $bulan      = $this->request->getPost('bulan'); 
         $tahun      = $this->request->getPost('tahun');
@@ -365,7 +365,7 @@ class BpjsPasienController extends BaseController
         }
     }
 
-    public function getmonitoring_obatHARDCODE()
+    public function getmonitoring_obat()
     {
         $bulan      = $this->request->getPost('bulan'); 
         $tahun      = $this->request->getPost('tahun');

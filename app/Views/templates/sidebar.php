@@ -24,12 +24,15 @@
                 <li class="sidebar-item has-sub m-0">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-clipboard2-data"></i>
-                        <span>Monitoring</span>
+                        <span>Monitoring Internal</span>
                     </a>
                     
                     <ul class="submenu">
                         <li class="submenu-item">
                             <a href="<?= site_url('monitoring') ?>" class="submenu-link" data-page="monitoring">Logs Result Bridging </a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="<?= site_url('koneksi') ?>" class="submenu-link" data-page="koneksi">Cek Koneksi </a>
                         </li>
                     </ul>
                 </li>
@@ -70,7 +73,7 @@
                     
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a href="<?= site_url('sidebar-daftarresep') ?>" class="submenu-link" data-page="listresep">Resep SIM-RS</a>
+                            <a href="<?= site_url('sidebar-ResepSIMRS') ?>" class="submenu-link" data-page="listresep">Resep SIM-RS</a>
                         </li>
                         <li class="submenu-item">
                             <a href="<?= site_url('sidebar-daftarresep') ?>" class="submenu-link" data-page="listresep">Daftar Resep</a>

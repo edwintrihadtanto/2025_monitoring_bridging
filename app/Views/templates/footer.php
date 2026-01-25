@@ -2,7 +2,7 @@
                 <div class="footer-new">
                     <div class="footer clearfix mb-0 text-muted">
                         <div class="float-start" style="bottom: 0; /*position: fixed;*/">
-                            <p>2025 &copy; ITISI - RSSM</p>
+                            <p>2025-<?php echo date('Y');?> &copy; ITISI - RSSM</p>
                         </div>
                         <div class="float-end" style="bottom: 0; right: 0; /*position: fixed;*/">
                             <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
@@ -28,6 +28,7 @@
     <script src="<?= base_url('public/js/page-sep.js') ?>"></script>
     <script src="<?= base_url('public/js/page-monitoring.js') ?>"></script>
     <script src="<?= base_url('public/js/page-insert.js') ?>"></script>
+    <script src="<?= base_url('public/js/page-simrs.js') ?>"></script>
 
     <script>
         
@@ -210,6 +211,7 @@
                                             <span class="me-2" style="font-size: 0.9rem;">Tampilkan:</span>
                                             <select id="entriesPerPage" class="form-select w-auto" style="width: 80px !important;">
                                                 <option value="10" ${currentPerPage == 10 ? 'selected' : ''}>10</option>
+                                                <option value="15" ${currentPerPage == 15 ? 'selected' : ''}>15</option>
                                                 <option value="25" ${currentPerPage == 25 ? 'selected' : ''}>25</option>
                                                 <option value="50" ${currentPerPage == 50 ? 'selected' : ''}>50</option>
                                                 <option value="100" ${currentPerPage == 100 ? 'selected' : ''}>100</option>
@@ -246,7 +248,8 @@
             const spesialisForm         = document.getElementById('loadHalamanSpesialis');
             const listResepForm         = document.getElementById('pencarianListResepForm');
             const pelObatList           = document.getElementById('pencarianListPelyananObatForm');
-            
+            const simrsResep            = document.getElementById('pencarianResepSIMRS');
+             
             if (pasienForm) {
                 
                 if (typeof initPasienPage === 'function') {
@@ -296,6 +299,12 @@
             if (pelObatList) {
                 if (typeof initListPelyananObatPage === 'function') {
                     initListPelyananObatPage();
+                }
+            }
+
+            if (simrsResep) {
+                if (typeof initSIMRS === 'function') {
+                    initSIMRS();
                 }
             }
             // const loadHalamanDPHO = document.getElementById('loadHalamanDPHO');            
@@ -440,6 +449,10 @@
                 }else if (form.id === 'pencarianListPelyananObatForm') {
                     if (typeof handleListPelyananObatSubmit === 'function') {
                         handleListPelyananObatSubmit(e, form);
+                    }
+                }else if (form.id === 'pencarianResepSIMRS') {
+                    if (typeof handleResepSIMRSSubmit === 'function') {
+                        handleResepSIMRSSubmit(e, form);
                     }
                 }
             });
