@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card mb-2">
                     <div class="card-header py-2">
-                        <h6 class="card-title mb-0">Filter Pencarian</h6>
+                        <h6 class="card-title mb-0">Filter Pencarian Kunjungan Pasien</h6>
                     </div>
 
                     <div class="card-body py-2">
@@ -36,7 +36,7 @@
                                                    value="1"
                                                    checked>
                                             <label class="form-check-label" for="opt_rajal">
-                                                Rawat Jalan
+                                                Rawat Inap
                                             </label>
                                         </div>
                                         <div class="form-check mb-0">
@@ -46,7 +46,17 @@
                                                    id="opt_inap"
                                                    value="2">
                                             <label class="form-check-label" for="opt_inap">
-                                                Rawat Inap
+                                                Rawat Jalan
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-0">
+                                            <input class="form-check-input"
+                                                   type="radio"
+                                                   name="option_radio"
+                                                   id="opt_igd"
+                                                   value="3">
+                                            <label class="form-check-label" for="opt_igd">
+                                                Rawat Gawat Darurat
                                             </label>
                                         </div>
                                     </div>

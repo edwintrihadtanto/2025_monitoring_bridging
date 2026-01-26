@@ -25,7 +25,7 @@
     <div class="card-header py-2 bg-light d-flex justify-content-between align-items-center">
         <div class="fw-semibold">
             <i class="bi bi-calendar-event me-1"></i>
-            <span class="badge bg-primary ms-2"><?= $group['tgl'] ?></span>
+            <span class="badge bg-primary ms-2">Group Resep Tgl. <?= $group['tgl'] ?></span>
         </div>
 
         <div class="form-check">

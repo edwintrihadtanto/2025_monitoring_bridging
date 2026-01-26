@@ -35,11 +35,12 @@ class ResepModel extends Model
         ')
         ->join('apt_barang_out_detail abod', 'abo.no_out = abod.no_out AND abo.tgl_out = abod.tgl_out', 'left')
         ->join('apt_obat', 'abod.kd_prd = apt_obat.kd_prd', 'left')
-        ->join('unit un', 'un.kd_unit = abo.kd_unit', 'left')
-        ->join('kunjungan kunj', 'kunj.kd_pasien = abo.kd_pasienapt and kunj.kd_unit = abo.kd_unit and kunj.tgl_masuk = abo.tgl_out', 'INNER');
-
-        $builder->where('abo.tgl_out >=', $filter['tgl_awal'].' 00:00:00')
-                ->where('abo.tgl_out <=', $filter['tgl_akhir'].' 00:00:00')
+        ->join('unit un', 'un.kd_unit = abo.kd_unit', 'left')        
+        ->join('transaksi trans', 'trans.no_transaksi = abo.apt_no_transaksi and trans.kd_unit = abo.kd_unit', 'INNER')
+        ->join('kunjungan kunj', 'trans.kd_pasien = kunj.kd_pasien AND trans.kd_unit = kunj.kd_unit AND trans.tgl_transaksi = kunj.tgl_masuk' , 'INNER');
+        $builder->whereIn('kunj.kd_customer', ['0000000043', '0000000044']);
+        $builder->where('trans.tgl_transaksi >=', $filter['tgl_awal'].' 00:00:00')
+                ->where('trans.tgl_transaksi <=', $filter['tgl_akhir'].' 00:00:00')
                 ->where('tutup =',1);
         
         if (!empty($filter['medrec'])) {
@@ -47,7 +48,7 @@ class ResepModel extends Model
             $medrec = trim($filter['medrec']); //6485474
 
             $builder->where(
-                "REPLACE(abo.kd_pasienapt, '-', '') = '{$medrec}'", null, false);
+                "REPLACE(kunj.kd_pasien, '-', '') = '{$medrec}'", null, false);
         }
 
         if (!empty($filter['nama_pasien'])) {
@@ -56,18 +57,27 @@ class ResepModel extends Model
 
         if (!empty($filter['unit'])) {
             if ($filter['unit'] === '1') {
-                // Rawat Jalan
+                // Rawat Inap
                 $builder->where(
-                    "LEFT(abo.kd_unit, 1) <> '1'",
+                    "LEFT(abo.kd_unit, 1) = '1'",
                     null,
                     false
                 );
             }
 
             if ($filter['unit'] === '2') {
-                // Rawat Inap
+                // Rawat Jalan
                 $builder->where(
-                    "LEFT(abo.kd_unit, 1) = '1'",
+                    "LEFT(abo.kd_unit, 1) = '2'",
+                    null,
+                    false
+                );
+            }
+
+            if ($filter['unit'] === '3') {
+                // Rawat IGD
+                $builder->where(
+                    "LEFT(abo.kd_unit, 1) = '3'",
                     null,
                     false
                 );
@@ -111,7 +121,4 @@ class ResepModel extends Model
 
         return array_values($grouped);
     }
-
-
-
 }

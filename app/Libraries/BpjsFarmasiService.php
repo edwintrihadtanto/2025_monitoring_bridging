@@ -168,14 +168,14 @@ class BpjsFarmasiService
         // $logData['response_code']       = $responseArray['metaData']['code'];
         $logData['response_body']       = json_encode($responseArray);
         // $logData['response_message']    = $responseArray['metaData']['message'];
-        $logData['response_code']       = $responseArray['metaData']['code'] ?? $responseCode;
+        $logData['response_code']       = $responseArray['metaData']['code'] ?? $responseCode ?? '500';
         $logData['response_message']    = $responseArray['metaData']['message'] ?? 'NO METADATA';
         $logData['iduser']              = $userID ?? '999';
         log_to_db($logData);
 
         return [
             // 'status_code' => $responseCode,
-            'status_code' => $responseArray['metaData']['code'],
+            'status_code' => $responseArray['metaData']['code'] ?? '500',
             'body' => $responseArray
         ];
     }
