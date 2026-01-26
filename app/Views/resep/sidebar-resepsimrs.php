@@ -32,21 +32,20 @@
                                             <input class="form-check-input"
                                                    type="radio"
                                                    name="option_radio"
-                                                   id="opt_rajal"
-                                                   value="1"
-                                                   checked>
-                                            <label class="form-check-label" for="opt_rajal">
-                                                Rawat Inap
+                                                   id="opt_inap"
+                                                   value="2" checked>
+                                            <label class="form-check-label" for="opt_inap">
+                                                Rawat Jalan
                                             </label>
                                         </div>
                                         <div class="form-check mb-0">
                                             <input class="form-check-input"
                                                    type="radio"
                                                    name="option_radio"
-                                                   id="opt_inap"
-                                                   value="2">
-                                            <label class="form-check-label" for="opt_inap">
-                                                Rawat Jalan
+                                                   id="opt_rajal"
+                                                   value="1">
+                                            <label class="form-check-label" for="opt_rajal">
+                                                Rawat Inap
                                             </label>
                                         </div>
                                         <div class="form-check mb-0">

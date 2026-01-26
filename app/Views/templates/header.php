@@ -157,7 +157,7 @@
                 #ff0000
             );
             background-size: 400% 400%;
-            animation: rgbBorder 6s linear infinite;
+            animation: rgbBorder 20s linear infinite;
             -webkit-mask:
                 linear-gradient(#fff 0 0) content-box,
                 linear-gradient(#fff 0 0);
