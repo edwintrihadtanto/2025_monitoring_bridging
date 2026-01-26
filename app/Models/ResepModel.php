@@ -138,13 +138,16 @@ class ResepModel extends Model
             abod.harga_jual,
             apt_obat.nama_obat,
             un.nama_unit,
-            kunj.no_sjp
+            kunj.no_sjp,
+            cust.customer
         ')
         ->join('apt_barang_out_detail abod', 'abo.no_out = abod.no_out AND abo.tgl_out = abod.tgl_out', 'left')
         ->join('apt_obat', 'abod.kd_prd = apt_obat.kd_prd', 'left')
         ->join('unit un', 'un.kd_unit = abo.kd_unit', 'left')
-        ->join('kunjungan kunj', 'kunj.kd_pasien = abo.kd_pasienapt and kunj.kd_unit = abo.kd_unit and kunj.tgl_masuk = abo.tgl_out', 'INNER');
-
+        ->join('kunjungan kunj', 'kunj.kd_pasien = abo.kd_pasienapt and kunj.kd_unit = abo.kd_unit and kunj.tgl_masuk = abo.tgl_out', 'INNER')
+        ->join('customer cust', 'kunj.kd_customer = cust.kd_customer', 'INNER');
+        
+        $builder->whereIn('kunj.kd_customer', ['0000000043', '0000000044']);
         $builder->where('abo.tgl_out >=', $filter['tgl_awal'].' 00:00:00')
                 ->where('abo.tgl_out <=', $filter['tgl_akhir'].' 00:00:00')
                 ->where('tutup =',1);
@@ -210,6 +213,7 @@ class ResepModel extends Model
                     'nmpasien'     => $row['nmpasien'],
                     'nama_unit'    => $row['nama_unit'],
                     'no_sjp'       => $row['no_sjp'],
+                    'customer'     => $row['customer'],
                     'obat'         => []
                 ];
             }

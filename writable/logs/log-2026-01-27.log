@@ -1,0 +1,11 @@
+CRITICAL - 2026-01-27 00:00:15 --> ParseError: syntax error, unexpected token "->"
+[Method: POST, Route: res/search_resepSIMRS]
+in APPPATH\Models\ResepModel.php on line 148.
+ 1 VENDORPATH\composer\ClassLoader.php(427): Composer\Autoload\{closure}('C:\\xampp\\htdocs\\2025_monitoring_bridging\\vendor\\composer/../../app\\Models\\ResepModel.php')
+ 2 APPPATH\Controllers\BpjsInsertController.php(248): Composer\Autoload\ClassLoader->loadClass('App\\Models\\ResepModel')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getResepSIMRS()
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

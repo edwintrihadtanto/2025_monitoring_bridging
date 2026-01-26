@@ -63,7 +63,7 @@
                             <?php endif; ?>
                         </div>
                         <small class="text-muted">
-                            Resep : <?= $item['no_resep'] ?>
+                            Resep : <?= $item['no_resep'] ?> / <?= $item['customer'] ?>
                         </small>
                     </div>
                 </div>
