@@ -1,102 +1,138 @@
-<div id="resepContainer">
-<div class="d-flex gap-2 mb-2 align-items-center">
-    <div class="input-group input-group-sm" style="max-width:300px">
-        <span class="input-group-text"><i class="bi bi-search"></i></span>
-        <input type="text" id="searchResep" class="form-control"
-               placeholder="Cari SEP / Kode Pasien / Nama Pasien">
-    </div>
-    <div class="form-check ms-auto">
-        <input class="form-check-input" type="checkbox" id="sepkosong">
-        <label class="form-check-label text-danger" for="sepkosong">Tampilkan SEP Kosong</label>
-    </div>
-    <div class="form-check ms-auto">
-        <input class="form-check-input" type="checkbox" id="checkAllGlobal">
-        <label class="form-check-label fw-semibold" for="checkAllGlobal">Pilih Semua</label>
-    </div>
+<div id="resepWrapper">
 
-    <span class="badge bg-primary" id="selectedCounter">
-        0 terpilih
-    </span>
-</div>
+    <!-- 🔍 SEARCH + FILTER + CHECK ALL -->
+    <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
 
-<?php foreach ($groups as $gIndex => $group): ?>
-<div class="card mb-2 resep-group">
-
-    <div class="card-header py-2 bg-light d-flex justify-content-between align-items-center">
-        <div class="fw-semibold">
-            <i class="bi bi-calendar-event me-1"></i>
-            <span class="badge bg-primary ms-2">Group Resep Tgl. <?= $group['tgl'] ?></span>
+        <div class="input-group input-group-sm" style="max-width:320px">
+            <span class="input-group-text">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text"
+                   id="searchResep"
+                   class="form-control"
+                   placeholder="Cari SEP / Medrec / Nama Pasien">
         </div>
 
-        <div class="form-check">
-            <input class="form-check-input check-group" type="checkbox">
-            <label class="form-check-label small">Pilih semua</label>
+        <div class="form-check ms-2">
+            <input class="form-check-input" type="checkbox" id="sepkosong">
+            <label class="form-check-label text-danger small">
+                Tampilkan SEP kosong saja
+            </label>
         </div>
+
+        <div class="form-check ms-auto">
+            <input class="form-check-input" type="checkbox" id="checkAllGlobal">
+            <label class="form-check-label fw-semibold">
+                Pilih Semua
+            </label>
+        </div>
+
+        <span class="badge bg-primary" id="selectedCounter">
+            0 terpilih
+        </span>
     </div>
 
-    <div class="list-group list-group-flush">
+    <!-- 📦 GROUP BY TANGGAL -->
+    <div id="resepContainer">
 
-    <?php foreach ($group['data'] as $index => $item): ?>
-        <div class="list-group-item resep-item"
-             data-search="<?= strtolower(
-                 $item['no_sjp'].' '.
-                 $item['kd_pasienapt'].' '.
-                 $item['nmpasien']
-             ) ?>">
+        <?php foreach ($groups as $gIndex => $group): ?>
+            <div class="card mb-2 resep-group">
 
-            <div class="d-flex justify-content-between align-items-center">
+                <!-- HEADER GROUP -->
+                <div class="card-header py-2 bg-light d-flex justify-content-between align-items-center">
+                    <div class="fw-semibold">
+                        <i class="bi bi-calendar-event me-1"></i>
+                        <?= date('d M Y', strtotime($group['tgl'])) ?>
+                        <span class="badge bg-secondary ms-2">
+                            <?= count($group['data']) ?> resep
+                        </span>
+                    </div>
 
-                <div class="d-flex align-items-center gap-2 toggle-detail cursor-pointer"
-                     data-bs-toggle="collapse"
-                     data-bs-target="#detail-<?= md5($item['no_resep'].$index) ?>">
-
-                    <input type="checkbox" class="form-check-input resep-check" data-id="<?= $item['no_resep'] ?>">
-
-                    <i class="bi bi-chevron-down rotate-icon text-muted"></i>
-
-                    <div>
-                        <div class="fw-bold">
-                            <?php if ($item['no_sjp'] != ''): ?>
-                            <span class="badge bg-success ms-2"><?= $item['no_sjp'] ?></span> <i class="bi bi-copy text-muted" title="Copy SEP"></i>
-                            <?php else: ?>
-                            <span class="badge bg-danger ms-2">SEP Kosong</span>
-                            <?php endif; ?>
-                        </div>
-                        <small class="text-muted">
-                            Resep : <?= $item['no_resep'] ?> / <?= $item['customer'] ?>
-                        </small>
+                    <div class="form-check">
+                        <input class="form-check-input check-group" type="checkbox">
+                        <label class="form-check-label small">
+                            Pilih semua
+                        </label>
                     </div>
                 </div>
 
-                <div class="align-items-end">
-                    <div class="fw-semibold text-primary">
-                        <?= $item['nmpasien'] ?>
-                    </div>
-                    <small class="text-muted">
-                        <?= $item['kd_pasienapt'] ?> / <?= $item['nama_unit'] ?> 
-                    </small>
-                </div>
-            </div>
+                <!-- LIST RESEP -->
+                <div class="list-group list-group-flush">
 
-            <!-- DETAIL -->
-            <div class="collapse mt-2 ps-4"
-                 id="detail-<?= md5($item['no_resep'].$index) ?>">
-                <div class="bg-light rounded p-2 small">
-                    <?php foreach ($item['obat'] ?? [] as $obat): ?>
-                        <div>
-                            <i class="bi bi-capsule me-1 text-success"></i>
-                            <?= esc($obat['nama_obat']) ?>
+                    <?php foreach ($group['data'] as $index => $item): 
+                        $collapseId = 'detail-' . md5($item['no_out'].$item['tgl_out']);
+                    ?>
+                        <div class="list-group-item resep-item"
+                             data-search="<?= strtolower(
+                                 ($item['no_sjp'] ?? '') . ' ' .
+                                 $item['kd_pasienapt'] . ' ' .
+                                 $item['nmpasien']
+                             ) ?>"
+                             data-sep="<?= $item['no_sjp'] ? '1' : '0' ?>">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <!-- LEFT -->
+                                <div class="d-flex align-items-center gap-2 toggle-detail cursor-pointer"
+                                     data-bs-toggle="collapse"
+                                     data-bs-target="#<?= $collapseId ?>"
+                                     data-noout="<?= $item['no_out'] ?>"
+                                     data-tglout="<?= $item['tgl_out'] ?>">
+
+                                    <input type="checkbox"
+                                           class="form-check-input resep-check"
+                                           data-id="<?= $item['no_resep'] ?>">
+
+                                    <i class="bi bi-chevron-down rotate-icon text-muted"></i>
+
+                                    <div>
+                                        <div class="fw-bold">
+                                            <?php if (!empty($item['no_sjp'])): ?>
+                                                <span class="badge bg-success">
+                                                    <?= esc($item['no_sjp']) ?>
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="badge bg-danger">
+                                                    SEP Kosong
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
+                                        <small class="text-muted">
+                                            Resep: <?= esc($item['no_resep']) ?> /
+                                            <?= esc($item['customer']) ?>
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <!-- RIGHT -->
+                                <div class="text-end">
+                                    <div class="fw-semibold text-primary">
+                                        <?= esc($item['nmpasien']) ?>
+                                    </div>
+                                    <small class="text-muted">
+                                        <?= esc($item['kd_pasienapt']) ?> /
+                                        <?= esc($item['nama_unit']) ?>
+                                    </small>
+                                </div>
+                            </div>
+
+                            <!-- DETAIL OBAT (LAZY LOAD) -->
+                            <div class="collapse mt-2 ps-4"
+                                 id="<?= $collapseId ?>">
+                                <div class="bg-light rounded p-2 small detail-obat">
+                                    <div class="text-muted fst-italic">
+                                        <i class="bi bi-hourglass-split me-1"></i>
+                                        Memuat detail obat...
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     <?php endforeach; ?>
+
                 </div>
             </div>
-
-        </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
 
     </div>
 </div>
-<?php endforeach; ?>
-
-</div>
-

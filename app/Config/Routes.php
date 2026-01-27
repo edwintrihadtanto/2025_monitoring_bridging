@@ -107,6 +107,7 @@ use CodeIgniter\Router\RouteCollection;
 
     $routes->get('sidebar-ResepSIMRS', 'BpjsInsertController::viewresepsimrs', ['filter' => 'auth']);
     $routes->post('res/search_resepSIMRS', 'BpjsInsertController::getResepSIMRS', ['filter' => 'auth']);
+    $routes->post('res/getDetailObat', 'BpjsInsertController::getDetailObat', ['filter' => 'auth']);
  });
 
  $routes->get('/BridgingTES/(:any)', 'BridgingTES::$1');

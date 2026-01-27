@@ -8,14 +8,14 @@ class ResepModel extends Model
 {
     protected $DBGroup          = 'dbSIMRS';
     //CRUD standar (find, insert, update)
-    protected $table            = 'apt_barang_out abo'; 
+    protected $table            = 'apt_barang_out'; 
     //update(), delete()
-    protected $primaryKey       = ['no_out','tgl_out']; 
+    protected $primaryKey       = ['no_out']; 
     // insert() / save()
     protected $allowedFields    = ['no_out', 'tgl_out', 'kd_resep', 'kd_pasien', 'nm_pasien', 'tanggal'];
     protected $useTimestamps    = false;
 
-    public function getResepGroupedX(array $filter = [])
+    public function getResepGroupedXX(array $filter = [])
     {
         $builder = $this->builder();
 
@@ -122,7 +122,7 @@ class ResepModel extends Model
         return array_values($grouped);
     }
 
-    public function getResepGrouped(array $filter = [])
+    public function getResepGrouped_last(array $filter = [])
     {
         $builder = $this->builder();
 
@@ -231,4 +231,149 @@ class ResepModel extends Model
 
         return array_values($grouped);
     }
+
+    public function getResepGrouped(array $filter = [])
+    {
+        // $builder = $this->builder();
+
+        $builder = $this->builder('apt_barang_out o');
+        $builder->distinct();
+
+        $builder->select("
+            o.no_resep,
+            o.tutup AS status_posting,
+            o.no_out,
+            o.tgl_out,
+            o.kd_pasienapt,
+            o.nmpasien,
+            o.dokter,
+            d.nama AS nama_dokter,
+            o.kd_unit,
+            u.nama_unit,
+            o.apt_no_transaksi,
+            T.tgl_transaksi,
+            o.apt_kd_kasir,
+            o.kd_customer,
+            o.admracik,
+            o.jasa,
+            o.admprhs,
+            o.admresep,
+            C.customer,
+            CASE
+                WHEN ko.jenis_cust = 0 THEN 'Perorangan'
+                WHEN ko.jenis_cust = 1 THEN 'Perusahaan'
+                WHEN ko.jenis_cust = 2 THEN 'Asuransi'
+            END AS jenis_pasien,
+            kun.tgl_masuk,
+            kun.urut_masuk,
+            o.catatandr,
+            kun.no_sjp,
+            py.kd_pay,
+            py.uraian AS payment,
+            pyt.jenis_pay,
+            pyt.deskripsi AS payment_type,
+            o.tgl_resep,
+            sjp.no_sjp AS no_sep,
+            o.id_mrresep,
+            mr.cat_alergi,
+            o.siapa,
+            o.sts_kronis,
+            o.sts_iter
+        ");
+
+        // JOIN
+        $builder->join('unit u', 'o.kd_unit = u.kd_unit', 'left');
+        $builder->join('dokter d', 'o.dokter = d.kd_dokter', 'left');
+        $builder->join('customer C', 'C.kd_customer = o.kd_customer', 'left');
+        $builder->join('kontraktor ko', 'C.kd_customer = ko.kd_customer', 'left');
+        $builder->join('apt_barang_out_detail bo', 'bo.no_out = o.no_out AND bo.tgl_out = o.tgl_out', 'left');
+        $builder->join('transaksi T', 'T.no_transaksi = o.apt_no_transaksi AND T.kd_kasir = o.apt_kd_kasir', 'left');
+        $builder->join(
+            'kunjungan kun',
+            'T.kd_pasien = kun.kd_pasien 
+             AND T.kd_unit = kun.kd_unit 
+             AND T.urut_masuk = kun.urut_masuk 
+             AND T.tgl_transaksi = kun.tgl_masuk 
+             ',
+            'left'
+        );
+        $builder->join('payment py', 'py.kd_customer = o.kd_customer', 'inner');
+        $builder->join('payment_type pyt', 'pyt.jenis_pay = py.jenis_pay', 'inner');
+        $builder->join(
+            'sjp_kunjungan sjp',
+            'sjp.kd_pasien = kun.kd_pasien 
+             AND sjp.tgl_masuk = kun.tgl_masuk 
+             AND sjp.kd_unit = kun.kd_unit 
+             AND sjp.urut_masuk = kun.urut_masuk',
+            'left'
+        );
+        $builder->join('mr_resep mr', 'o.id_mrresep = mr.id_mrresep', 'left');
+
+        // WHERE utama
+        $builder->where('o.returapt', 0);
+        $builder->where('o.tutup', 1);
+
+        // Filter tanggal
+        if (!empty($filter['tgl_awal']) && !empty($filter['tgl_akhir'])) {
+            $builder->where('o.tgl_out >=', $filter['tgl_awal'].' 00:00:00');
+            $builder->where('o.tgl_out <=', $filter['tgl_akhir'].' 00:00:00');
+        }
+
+        if (!empty($filter['medrec'])) {
+            // $builder->where('abo.kd_pasienapt', $filter['medrec']);
+            $medrec = trim($filter['medrec']); //6485474
+
+            // $builder->where("REPLACE(o.kd_pasienapt, '-', '') = '{$medrec}'", null, false);
+            $builder->where(
+                "REPLACE(kun.kd_pasien, '-', '') =",
+                $medrec,
+                false
+            );
+        }
+
+        if (!empty($filter['nama_pasien'])) {
+            // $builder->where("LOWER(abo.nmpasien) LIKE '%" . strtolower($filter['nama_pasien']) . "%'",null,false);
+            $builder->like('LOWER(o.nmpasien)', strtolower($filter['nama_pasien']), 'both', false);
+
+        }
+
+        if (!empty($filter['unit'])) {
+            if ($filter['unit'] === '1') {
+                // Rawat Inap
+                $builder->where(
+                    "LEFT(kun.kd_unit, 1) = '1'",
+                    null,
+                    false
+                );
+            }
+
+            if ($filter['unit'] === '2') {
+                // Rawat Jalan
+                $builder->where(
+                    "LEFT(kun.kd_unit, 1) = '2'",
+                    null,
+                    false
+                );
+            }
+
+            if ($filter['unit'] === '3') {
+                // Rawat IGD
+                $builder->where(
+                    "LEFT(kun.kd_unit, 1) = '3'",
+                    null,
+                    false
+                );
+            }
+
+        }
+
+        $builder->orderBy('o.tgl_out', 'ASC');
+        $builder->orderBy('o.nmpasien', 'ASC');
+                // ->get()
+                // ->getResultArray();
+        // echo $this->db->getLastQuery()->getQuery();
+        // die;
+        return $builder->get()->getResultArray();
+    }
+
 }

@@ -25,7 +25,6 @@ function initSIMRS() {
             if (data.status) {
                 resultContainer.innerHTML = data.html;
                 fungsi_sidebar_resepSIMRS();
-                fungsi_sidebar_resepSIMRS2();
             } else {
                 alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
             }
@@ -64,76 +63,100 @@ function initSIMRS() {
 }
 
 function fungsi_sidebar_resepSIMRS() {
-    const searchInput = document.getElementById('searchResep');
-    if (searchInput) {
-        searchInput.addEventListener('keyup', function () {
-            const keyword = this.value.toLowerCase();
-
-            document.querySelectorAll('.resep-item').forEach(item => {
-                const text = item.dataset.search;
-                item.style.display = text.includes(keyword) ? '' : 'none';
-            });
-        });
-    }
-
-    /* ========== CHECK ALL GLOBAL ========== */
-    const checkAllGlobal = document.getElementById('checkAllGlobal');
-    if (checkAllGlobal) {
-        checkAllGlobal.addEventListener('change', function () {
-            document.querySelectorAll('.resep-check, .check-group')
-                .forEach(cb => cb.checked = this.checked);
-        });
-    }
-
-    /* ========== CHECK PER GROUP ========== */
-    document.querySelectorAll('.resep-group').forEach(group => {
-
-        const checkGroup = group.querySelector('.check-group');
-        const items = group.querySelectorAll('.resep-check');
-
-        checkGroup.addEventListener('change', function () {
-            items.forEach(cb => cb.checked = this.checked);
-        });
-
-        items.forEach(cb => {
-            cb.addEventListener('change', function () {
-                checkGroup.checked =
-                    [...items].every(i => i.checked);
-            });
-        });
-    });
-    
-}
-
-function fungsi_sidebar_resepSIMRS2() {
 
     const counter = document.getElementById('selectedCounter');
     const checkAll = document.getElementById('checkAllGlobal');
 
+    /* ======================
+       COUNTER + CHECK ALL
+    ====================== */
     function updateCounter() {
-        const total = document.querySelectorAll('.resep-check:checked').length;
-        counter.innerText = `${total} terpilih`;
+        counter.innerText =
+            document.querySelectorAll('.resep-check:checked').length + ' terpilih';
     }
 
-    // Check all
-    checkAll?.addEventListener('change', function () {
+    checkAll.addEventListener('change', function () {
         document.querySelectorAll('.resep-check').forEach(cb => {
+            cb.checked = this.checked;
+        });
+        document.querySelectorAll('.check-group').forEach(cb => {
             cb.checked = this.checked;
         });
         updateCounter();
     });
 
-    // Single check
     document.querySelectorAll('.resep-check').forEach(cb => {
-        cb.addEventListener('change', function () {
-            const totalChecked = document.querySelectorAll('.resep-check:checked').length;
-            const totalAll = document.querySelectorAll('.resep-check').length;
+        cb.addEventListener('change', updateCounter);
+    });
 
-            checkAll.checked = totalChecked === totalAll;
+    document.querySelectorAll('.check-group').forEach(groupCb => {
+        groupCb.addEventListener('change', function () {
+            const group = this.closest('.resep-group');
+            group.querySelectorAll('.resep-check')
+                .forEach(cb => cb.checked = this.checked);
             updateCounter();
+        });
+    });
+
+    /* ======================
+       SEARCH + FILTER SEP
+    ====================== */
+    const search = document.getElementById('searchResep');
+    const sepKosong = document.getElementById('sepkosong');
+    let timer = null;
+
+    function filterList() {
+        const keyword = search.value.toLowerCase();
+        const onlyEmptySep = sepKosong.checked;
+
+        document.querySelectorAll('.resep-item').forEach(item => {
+            const matchSearch = item.dataset.search.includes(keyword);
+            const isSepEmpty = item.innerText.includes('SEP Kosong');
+
+            item.style.display =
+                matchSearch && (!onlyEmptySep || isSepEmpty)
+                    ? ''
+                    : 'none';
+        });
+    }
+
+    search.addEventListener('keyup', () => {
+        clearTimeout(timer);
+        timer = setTimeout(filterList, 250);
+    });
+
+    sepKosong.addEventListener('change', filterList);
+
+    /* ======================
+       LAZY LOAD DETAIL OBAT
+    ====================== */
+    document.querySelectorAll('.toggle-detail').forEach(btn => {
+        btn.addEventListener('click', function () {
+
+            const target = document.querySelector(
+                this.dataset.bsTarget
+            );
+
+            if (target.dataset.loaded === 'true') return;
+
+            fetch(BASE_URL + '/res/getDetailObat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: new URLSearchParams({
+                    no_out: this.dataset.noout,
+                    tgl_out: this.dataset.tglout
+                })
+            })
+            .then(res => res.text())
+            .then(html => {
+                target.innerHTML = html;
+                target.dataset.loaded = 'true';
+            });
         });
     });
 
     updateCounter();
 }
-

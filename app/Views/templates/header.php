@@ -231,4 +231,8 @@
 </head>
 <body>
     <script src="<?= base_url('public/assets/dist/assets/static/js/initTheme.js'); ?>"></script>
+    <script>
+        const BASE_URL = "<?= base_url() ?>";
+    </script>
+
     <div id="app">

@@ -243,7 +243,7 @@ class BpjsInsertController extends BaseController
         }
     }
 
-    public function getResepSIMRS()
+    public function getResepSIMRSLAMA2()
     {
         $ResepModel = new ResepModel();
         $searchType = $this->request->getPost('search_typepasien');
@@ -322,6 +322,110 @@ class BpjsInsertController extends BaseController
                 'message' => 'Error ' . $e->getMessage()
             ]);
         }
+    }
+
+    public function getResepSIMRS()
+    {
+        $ResepModel = new ResepModel();
+        $searchType = $this->request->getPost('search_typepasien');
+
+        $filter = [
+            'tgl_awal'  => trim($this->request->getPost('tgl_awal')),
+            'tgl_akhir' => trim($this->request->getPost('tgl_akhr')),
+            'unit'      => trim($this->request->getPost('option_radio')),
+        ];
+
+        if ($searchType === 'medrec') {
+            $filter['medrec'] = trim($this->request->getPost('medrec'));
+        } else {
+            $filter['nama_pasien'] = trim($this->request->getPost('nama_pasien'));
+        }
+
+        // ======================
+        // VALIDASI TANGGAL
+        // ======================
+        if (
+            (!empty($filter['tgl_awal']) && empty($filter['tgl_akhir'])) ||
+            (empty($filter['tgl_awal']) && !empty($filter['tgl_akhir']))
+        ) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Tgl Awal & Akhir harus diisi.'
+            ]);
+        }
+
+        if (!empty($filter['tgl_awal']) && !empty($filter['tgl_akhir'])) {
+            if (strtotime($filter['tgl_awal']) > strtotime($filter['tgl_akhir'])) {
+                return $this->response->setJSON([
+                    'status' => false,
+                    'message' => 'Tgl Awal tidak boleh lebih besar dari Tgl Akhir'
+                ]);
+            }
+        }
+
+        try {
+
+            $rekap = $ResepModel->getResepGrouped($filter);
+
+            if (empty($rekap)) {
+                return $this->response->setJSON([
+                    'status' => false,
+                    'message' => 'Data Obat tidak ditemukan!'
+                ]);
+            }
+
+            // ======================
+            // GROUP BY TANGGAL
+            // ======================
+            $grouped = [];
+
+            foreach ($rekap as $row) {
+
+                $tglKey = date('Y-m-d', strtotime($row['tgl_out']));
+
+                if (!isset($grouped[$tglKey])) {
+                    $grouped[$tglKey] = [
+                        'tgl'  => $tglKey,
+                        'data' => []
+                    ];
+                }
+
+                $grouped[$tglKey]['data'][] = $row;
+            }
+
+            return $this->response->setJSON([
+                'status'  => true,
+                'message' => 'Data ditemukan',
+                'html'    => view('resep/partial_resepsimrs', [
+                    'groups' => $grouped
+                ])
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Error ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getDetailObat()
+    {
+        $noOut = $this->request->getPost('no_out');
+        $tglOut = $this->request->getPost('tgl_out');
+
+        $data = $this->db->query("
+            SELECT kd_prd, nama_obat
+            FROM apt_barang_out_detail
+            INNER JOIN apt_obat USING (kd_prd)
+            WHERE no_out = ?
+              AND tgl_out = ?
+            ORDER BY nama_obat
+        ", [$noOut, $tglOut])->getResultArray();
+
+        return view('resep/partial_detail_obat', [
+            'detail' => $data
+        ]);
     }
 
 }
