@@ -341,9 +341,6 @@ class BpjsInsertController extends BaseController
             $filter['nama_pasien'] = trim($this->request->getPost('nama_pasien'));
         }
 
-        // ======================
-        // VALIDASI TANGGAL
-        // ======================
         if (
             (!empty($filter['tgl_awal']) && empty($filter['tgl_akhir'])) ||
             (empty($filter['tgl_awal']) && !empty($filter['tgl_akhir']))
@@ -365,7 +362,7 @@ class BpjsInsertController extends BaseController
 
         try {
 
-            $rekap = $ResepModel->getResepGrouped($filter);
+            $rekap = $ResepModel->getResepHeader($filter);
 
             if (empty($rekap)) {
                 return $this->response->setJSON([
@@ -374,9 +371,6 @@ class BpjsInsertController extends BaseController
                 ]);
             }
 
-            // ======================
-            // GROUP BY TANGGAL
-            // ======================
             $grouped = [];
 
             foreach ($rekap as $row) {
@@ -411,21 +405,40 @@ class BpjsInsertController extends BaseController
 
     public function getDetailObat()
     {
-        $noOut = $this->request->getPost('no_out');
+        $ResepModel = new ResepModel();
+
+        $noOut  = $this->request->getPost('no_out');
         $tglOut = $this->request->getPost('tgl_out');
 
-        $data = $this->db->query("
-            SELECT kd_prd, nama_obat
-            FROM apt_barang_out_detail
-            INNER JOIN apt_obat USING (kd_prd)
-            WHERE no_out = ?
-              AND tgl_out = ?
-            ORDER BY nama_obat
-        ", [$noOut, $tglOut])->getResultArray();
+        if ((!empty($noOut)) && (!empty($tglOut))) {
+            $filter = [
+                'noOut'  => trim($noOut),
+                'tglOut' => trim($tglOut)
+            ];
 
-        return view('resep/partial_detail_obat', [
-            'detail' => $data
-        ]);
+            $getdetail = $ResepModel->getDetailObat($filter);
+            
+            // $data = $this->db->query("
+            //     SELECT kd_prd, nama_obat
+            //     FROM apt_barang_out_detail
+            //     INNER JOIN apt_obat USING (kd_prd)
+            //     WHERE no_out = ?
+            //       AND tgl_out = ?
+            //     ORDER BY nama_obat
+            // ", [$noOut, $tglOut])->getResultArray();
+
+            return view('resep/partial_detail_obat', [
+                'detail' => $getdetail
+            ]);
+
+        }else{
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'No Out dan Tgl Transaksi Tidak diketahui!'
+            ]);
+        }
+
+        
     }
 
 }

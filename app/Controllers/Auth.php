@@ -23,9 +23,8 @@ class Auth extends BaseController
     // Fungsi Helper Captcha (Private)
     private function generateCaptcha()
     {
-        // Buat bilangan acak
-        $angka1 = rand(2, 15);
-        $angka2 = rand(2, 15);
+        $angka1 = rand(3, 20);
+        $angka2 = rand(3, 20);
         $hasil   = $angka1 + $angka2;
 
         // Simpan hasil jawaban ke session
@@ -49,7 +48,6 @@ class Auth extends BaseController
             return redirect()->to('/login')->withInput();
         }
 
-        // $user = $userModel->where('username', $username)->first();
         $user = $userModel->getUserWithRule($username);
         if (!$user) {
             session()->setFlashdata('error', 'Username atau Password salah.');

@@ -1,11 +1,11 @@
 <div id="resepWrapper">
 
-    <!-- 🔍 SEARCH + FILTER + CHECK ALL -->
     <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
 
         <div class="input-group input-group-sm" style="max-width:320px">
             <span class="input-group-text">
-                <i class="bi bi-search"></i>
+                <!-- <i class="bi bi-search"></i> -->
+                🔍
             </span>
             <input type="text"
                    id="searchResep"
@@ -41,7 +41,8 @@
                 <!-- HEADER GROUP -->
                 <div class="card-header py-2 bg-light d-flex justify-content-between align-items-center">
                     <div class="fw-semibold">
-                        <i class="bi bi-calendar-event me-1"></i>
+                        <!-- <i class="bi bi-calendar-event me-1"></i> -->
+                        📦
                         <?= date('d M Y', strtotime($group['tgl'])) ?>
                         <span class="badge bg-secondary ms-2">
                             <?= count($group['data']) ?> resep
@@ -74,8 +75,7 @@
 
                                 <!-- LEFT -->
                                 <div class="d-flex align-items-center gap-2 toggle-detail cursor-pointer"
-                                     data-bs-toggle="collapse"
-                                     data-bs-target="#<?= $collapseId ?>"
+                                     data-target="<?= $collapseId ?>"
                                      data-noout="<?= $item['no_out'] ?>"
                                      data-tglout="<?= $item['tgl_out'] ?>">
 
@@ -99,7 +99,13 @@
                                         </div>
                                         <small class="text-muted">
                                             Resep: <?= esc($item['no_resep']) ?> /
-                                            <?= esc($item['customer']) ?>
+                                            <?php if (esc($item['kd_customer_status']) == '0'): ?>
+                                                <?= esc($item['customer']) ?>
+                                            <?php else: ?>
+                                                <span class="badge bg-warning">
+                                                    <?= esc($item['customer']) ?>
+                                                </span>
+                                            <?php endif; ?>
                                         </small>
                                     </div>
                                 </div>
@@ -117,7 +123,7 @@
                             </div>
 
                             <!-- DETAIL OBAT (LAZY LOAD) -->
-                            <div class="collapse mt-2 ps-4"
+                            <!-- <div class="collapse mt-2 ps-4"
                                  id="<?= $collapseId ?>">
                                 <div class="bg-light rounded p-2 small detail-obat">
                                     <div class="text-muted fst-italic">
@@ -125,8 +131,8 @@
                                         Memuat detail obat...
                                     </div>
                                 </div>
-                            </div>
-
+                            </div> -->
+                            <div class="collapse mt-2 ps-4" id="<?= $collapseId ?>" data-loaded="0"></div>
                         </div>
                     <?php endforeach; ?>
 

@@ -233,6 +233,7 @@
     <script src="<?= base_url('public/assets/dist/assets/static/js/initTheme.js'); ?>"></script>
     <script>
         const BASE_URL = "<?= base_url() ?>";
+        const LOADING_HTML = '<div class="text-center py-2 text-muted small"><div class="spinner-border spinner-border-sm"></div>Memuat detail obat...</div>';
     </script>
 
     <div id="app">

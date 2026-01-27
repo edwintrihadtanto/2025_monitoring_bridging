@@ -232,7 +232,7 @@ class ResepModel extends Model
         return array_values($grouped);
     }
 
-    public function getResepGrouped(array $filter = [])
+    public function getResepHeader(array $filter = [])
     {
         // $builder = $this->builder();
 
@@ -253,12 +253,10 @@ class ResepModel extends Model
             o.apt_no_transaksi,
             T.tgl_transaksi,
             o.apt_kd_kasir,
-            o.kd_customer,
             o.admracik,
             o.jasa,
             o.admprhs,
             o.admresep,
-            C.customer,
             CASE
                 WHEN ko.jenis_cust = 0 THEN 'Perorangan'
                 WHEN ko.jenis_cust = 1 THEN 'Perusahaan'
@@ -278,7 +276,13 @@ class ResepModel extends Model
             mr.cat_alergi,
             o.siapa,
             o.sts_kronis,
-            o.sts_iter
+            o.sts_iter,
+            CASE
+                WHEN o.kd_customer NOT IN ('0000000043', '0000000044') THEN '1' ELSE '0'
+            END AS kd_customer_status,
+            kun.kd_customer as kd_customer_kunjungan,
+            o.kd_customer as kd_customer_apt_brangout,
+            C.customer
         ");
 
         // JOIN
@@ -286,7 +290,7 @@ class ResepModel extends Model
         $builder->join('dokter d', 'o.dokter = d.kd_dokter', 'left');
         $builder->join('customer C', 'C.kd_customer = o.kd_customer', 'left');
         $builder->join('kontraktor ko', 'C.kd_customer = ko.kd_customer', 'left');
-        $builder->join('apt_barang_out_detail bo', 'bo.no_out = o.no_out AND bo.tgl_out = o.tgl_out', 'left');
+        // $builder->join('apt_barang_out_detail bo', 'bo.no_out = o.no_out AND bo.tgl_out = o.tgl_out', 'left');
         $builder->join('transaksi T', 'T.no_transaksi = o.apt_no_transaksi AND T.kd_kasir = o.apt_kd_kasir', 'left');
         $builder->join(
             'kunjungan kun',
@@ -310,6 +314,7 @@ class ResepModel extends Model
         $builder->join('mr_resep mr', 'o.id_mrresep = mr.id_mrresep', 'left');
 
         // WHERE utama
+        $builder->whereIn('kun.kd_customer', ['0000000043', '0000000044']);
         $builder->where('o.returapt', 0);
         $builder->where('o.tutup', 1);
 
@@ -369,8 +374,34 @@ class ResepModel extends Model
 
         $builder->orderBy('o.tgl_out', 'ASC');
         $builder->orderBy('o.nmpasien', 'ASC');
-                // ->get()
-                // ->getResultArray();
+        //         ->get()
+        //         ->getResultArray();
+        // echo $this->db->getLastQuery()->getQuery();
+        // die;
+        return $builder->get()->getResultArray();
+    }
+
+    public function getDetailObat(array $filter = [])
+    {
+        $builder = $this->builder('apt_barang_out_detail abod');
+       
+        $builder->select("
+            abod.kd_prd,
+            abod.jml_out,
+            abod.harga_jual,
+            apt_obat.nama_obat
+        ");
+
+        $builder->join('apt_obat', 'abod.kd_prd = apt_obat.kd_prd', 'inner');
+       
+        if (!empty($filter['noOut']) && !empty($filter['tglOut'])) {
+            $builder->where('no_out =', $filter['noOut']);
+            $builder->where('tgl_out =', $filter['tglOut']);
+        }
+
+        $builder->orderBy('no_urut', 'ASC');
+        //         ->get()
+        //         ->getResultArray();
         // echo $this->db->getLastQuery()->getQuery();
         // die;
         return $builder->get()->getResultArray();
