@@ -37,10 +37,8 @@ class BpjsInsertController extends BaseController
 
         try {
 
-            // ==========================
-            // PANGGIL ENDPOINT INTERNAL
-            // ==========================
-            $targetUrl = base_url("bpjs/insert/daftarresep/{$tgl_awal}/{$tgl_akhr}");
+            $userID    = session()->get('id');
+            $targetUrl = base_url("bpjs/insert/daftarresep/{$tgl_awal}/{$tgl_akhr}/{$userID}");
 
             $client = Services::curlrequest([
                 'timeout' => 60,
@@ -107,7 +105,7 @@ class BpjsInsertController extends BaseController
         }
     }
 
-    public function getdaftar_pelayanan()
+    public function getdaftar_pelayananX()
     {
         $sep  = $this->request->getPost('searchsep_value');
 
@@ -154,6 +152,100 @@ class BpjsInsertController extends BaseController
                     $htmlResult = view('resep/partial_pelobat_listpel', ['dataList' => $dataList]);
                 } else {
                     $message = 'Data Obat kosong.';
+                }
+            }else {
+                $message = $bpjsJson['metaData']['message'] 
+                        ?? $bpjsJson['pesan'] 
+                        ?? $bpjsJson['message'] 
+                        ?? 'Respon server BPJS tidak dikenali.';
+            }
+
+            return $this->response->setJSON([
+                'status' => $statusResult,
+                'message' => $message,
+                'html' => $htmlResult
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'status'    => false,
+                'message'   => 'Gagal terhubung ke API BPJS!<br>Error ' . $e->getMessage(),
+                'error'     => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getdaftar_pelayanan()
+    {
+        $sep  = $this->request->getPost('searchsep_value');
+
+        if (empty($sep)) {
+            return $this->response->setJSON(['status' => false, 'message' => 'No. Kunjungan / SEP tidak boleh kosong.']);
+        }
+        
+        try {
+            $userID     = session()->get('id');
+            $baseUrl    = base_url();
+            $targetUrl  = $baseUrl . 'bpjs/listpelayananobat_perSEP/' . $sep.'/'.$userID;
+            
+            $client = Services::curlrequest();
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE']
+            ]);
+            
+            $wrapper = json_decode($response->getBody(), true);
+            // var_dump($wrapper);
+            // $bpjsJson = $wrapper['body'] ?? $wrapper;
+            $bpjsJson = [
+                            'response' => [   
+                                'detailsep' => 
+                                [
+                                    [
+                                        "noSepApotek" => "1801A00104190000001",
+                                        "noSepAsal" => "1801R0010419V000001",
+                                        "noresep" => "0001289024796",
+                                        "nokartu" => "EDWIN TRI HADTANTO",
+                                        "nmpst" => "00001",
+                                        "kdjnsobat" => "Obat Kemoterapi",
+                                        "nmjnsobat" => "2025-01-10",
+                                        "tglpelayanan" => "50000000",
+                                        "listobat" => [
+                                            "kodeobat" => "25180404057",
+                                            "namaobat" => "Amlodipin 10 Plab tab 10 mg",
+                                            "tipeobat" => "N",
+                                            "signa1" => "1.00",
+                                            "signa2" => "1.00",
+                                            "hari" => "23.00",
+                                            "permintaan" => null,
+                                            "jumlah" => "23.00",
+                                            "harga" => "2797"
+                                        ]
+                                    ]
+                                ]
+                            ],
+                            'metaData' => [
+                                'code' => "200",
+                                'message' => "Ok Hardcode"
+                            ]
+                        ];
+
+            $statusResult = false;
+            $message = '';
+            $htmlResult = '';
+
+            if (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+                
+                if (!is_null($bpjsJson['response'])) {
+                    if (!empty($bpjsJson['response']['detailsep'])) {
+                        $statusResult = true;
+                        $dataList = $bpjsJson['response']['detailsep'];
+                        var_dump($dataList);
+                        $htmlResult = view('resep/partial_pelobat_listpelx', ['dataList' => $dataList]);
+                    } else {
+                        $message = 'Data Obat kosong.';
+                    }
+                } else {
+                    $message = 'Data Obat tidak ditemukan (Response Null).';
                 }
             }else {
                 $message = $bpjsJson['metaData']['message'] 

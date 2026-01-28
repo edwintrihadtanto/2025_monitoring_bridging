@@ -278,40 +278,36 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
+    public function DELpelayananobat($sepapotek, $noresep, $kodeobat)
+    {
+        $payload = json_encode([
+            'nosepapotek'   => '1801A00104190000001',
+            'noresep'       => '12345',
+            'kodeobat'      => '25180404057',
+            'tipeobat'      => 'N'
+        ]);
+        $endpoint = '/pelayanan/obat/hapus/';
+        $result = $this->bpjsInsertService->request('DELETE', $endpoint, $payload);
+        return $this->response->setJSON($result);
+    }
+
     public function getListPelayananObat($SEP, $userID)
     {
-        // $userID = session()->get('id');
         $data = null;
         $endpoint   = "obat/daftar/{$SEP}";
-        $result     = $this->bpjsService->request('GET', $endpoint);
-        // var_dump($result);exit();
+        $result     = $this->bpjsService->request('GET', $endpoint, $data, $userID);
         return $this->response->setJSON($result);
-        // if ($result['status_code'] == 200) {
-        //     $response = [
-        //         'status' => 'sukses',
-        //         'pesan'  => 'Berhasil',
-        //         'data'   => $result['body']
-        //     ];
-        // } else {
-        //     $response = [
-        //         'status' => 'gagal',
-        //         'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-        //     ];
-        // }
-
-        // return $this->response->setJSON($result);
     }
 
     public function getRiwayatPelayananObat($tglawal, $tglakhr, $nokartu, $userID)
     {
-        // $userID = session()->get('id') ?? 123;
         $data = null;
         $endpoint   = "riwayatobat/{$tglawal}/{$tglakhr}/{$nokartu}";
         $result     = $this->bpjsService->request('GET', $endpoint, $data, $userID);
         return $this->response->setJSON($result);
     }
 
-    public function daftarresep($tglawal, $tglakhr)
+    public function daftarresep($tglawal, $tglakhr, $userID)
     {
         $payload = json_encode([
             'kdppk'     => $this->ppkFarmasi,
@@ -321,7 +317,7 @@ class BpjsController extends BaseController
             'TglAkhir'  => $tglakhr . ' 23:59:59'
         ]);
         $endpoint = '/daftarresep';
-        $result = $this->bpjsInsertService->request('POST', $endpoint, $payload);
+        $result = $this->bpjsInsertService->request('POST', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
 
@@ -333,7 +329,7 @@ class BpjsController extends BaseController
             'POLIRSP'    => 'IPD',
             'KDJNSOBAT'  => '3',
             'NORESEP'    => '12346',
-            'IDUSERSJP'  => 'USR-01'
+            'IDUSERSJP'  => 'USR-01',
             'TGLRSP'     => '2021-08-05 00:00:00', 
             'TGLPELRSP'  => '2021-08-05 00:00:00',
             'KdDokter'   => '0',

@@ -78,7 +78,8 @@ class BpjsFarmasi_InsertService
     public function request(
         string $method,
         string $endpoint,
-        string $payload = null
+        string $payload = null,
+        string $userID = null
     ): array {
         $method = strtoupper($method);
         $tStamp = $this->timestamp();
@@ -91,7 +92,8 @@ class BpjsFarmasi_InsertService
             'endpoint'       => $url,
             'method'         => $method,
             'request_header' => json_encode($headers),
-            'request_body'   => $payload ?? '',
+            'request_body'   => $payload ?? '-',
+            'iduser'         => $userID ?? '999'
         ];
 
         $opts = [
