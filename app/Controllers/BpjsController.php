@@ -283,7 +283,7 @@ class BpjsController extends BaseController
         // $userID = session()->get('id');
         $data = null;
         $endpoint   = "obat/daftar/{$SEP}";
-        $result     = $this->bpjsService->request('GET', $endpoint, $data, $userID);
+        $result     = $this->bpjsService->request('GET', $endpoint);
         // var_dump($result);exit();
         return $this->response->setJSON($result);
         // if ($result['status_code'] == 200) {
@@ -302,28 +302,13 @@ class BpjsController extends BaseController
         // return $this->response->setJSON($result);
     }
 
-    public function getRiwayatPelayananObat($tglawal,$tglakhr,$nokartu)
+    public function getRiwayatPelayananObat($tglawal, $tglakhr, $nokartu, $userID)
     {
-        $userID = session()->get('id') ?? 0;
+        // $userID = session()->get('id') ?? 123;
         $data = null;
         $endpoint   = "riwayatobat/{$tglawal}/{$tglakhr}/{$nokartu}";
         $result     = $this->bpjsService->request('GET', $endpoint, $data, $userID);
         return $this->response->setJSON($result);
-
-        // if ($result['status_code'] == 200) {
-        //     $response = [
-        //         'status' => 'sukses',
-        //         'pesan'  => 'Berhasil',
-        //         'data'   => $result['body']
-        //     ];
-        // } else {
-        //     $response = [
-        //         'status' => 'gagal',
-        //         'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-        //     ];
-        // }
-
-        // return $this->response->setJSON($result);
     }
 
     public function daftarresep($tglawal, $tglakhr)

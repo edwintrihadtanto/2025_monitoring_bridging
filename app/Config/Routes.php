@@ -62,7 +62,7 @@ use CodeIgniter\Router\RouteCollection;
         // http://localhost/2025_monitoring_bridging/bpjs/listpelayananobat_perSEP/1801R0010419V000001
         $routes->get('listpelayananobat_perSEP/(:segment)/(:segment)', 'BpjsController::getListPelayananObat/$1/$2');
         // http://localhost/2025_monitoring_bridging/bpjs/riwayatpelayananobat/2024-09-01/2024-09-01/12345678
-        $routes->get('riwayatpelayananobat/(:segment)/(:segment)/(:segment)', 'BpjsController::getRiwayatPelayananObat/$1/$2/$3');
+        $routes->get('riwayatpelayananobat/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::getRiwayatPelayananObat/$1/$2/$3/$4');
 
         $routes->get('monitoringklaim/(:num)/(:num)/(:num)/(:num)', 'BpjsController::getMonitoringKlaim/$1/$2/$3/$4');
         $routes->get('rekapprb/(:num)/(:num)', 'BpjsController::getRekapPasienPRB/$1/$2');

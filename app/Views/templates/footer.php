@@ -35,10 +35,23 @@
         // --- 1. GLOBAL VARIABLES (Agar bisa diakses semua fungsi) ---
         let detailModalInstance = null;
         let isDPHOLoaded = false;
-        // var isDPHOInitialized = false;
-        // --- 2. DEFINISI FUNGSI UTAMA (Dipindahkan ke Luar / Global Scope) ---
+        let lastFocusedElement = null;        
+        
+        document.body.setAttribute('tabindex', '-1');
+        //khusus modal ketika di open dan close
+        window.addEventListener('show.bs.modal', () => {
+            lastFocusedElement = document.activeElement;
+        }, true);
 
-        // Helper Modal
+        window.addEventListener('hide.bs.modal', (e) => {
+            e.target.querySelector(':focus')?.blur();
+        }, true);
+        
+        window.addEventListener('hidden.bs.modal', () => {
+            lastFocusedElement?.focus();
+            lastFocusedElement = null;
+        }, true);
+
         window.showModal = function(modalId) {
             const modalEl = document.getElementById(modalId);
             if (!modalEl) return;
@@ -52,6 +65,7 @@
                 $(modalEl).modal('show');
             }
         }
+        // end modal
 
         // Helper Update Active Menu
         window.updateActiveMenu = function(linkElement) {
@@ -248,6 +262,7 @@
             const spesialisForm         = document.getElementById('loadHalamanSpesialis');
             const listResepForm         = document.getElementById('pencarianListResepForm');
             const pelObatList           = document.getElementById('pencarianListPelyananObatForm');
+            const pelObatRiwayat        = document.getElementById('pencarianRiwayatPelyananObatForm');
             const simrsResep            = document.getElementById('pencarianResepSIMRS');
              
             if (pasienForm) {
@@ -299,6 +314,12 @@
             if (pelObatList) {
                 if (typeof initListPelyananObatPage === 'function') {
                     initListPelyananObatPage();
+                }
+            }
+
+            if (pelObatRiwayat) {
+                if (typeof initRiwayatPelyananObatPage === 'function') {
+                    initRiwayatPelyananObatPage();
                 }
             }
 
@@ -449,6 +470,10 @@
                 }else if (form.id === 'pencarianListPelyananObatForm') {
                     if (typeof handleListPelyananObatSubmit === 'function') {
                         handleListPelyananObatSubmit(e, form);
+                    }
+                }else if (form.id === 'pencarianRiwayatPelyananObatForm') {
+                    if (typeof handleRiwayatPelyananObatSubmit === 'function') {
+                        handleRiwayatPelyananObatSubmit(e, form);
                     }
                 }else if (form.id === 'pencarianResepSIMRS') {
                     if (typeof handleResepSIMRSSubmit === 'function') {

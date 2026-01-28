@@ -177,6 +177,78 @@ class BpjsInsertController extends BaseController
         }
     }
 
+    public function getriwayat_pelayanan()
+    {
+        $tgl_awal = $this->request->getPost('tgl_awal');
+        $tgl_akhr = $this->request->getPost('tgl_akhr');
+        $no_kartu = $this->request->getPost('no_kartu');
+
+        if (empty($no_kartu)) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'No. Kartu BPJS tidak boleh kosong.'
+            ]);
+        }
+
+        try {
+            $userID    = session()->get('id');
+            $targetUrl = base_url(
+                'bpjs/riwayatpelayananobat/' .
+                $tgl_awal.'/'.$tgl_akhr.'/'.$no_kartu.'/'.$userID
+            );
+
+            $client   = \Config\Services::curlrequest();
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE']
+            ]);
+
+            $wrapper  = json_decode($response->getBody(), true);
+            $bpjsJson = $wrapper['body'] ?? $wrapper;
+
+            /* ================= VALIDASI RESPONSE ================= */
+
+            if (
+                !isset($bpjsJson['metaData']['code']) ||
+                $bpjsJson['metaData']['code'] !== '200'
+            ) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => $bpjsJson['metaData']['message']
+                                ?? $bpjsJson['pesan'] 
+                                ?? $bpjsJson['message'] 
+                                ?? 'Respon BPJS tidak valid'
+                ]);
+            }
+
+            $list = $bpjsJson['response']['list'] ?? null;
+            $history = $list['history'] ?? [];
+
+            if (empty($history)) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'Data Riwayat Pelayanan Obat Kosong.'
+                ]);
+            }
+
+            /* ================= RENDER VIEW ================= */
+
+            $html = view('resep/partial_pelobat_riwayatpel', ['data' => $bpjsJson ]);
+
+            return $this->response->setJSON([
+                'status'  => true,
+                'message' => 'Data ditemukan',
+                'html'    => $html
+            ]);
+
+        } catch (\Throwable $e) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Gagal terhubung ke API BPJS!<br>Error ' . $e->getMessage(),
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+
     public function getResepSIMRSLAMA()
     {
         $ResepModel = new ResepModel();
@@ -417,15 +489,6 @@ class BpjsInsertController extends BaseController
             ];
 
             $getdetail = $ResepModel->getDetailObat($filter);
-            
-            // $data = $this->db->query("
-            //     SELECT kd_prd, nama_obat
-            //     FROM apt_barang_out_detail
-            //     INNER JOIN apt_obat USING (kd_prd)
-            //     WHERE no_out = ?
-            //       AND tgl_out = ?
-            //     ORDER BY nama_obat
-            // ", [$noOut, $tglOut])->getResultArray();
 
             return view('resep/partial_detail_obat', [
                 'detail' => $getdetail
@@ -437,8 +500,6 @@ class BpjsInsertController extends BaseController
                 'message' => 'No Out dan Tgl Transaksi Tidak diketahui!'
             ]);
         }
-
-        
     }
 
 }
