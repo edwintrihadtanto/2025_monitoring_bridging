@@ -324,4 +324,23 @@ class BpjsController extends BaseController
         $result = $this->bpjsInsertService->request('POST', $endpoint, $payload);
         return $this->response->setJSON($result);
     }
+
+    public function simpanresep()
+    {
+        $payload = json_encode([
+            'TGLSJP'     => '2021-08-05 18:13:11',
+            'REFASALSJP' => '1202R0010318V000092',
+            'POLIRSP'    => 'IPD',
+            'KDJNSOBAT'  => '3',
+            'NORESEP'    => '12346',
+            'IDUSERSJP'  => 'USR-01'
+            'TGLRSP'     => '2021-08-05 00:00:00', 
+            'TGLPELRSP'  => '2021-08-05 00:00:00',
+            'KdDokter'   => '0',
+            'iterasi'    => '0'
+        ]);
+        $endpoint = '/sjpresep/v3/insert';
+        $result = $this->bpjsInsertService->request('POST', $endpoint, $payload);
+        return $this->response->setJSON($result);
+    }
 }
