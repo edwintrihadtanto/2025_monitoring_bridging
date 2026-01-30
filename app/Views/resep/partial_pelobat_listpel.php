@@ -19,9 +19,6 @@
                             <button class="btn btn-link btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetails<?= $index ?>" aria-expanded="false" aria-controls="collapseDetails<?= $index ?>">
                                 <i class="bi bi-chevron-down"></i> Detail
                             </button>
-                            <button class="btn btn-danger btn-sm" type="button">
-                                <i class="bi bi-trash"></i> Hapus
-                            </button>
                         </div>
                     </div>
 
@@ -29,20 +26,36 @@
                     <div class="collapse" id="collapseDetails<?= $index ?>">
                         <div class="card-body p-3 border-start border-bottom border-4 border-success shadow-sm">
                             <div class="mb-2">
-                                <strong>Jenis Obat:</strong>
-                                <span><?= $item['nmjnsobat'] ?></span>
-                            </div>
-                            <div class="mb-2">
-                                <strong>Tgl. Pelayanan Resep:</strong>
-                                <span><?= $item['tglpelayanan'] ?></span>
+                                <strong>Kode Obat:</strong>
+                                <span><?= $item['listobat']['kodeobat'] ?></span>
                             </div>
                             <div class="mb-2">
                                 <strong>Nama Obat:</strong>
-                                <span><?= $item['listobat']['kodeobat']." / ".$item['listobat']['nmjnsobat'] ?></span>
+                                <span><?= $item['listobat']['namaobat'] ?></span>
                             </div>
-                            <div class="mb-2">
-                                <strong>Penggunaan:</strong>
-                                <span><?= $item['listobat']['hari' ?> Hari</span>
+                            <div class="row">
+                                <div class="mb-2 col-md-6">
+                                    <strong>Signa 1:</strong>
+                                    <span><?= $item['listobat']['signa1'] ?></span>
+                                </div>
+                                <div class="mb-2 col-md-6">
+                                    <strong>Signa 2:</strong>
+                                    <span><?= $item['listobat']['signa2'] ?></span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-2 col-md-4">
+                                    <strong>Permintaan:</strong>
+                                    <span><?= $item['listobat']['permintaan'] ?? 0?></span>
+                                </div>
+                                <div class="mb-2 col-md-4">
+                                    <strong>Jumlah:</strong>
+                                    <span><?= $item['listobat']['jumlah'] ?? 0 ?></span>
+                                </div>
+                                <div class="mb-2 col-md-4">
+                                    <strong>Harga:</strong>
+                                    <span>Rp. <?= $item['listobat']['harga'] ?? 0 ?></span>
+                                </div>
                             </div>
                         </div>
                     </div>

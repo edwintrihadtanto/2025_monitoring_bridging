@@ -65,11 +65,11 @@
                     ?>
                         <div class="list-group-item resep-item"
                              data-search="<?= strtolower(
-                                 ($item['no_sjp'] ?? '') . ' ' .
+                                 ($item['no_sep'] ?? '') . ' ' .
                                  $item['kd_pasienapt'] . ' ' .
                                  $item['nmpasien']
                              ) ?>"
-                             data-sep="<?= $item['no_sjp'] ? '1' : '0' ?>">
+                             data-sep="<?= $item['no_sep'] ? '1' : '0' ?>">
 
                             <div class="d-flex justify-content-between align-items-center">
 
@@ -87,9 +87,9 @@
 
                                     <div>
                                         <div class="fw-bold">
-                                            <?php if (!empty($item['no_sjp'])): ?>
+                                            <?php if (!empty($item['no_sep'])): ?>
                                                 <span class="badge bg-success">
-                                                    <?= esc($item['no_sjp']) ?>
+                                                    <?= esc($item['no_sep']) ?>
                                                 </span>
                                             <?php else: ?>
                                                 <span class="badge bg-danger">

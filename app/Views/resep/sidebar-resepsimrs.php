@@ -67,7 +67,7 @@
                                     <input type="date"
                                            name="tgl_awal"
                                            class="form-control form-control-sm"
-                                           value="2024-10-29"
+                                           value="<?= date('Y-m-d') ?>"
                                            required>
                                 </div>
 
@@ -77,10 +77,10 @@
                                     <input type="date"
                                            name="tgl_akhr"
                                            class="form-control form-control-sm"
-                                           value="2024-10-29"
+                                           value="<?= date('Y-m-d') ?>"                                           
                                            required>
                                 </div>
-
+                                <!-- value="2024-10-29" -->
                                 <!-- Medrec / Nama -->
                                 <div class="col-md-3">
                                     <label class="form-label mb-1">Medrec / Nama Pasien</label>

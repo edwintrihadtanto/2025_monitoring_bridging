@@ -11,6 +11,13 @@
                     </div>
                 </div>
             </footer>
+
+            <button id="btnToTop"
+                    class="btn btn-info rgb-border"
+                    title="Kembali ke atas"
+                    aria-label="Back to top">
+                <i class="bi bi-arrow-up"></i>
+            </button>
         </div>
         <!-- END MAIN -->
 
@@ -66,8 +73,7 @@
             }
         }
         // end modal
-
-        // Helper Update Active Menu
+        
         window.updateActiveMenu = function(linkElement) {
             document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
             if (linkElement) {
@@ -76,7 +82,7 @@
             }
         }
 
-        // Fungsi Load Content Utama (Sekarang Global)
+
         window.loadPageContent = function(url, pageIdentifier, clickedLinkElement = null) {
             const mainContent = document.getElementById('main-content');
             if(mainContent) {
@@ -93,17 +99,12 @@
                 if (!response.ok) throw new Error('Network error');
                 return response.text();
             })
-            .then(html => {
-                // --- TAMBAHKAN LOGIKA CEK LOGIN INI ---
-                // Jika HTML yang dimuat mengandung id="auth" (ada di view Login),
-                // berarti user terlempar ke halaman login karena session habis.
-                if (html.includes('id="auth"')) {
-                    // Paksa reload halaman secara penuh ke URL tersebut (Login)
+            .then(html => {                
+                if (html.includes('id="auth"')) {                    
                     window.location.href = url; 
-                    return; // Stop proses agar tidak dimasukkan ke main-content
+                    return;
                 }
-                // ----------------------------------------------
-
+                
                 mainContent.innerHTML = html;
                 history.pushState({page: pageIdentifier}, '', url);
 
@@ -126,8 +127,7 @@
                 }
             });
         }
-
-        // Setup Entries Per Page (Sekarang Bisa Panggil loadPageContent)
+        
         window.setupEntriesPerPage = function() {
             const selectElement = document.getElementById('entriesPerPage');
             
@@ -140,8 +140,7 @@
                     const currentUrl = new URL(window.location.href);
                     currentUrl.searchParams.set('perPage', perPage);
                     currentUrl.searchParams.set('page', 1);
-                    
-                    // Panggil fungsi GLOBAL loadPageContent
+                                        
                     window.loadPageContent(currentUrl.toString(), 'monitoring', null);
                 });
             }
@@ -172,34 +171,6 @@
                                         infoEmpty: "Tidak ada data ditemukan",
                                         zeroRecords: "Data tidak ditemukan"
                                     }
-                                    /*,initComplete: function() {
-                                        var api = this.api();
-                                        var tableId = api.table().node().id; // Contoh: 'table1'
-                                        console.log(tableId);
-                                        // --- A. Handle Top Row (Dropdown Custom) ---
-                                        var currentPerPage = $('#' + tableId).data('current-perpage') || 10;
-                                        var dropdownHtml = `
-                                            <div class="d-flex align-items-center">
-                                                <span class="me-2" style="font-size: 0.9rem;">Tampilkan:</span>
-                                                <select id="entriesPerPage" class="form-select w-auto" style="width: 80px !important;">
-                                                    <option value="10" ${currentPerPage == 10 ? 'selected' : ''}>10</option>
-                                                    <option value="25" ${currentPerPage == 25 ? 'selected' : ''}>25</option>
-                                                    <option value="50" ${currentPerPage == 50 ? 'selected' : ''}>50</option>
-                                                    <option value="100" ${currentPerPage == 100 ? 'selected' : ''}>100</option>
-                                                </select>
-                                            </div>
-                                        `;
-                                        
-                                        $('#' + tableId + '_wrapper .row:first .col-md-6:first').html(dropdownHtml);
-                                        if ($('#custom-pagination-container').length > 0) {
-                                            $('#custom-pagination-container')
-                                                .removeClass('d-none')
-                                                .addClass('d-flex justify-content-end')
-                                                .appendTo('#' + tableId + '_wrapper .row:last .col-md-7');
-                                        }
-                                        
-                                        window.setupEntriesPerPage();
-                                    }*/
                                 };
                                 
                                 if ((isObatTable)||(isDPHOTable)) {                                                                        
@@ -341,8 +312,7 @@
             //     }
             // }
         }
-
-        // --- 3. DOM CONTENT LOADED (Hanya untuk menempel Event Listener Awal) ---
+        
         document.addEventListener('DOMContentLoaded', function() {
             
             document.body.addEventListener('click', function(e) {
@@ -353,7 +323,8 @@
                     const modalEl = document.getElementById('detailModal');
                     if (modalEl) {
                         document.getElementById('modalRequest').textContent = btnDetail.getAttribute('data-request');
-                        document.getElementById('modalResponse').textContent = btnDetail.getAttribute('data-response');
+                        document.getElementById('modalRequestBody').textContent = btnDetail.getAttribute('data-requestbody');
+                        document.getElementById('modalResponse').textContent = btnDetail.getAttribute('data-response');                        
                         window.showModal('detailModal'); // Panggil global function
                     }
                     return;
@@ -467,6 +438,10 @@
                     if (typeof handleListResepSubmit === 'function') {
                         handleListResepSubmit(e, form);
                     }
+                }else if (form.id === 'DeleteResepForm') {
+                    if (typeof handleDeleteResepSubmit === 'function') {
+                        handleDeleteResepSubmit(e, form);
+                    }
                 }else if (form.id === 'pencarianListPelyananObatForm') {
                     if (typeof handleListPelyananObatSubmit === 'function') {
                         handleListPelyananObatSubmit(e, form);
@@ -492,95 +467,30 @@
             });
         });
 
+        (function () {
+            const btn = document.getElementById('btnToTop');
+            if (!btn) return;
 
-        // --- Khusus untuk Halaman Pencarian Pasien ---
-        /*document.body.addEventListener('change', function(e) {
-            const radioNIK = document.getElementById('opt_nik');
-            const radioKartu = document.getElementById('opt_kartu');
-            
-            // Cek apakah user mengganti radio button
-            if (e.target === radioNIK || e.target === radioKartu) {
-                const wrapperNik = document.getElementById('wrapper_nik');
-                const wrapperKartu = document.getElementById('wrapper_kartu');
-                const hiddenType = document.getElementById('search_type');
+            let ticking = false;
 
-                if (radioNIK.checked) {
-                    // Pilih NIK
-                    hiddenType.value = 'nik';
-                    wrapperNik.classList.remove('d-none'); // Tampil
-                    wrapperKartu.classList.add('d-none'); // Sembunyi
-                    document.getElementById('input_nik').focus();
-                } else {
-                    // Pilih Kartu
-                    hiddenType.value = 'kartu';
-                    wrapperNik.classList.add('d-none'); // Sembunyi
-                    wrapperKartu.classList.remove('d-none'); // Tampil
-                    document.getElementById('input_kartu').focus();
+            window.addEventListener('scroll', function () {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        btn.classList.toggle('show', window.scrollY > 300);
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
-            }
-        });
+            });
 
-        document.body.addEventListener('submit', function(e) {
-            const form = e.target.closest('#pencarianPasienForm');
-            
-            if (form) {
-                e.preventDefault();
-                
-                const btnSubmit = form.querySelector('button[type="submit"]');
-                const resultContainer = document.getElementById('result-container');
-                const alertContainer = document.getElementById('alert-container');
-                const type = document.getElementById('search_type').value;
-                
-                // Tentukan value berdasarkan tipe (Ambil dari input yang terlihat)
-                let value = '';
-                if (type === 'nik') {
-                    value = document.getElementById('input_nik').value;
-                } else {
-                    value = document.getElementById('input_kartu').value;
-                }
-
-                // Validasi Sederhana di JS
-                if(!value) {
-                    alert('Mohon isi data pencarian terlebih dahulu.');
-                    return;
-                }
-
-                // Buat FormData Manual agar nilai search_value terkirim dengan benar
-                const formData = new FormData();
-                formData.append('search_type', type);
-                formData.append('search_value', value);
-                formData.append('<?= csrf_token() ?>', '<?= csrf_hash() ?>');
-
-                // UI Loading
-                btnSubmit.disabled = true;
-                btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari...';
-                resultContainer.innerHTML = '';
-                alertContainer.innerHTML = '';
-
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = '<i class="bi bi-search me-2"></i> Cari Data Pasien';
-
-                    if (data.status) {
-                        resultContainer.innerHTML = data.html;
-                    } else {
-                        alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = '<i class="bi bi-search me-2"></i> Cari Data Pasien';
-                    alertContainer.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan sistem.</div>`;
+            btn.addEventListener('click', function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
                 });
-            }
-        });*/
+            });
+        })();
+
     </script>
 </body>
 </html>

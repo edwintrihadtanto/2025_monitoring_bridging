@@ -166,6 +166,40 @@
             pointer-events: none;
         }
 
+        .btn-info.rgb-border {
+            position: relative;
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .btn-info.rgb-border::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 2px; /* ketebalan border */
+            border-radius: inherit;
+            background: linear-gradient(
+                270deg,
+                #ff0000,
+                #ff9900,
+                #ffff00,
+                #00ff00,
+                #00ffff,
+                #0000ff,
+                #ff00ff,
+                #ff0000
+            );
+            background-size: 400% 400%;
+            animation: rgbBorder 3s linear infinite;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
         /* Animasi */
         @keyframes rgbBorder {
             0%   { background-position:   0% 50%; }
@@ -226,6 +260,38 @@
         /* Supaya tombol tidak ikut toggle */
         .no-toggle {
             z-index: 2;
+        }
+
+        #btnToTop {
+            position: fixed;
+            bottom: 50px;
+            right: 15px;
+            z-index: 1050;
+            display: none;
+
+            width: 45px;
+            height: 45px;
+            padding: 0px 2px 5px 0px;
+
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+
+            line-height: 1;
+        }
+
+        #btnToTop.show {
+            display: flex;
+        }
+
+        #btnToTop:hover {
+            transform: translateY(-3px);
+            background-color: #0ab0d1;
+        }
+
+        #btnToTop i {
+            font-size: 1.2rem;
+            line-height: 1;          /* 🔑 kunci ikon */
         }
     </style>
 </head>

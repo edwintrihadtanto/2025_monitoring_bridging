@@ -264,14 +264,12 @@ class ResepModel extends Model
             END AS jenis_pasien,
             kun.tgl_masuk,
             kun.urut_masuk,
-            o.catatandr,
-            kun.no_sjp,
+            o.catatandr,            
             py.kd_pay,
             py.uraian AS payment,
             pyt.jenis_pay,
             pyt.deskripsi AS payment_type,
-            o.tgl_resep,
-            sjp.no_sjp AS no_sep,
+            o.tgl_resep,            
             o.id_mrresep,
             mr.cat_alergi,
             o.siapa,
@@ -281,8 +279,11 @@ class ResepModel extends Model
                 WHEN o.kd_customer NOT IN ('0000000043', '0000000044') THEN '1' ELSE '0'
             END AS kd_customer_status,
             kun.kd_customer as kd_customer_kunjungan,
+            kun.no_sjp,
             o.kd_customer as kd_customer_apt_brangout,
-            C.customer
+            C.customer,
+            CASE WHEN o.kd_customer = '0000000001' THEN '' ELSE sjp.no_sjp END AS no_sep
+            -- sjp.no_sjp AS no_sep
         ");
 
         // JOIN
@@ -292,8 +293,7 @@ class ResepModel extends Model
         $builder->join('kontraktor ko', 'C.kd_customer = ko.kd_customer', 'left');
         // $builder->join('apt_barang_out_detail bo', 'bo.no_out = o.no_out AND bo.tgl_out = o.tgl_out', 'left');
         $builder->join('transaksi T', 'T.no_transaksi = o.apt_no_transaksi AND T.kd_kasir = o.apt_kd_kasir', 'left');
-        $builder->join(
-            'kunjungan kun',
+        $builder->join('kunjungan kun',
             'T.kd_pasien = kun.kd_pasien 
              AND T.kd_unit = kun.kd_unit 
              AND T.urut_masuk = kun.urut_masuk 
@@ -303,8 +303,7 @@ class ResepModel extends Model
         );
         $builder->join('payment py', 'py.kd_customer = o.kd_customer', 'inner');
         $builder->join('payment_type pyt', 'pyt.jenis_pay = py.jenis_pay', 'inner');
-        $builder->join(
-            'sjp_kunjungan sjp',
+        $builder->join('sjp_kunjungan sjp',
             'sjp.kd_pasien = kun.kd_pasien 
              AND sjp.tgl_masuk = kun.tgl_masuk 
              AND sjp.kd_unit = kun.kd_unit 
@@ -314,7 +313,7 @@ class ResepModel extends Model
         $builder->join('mr_resep mr', 'o.id_mrresep = mr.id_mrresep', 'left');
 
         // WHERE utama
-        $builder->whereIn('kun.kd_customer', ['0000000043', '0000000044']);
+        // $builder->whereIn('kun.kd_customer', ['0000000043', '0000000044']);
         $builder->where('o.returapt', 0);
         $builder->where('o.tutup', 1);
 
@@ -328,17 +327,17 @@ class ResepModel extends Model
             // $builder->where('abo.kd_pasienapt', $filter['medrec']);
             $medrec = trim($filter['medrec']); //6485474
 
-            // $builder->where("REPLACE(o.kd_pasienapt, '-', '') = '{$medrec}'", null, false);
-            $builder->where(
-                "REPLACE(kun.kd_pasien, '-', '') =",
-                $medrec,
-                false
-            );
+            $builder->where("REPLACE(o.kd_pasienapt, '-', '') = '{$medrec}'", null, false);
+            // $builder->where(
+            //     "REPLACE(kun.kd_pasien, '-', '') =",
+            //     $medrec,
+            //     false
+            // );
         }
 
         if (!empty($filter['nama_pasien'])) {
-            // $builder->where("LOWER(abo.nmpasien) LIKE '%" . strtolower($filter['nama_pasien']) . "%'",null,false);
-            $builder->like('LOWER(o.nmpasien)', strtolower($filter['nama_pasien']), 'both', false);
+            $builder->where("LOWER(o.nmpasien) LIKE '%" . strtolower($filter['nama_pasien']) . "%'",null,false);
+            // $builder->like('LOWER(o.nmpasien)', strtolower($filter['nama_pasien']), 'both', false);
 
         }
 

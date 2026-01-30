@@ -50,13 +50,13 @@ use CodeIgniter\Router\RouteCollection;
             $routes->post('obatracikan', 'BpjsInsertController::obatracikan');
             $routes->post('updatestokobat', 'BpjsInsertController::updatestokobat');
 
-            $routes->post('sjpresep', 'BpjsInsertController::sjpresep');
+            $routes->get('getsjpresep/(:segment)', 'BpjsController::sjpresep/$1');
             $routes->get('daftarresep/(:segment)/(:segment)/(:segment)', 'BpjsController::daftarresep/$1/$2/$3');
         });
 
         $routes->group('delete', static function ($routes) {
-            $routes->delete('del_pelayananobat', 'BpjsDeleteController::del_pelayananobat');
-            $routes->delete('del_hapusresep', 'BpjsDeleteController::del_hapusresep');
+            $routes->get('del_pelayananobat', 'BpjsDeleteController::del_pelayananobat');
+            $routes->get('del_hapusresep/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::del_hapusresep/$1/$2/$3/$4');
         });
 
         // http://localhost/2025_monitoring_bridging/bpjs/listpelayananobat_perSEP/1801R0010419V000001
@@ -108,6 +108,8 @@ use CodeIgniter\Router\RouteCollection;
     $routes->get('sidebar-ResepSIMRS', 'BpjsInsertController::viewresepsimrs', ['filter' => 'auth']);
     $routes->post('res/search_resepSIMRS', 'BpjsInsertController::getResepSIMRS', ['filter' => 'auth']);
     $routes->post('res/getDetailObat', 'BpjsInsertController::getDetailObat', ['filter' => 'auth']);
+
+    $routes->post('res/del_hapusresep', 'BpjsInsertController::del_hapusresep', ['filter' => 'auth']);
  });
 
  $routes->get('/BridgingTES/(:any)', 'BridgingTES::$1');

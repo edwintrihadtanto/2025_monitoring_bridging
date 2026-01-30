@@ -425,7 +425,7 @@ function fungsi_sidebar_resepSIMRS() {
         if (target.dataset.loaded === '1') return;
 
         target.innerHTML = `
-            <div class="bg-primary rounded p-2 small text-muted">
+            <div class="bg-primary rounded p-2 small text-white">
                 <i class="bi bi-hourglass-split me-1"></i>
                 Memuat detail obat...
             </div>`;

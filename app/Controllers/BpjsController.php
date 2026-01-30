@@ -307,6 +307,7 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
+    //RESEP
     public function daftarresep($tglawal, $tglakhr, $userID)
     {
         $payload = json_encode([
@@ -321,22 +322,35 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function simpanresep()
+    public function sjpresep($userID)
     {
         $payload = json_encode([
-            'TGLSJP'     => '2021-08-05 18:13:11',
-            'REFASALSJP' => '1202R0010318V000092',
-            'POLIRSP'    => 'IPD',
+            'TGLSJP'     => '2026-01-30 08:13:11',
+            'REFASALSJP' => '1308R0010126V000340',
+            'POLIRSP'    => 'INT',
             'KDJNSOBAT'  => '3',
-            'NORESEP'    => '12346',
+            'NORESEP'    => '00001',
             'IDUSERSJP'  => 'USR-01',
-            'TGLRSP'     => '2021-08-05 00:00:00', 
-            'TGLPELRSP'  => '2021-08-05 00:00:00',
+            'TGLRSP'     => '2026-01-30 00:00:00', 
+            'TGLPELRSP'  => '2026-01-30 00:00:00',
             'KdDokter'   => '0',
             'iterasi'    => '0'
         ]);
         $endpoint = '/sjpresep/v3/insert';
-        $result = $this->bpjsInsertService->request('POST', $endpoint, $payload);
+        $result = $this->bpjsInsertService->request('POST', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
+
+    public function del_hapusresep($no_resep, $no_sep, $refasalsjp, $userID)
+    {
+        $payload = json_encode([
+            'nosjp'         => $no_sep,
+            'refasalsjp'    => $refasalsjp,
+            'noresep'       => $no_resep
+        ]);
+        $endpoint = '/hapusresep';
+        $result = $this->bpjsInsertService->request('DELETE', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
+    //END RESEP
 }

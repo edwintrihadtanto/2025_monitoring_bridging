@@ -20,6 +20,17 @@
                             <button class="btn btn-link btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetails<?= $index ?>" aria-expanded="false" aria-controls="collapseDetails<?= $index ?>">
                                 <i class="bi bi-chevron-down"></i> Detail
                             </button>
+
+                            <form id="DeleteResepForm" action="<?= site_url('res/del_hapusresep') ?>" method="post" >                                
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="no_resep" value="<?= esc($item['NORESEP']) ?>">
+                                <input type="hidden" name="no_sep" value="<?= esc($item['NOSEP_KUNJUNGAN']) ?>">
+                                <input type="hidden" name="refasalsjp" value="<?= esc($item['NOSEP_KUNJUNGAN']) ?>">
+
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
 

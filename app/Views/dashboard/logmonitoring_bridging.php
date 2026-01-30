@@ -101,7 +101,8 @@
                                             Detail
                                         </button> -->
                                         <button class="btn btn-sm btn-info btn-detail-log" 
-                                                data-request='<?= htmlspecialchars($log['endpoint'] . "\n" . $log['request_body'], ENT_QUOTES, 'UTF-8') ?>'
+                                                data-request='<?= htmlspecialchars($log['endpoint'], ENT_QUOTES, 'UTF-8') ?>'
+                                                data-requestbody='<?= htmlspecialchars($log['request_body'], ENT_QUOTES, 'UTF-8') ?>'
                                                 data-response='<?= htmlspecialchars($log['response_body'], ENT_QUOTES, 'UTF-8') ?>'>
                                             Detail
                                         </button>
