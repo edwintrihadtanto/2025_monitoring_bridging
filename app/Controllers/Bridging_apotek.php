@@ -38,8 +38,8 @@ class Bridging_apotek extends BaseController
 			)
 		);
 		$context = stream_context_create($opts);
-		// $string = json_decode(file_get_contents('https://apijkn-dev.bpjs-kesehatan.go.id/apotek-rest-dev' . $request, true, $context));
-		$string = json_decode(file_get_contents('https://apijkn.bpjs-kesehatan.go.id/apotek-rest' . $request, true, $context));
+		$string = json_decode(file_get_contents('https://apijkn-dev.bpjs-kesehatan.go.id/apotek-rest-dev' . $request, true, $context));
+		// $string = json_decode(file_get_contents('https://apijkn.bpjs-kesehatan.go.id/apotek-rest' . $request, true, $context));
 
 		return $string;
 	}
@@ -50,8 +50,8 @@ class Bridging_apotek extends BaseController
 		// $secretKey = "4nLBDBAD5C";
 		// $user_key = "6a6ee894eae9232d1170ef87c120edf2";
         
-        $data = "14321";
-		$secretKey = "5iW20C7181";
+        $data = "20743";
+		$secretKey = "5kKB4B975E";
 		$user_key = "5d50b7d8b05f3207171d1bad86e8ea73";
         
 		$signature = hash_hmac('sha256', $data . "&" . $tStamp, $secretKey, true);
@@ -65,8 +65,8 @@ class Bridging_apotek extends BaseController
 		// $secretKey = "4nLBDBAD5C";
 		// $user_key = "6a6ee894eae9232d1170ef87c120edf2";
         
-        $data = "14321";
-		$secretKey = "5iW20C7181";
+        $data = "20743";
+		$secretKey = "5kKB4B975E";
 		$user_key = "5d50b7d8b05f3207171d1bad86e8ea73";
         
 		$key = $data . $secretKey . $tStamp;

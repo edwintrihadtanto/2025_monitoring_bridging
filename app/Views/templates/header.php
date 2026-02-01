@@ -166,6 +166,118 @@
             pointer-events: none;
         }
 
+        .card-body.rgb-border-200 {
+            position: relative;
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .card-body.rgb-border-200::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            border-radius: inherit;
+            background: linear-gradient(270deg, #06c142, #06c142, #000000, #06c142, #06c142);
+            background-size: 400% 400%;
+            animation: rgbBorder 5s linear infinite;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        [data-bs-theme="dark"] .rgb-border-200::before  {
+            background: linear-gradient(270deg, #06c142, #06c142, #ffffff, #06c142, #06c142);
+            background-size: 400% 400%;
+        }
+
+        .card-body.rgb-border-300 {
+            position: relative;
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .card-body.rgb-border-300::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            border-radius: inherit;
+            background: linear-gradient(270deg, #64B5F6, #64B5F6, #000000, #64B5F6, #64B5F6);
+            background-size: 400% 400%;
+            animation: rgbBorder 5s linear infinite;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        [data-bs-theme="dark"] .rgb-border-300::before  {
+            background: linear-gradient(270deg, #64B5F6, #64B5F6, #ffffff, #64B5F6, #64B5F6);
+            background-size: 400% 400%;
+        }
+
+        .card-body.rgb-border-400 {
+            position: relative;
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .card-body.rgb-border-400::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            border-radius: inherit;
+            background: linear-gradient(270deg, #ffff00, #ffff00, #000000, #ffff00);
+            background-size: 400% 400%;
+            animation: rgbBorder 5s linear infinite;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        [data-bs-theme="dark"] .rgb-border-400::before  {
+            background: linear-gradient(270deg, #ffff00, #ffff00, #ffffff, #ffff00);
+            background-size: 400% 400%;
+        }
+
+        .card-body.rgb-border-500 {
+            position: relative;
+            z-index: 1;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .card-body.rgb-border-500::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            border-radius: inherit;
+            background: linear-gradient(270deg, #F44336, #EF5350, #000000, #F44336);
+            background-size: 400% 400%;
+            animation: rgbBorder 5s linear infinite;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        [data-bs-theme="dark"] .rgb-border-500::before  {
+            background: linear-gradient(270deg, #F44336, #EF5350, #ffffff, #F44336);
+            background-size: 400% 400%;
+        }
+
         .btn-info.rgb-border {
             position: relative;
             z-index: 1;

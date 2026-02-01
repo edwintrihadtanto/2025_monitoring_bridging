@@ -200,6 +200,7 @@
                                                 <option value="25" ${currentPerPage == 25 ? 'selected' : ''}>25</option>
                                                 <option value="50" ${currentPerPage == 50 ? 'selected' : ''}>50</option>
                                                 <option value="100" ${currentPerPage == 100 ? 'selected' : ''}>100</option>
+                                                <option value="0" ${currentPerPage == 0 ? 'selected' : ''}>Semua</option>
                                             </select>
                                         </div>
                                     `;

@@ -68,8 +68,8 @@ class BpjsController extends BaseController
     {
         
         $endpoint   = "sep/" . $sep;
-        $result     = $this->bpjsService->request('GET', $endpoint);
-        // $result     = $this->bpjsvclaimService->request('GET', $endpoint);
+        // $result     = $this->bpjsService->request('GET', $endpoint);
+        $result     = $this->bpjsvclaimService->request('GET', $endpoint);
         return $this->response->setJSON($result);
     }
     
@@ -322,7 +322,7 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function sjpresep($userID)
+    public function sjpresep($tglsjp, $refasalsjp, $poli, $noresep, $tglresep, $tglpelayanan, $KdDokter)
     {
         $payload = json_encode([
             'TGLSJP'     => '2026-01-30 08:13:11',
@@ -344,7 +344,7 @@ class BpjsController extends BaseController
     public function del_hapusresep($no_resep, $no_sep, $refasalsjp, $userID)
     {
         $payload = json_encode([
-            'nosjp'         => $no_sep,
+            'nosjpx'        => $no_sep,
             'refasalsjp'    => $refasalsjp,
             'noresep'       => $no_resep
         ]);

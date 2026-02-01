@@ -15,11 +15,27 @@
 
         <div class="form-check ms-2">
             <input class="form-check-input" type="checkbox" id="sepkosong">
-            <label class="form-check-label text-danger small">
-                Tampilkan SEP kosong saja
+            <label class="form-check-label text-danger small" for="sepkosong">
+                SEP Kosong
             </label>
         </div>
 
+        <div class="form-check ms-2">
+            <input class="form-check-input" type="checkbox" id="sepada">
+            <label class="form-check-label text-danger small" for="sepada">
+                Terdapat SEP
+            </label>
+        </div>
+
+        <div class="form-check ms-auto">
+            <button
+                id="btnProsesTerpilih"
+                type="button"
+                class="btn btn-success btn-sm"
+                disabled>
+                <i class="bi bi-lightning"></i> Proses Terpilih
+            </button>
+        </div>
         <div class="form-check ms-auto">
             <input class="form-check-input" type="checkbox" id="checkAllGlobal">
             <label class="form-check-label fw-semibold">
@@ -63,14 +79,29 @@
                     <?php foreach ($group['data'] as $index => $item): 
                         $collapseId = 'detail-' . md5($item['no_out'].$item['tgl_out']);
                     ?>
+                        <!-- <div class="list-group-item resep-item"
+                             data-search="<?= strtolower(
+                                 ($item['no_sep'] ?? '') . ' ' .
+                                 $item['kd_pasienapt'] . ' ' .
+                                 $item['nmpasien']
+                             ) ?>"
+                             data-sep="<?= $item['no_sep'] ? '1' : '0' ?>"> -->
                         <div class="list-group-item resep-item"
+                             data-noresep="<?= esc($item['no_resep']) ?>"
+                             data-sep="<?= esc($item['no_sep'] ?? '') ?>"
+                             data-kdpasien="<?= esc($item['kd_pasienapt']) ?>"
                              data-search="<?= strtolower(
                                  ($item['no_sep'] ?? '') . ' ' .
                                  $item['kd_pasienapt'] . ' ' .
                                  $item['nmpasien']
                              ) ?>"
                              data-sep="<?= $item['no_sep'] ? '1' : '0' ?>">
-
+                            <div class="progress mt-2 d-none resep-progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                     style="width:0%">
+                                </div>
+                            </div>
+                            
                             <div class="d-flex justify-content-between align-items-center">
 
                                 <!-- LEFT -->
@@ -109,7 +140,7 @@
                                         </small>
                                     </div>
                                 </div>
-
+                                
                                 <!-- RIGHT -->
                                 <div class="text-end">
                                     <div class="fw-semibold text-primary">

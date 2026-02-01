@@ -47,7 +47,7 @@ function initListResepPage() {
         
         const btnSubmit = form.querySelector('button[type="submit"]');
         // const resultContainer = document.getElementById('result-container');
-        const alertContainer = document.getElementById('alert-container');
+        const alertContainer = document.getElementById('pesan-deletedaftarresep');
         
         btnSubmit.disabled = true;
         btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
@@ -67,22 +67,17 @@ function initListResepPage() {
             if (data.status) {
 
                 handleListResepSubmit();
-                // Masukkan HTML Result ke Container
-                // resultContainer.innerHTML = data.html;
                 
-                // Re-inisialisasi DataTables (PENTING: Agar tabel bisa di-sort)
-                // if (typeof initializePageComponents === 'function') {
-                //     initializePageComponents();
-                // }
             } else {
-                alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                // alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                alertContainer.innerHTML = `<div class="alert alert-danger mb-2"><h6 class="alert-heading"><i class="bi bi-info-circle-fill"></i> ${data.message}</h6></div>`;
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            btnSubmit.disabled = false;
+            btnSubmit.disabled  = false;
             btnSubmit.innerHTML = '<i class="bi bi-trash"></i>';
-            alertContainer.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan sistem.</div>`;
+            alertContainer.innerHTML = `<div class="alert alert-danger mb-2"><h6 class="alert-heading"><i class="bi bi-info-circle-fill"></i> Terjadi Kesalahan Sistem</h6></div>`;
         });
     }
 }

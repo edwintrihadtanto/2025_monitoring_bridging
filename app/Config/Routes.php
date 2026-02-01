@@ -110,6 +110,8 @@ use CodeIgniter\Router\RouteCollection;
     $routes->post('res/getDetailObat', 'BpjsInsertController::getDetailObat', ['filter' => 'auth']);
 
     $routes->post('res/del_hapusresep', 'BpjsInsertController::del_hapusresep', ['filter' => 'auth']);
+    $routes->post('res/prosesObat', 'BpjsInsertController::prosesObat', ['filter' => 'auth']);
+
  });
 
  $routes->get('/BridgingTES/(:any)', 'BridgingTES::$1');

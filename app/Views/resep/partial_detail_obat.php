@@ -1,29 +1,67 @@
 <?php if (empty($detail)): ?>
-    <div class="text-muted small">Tidak ada detail obat</div>
+    <div class="text-muted fst-italic py-2">
+        Tidak ada detail obat
+    </div>
 <?php else: ?>
-<ul class="list-group list-group-flush small">    
-    <table class="table table-striped table-hover" width="100%">
-        <thead>
-            <tr>
-                <th>Kode Produk</th>
-                <th>Nama Obat</th>
-                <th>Qty</th>                    
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($detail as $d => $item): ?>
-            <tr>                
-                <td class="text-truncate">
-                    <?= $item['kd_prd'] ?>
-                </td>
-                <td>
-                    <strong><?= $item['nama_obat'] ?></strong>                    
-                </td>                
-                <td><?= $item['jml_out'] ?></td>                
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    
-</ul>
+
+<div class="mt-2 detail-obat-wrapper"
+     data-noresep="<?= esc($noresep ?? '') ?>"
+     data-sep="<?= esc($sep ?? '') ?>"
+     data-kdpasien="<?= esc($kd_pasien ?? '') ?>">
+
+    <div class="fw-semibold mb-1">
+        Detail Obat
+        <span class="badge bg-primary ms-1">
+            <?= count($detail) ?>
+        </span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+
+            <thead>
+                <tr class="text-muted">
+                    <th style="width:36px"></th>
+                    <th style="width:130px">Kode</th>
+                    <th>Nama Obat</th>
+                    <th style="width:70px" class="text-center">Qty</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($detail as $item): ?>
+                <tr>
+                    <td class="text-center">
+                        <input type="checkbox"
+                               class="form-check-input obat-check"
+                               data-kdobat="<?= esc($item['kd_prd']) ?>"
+                               data-qty="<?= esc($item['jml_out']) ?>">
+                    </td>
+
+                    <td class="text-truncate">
+                        <?= esc($item['kd_prd']) ?>
+                    </td>
+
+                    <td class="fw-semibold">
+                        <?= esc($item['nama_obat']) ?>
+                    </td>
+
+                    <td class="text-center fw-semibold">
+                        <?= esc($item['jml_out']) ?>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+
+        </table>
+    </div>
+
+    <!-- BUTTON PROSES -->
+    <div class="text-end">
+        <button type="button" class="btn btn-sm btn-success btn-proses-detail">
+            <i class="bi bi-check2-circle me-1"></i> Proses
+        </button>
+    </div>
+</div>
+
 <?php endif ?>

@@ -67,7 +67,7 @@
                                     <input type="date"
                                            name="tgl_awal"
                                            class="form-control form-control-sm"
-                                           value="<?= date('Y-m-d') ?>"
+                                           value="2024-10-28"
                                            required>
                                 </div>
 
@@ -77,7 +77,7 @@
                                     <input type="date"
                                            name="tgl_akhr"
                                            class="form-control form-control-sm"
-                                           value="<?= date('Y-m-d') ?>"                                           
+                                           value="2024-10-29"                                           
                                            required>
                                 </div>
                                 <!-- value="2024-10-29" -->

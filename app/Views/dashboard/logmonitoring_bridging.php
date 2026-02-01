@@ -15,34 +15,34 @@
                     ?>
                     <div class="row mb-4">
                         <div class="col-12 col-md-3">
-                            <div class="card bg-danger text-white">
-                                <div class="card-body rgb-border">
-                                    <h6 class="card-title text-white-50">Error Code 404</h6>
-                                    <h2 class="text-white mb-0"><?= number_format($rekap['code404'], 0, ',', '.') ?></h2>
+                            <div class="card">
+                                <div class="card-body rgb-border-200 p-3">
+                                    <h6 class="card-title">Code >= 2xx</h6>
+                                    <h2 class="mb-0"><?= number_format($rekap['code200'], 0, ',', '.') ?></h2>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-md-3">
-                            <div class="card bg-warning text-white">
-                                <div class="card-body rgb-border">
-                                    <h6 class="card-title text-white-50">Error Code 403</h6>
-                                    <h2 class="text-white mb-0"><?= number_format($rekap['code403'], 0, ',', '.') ?></h2>
+                            <div class="card">
+                                <div class="card-body rgb-border-300 p-3">
+                                    <h6 class="card-title">Code >= 3xx</h6>
+                                    <h2 class="mb-0"><?= number_format($rekap['code300'], 0, ',', '.') ?></h2>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-md-3">
-                            <div class="card bg-success text-dark">
-                                <div class="card-body rgb-border">
-                                    <h6 class="card-title text-white-50">Success Code 200</h6>
-                                    <h2 class="text-white mb-0"><?= number_format($rekap['code200'], 0, ',', '.') ?></h2>
+                            <div class="card">
+                                <div class="card-body rgb-border-400 p-3">
+                                    <h6 class="card-title">Code >= 4xx</h6>
+                                    <h2 class="mb-0"><?= number_format($rekap['code400'], 0, ',', '.') ?></h2>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-md-3">
-                            <div class="card bg-primary text-dark">
-                                <div class="card-body rgb-border">
-                                    <h6 class="card-title text-white-50">Success Code 201</h6>
-                                    <h2 class="text-white mb-0"><?= number_format($rekap['code201'], 0, ',', '.') ?></h2>
+                            <div class="card">
+                                <div class="card-body rgb-border-500 p-3">
+                                    <h6 class="card-title">Code >= 5xx</h6>
+                                    <h2 class="mb-0"><?= number_format($rekap['code500'], 0, ',', '.') ?></h2>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                     <th>Waktu</th>
                                     <th>Endpoint</th>
                                     <th>Method</th>
-                                    <th>Response Code</th>
+                                    <th>Code</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -83,13 +83,16 @@
                                     <td width="30%"><span class="d-inline-block text-truncate" style="width:500px;" title="<?= $log['endpoint'] ?>"><?= $log['endpoint'] ?></span></td>
                                     
                                     <td width="5%"><?= $log['method'] ?></td>
-                                    <td width="12%" >
-                                        <?php if ($log['response_code'] == 200): ?>
+                                    <td width="5%" >
+                                        <?php if ($log['response_code'] >= 200 && $log['response_code'] < 300): ?>
                                             <span class="badge bg-success"><?= $log['response_code'] ?></span>
-                                        <?php elseif ($log['response_code'] == 201): ?>
-                                            <span class="badge bg-primary"><?= $log['response_code'] ?></span>
-                                        <?php elseif ($log['response_code'] == 403): ?>
+
+                                        <?php elseif ($log['response_code'] >= 300 && $log['response_code'] < 400): ?>
+                                            <span class="badge bg-info"><?= $log['response_code'] ?></span>
+
+                                        <?php elseif ($log['response_code'] >= 400 && $log['response_code'] < 500): ?>
                                             <span class="badge bg-warning"><?= $log['response_code'] ?></span>
+
                                         <?php else: ?>
                                             <span class="badge bg-danger"><?= $log['response_code'] ?></span>
                                         <?php endif; ?>
@@ -100,7 +103,7 @@
                                                 data-response='<?= htmlspecialchars($log['response_body'], ENT_QUOTES, 'UTF-8') ?>'>
                                             Detail
                                         </button> -->
-                                        <button class="btn btn-sm btn-info btn-detail-log" 
+                                        <button class="btn btn-sm btn-dark btn-detail-log" 
                                                 data-request='<?= htmlspecialchars($log['endpoint'], ENT_QUOTES, 'UTF-8') ?>'
                                                 data-requestbody='<?= htmlspecialchars($log['request_body'], ENT_QUOTES, 'UTF-8') ?>'
                                                 data-response='<?= htmlspecialchars($log['response_body'], ENT_QUOTES, 'UTF-8') ?>'>

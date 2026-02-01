@@ -25,6 +25,7 @@ function initSIMRS() {
             if (data.status) {
                 resultContainer.innerHTML = data.html;
                 fungsi_sidebar_resepSIMRS();
+                initProsesObatSIMRS();
             } else {
                 alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
             }
@@ -62,275 +63,25 @@ function initSIMRS() {
     });
 }
 
-function fungsi_sidebar_resepSIMRS_cara1() {
-
-    const counter = document.getElementById('selectedCounter');
-    const checkAll = document.getElementById('checkAllGlobal');
-
-    /* ======================
-       COUNTER + CHECK ALL
-    ====================== */
-    function updateCounter() {
-        counter.innerText =
-            document.querySelectorAll('.resep-check:checked').length + ' terpilih';
-    }
-
-    checkAll.addEventListener('change', function () {
-        document.querySelectorAll('.resep-check').forEach(cb => {
-            cb.checked = this.checked;
-        });
-        document.querySelectorAll('.check-group').forEach(cb => {
-            cb.checked = this.checked;
-        });
-        updateCounter();
-    });
-
-    document.querySelectorAll('.resep-check').forEach(cb => {
-        cb.addEventListener('change', updateCounter);
-    });
-
-    document.querySelectorAll('.check-group').forEach(groupCb => {
-        groupCb.addEventListener('change', function () {
-            const group = this.closest('.resep-group');
-            group.querySelectorAll('.resep-check')
-                .forEach(cb => cb.checked = this.checked);
-            updateCounter();
-        });
-    });
-
-    /* ======================
-       SEARCH + FILTER SEP
-    ====================== */
-    const search = document.getElementById('searchResep');
-    const sepKosong = document.getElementById('sepkosong');
-    let timer = null;
-
-    function filterList() {
-        const keyword = search.value.toLowerCase();
-        const onlyEmptySep = sepKosong.checked;
-
-        document.querySelectorAll('.resep-item').forEach(item => {
-            const matchSearch = item.dataset.search.includes(keyword);
-            const isSepEmpty = item.innerText.includes('SEP Kosong');
-
-            item.style.display =
-                matchSearch && (!onlyEmptySep || isSepEmpty)
-                    ? ''
-                    : 'none';
-        });
-    }
-
-    search.addEventListener('keyup', () => {
-        clearTimeout(timer);
-        timer = setTimeout(filterList, 250);
-    });
-
-    sepKosong.addEventListener('change', filterList);
-
-    /* ======================
-       LAZY LOAD DETAIL OBAT
-    ====================== */
-    document.querySelectorAll('.toggle-detail').forEach(btn => {
-        btn.addEventListener('click', function () {
-
-            const target = document.querySelector(
-                this.dataset.bsTarget
-            );
-
-            if (target.dataset.loaded === 'true') return;
-
-            fetch(BASE_URL + '/res/getDetailObat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: new URLSearchParams({
-                    no_out: this.dataset.noout,
-                    tgl_out: this.dataset.tglout
-                })
-            })
-            .then(res => res.text())
-            .then(html => {
-                target.innerHTML = html;
-                target.dataset.loaded = 'true';
-            });
-        });
-    });
-
-    updateCounter();
-}
-
-function fungsi_sidebar_resepSIMRS_Cara2() {
-
-    document.querySelectorAll('.resep-header').forEach(header => {
-
-        header.addEventListener('click', function () {
-
-            const targetId = this.dataset.target;
-            const target   = document.getElementById(targetId);
-
-            // toggle tampilan
-            target.classList.toggle('d-none');
-
-            // kalau sudah pernah load → STOP
-            if (target.dataset.loaded === 'true') return;
-
-            // tampilkan loading
-            target.innerHTML = LOADING_HTML;
-
-            fetch(BASE_URL + '/res/getDetailObat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: new URLSearchParams({
-                    no_out: this.dataset.noout,
-                    tgl_out: this.dataset.tglout
-                })
-            })
-            .then(res => res.text())
-            .then(html => {
-                target.innerHTML = html;
-                target.dataset.loaded = 'true';
-            })
-            .catch(() => {
-                target.innerHTML = `
-                    <div class="text-danger small">
-                        Gagal memuat detail obat
-                    </div>`;
-            });
-
-        });
-
-    });
-}
-
-function fungsi_sidebar_resepSIMRS_Cara3() {
-
-    const wrapper   = document.getElementById('resepWrapper');
-    const container = document.getElementById('resepContainer');
-    const counter   = document.getElementById('selectedCounter');
-    const checkAll  = document.getElementById('checkAllGlobal');
-    const search    = document.getElementById('searchResep');
-    const sepKosong = document.getElementById('sepkosong');
-
-    /* ======================
-       COUNTER
-    ====================== */
-    function updateCounter() {
-        counter.innerText =
-            container.querySelectorAll('.resep-check:checked').length +
-            ' terpilih';
-    }
-
-    /* ======================
-       GLOBAL CHECK ALL
-    ====================== */
-    checkAll.addEventListener('change', function () {
-        container.querySelectorAll('.resep-check, .check-group')
-            .forEach(cb => cb.checked = this.checked);
-        updateCounter();
-    });
-
-    /* ======================
-       EVENT DELEGATION
-    ====================== */
-    container.addEventListener('change', function (e) {
-
-        /* resep checkbox */
-        if (e.target.classList.contains('resep-check')) {
-            updateCounter();
-        }
-
-        /* group checkbox */
-        if (e.target.classList.contains('check-group')) {
-            const group = e.target.closest('.resep-group');
-            group.querySelectorAll('.resep-check')
-                .forEach(cb => cb.checked = e.target.checked);
-            updateCounter();
-        }
-    });
-
-    /* ======================
-       SEARCH + FILTER
-    ====================== */
-    let timer = null;
-
-    function filterList() {
-        const keyword = search.value.toLowerCase();
-        const onlySepEmpty = sepKosong.checked;
-
-        container.querySelectorAll('.resep-item').forEach(item => {
-            const match = item.dataset.search.includes(keyword);
-            const sepOK = !onlySepEmpty || item.dataset.sep === '0';
-            item.style.display = (match && sepOK) ? '' : 'none';
-        });
-    }
-
-    search.addEventListener('keyup', () => {
-        clearTimeout(timer);
-        timer = setTimeout(filterList, 250);
-    });
-
-    sepKosong.addEventListener('change', filterList);
-
-    document.getElementById('resepWrapper')
-        .addEventListener('click', function (e) {
-
-            const header = e.target.closest('.toggle-detail');
-            if (!header) return;
-
-            const targetId = header.dataset.target;
-            const target = document.getElementById(targetId);
-
-            if (!target) return; // 🔐 SAFETY
-
-            // toggle manual (tanpa bootstrap)
-            target.classList.toggle('show');
-
-            // lazy load 1x
-            if (target.dataset.loaded === '1') return;
-
-            target.innerHTML = `
-                <div class="bg-info rounded p-2 small text-muted">
-                    <i class="bi bi-hourglass-split me-1"></i>
-                    Memuat detail obat...
-                </div>`;
-
-            fetch(BASE_URL + '/res/getDetailObat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type':'application/x-www-form-urlencoded',
-                    'X-Requested-With':'XMLHttpRequest'
-                },
-                body: new URLSearchParams({
-                    no_out: header.dataset.noout,
-                    tgl_out: header.dataset.tglout
-                })
-            })
-            .then(r => r.text())
-            .then(html => {
-                target.innerHTML = html;
-                target.dataset.loaded = '1';
-            })
-            .catch(() => {
-                target.innerHTML =
-                    `<div class="text-danger small">Gagal memuat detail</div>`;
-            });
-        });
-    updateCounter();
-}
-
 function fungsi_sidebar_resepSIMRS() {
 
-    const wrapper   = document.getElementById('resepWrapper');
-    if (!wrapper) return; // safety global
+    const wrapper = document.getElementById('resepWrapper');
+    if (!wrapper) return;
 
     const counter   = document.getElementById('selectedCounter');
     const search    = document.getElementById('searchResep');
     const sepKosong = document.getElementById('sepkosong');
+    const sepAda    = document.getElementById('sepada');
+    const btnProses = document.getElementById('btnProsesTerpilih');
+
+    /* ======================
+       BTN PROSES
+    ====================== */
+    function updateBtnProses() {
+        if (!btnProses) return;
+        btnProses.disabled =
+            !wrapper.querySelector('.obat-check:checked');
+    }
 
     /* ======================
        COUNTER
@@ -338,21 +89,28 @@ function fungsi_sidebar_resepSIMRS() {
     function updateCounter() {
         counter.innerText =
             wrapper.querySelectorAll('.resep-check:checked').length +
-            ' terpilih';
+            ' obat terpilih';
+
+        updateBtnProses();
     }
 
     /* ======================
-       DELEGATION CHECK-ALL
+       DELEGATION CHECK
     ====================== */
     wrapper.addEventListener('change', function (e) {
 
         /* CHECK ALL GLOBAL */
         if (e.target.id === 'checkAllGlobal') {
             const checked = e.target.checked;
+            wrapper
+                .querySelectorAll('.resep-check, .check-group, .obat-check')
+                .forEach(cb => cb.checked = e.target.checked);
 
             wrapper
-                .querySelectorAll('.resep-check, .check-group')
-                .forEach(cb => cb.checked = checked);
+                .querySelectorAll('.resep-item')
+                .forEach(item => {
+                    item.dataset.headerChecked = checked ? '1' : '0';
+                });
 
             updateCounter();
             return;
@@ -360,34 +118,89 @@ function fungsi_sidebar_resepSIMRS() {
 
         /* CHECK GROUP */
         if (e.target.classList.contains('check-group')) {
+            const checked = e.target.checked;
             const group = e.target.closest('.resep-group');
             if (!group) return;
 
-            group.querySelectorAll('.resep-check')
-                .forEach(cb => cb.checked = e.target.checked);
+            group.querySelectorAll('.resep-check, .obat-check')
+                .forEach(cb => cb.checked = checked);
+
+            // 🔑 TAMBAHAN KECIL (INGAT STATE HEADER PER RESEP)
+            group.querySelectorAll('.resep-item')
+                .forEach(item => {
+                    item.dataset.headerChecked = checked ? '1' : '0';
+                });
 
             updateCounter();
             return;
         }
 
-        /* CHECK SINGLE */
+        /* CHECK HEADER RESEP → DETAIL OBAT */
         if (e.target.classList.contains('resep-check')) {
+            const resepItem = e.target.closest('.resep-item');
+            if (!resepItem) return;
+
+            // SIMPAN NIAT HEADER
+            resepItem.dataset.headerChecked = e.target.checked ? '1' : '0';
+
+            // kalau detail SUDAH ada → langsung centang
+            resepItem
+                .querySelectorAll('.obat-check')
+                .forEach(cb => cb.checked = e.target.checked);
+
             updateCounter();
         }
+
+        /* CHECK DETAIL OBAT → HEADER RESEP */
+        if (e.target.classList.contains('obat-check')) {
+            const resepItem = e.target.closest('.resep-item');
+            if (!resepItem) return;
+
+            const allDetail = resepItem.querySelectorAll('.obat-check');
+            const checked   = resepItem.querySelectorAll('.obat-check:checked');
+
+            const header = resepItem.querySelector('.resep-check');
+            if (!header) return;
+
+            if (checked.length === 0) {
+                header.checked = false;
+                header.indeterminate = false;
+                resepItem.dataset.headerChecked = '0';
+            }
+            else if (checked.length === allDetail.length) {
+                header.checked = true;
+                header.indeterminate = false;
+                resepItem.dataset.headerChecked = '1';
+            }
+            else {
+                header.checked = false;
+                header.indeterminate = true;
+                resepItem.dataset.headerChecked = '0';
+            }
+
+            updateCounter();
+        }
+
     });
 
     /* ======================
-       SEARCH (requestAnimationFrame)
+       SEARCH + FILTER (RAF)
     ====================== */
     let rafId = null;
 
-    function filterList() {
+    function applyFilter() {
         const keyword = search.value.toLowerCase();
-        const onlySepEmpty = sepKosong.checked;
+        const onlySepKosong = sepKosong?.checked;
+        const onlySepAda    = sepAda?.checked;
 
         wrapper.querySelectorAll('.resep-item').forEach(item => {
             const match = item.dataset.search.includes(keyword);
-            const sepOK = !onlySepEmpty || item.dataset.sep === '0';
+            const sep   = item.dataset.sep;
+
+            let sepOK = true;
+            if (onlySepKosong) sepOK = sep === '0';
+            if (onlySepAda)    sepOK = sep !== '0';
+
             item.style.display = (match && sepOK) ? '' : 'none';
         });
 
@@ -396,36 +209,33 @@ function fungsi_sidebar_resepSIMRS() {
 
     function requestFilter() {
         if (rafId) return;
-        rafId = requestAnimationFrame(filterList);
+        rafId = requestAnimationFrame(applyFilter);
     }
 
-    if (search) {
-        search.addEventListener('input', requestFilter);
-    }
-    if (sepKosong) {
-        sepKosong.addEventListener('change', requestFilter);
-    }
+    search?.addEventListener('input', requestFilter);
+    sepKosong?.addEventListener('change', requestFilter);
+    sepAda?.addEventListener('change', requestFilter);
 
     /* ======================
-       COLLAPSE + LAZY LOAD DETAIL OBAT
+       COLLAPSE + LAZY LOAD
     ====================== */
     wrapper.addEventListener('click', function (e) {
 
-        const header = e.target.closest('.toggle-detail');
-        if (!header) return;
+        const toggle = e.target.closest('.toggle-detail');
+        if (!toggle) return;
 
-        const targetId = header.dataset.target;
-        const target = document.getElementById(targetId);
+        const targetId = toggle.dataset.target;
+        const target   = document.getElementById(targetId);
         if (!target) return;
 
-        /* toggle manual (tanpa bootstrap) */
+        /* toggle manual */
         target.classList.toggle('show');
 
         /* lazy load hanya 1x */
         if (target.dataset.loaded === '1') return;
 
         target.innerHTML = `
-            <div class="bg-primary rounded p-2 small text-white">
+            <div class="bg-primary text-white rounded p-2 small">
                 <i class="bi bi-hourglass-split me-1"></i>
                 Memuat detail obat...
             </div>`;
@@ -433,24 +243,207 @@ function fungsi_sidebar_resepSIMRS() {
         fetch(BASE_URL + '/res/getDetailObat', {
             method: 'POST',
             headers: {
-                'Content-Type':'application/x-www-form-urlencoded',
-                'X-Requested-With':'XMLHttpRequest'
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
             },
             body: new URLSearchParams({
-                no_out : header.dataset.noout,
-                tgl_out: header.dataset.tglout
+                no_out : toggle.dataset.noout,
+                tgl_out: toggle.dataset.tglout
             })
         })
         .then(r => r.text())
         .then(html => {
+            // target.innerHTML = html;
+            // target.dataset.loaded = '1';
             target.innerHTML = html;
             target.dataset.loaded = '1';
+
+            const resepItem = toggle.closest('.resep-item');
+            if (!resepItem) return;
+
+            // JIKA HEADER SUDAH DICENTANG SEBELUMNYA
+            if (resepItem.dataset.headerChecked === '1') {
+                resepItem
+                    .querySelectorAll('.obat-check')
+                    .forEach(cb => cb.checked = true);
+            }
+
+            updateCounter();
         })
         .catch(() => {
             target.innerHTML =
-                `<div class="text-danger small">Gagal memuat detail</div>`;
+                `<div class="text-danger small">Gagal memuat detail obat</div>`;
         });
     });
 
     updateCounter();
+}
+
+/*function handleProsesObatClick(e) {
+
+    const wrapper = document.getElementById('resepWrapper');
+    if (!wrapper) return;
+
+    if (!e.target.closest('#btnProsesSIMRS')) return;
+
+    const payload = [];
+
+    wrapper.querySelectorAll('.resep-check:checked').forEach(cb => {
+
+        const resepItem = cb.closest('.resep-item');
+        if (!resepItem) return;
+
+        const detail = [];
+
+        resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
+            detail.push({
+                kd_obat: o.dataset.kdobat,
+                qty    : o.dataset.qty
+            });
+        });
+
+        if (detail.length === 0) return; // skip resep tanpa detail
+
+        payload.push({
+            noresep   : resepItem.dataset.noresep,
+            sep       : resepItem.dataset.sep,
+            kdpasien  : resepItem.dataset.kdpasien,
+            detailobat: detail
+        });
+    });
+
+    if (payload.length === 0) {
+        alert('Tidak ada detail obat yang dipilih');
+        return;
+    }
+
+    console.log('PAYLOAD PROSES:', payload);
+
+    prosesBatchSIMRS(payload);
+}*/
+
+function handleProsesObatClick(e) {
+
+    const wrapper = document.getElementById('resepWrapper');
+    if (!wrapper) return;
+
+    /* =========================
+       PROSES PER RESEP (DETAIL)
+    ========================= */
+    const btnDetail = e.target.closest('.btn-proses-detail');
+    if (btnDetail) {
+
+        const resepItem = btnDetail.closest('.resep-item');
+        if (!resepItem) return;
+
+        const detail = [];
+
+        resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
+            detail.push({
+                kd_obat: o.dataset.kdobat,
+                qty    : o.dataset.qty
+            });
+        });
+
+        if (detail.length === 0) {
+            alert('Pilih minimal satu obat');
+            return;
+        }
+
+        const payload = [{
+            noresep   : resepItem.dataset.noresep,
+            sep       : resepItem.dataset.sep,
+            kdpasien  : resepItem.dataset.kdpasien,
+            detailobat: detail
+        }];
+
+        console.log('PROSES DETAIL RESEP:', payload);
+        prosesBatchSIMRS(payload);
+
+        return; // ⛔ STOP DI SINI
+    }
+
+    /* =========================
+       PROSES GLOBAL
+    ========================= */
+    if (!e.target.closest('#btnProsesTerpilih')) return;
+
+    const payload = [];
+
+    wrapper.querySelectorAll('.resep-check:checked').forEach(cb => {
+
+        const resepItem = cb.closest('.resep-item');
+        if (!resepItem) return;
+
+        const detail = [];
+
+        resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
+            detail.push({
+                kd_obat: o.dataset.kdobat,
+                qty    : o.dataset.qty
+            });
+        });
+
+        if (detail.length === 0) return;
+
+        payload.push({
+            noresep   : resepItem.dataset.noresep,
+            sep       : resepItem.dataset.sep,
+            kdpasien  : resepItem.dataset.kdpasien,
+            detailobat: detail
+        });
+    });
+
+    if (payload.length === 0) {
+        alert('Tidak ada detail obat yang dipilih');
+        return;
+    }
+
+    console.log('PROSES GLOBAL:', payload);
+    prosesBatchSIMRS(payload);
+}
+
+function initProsesObatSIMRS() {
+
+    const wrapper = document.getElementById('resepWrapper');
+    if (!wrapper) return;
+
+    wrapper.removeEventListener('click', handleProsesObatClick);
+    wrapper.addEventListener('click', handleProsesObatClick);
+}
+
+function prosesBatchSIMRS(payload) {
+    const wrapper = document.getElementById('resepWrapper');
+    if (!wrapper) return;
+
+    payload.forEach((item, index) => {
+
+        const resepItem = wrapper.querySelector(
+            `.resep-check[data-id="${item.noresep}"]`
+        )?.closest('.resep-item');
+
+        const bar = resepItem?.querySelector('.resep-progress');
+        const inner = bar?.querySelector('.progress-bar');
+
+        if (!bar || !inner) return;
+
+        bar.classList.remove('d-none');
+
+        fetch(BASE_URL + '/res/prosesObat', {
+            method: 'POST',
+            headers: {
+                'Content-Type':'application/json',
+                'X-Requested-With':'XMLHttpRequest'
+            },
+            body: JSON.stringify(item)
+        })
+        .then(() => {
+            inner.style.width = '100%';
+            inner.classList.remove('progress-bar-animated');
+            inner.classList.add('bg-success');
+        })
+        .catch(() => {
+            inner.classList.add('bg-danger');
+        });
+    });
 }

@@ -1,6 +1,8 @@
 <?php if (!empty($resepList)): ?>
-    <div class="alert alert-success mb-2">
-        <h6 class="alert-heading"><i class="bi bi-check-circle-fill"></i> Data Resep Ditemukan</h6>
+    <div id="pesan-deletedaftarresep">
+        <div class="alert alert-success mb-2">
+            <h6 class="alert-heading"><i class="bi bi-check-circle-fill"></i> Data Resep Ditemukan</h6>
+        </div>
     </div>
 
     <!-- Grid 3 Kolom (Responsive: 1 kolom di HP, 3 kolom di PC) -->
