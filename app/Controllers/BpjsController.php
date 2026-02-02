@@ -16,18 +16,14 @@ class BpjsController extends BaseController
 
     public function __construct()
     {
-        $this->bpjsService = new BpjsFarmasiService();
-        $this->bpjsvclaimService = new BpjsVclaimService();
-        $this->bpjsInsertService = new BpjsFarmasi_InsertService();
-        $this->bpjsInsertVclaimService = new BpjsVclaim_InsertService();
-        $this->ppkFarmasi        = env('BPJS.Ppk');
-        $this->ppkSoedono        = env('BPJSSOEDONO.Ppk');
+        $this->bpjsService              = new BpjsFarmasiService();
+        $this->bpjsInsertService        = new BpjsFarmasi_InsertService();
+        $this->bpjsvclaimService        = new BpjsVclaimService();
+        $this->bpjsInsertVclaimService  = new BpjsVclaim_InsertService();
+        $this->ppkFarmasi               = env('BPJS.Ppk');
+        $this->ppkSoedono               = env('BPJSSOEDONO.Ppk');
     }
 
-    /**
-     * Contoh endpoint: Mencari data peserta berdasarkan No. Kartu BPJS
-     * URL: /bpjs/peserta/0001234567890
-     */
     public function getPesertaByNoKartu($noKartu)
     {
         $tgl        = date("Y-m-d");
@@ -37,7 +33,6 @@ class BpjsController extends BaseController
     }
 
     /**
-     * Contoh endpoint: Mencari data peserta berdasarkan NIK
      * URL: /bpjs/peserta/nik/3201011234560001
      */
     public function getPesertaByNik($nik)
@@ -50,7 +45,6 @@ class BpjsController extends BaseController
     }
     
     /**
-     * Contoh endpoint: Membuat SEP (Surat Eligibilitas Peserta)
      * URL: /bpjs/sep
      * Method: POST
      */
@@ -59,75 +53,13 @@ class BpjsController extends BaseController
         // $dataRequest = $this->request->getJSON();
         
         // Endpoint dari dokumentasi API BPJS
-        // $endpoint = "SEP/1.1/insert";
+        // $endpoint = "/SEP/2.0/insert";
         
         // // Lakukan request POST ke BPJS
         // $result = $this->bpjsService->request('POST', $endpoint, (array)$dataRequest);
 
         // return $this->response->setJSON($result);
-        $userID = '123';
-        $payload1_0 = json_encode([
-                    "request" => [
-                        "t_sep" => [
-                            "noKartu"       => "0002056469703",
-                            "tglSep"        => date('Y-m-d'),
-                            "ppkPelayanan"  => $this->ppkSoedono,
-                            "jnsPelayanan"  => "2", // 1=Rawat Inap, 2=Rawat Jalan
-                            "klsRawat"      => "3",
-                            "noMR"          => "0-00-00-1",
-
-                            "rujukan" => [
-                                "asalRujukan" => "1",
-                                "tglRujukan"  => date('Y-m-d'),
-                                "noRujukan"   => "130801021221P000002",
-                                "ppkRujukan"  => "13080102"
-                            ],
-
-                            "catatan" => "testinsert RJ",
-                            "diagAwal" => "J18.0",
-
-                            "poli" => [
-                                "tujuan"     => "PAR",
-                                "eksekutif"  => "0"
-                            ],
-
-                            "cob" => [
-                                "cob" => "0"
-                            ],
-
-                            "katarak" => [
-                                "katarak" => "0"
-                            ],
-
-                            "jaminan" => [
-                                "lakaLantas" => "0",
-                                "penjamin" => [
-                                    "penjamin"   => "",
-                                    "tglKejadian"=> "",
-                                    "keterangan" => "",
-                                    "suplesi" => [
-                                        "suplesi" => "0",
-                                        "noSepSuplesi" => "",
-                                        "lokasiLaka" => [
-                                            "kdPropinsi"  => "",
-                                            "kdKabupaten" => "",
-                                            "kdKecamatan" => ""
-                                        ]
-                                    ]
-                                ]
-                            ],
-
-                            "skdp" => [
-                                "noSurat"  => "1308R0011221K000003",
-                                "kodeDPJP" => "31014"
-                            ],
-
-                            "noTelp" => "081111111101",
-                            "user"   => "Coba Ws"
-                        ]
-                    ]
-                ]);
-
+        $userID     = '123';
         $payload    = json_encode([
                     "request" => [
                         "t_sep" => [
@@ -218,165 +150,47 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
     
-    /**
-     * =================================================================
-     *              ENDPOINT UNTUK REFERENSI
-     * =================================================================
-     */
-
-    /**
-     * Mencari data obat berdasarkan kriteria.
-     * URL: /bpjs/referensi/obat/{kdObat}/{tgl}/{parameter}
-     * Contoh: /bpjs/referensi/obat/1/2024-09-01/asam
-     */
     public function getReferensiObat($kdObat, $tgl, $parameter)
     {
         $endpoint = "referensi/obat/{$kdObat}/{$tgl}/{$parameter}";
         $result = $this->bpjsService->request('GET', $endpoint);
         return $this->response->setJSON($result);
-        /*if ($result['status_code'] == 200) {
-            $response = [
-                'status' => 'sukses',
-                'pesan'  => 'Berhasil',
-                'data'   => $result['body']['response'] // Data sudah didekripsi di service
-            ];
-        } else {
-            $response = [
-                'status' => 'gagal',
-                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-            ];
-        }
-
-        return $this->response->setJSON($response);*/
     }
 
-    /**
-     * Mendapatkan data referensi spesialistik.
-     * URL: /bpjs/referensi/spesialistik
-     */
     public function getReferensiSpesialistik()
     {
         $endpoint = "referensi/spesialistik";
         $result = $this->bpjsService->request('GET', $endpoint);
         return $this->response->setJSON($result);
-        /*if ($result['status_code'] == 200) {
-            $response = [
-                'status' => 'sukses',
-                'pesan'  => 'Berhasil',
-                'data'   => $result['body']['response']
-            ];
-        } else {
-            $response = [
-                'status' => 'gagal',
-                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-            ];
-        }
-
-        return $this->response->setJSON($response);*/
     }
 
-    /**
-     * Mendapatkan data setting PPK.
-     * URL: /bpjs/referensi/settingppk/{ppk}
-     * Contoh: /bpjs/referensi/settingppk/0216A026
-     */
     public function getReferensiSettingPpk($ppk)
     {
         $endpoint = "referensi/settingppk/read/{$ppk}";
         $result = $this->bpjsService->request('GET', $endpoint);
         return $this->response->setJSON($result);
-        /*if ($result['status_code'] == 200) {
-            $response = [
-                'status' => 'sukses',
-                'pesan'  => 'Berhasil',
-                'data'   => $result['body']['response']
-            ];
-        } else {
-            $response = [
-                'status' => 'gagal',
-                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-            ];
-        }
-
-        return $this->response->setJSON($response);*/
     }
 
-    /**
-     * Mencari data PPK.
-     * URL: /bpjs/referensi/ppk/{jenis}/{nama}
-     * Contoh: /bpjs/referensi/ppk/2/darmayu
-     */
     public function getReferensiPpk($jenis, $nama, $userID)
     {   
         $data = null;
         $endpoint = "referensi/ppk/{$jenis}/{$nama}";
         $result = $this->bpjsService->request('GET', $endpoint, $data, $userID);
         return $this->response->setJSON($result);
-        // if ($result['status_code'] == 200) {
-        //     $response = [
-        //         'status' => 'sukses',
-        //         'pesan'  => 'Berhasil',
-        //         'data'   => $result['body']['response']
-        //     ];
-        // } else {
-        //     $response = [
-        //         'status' => 'gagal',
-        //         'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-        //     ];
-        // }
-
-        // return $this->response->setJSON($response);
     }
 
-    /**
-     * Mencari data poli.
-     * URL: /bpjs/referensi/poli/{nama}
-     * Contoh: /bpjs/referensi/poli/INT
-     */
     public function getReferensiPoli($nama)
     {
         $endpoint = "referensi/poli/{$nama}";
         $result = $this->bpjsService->request('GET', $endpoint);
         return $this->response->setJSON($result);
-        // if ($result['status_code'] == 200) {
-        //     $response = [
-        //         'status' => 'sukses',
-        //         'pesan'  => 'Berhasil',
-        //         'data'   => $result['body']['response']
-        //     ];
-        // } else {
-        //     $response = [
-        //         'status' => 'gagal',
-        //         'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-        //     ];
-        // }
-
-        // return $this->response->setJSON($response);
     }
 
-    /**
-     * Mendapatkan data DPHO.
-     * URL: /bpjs/referensi/dpho
-     */
     public function getReferensiDpho()
     {
         $endpoint = "referensi/dpho";
         $result = $this->bpjsService->request('GET', $endpoint);
         return $this->response->setJSON($result);
-        // if ($result['status_code'] == 200) {
-        //     $response = [
-        //         'status' => 'sukses',
-        //         'pesan'  => 'Berhasil',
-        //         'data'   => $result['body']['response']
-        //     ];
-        // } else {
-        //     $response = [
-        //         'status' => 'gagal',
-        //         'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-        //     ];
-        // }
-
-        // return $this->response->setJSON($response);
     }
 
     public function getMonitoringKlaim($bulan, $tahun, $jenisobat, $status)
@@ -385,20 +199,6 @@ class BpjsController extends BaseController
         $endpoint   = "monitoring/klaim/{$bulan}/{$tahun}/{$jenisobat}/{$status}";
         $result     = $this->bpjsService->request('GET', $endpoint);
         return $this->response->setJSON($result);
-        /*if ($result['status_code'] == 200) {
-            $response = [
-                'status' => 'sukses',
-                'pesan'  => 'Berhasil',
-                'data'   => $result['body']
-            ];
-        } else {
-            $response = [
-                'status' => 'gagal',
-                'pesan'  => $result['body']['metaData']['message'] ?? 'Terjadi kesalahan'
-            ];
-        }
-
-        return $this->response->setJSON($response);*/
     }
 
     public function getRekapPasienPRB($tahun, $bulan)
@@ -461,11 +261,11 @@ class BpjsController extends BaseController
     }
 
     //RESEP
-    public function daftarresep($tglawal, $tglakhr, $userID)
+    public function daftarresep($tglawal, $tglakhr, $kdjnisobat, $userID)
     {
         $payload = json_encode([
             'kdppk'     => $this->ppkFarmasi,
-            'KdJnsObat' => '0',
+            'KdJnsObat' => $kdjnisobat, // (1. Obat PRB, 2. Obat Kronis Blm Stabil, 3. Obat Kemoterapi)
             'JnsTgl'    => 'TGLPELSJP',
             'TglMulai'  => $tglawal . ' 00:00:00',
             'TglAkhir'  => $tglakhr . ' 23:59:59'
@@ -482,11 +282,11 @@ class BpjsController extends BaseController
             'TGLSJP'     => date('Y-m-d H:i:s'),
             'REFASALSJP' => '1308R0010226V000001',
             'POLIRSP'    => 'IGD',
-            'KDJNSOBAT'  => '3',
-            'NORESEP'    => '00002',
-            'IDUSERSJP'  => 'USR-01',
-            'TGLRSP'     => '2026-02-02 00:00:00', 
-            'TGLPELRSP'  => '2026-02-02 00:00:00',
+            'KDJNSOBAT'  => '2',
+            'NORESEP'    => '00003',
+            'IDUSERSJP'  => 'USR-12',
+            'TGLRSP'     => '2026-02-03 00:00:00', 
+            'TGLPELRSP'  => '2026-02-03 00:00:00',
             'KdDokter'   => '0',
             'iterasi'    => '0'
         ]);
@@ -495,10 +295,10 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function del_hapusresep($no_resep, $no_sep, $refasalsjp, $userID)
+    public function del_hapusresep($no_resep, $no_apotik, $refasalsjp, $userID)
     {
         $payload = json_encode([
-            'nosjp'         => $no_sep,
+            'nosjp'         => $no_apotik,
             'refasalsjp'    => $refasalsjp,
             'noresep'       => $no_resep
         ]);

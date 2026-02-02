@@ -14,7 +14,7 @@
                         <!-- Informasi dasar yang selalu terlihat -->
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <strong>No. Resep : </strong><strong class="text-danger"><?= $item['NORESEP'] ?></strong><br>
+                                <strong>No. Resep : </strong><strong class="text-danger"><?= $item['NORESEP']." / ".  $item['NOAPOTIK'] ?>/</strong><br>
                                 <strong>No. SEP : </strong> <?= $item['NOSEP_KUNJUNGAN'] ?><br>
                                 <strong>Nama Pasien : </strong><strong class="text-primary"> <?= $item['NAMA'] ?></strong>
                             </div>
@@ -26,7 +26,7 @@
                             <form id="DeleteResepForm" action="<?= site_url('res/del_hapusresep') ?>" method="post" >                                
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="no_resep" value="<?= esc($item['NORESEP']) ?>">
-                                <input type="hidden" name="no_sep" value="<?= esc($item['NOSEP_KUNJUNGAN']) ?>">
+                                <input type="hidden" name="no_apotik" value="<?= esc($item['NOAPOTIK']) ?>">
                                 <input type="hidden" name="refasalsjp" value="<?= esc($item['NOSEP_KUNJUNGAN']) ?>">
 
                                 <button type="submit" class="btn btn-sm btn-danger">

@@ -52,7 +52,7 @@ use CodeIgniter\Router\RouteCollection;
             $routes->post('updatestokobat', 'BpjsInsertController::updatestokobat');
 
             $routes->get('getsjpresep/(:segment)', 'BpjsController::sjpresep/$1');
-            $routes->get('daftarresep/(:segment)/(:segment)/(:segment)', 'BpjsController::daftarresep/$1/$2/$3');
+            $routes->get('daftarresep/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::daftarresep/$1/$2/$3/$4');
         });
 
         $routes->group('delete', static function ($routes) {

@@ -109,7 +109,7 @@ class BpjsInsertController extends BaseController
     {
         $tgl_awal = $this->request->getPost('tgl_awal');
         $tgl_akhr = $this->request->getPost('tgl_akhr');
-
+        $jns_obat = $this->request->getPost('jns_obat');
         if (!$tgl_awal || !$tgl_akhr) {
             return $this->response->setJSON([
                 'status'  => false,
@@ -120,11 +120,9 @@ class BpjsInsertController extends BaseController
         try {
 
             $userID    = session()->get('id');
-            $targetUrl = base_url("bpjs/insert/daftarresep/{$tgl_awal}/{$tgl_akhr}/{$userID}");
+            $targetUrl = base_url("bpjs/insert/daftarresep/{$tgl_awal}/{$tgl_akhr}/$jns_obat/{$userID}");
 
-            $client = Services::curlrequest([
-                'timeout' => 60,
-            ]);
+            $client = Services::curlrequest([ 'timeout' => 60 ]);
 
             $response = $client->get($targetUrl, [
                 'headers' => [
@@ -187,10 +185,10 @@ class BpjsInsertController extends BaseController
         }
     }
 
-    public function del_hapusresep()
+    public function del_hapusresepXX()
     {
         $no_resep   = $this->request->getPost('no_resep');
-        $no_sep     = $this->request->getPost('no_sep');
+        $no_apotik  = $this->request->getPost('no_apotik');
         $refasalsjp = $this->request->getPost('refasalsjp');
 
         if (!$no_resep) {
@@ -200,10 +198,10 @@ class BpjsInsertController extends BaseController
             ]);
         }
 
-        if (!$no_sep) {
+        if (!$no_apotik) {
             return $this->response->setJSON([
                 'status'  => false,
-                'message' => 'No SEP Tidak diketahui'
+                'message' => 'NoSjp Apotik Tidak diketahui'
             ]);
         }
 
@@ -217,10 +215,11 @@ class BpjsInsertController extends BaseController
         try {
 
             $userID    = session()->get('id');
-            $targetUrl = base_url("bpjs/delete/del_hapusresep/{$no_resep}/{$no_sep}/{$refasalsjp}/{$userID}");
+            $targetUrl = base_url("bpjs/delete/del_hapusresep/{$no_resep}/{$no_apotik}/{$refasalsjp}/{$userID}");
             // var_dump($wrapper);exit();
             $client = Services::curlrequest([
                 'timeout' => 60,
+                'http_errors' => false,
             ]);
 
             $response = $client->get($targetUrl, [
@@ -270,6 +269,145 @@ class BpjsInsertController extends BaseController
             ]);
         }
     }
+
+    public function del_hapusresep()
+    {
+        $no_resep   = $this->request->getPost('no_resep');
+        $no_apotik  = $this->request->getPost('no_apotik');
+        $refasalsjp = $this->request->getPost('refasalsjp');
+
+        // ================= VALIDASI =================
+        if (!$no_resep) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'No Resep Tidak diketahui'
+            ]);
+        }
+
+        if (!$no_apotik) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'NoSJP Apotik Tidak diketahui'
+            ]);
+        }
+
+        if (!$refasalsjp) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Referensi Asal SEP Tidak diketahui'
+            ]);
+        }
+
+        try {
+            $userID    = session()->get('id');
+            $targetUrl = base_url(
+                "bpjs/delete/del_hapusresep/{$no_resep}/{$no_apotik}/{$refasalsjp}/{$userID}"
+            );
+
+            $client = \Config\Services::curlrequest([
+                'timeout'     => 60,
+                'http_errors' => false,
+            ]);
+
+            $response = $client->get($targetUrl, [
+                'headers' => [
+                    'X-Internal-Request' => 'TRUE'
+                ]
+            ]);
+
+            // ================= HANDLE RESPONSE =================
+            $body = trim($response->getBody());
+
+            /**
+             * CASE 1:
+             * Body benar-benar kosong → DELETE SUKSES
+             */
+            if ($body === '') {
+                return $this->response->setJSON([
+                    'status'  => true,
+                    'message' => 'Resep '.$no_resep.' Berhasil di Hapus'
+                ]);
+            }
+
+            /**
+             * CASE 2:
+             * Body = JSON string kosong → "\"\"" → DELETE SUKSES
+             */
+            if ($body === '""') {
+                return $this->response->setJSON([
+                    'status'  => true,
+                    'message' => 'Resep '.$no_resep.' Berhasil di Hapus'
+                ]);
+            }
+
+            /**
+             * CASE 3:
+             * Decode JSON
+             */
+            $wrapper = json_decode($body, true);
+
+            /**
+             * CASE 4:
+             * Hasil decode STRING kosong → DELETE SUKSES
+             */
+            if ($wrapper === '') {
+                return $this->response->setJSON([
+                    'status'  => true,
+                    'message' => 'Resep '.$no_resep.' Berhasil di Hapus'
+                ]);
+            }
+
+            /**
+             * CASE 5:
+             * Bukan array → response tidak valid
+             */
+            if (!is_array($wrapper)) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'Response BPJS tidak valid',
+                    'raw'     => $body
+                ]);
+            }
+
+            // ================= PARSE JSON BPJS =================
+            $bpjsJson = $wrapper['body'] ?? $wrapper;
+
+            $code = $bpjsJson['metaData']['code'] ?? null;
+
+            $message = $bpjsJson['metaData']['message']
+                ?? $bpjsJson['pesan']
+                ?? $bpjsJson['message']
+                ?? 'Respon server BPJS tidak dikenali';
+
+            /**
+             * CASE 6:
+             * BPJS kirim error (404, dll)
+             */
+            if ($code !== '200') {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => $message
+                ]);
+            }
+
+            /**
+             * CASE 7:
+             * BPJS sukses + body JSON ada
+             */
+            return $this->response->setJSON([
+                'status'  => true,
+                'message' => $message
+            ]);
+
+        } catch (\Throwable $e) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Kesalahan sistem: ' . $e->getMessage(),
+                'error'   => $e->getMessage()
+            ]);
+        }
+    }
+
 
     public function getdaftar_pelayanan()
     {
