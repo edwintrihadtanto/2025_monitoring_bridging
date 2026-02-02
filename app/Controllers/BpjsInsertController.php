@@ -218,7 +218,7 @@ class BpjsInsertController extends BaseController
 
             $userID    = session()->get('id');
             $targetUrl = base_url("bpjs/delete/del_hapusresep/{$no_resep}/{$no_sep}/{$refasalsjp}/{$userID}");
-// var_dump($wrapper);exit();
+            // var_dump($wrapper);exit();
             $client = Services::curlrequest([
                 'timeout' => 60,
             ]);
@@ -271,7 +271,7 @@ class BpjsInsertController extends BaseController
         }
     }
 
-    public function getdaftar_pelayananASLI()
+    public function getdaftar_pelayanan()
     {
         $sep  = $this->request->getPost('searchsep_value');
 
@@ -341,7 +341,7 @@ class BpjsInsertController extends BaseController
         }
     }
 
-    public function getdaftar_pelayanan()
+    public function getdaftar_pelayananHARDCODE()
     {
         $sep  = $this->request->getPost('searchsep_value');
 

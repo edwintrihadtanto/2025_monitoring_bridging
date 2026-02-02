@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Libraries\BpjsFarmasiService;
 use App\Libraries\BpjsVclaimService;
 use App\Libraries\BpjsFarmasi_InsertService;
+use App\Libraries\BpjsVclaim_InsertService;
 
 class BpjsController extends BaseController
 {
@@ -18,7 +19,9 @@ class BpjsController extends BaseController
         $this->bpjsService = new BpjsFarmasiService();
         $this->bpjsvclaimService = new BpjsVclaimService();
         $this->bpjsInsertService = new BpjsFarmasi_InsertService();
+        $this->bpjsInsertVclaimService = new BpjsVclaim_InsertService();
         $this->ppkFarmasi        = env('BPJS.Ppk');
+        $this->ppkSoedono        = env('BPJSSOEDONO.Ppk');
     }
 
     /**
@@ -51,23 +54,165 @@ class BpjsController extends BaseController
      * URL: /bpjs/sep
      * Method: POST
      */
-    public function createSEPX()
+    public function createSEPBPJS()
     {
-        $dataRequest = $this->request->getJSON();
+        // $dataRequest = $this->request->getJSON();
         
         // Endpoint dari dokumentasi API BPJS
-        $endpoint = "SEP/1.1/insert";
+        // $endpoint = "SEP/1.1/insert";
         
-        // Lakukan request POST ke BPJS
-        $result = $this->bpjsService->request('POST', $endpoint, (array)$dataRequest);
+        // // Lakukan request POST ke BPJS
+        // $result = $this->bpjsService->request('POST', $endpoint, (array)$dataRequest);
 
+        // return $this->response->setJSON($result);
+        $userID = '123';
+        $payload1_0 = json_encode([
+                    "request" => [
+                        "t_sep" => [
+                            "noKartu"       => "0002056469703",
+                            "tglSep"        => date('Y-m-d'),
+                            "ppkPelayanan"  => $this->ppkSoedono,
+                            "jnsPelayanan"  => "2", // 1=Rawat Inap, 2=Rawat Jalan
+                            "klsRawat"      => "3",
+                            "noMR"          => "0-00-00-1",
+
+                            "rujukan" => [
+                                "asalRujukan" => "1",
+                                "tglRujukan"  => date('Y-m-d'),
+                                "noRujukan"   => "130801021221P000002",
+                                "ppkRujukan"  => "13080102"
+                            ],
+
+                            "catatan" => "testinsert RJ",
+                            "diagAwal" => "J18.0",
+
+                            "poli" => [
+                                "tujuan"     => "PAR",
+                                "eksekutif"  => "0"
+                            ],
+
+                            "cob" => [
+                                "cob" => "0"
+                            ],
+
+                            "katarak" => [
+                                "katarak" => "0"
+                            ],
+
+                            "jaminan" => [
+                                "lakaLantas" => "0",
+                                "penjamin" => [
+                                    "penjamin"   => "",
+                                    "tglKejadian"=> "",
+                                    "keterangan" => "",
+                                    "suplesi" => [
+                                        "suplesi" => "0",
+                                        "noSepSuplesi" => "",
+                                        "lokasiLaka" => [
+                                            "kdPropinsi"  => "",
+                                            "kdKabupaten" => "",
+                                            "kdKecamatan" => ""
+                                        ]
+                                    ]
+                                ]
+                            ],
+
+                            "skdp" => [
+                                "noSurat"  => "1308R0011221K000003",
+                                "kodeDPJP" => "31014"
+                            ],
+
+                            "noTelp" => "081111111101",
+                            "user"   => "Coba Ws"
+                        ]
+                    ]
+                ]);
+
+        $payload    = json_encode([
+                    "request" => [
+                        "t_sep" => [
+                            "noKartu"      => "0002056469703",
+                            "tglSep"       => date('Y-m-d'),
+                            "ppkPelayanan" => $this->ppkSoedono,
+                            "jnsPelayanan" => "2", // 1=RANAP, 2=RAJAL
+
+                            "klsRawat" => [
+                                "klsRawatHak"  => "3",
+                                "klsRawatNaik" => "",
+                                "pembiayaan"   => "",
+                                "penanggungJawab" => ""
+                            ],
+
+                            "noMR" => '0-00-00-1',
+
+                            "rujukan" => [
+                                "asalRujukan" => "2",
+                                "tglRujukan"  => date('Y-m-d'),
+                                "noRujukan"   => "",
+                                "ppkRujukan"  => ""
+                            ],
+
+                            "catatan" => "-",
+                            "diagAwal" => "J18.0",
+
+                            "poli" => [
+                                "tujuan"    => "IGD",
+                                "eksekutif" => "0"
+                            ],
+
+                            "cob" => [
+                                "cob" => "0"
+                            ],
+
+                            "katarak" => [
+                                "katarak" => "0"
+                            ],
+
+                            "jaminan" => [
+                                "lakaLantas" => "0",
+                                "noLP" => "",
+                                "penjamin" => [
+                                    "tglKejadian" => "",
+                                    "keterangan"  => "",
+                                    "suplesi" => [
+                                        "suplesi" => "0",
+                                        "noSepSuplesi" => "",
+                                        "lokasiLaka" => [
+                                            "kdPropinsi"  => "",
+                                            "kdKabupaten" => "",
+                                            "kdKecamatan" => ""
+                                        ]
+                                    ]
+                                ]
+                            ],
+
+                            // ===== FIELD BARU =====
+                            "tujuanKunj" => "0",
+                            "flagProcedure" => "",
+                            "kdPenunjang" => "",
+                            "assesmentPel" => "",
+
+                            "skdp" => [
+                                "noSurat"  => "",
+                                "kodeDPJP" => ""
+                            ],
+
+                            "dpjpLayan" => "37722", // wajib jika RAJAL
+                            "noTelp" => "081111111101",
+                            "user"   => "Coba ws fARMASI"
+                        ]
+                    ]
+                ]);
+        // $endpoint = '/SEP/1.1/insert';
+        $endpoint = '/SEP/2.0/insert';        
+        $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
 
     public function searchingSEPPasien($sep)
     {
         
-        $endpoint   = "sep/" . $sep;
+        $endpoint   = "SEP/" . $sep;
         // $result     = $this->bpjsService->request('GET', $endpoint);
         $result     = $this->bpjsvclaimService->request('GET', $endpoint);
         return $this->response->setJSON($result);
@@ -291,11 +436,19 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function getListPelayananObat($SEP, $userID)
+    public function getListPelayananObatX($SEP, $userID)
     {
         $data = null;
         $endpoint   = "obat/daftar/{$SEP}";
         $result     = $this->bpjsService->request('GET', $endpoint, $data, $userID);
+        return $this->response->setJSON($result);
+    }
+
+    public function getListPelayananObat($SEP, $userID)
+    {
+        $data = null;
+        $endpoint   = "Rujukan/Peserta/{$SEP}";
+        $result     = $this->bpjsvclaimService->request('GET', $endpoint, $data, $userID);
         return $this->response->setJSON($result);
     }
 
@@ -322,17 +475,18 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function sjpresep($tglsjp, $refasalsjp, $poli, $noresep, $tglresep, $tglpelayanan, $KdDokter)
+    // public function sjpresep($tglsjp, $refasalsjp, $poli, $noresep, $tglresep, $tglpelayanan, $KdDokter, $userID)
+    public function sjpresep($userID)
     {
         $payload = json_encode([
-            'TGLSJP'     => '2026-01-30 08:13:11',
-            'REFASALSJP' => '1308R0010126V000340',
-            'POLIRSP'    => 'INT',
+            'TGLSJP'     => date('Y-m-d H:i:s'),
+            'REFASALSJP' => '1308R0010226V000001',
+            'POLIRSP'    => 'IGD',
             'KDJNSOBAT'  => '3',
-            'NORESEP'    => '00001',
+            'NORESEP'    => '00002',
             'IDUSERSJP'  => 'USR-01',
-            'TGLRSP'     => '2026-01-30 00:00:00', 
-            'TGLPELRSP'  => '2026-01-30 00:00:00',
+            'TGLRSP'     => '2026-02-02 00:00:00', 
+            'TGLPELRSP'  => '2026-02-02 00:00:00',
             'KdDokter'   => '0',
             'iterasi'    => '0'
         ]);
@@ -344,7 +498,7 @@ class BpjsController extends BaseController
     public function del_hapusresep($no_resep, $no_sep, $refasalsjp, $userID)
     {
         $payload = json_encode([
-            'nosjpx'        => $no_sep,
+            'nosjp'         => $no_sep,
             'refasalsjp'    => $refasalsjp,
             'noresep'       => $no_resep
         ]);

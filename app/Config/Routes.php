@@ -28,6 +28,7 @@ use CodeIgniter\Router\RouteCollection;
         $routes->get('peserta/nik/(:num)', 'BpjsController::getPesertaByNik/$1');
         // END API VCLAIM
         $routes->get('getSEPPasien/(:segment)', 'BpjsController::searchingSEPPasien/$1');
+        $routes->get('createSEPBPJS', 'BpjsController::createSEPBPJS');
         // $routes->post('sep', 'BpjsController::createSEP');
         
         $routes->group('referensi', static function ($routes) {
