@@ -83,11 +83,11 @@ function initListResepPage() {
             }
 
             if (data.status === true) {
-                handleListResepSubmit(); 
+                // handleListResepSubmit(); 
                 alertContainer.innerHTML =
                     `<div class="alert alert-success mb-2">
                         <h6 class="alert-heading">
-                            <i class="bi bi-check-circle-fill"></i> ${data.message}
+                            <i class="bi bi-chec-circle-fill"></i> ${data.message}
                         </h6>
                     </div>`;
             } else {
