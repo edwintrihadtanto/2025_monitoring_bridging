@@ -1,9 +1,15 @@
 function initListResepPage() {
 
     window.handleListResepSubmit = function(e, form) {
-        if (e) e.preventDefault(); // <-- aman jika e undefined
-        const form = e ? e.target : document.getElementById('form-list-resep');
+        // if (e) e.preventDefault(); // <-- aman jika e undefined
+        // const form = e ? e.target : document.getElementById('form-list-resep');
 
+        // const btnSubmit = form.querySelector('button[type="submit"]');
+        // const resultContainer = document.getElementById('result-container');
+        // const alertContainer = document.getElementById('alert-container');
+        
+        e.preventDefault(); // Mencegah reload halaman
+        
         const btnSubmit = form.querySelector('button[type="submit"]');
         const resultContainer = document.getElementById('result-container');
         const alertContainer = document.getElementById('alert-container');
@@ -67,7 +73,7 @@ function initListResepPage() {
         .then(text => {
             btnSubmit.disabled = false;
             btnSubmit.innerHTML = '<i class="bi bi-trash"></i>';
-            console.log(text);
+            // console.log(text);
             // ================= HANDLE BODY KOSONG =================
             if (text === '' || text === '""') {
                 handleListResepSubmit();
