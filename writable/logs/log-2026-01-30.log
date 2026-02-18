@@ -1,0 +1,249 @@
+CRITICAL - 2026-01-30 08:17:13 --> ParseError: syntax error, unexpected token ";", expecting "]"
+[Method: POST, Route: pel_obat/search_dftarresep]
+in APPPATH\Views\resep\partial_pelobat_listpel.php on line 45.
+ 1 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('resep/partial_pelobat_listpel', [], true)
+ 3 APPPATH\Controllers\BpjsInsertController.php(325): view('resep/partial_pelobat_listpel', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getdaftar_pelayanan()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-01-30 08:21:15 --> ParseError: syntax error, unexpected token ";", expecting "]"
+[Method: POST, Route: pel_obat/search_dftarresep]
+in APPPATH\Views\resep\partial_pelobat_listpel.php on line 47.
+ 1 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('resep/partial_pelobat_listpel', [], true)
+ 3 APPPATH\Controllers\BpjsInsertController.php(325): view('resep/partial_pelobat_listpel', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getdaftar_pelayanan()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-01-30 08:21:32 --> ParseError: syntax error, unexpected token ";", expecting "]"
+[Method: POST, Route: pel_obat/search_dftarresep]
+in APPPATH\Views\resep\partial_pelobat_listpel.php on line 47.
+ 1 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('resep/partial_pelobat_listpel', [], true)
+ 3 APPPATH\Controllers\BpjsInsertController.php(325): view('resep/partial_pelobat_listpel', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getdaftar_pelayanan()
+ 5 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+ 6 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-01-30 08:32:37 --> TypeError: Unsupported operand types: string + string
+[Method: POST, Route: res/getDetailObat]
+in APPPATH\Views\resep\partial_detail_obat.php on line 7.
+ 1 SYSTEMPATH\View\View.php(226): include()
+ 2 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('resep/partial_detail_obat', [], true)
+ 4 APPPATH\Controllers\BpjsInsertController.php(665): view('resep/partial_detail_obat', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getDetailObat()
+ 6 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+ 7 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-01-30 11:14:27 --> ErrorException: pg_query(): Query failed: ERROR:  operator does not exist: text = integer
+LINE 24: AND REPLACE(kun.kd_pasien, '-', '') = 6-93-93-25
+                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts. in C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT DISTINCT...')
+#2 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT DISTINCT...')
+#3 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT DISTINCT...')
+#4 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT...', Array, false)
+#5 C:\xampp\htdocs\2025_monitoring_bridging\app\Models\ResepModel.php(380): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\2025_monitoring_bridging\app\Controllers\BpjsInsertController.php(630): App\Models\ResepModel->getResepHeader(Array)
+#7 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getResepSIMRS()
+#8 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+#9 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\2025_monitoring_bridging\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+ERROR - 2026-01-30 11:14:33 --> ErrorException: pg_query(): Query failed: ERROR:  operator does not exist: text = integer
+LINE 24: AND REPLACE(kun.kd_pasien, '-', '') = 6939325
+                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts. in C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT DISTINCT...')
+#2 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT DISTINCT...')
+#3 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT DISTINCT...')
+#4 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT...', Array, false)
+#5 C:\xampp\htdocs\2025_monitoring_bridging\app\Models\ResepModel.php(380): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\2025_monitoring_bridging\app\Controllers\BpjsInsertController.php(630): App\Models\ResepModel->getResepHeader(Array)
+#7 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getResepSIMRS()
+#8 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+#9 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\2025_monitoring_bridging\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+ERROR - 2026-01-30 11:14:42 --> ErrorException: pg_query(): Query failed: ERROR:  operator does not exist: text = integer
+LINE 24: AND REPLACE(kun.kd_pasien, '-', '') = 6-93-93-25
+                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts. in C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT DISTINCT...')
+#2 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT DISTINCT...')
+#3 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT DISTINCT...')
+#4 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT...', Array, false)
+#5 C:\xampp\htdocs\2025_monitoring_bridging\app\Models\ResepModel.php(380): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\2025_monitoring_bridging\app\Controllers\BpjsInsertController.php(630): App\Models\ResepModel->getResepHeader(Array)
+#7 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getResepSIMRS()
+#8 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+#9 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\2025_monitoring_bridging\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+ERROR - 2026-01-30 11:14:54 --> ErrorException: pg_query(): Query failed: ERROR:  syntax error at or near &quot;%&quot;
+LINE 24: AND  LOWER(o.nmpasien)  LIKE %agus%
+                                      ^ in C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT DISTINCT...')
+#2 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT DISTINCT...')
+#3 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT DISTINCT...')
+#4 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT...', Array, false)
+#5 C:\xampp\htdocs\2025_monitoring_bridging\app\Models\ResepModel.php(380): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\2025_monitoring_bridging\app\Controllers\BpjsInsertController.php(630): App\Models\ResepModel->getResepHeader(Array)
+#7 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getResepSIMRS()
+#8 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+#9 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\2025_monitoring_bridging\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+ERROR - 2026-01-30 11:15:31 --> ErrorException: pg_query(): Query failed: ERROR:  operator does not exist: text = integer
+LINE 24: AND REPLACE(kun.kd_pasien, '-', '') = 6939325
+                                             ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts. in C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT DISTINCT...')
+#2 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT DISTINCT...')
+#3 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT DISTINCT...')
+#4 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT...', Array, false)
+#5 C:\xampp\htdocs\2025_monitoring_bridging\app\Models\ResepModel.php(380): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\2025_monitoring_bridging\app\Controllers\BpjsInsertController.php(630): App\Models\ResepModel->getResepHeader(Array)
+#7 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getResepSIMRS()
+#8 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+#9 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\2025_monitoring_bridging\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+ERROR - 2026-01-30 11:16:05 --> ErrorException: pg_query(): Query failed: ERROR:  missing FROM-clause entry for table &quot;abo&quot;
+LINE 24: AND LOWER(abo.nmpasien) LIKE '%agus%'
+                   ^ in C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT DISTINCT...')
+#2 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT DISTINCT...')
+#3 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT DISTINCT...')
+#4 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT...', Array, false)
+#5 C:\xampp\htdocs\2025_monitoring_bridging\app\Models\ResepModel.php(380): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\2025_monitoring_bridging\app\Controllers\BpjsInsertController.php(630): App\Models\ResepModel->getResepHeader(Array)
+#7 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getResepSIMRS()
+#8 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+#9 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\2025_monitoring_bridging\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+ERROR - 2026-01-30 11:16:07 --> ErrorException: pg_query(): Query failed: ERROR:  missing FROM-clause entry for table &quot;abo&quot;
+LINE 24: AND LOWER(abo.nmpasien) LIKE '%agus%'
+                   ^ in C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'SELECT DISTINCT...')
+#2 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('SELECT DISTINCT...')
+#3 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT DISTINCT...')
+#4 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1649): CodeIgniter\Database\BaseConnection->query('SELECT DISTINCT...', Array, false)
+#5 C:\xampp\htdocs\2025_monitoring_bridging\app\Models\ResepModel.php(380): CodeIgniter\Database\BaseBuilder->get()
+#6 C:\xampp\htdocs\2025_monitoring_bridging\app\Controllers\BpjsInsertController.php(630): App\Models\ResepModel->getResepHeader(Array)
+#7 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getResepSIMRS()
+#8 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+#9 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\2025_monitoring_bridging\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2026-01-30 11:22:44 --> ErrorException: Undefined variable $item
+[Method: POST, Route: res/getDetailObat]
+in APPPATH\Views\resep\partial_detail_obat.php on line 7.
+ 1 APPPATH\Views\resep\partial_detail_obat.php(7): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $item', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\resep\\partial_detail_obat.php', 7)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\resep\\partial_detail_obat.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('resep/partial_detail_obat', [], true)
+ 5 APPPATH\Controllers\BpjsInsertController.php(686): view('resep/partial_detail_obat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getDetailObat()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-01-30 11:22:46 --> ErrorException: Undefined variable $item
+[Method: POST, Route: res/getDetailObat]
+in APPPATH\Views\resep\partial_detail_obat.php on line 7.
+ 1 APPPATH\Views\resep\partial_detail_obat.php(7): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $item', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\resep\\partial_detail_obat.php', 7)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\resep\\partial_detail_obat.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('resep/partial_detail_obat', [], true)
+ 5 APPPATH\Controllers\BpjsInsertController.php(686): view('resep/partial_detail_obat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getDetailObat()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-01-30 11:37:02 --> ErrorException: Undefined array key "namapeserta"
+[Method: POST, Route: res/getDetailObat]
+in APPPATH\Views\resep\partial_detail_obat.php on line 20.
+ 1 APPPATH\Views\resep\partial_detail_obat.php(20): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "namapeserta"', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\resep\\partial_detail_obat.php', 20)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\resep\\partial_detail_obat.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('resep/partial_detail_obat', [], true)
+ 5 APPPATH\Controllers\BpjsInsertController.php(686): view('resep/partial_detail_obat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getDetailObat()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-01-30 11:37:25 --> ErrorException: Undefined array key "namapeserta"
+[Method: POST, Route: res/getDetailObat]
+in APPPATH\Views\resep\partial_detail_obat.php on line 20.
+ 1 APPPATH\Views\resep\partial_detail_obat.php(20): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "namapeserta"', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\resep\\partial_detail_obat.php', 20)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\resep\\partial_detail_obat.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('resep/partial_detail_obat', [], true)
+ 5 APPPATH\Controllers\BpjsInsertController.php(686): view('resep/partial_detail_obat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getDetailObat()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-01-30 11:37:55 --> ErrorException: Trying to access array offset on value of type int
+[Method: POST, Route: res/getDetailObat]
+in APPPATH\Views\resep\partial_detail_obat.php on line 29.
+ 1 APPPATH\Views\resep\partial_detail_obat.php(29): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type int', 'C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\resep\\partial_detail_obat.php', 29)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\2025_monitoring_bridging\\app\\Views\\resep\\partial_detail_obat.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('resep/partial_detail_obat', [], true)
+ 5 APPPATH\Controllers\BpjsInsertController.php(686): view('resep/partial_detail_obat', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsInsertController->getDetailObat()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))

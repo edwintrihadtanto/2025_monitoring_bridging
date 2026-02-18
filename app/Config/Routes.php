@@ -51,7 +51,8 @@ use CodeIgniter\Router\RouteCollection;
             $routes->post('obatracikan', 'BpjsInsertController::obatracikan');
             $routes->post('updatestokobat', 'BpjsInsertController::updatestokobat');
 
-            $routes->get('getsjpresep/(:segment)', 'BpjsController::sjpresep/$1');
+            // $routes->get('getsjpresep/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::sjpresep/$1/$2/$3/$4/$5/$6/$7/$8');
+            $routes->post('insresepobat', 'BpjsInsertController::getsjpresep', ['filter' => 'auth']);
             $routes->get('daftarresep/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::daftarresep/$1/$2/$3/$4');
         });
 

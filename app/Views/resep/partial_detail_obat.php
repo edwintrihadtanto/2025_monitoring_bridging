@@ -7,7 +7,13 @@
 <div class="mt-2 detail-obat-wrapper"
      data-noresep="<?= esc($noresep ?? '') ?>"
      data-sep="<?= esc($sep ?? '') ?>"
-     data-kdpasien="<?= esc($kd_pasien ?? '') ?>">
+     data-kdpasien="<?= esc($kd_pasien ?? '') ?>"
+     data-no_out="<?= esc($no_out ?? '') ?>"
+     data-tgl_out="<?= esc($tgl_out ?? '') ?>"
+     data-kd_unit="<?= esc($kd_unit ?? '') ?>"
+     data-kd_dokter="<?= esc($dokter ?? '') ?>"
+     data-iterasi="<?= esc($sts_iter ?? '') ?>"
+     >
 
     <div class="fw-semibold mb-1">
         Detail Obat

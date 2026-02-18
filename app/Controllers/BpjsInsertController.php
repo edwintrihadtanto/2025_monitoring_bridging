@@ -24,21 +24,66 @@ class BpjsInsertController extends BaseController
     }
 
     public function getsjpresep()
-    {
-        // $tgl_awal = $this->request->getPost('tgl_awal');
-        // $tgl_akhr = $this->request->getPost('tgl_akhr');
+    {   
+        $request = $this->request->getJSON(true);
+        if (!$request) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Payload kosong'
+            ]);
+        }
 
-        // if (!$tgl_awal || !$tgl_akhr) {
-        //     return $this->response->setJSON([
-        //         'status'  => false,
-        //         'message' => 'Tanggal awal dan akhir wajib diisi'
-        //     ]);
-        // }
+        $no_out     = $request['no_out'] ?? null;
+        $tgl_out    = $request['tgl_out'] ?? null;
+        $kdpasien   = $request['kdpasien'] ?? null;
+        $noresep    = $request['noresep'] ?? null;
+        $refasalsjp = $request['sep'] ?? null;
+        $kd_unit    = $request['kd_unit'] ?? null;
+        $iterasi    = $request['iterasi'] ?? null;
+        $kd_dokter  = $request['kd_dokter'] ?? null;
+
+        $detailObat = $request['detailobat'] ?? [];
+        // var_dump($no_out, $tgl_out, $kdpasien, $noresep, $refasalsjp, $kd_dokter, $kd_unit, $detailObat);
+        // die;
+        if (!$no_out || !$tgl_out || !$kdpasien || !$noresep || !$refasalsjp || !$kd_dokter || !$kd_unit || empty($detailObat)) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Parameter masih ada yang kurang!'
+            ]);
+        }
 
         try {
 
-            $userID    = session()->get('id');
-            $targetUrl = base_url("bpjs/insert/sjpresep/{$userID}");
+            $ResepModel = new ResepModel();
+            $statusResult   = false;
+            $message        = '';
+            $htmlResult     = '';
+
+            $poli = $ResepModel->getMappingUnitBPJS($kd_unit);
+            if (!$poli) {
+                // $message = 'Mapping Unit BPJS tidak ditemukan!';
+                return $this->response->setJSON([
+                    'status' => false,
+                    'message' => 'Mapping Unit BPJS tidak ditemukan!'
+                ]);
+            }
+
+            $tglresep       = $tgl_out;
+            $tglpelayanan   = $tgl_out;
+            $userID         = session()->get('id');
+            $dokterBPJS  = $ResepModel->getMappingDokterBPJS($kd_dokter);
+
+            if (!$dokterBPJS) {
+                // $message = 'Mapping Dokter BPJS tidak ditemukan!';
+                return $this->response->setJSON([
+                    'status' => false,
+                    'message' => 'Mapping Dokter BPJS tidak ditemukan!'
+                ]);
+            }
+            $kd_dokterbpjs = $dokterBPJS[0]['kd_dokter_bpjs'] ?? '0';
+            // var_dump($no_out, $tgl_out, $kdpasien, $noresep, $refasalsjp, $kd_dokter, $kd_unit, $poli, $kd_dokterbpjs);
+            // die;
+            $targetUrl = base_url("bpjs/insert/sjpresep/{$refasalsjp}/{$poli}/{$noresep}/{$tglresep}/{$tglpelayanan}/{$kd_dokterbpjs}/{$iterasi}/{$userID}");
 
             $client = Services::curlrequest([
                 'timeout' => 60,
@@ -54,40 +99,43 @@ class BpjsInsertController extends BaseController
             // var_dump($wrapper);exit();
             $bpjsJson = $wrapper['body'] ?? $wrapper;
             // var_dump($bpjsJson);
-            $statusResult = false;
-            $message = '';
-            $htmlResult = '';
+            $code = $bpjsJson['metaData']['code'] ?? null;
+            $statusResult = true;
+            $message = $bpjsJson['metaData']['message']
+                ?? $bpjsJson['pesan']
+                ?? $bpjsJson['message']
+                ?? 'Respon server BPJS tidak dikenali';
 
-            if (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+            // if (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
 
-                // Cek kalau response tidak null
-                if (!is_null($bpjsJson['data'])) {
-                    if (!empty($bpjsJson['response']['list'])) {
-                        $statusResult = true;
-                        $resepList = $bpjsJson['response']['list'];
-                        $htmlResult = view('resep/partial_listresep', ['resepList' => $resepList]);
-                    } else {
-                        $message = 'Data Resep kosong.';
-                    }
-                } else {
-                    $message = 'Data Resep tidak ditemukan (Response Null).';
-                }
-            } elseif (isset($bpjsJson['status_code']) && $bpjsJson['status_code'] == "200") {
+            //     // Cek kalau response tidak null
+            //     if (!is_null($bpjsJson['data'])) {
+            //         if (!empty($bpjsJson['response']['list'])) {
+            //             $statusResult = true;
+            //             $resepList = $bpjsJson['response']['list'];
+            //             $htmlResult = view('resep/partial_listresep', ['resepList' => $resepList]);
+            //         } else {
+            //             $message = 'Data Resep kosong.';
+            //         }
+            //     } else {
+            //         $message = 'Data Resep tidak ditemukan (Response Null).';
+            //     }
+            // } elseif (isset($bpjsJson['status_code']) && $bpjsJson['status_code'] == "200") {
 
-                if (!empty($bpjsJson['data'])) {
-                    $statusResult = true;
-                    $resepList = $bpjsJson['data'];
-                    $htmlResult = view('resep/partial_listresep', ['resepList' => $resepList]);
-                } else {
-                    $message = 'Data Resep kosong.';
-                }
-            } else {
-                // Pastikan metaData message terbaca
-                $message = $bpjsJson['metaData']['message']
-                            ?? $bpjsJson['pesan']
-                            ?? $bpjsJson['message']
-                            ?? 'Respon server BPJS tidak dikenali.';
-            }
+            //     if (!empty($bpjsJson['data'])) {
+            //         $statusResult = true;
+            //         $resepList = $bpjsJson['data'];
+            //         $htmlResult = view('resep/partial_listresep', ['resepList' => $resepList]);
+            //     } else {
+            //         $message = 'Data Resep kosong.';
+            //     }
+            // } else {
+            //     // Pastikan metaData message terbaca
+            //     $message = $bpjsJson['metaData']['message']
+            //                 ?? $bpjsJson['pesan']
+            //                 ?? $bpjsJson['message']
+            //                 ?? 'Respon server BPJS tidak dikenali.';
+            // }
 
             return $this->response->setJSON([
                 'status' => $statusResult,

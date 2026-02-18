@@ -90,6 +90,11 @@
                              data-noresep="<?= esc($item['no_resep']) ?>"
                              data-sep="<?= esc($item['no_sep'] ?? '') ?>"
                              data-kdpasien="<?= esc($item['kd_pasienapt']) ?>"
+                             data-no_out="<?= esc($item['no_out']) ?>"
+                             data-tgl_out="<?= esc($item['tgl_out']) ?>"
+                             data-kd_unit="<?= esc($item['kd_unit']) ?>"
+                             data-kd_dokter="<?= esc($item['dokter']) ?>"
+                             data-iterasi="<?= esc($item['sts_iter']) ?>"
                              data-search="<?= strtolower(
                                  ($item['no_sep'] ?? '') . ' ' .
                                  $item['kd_pasienapt'] . ' ' .

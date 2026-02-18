@@ -67,7 +67,7 @@
                                     <input type="date"
                                            name="tgl_awal"
                                            class="form-control form-control-sm"
-                                           value="2024-10-28"
+                                           value="<?= date('Y-m-d')?>"
                                            required>
                                 </div>
 
@@ -77,7 +77,7 @@
                                     <input type="date"
                                            name="tgl_akhr"
                                            class="form-control form-control-sm"
-                                           value="2024-10-29"                                           
+                                           value="<?= date('Y-m-d')?>"
                                            required>
                                 </div>
                                 <!-- value="2024-10-29" -->
@@ -117,7 +117,7 @@
                                         <input type="text"
                                                class="form-control"
                                                id="searchInput"
-                                               name="medrec"
+                                               name="medrec" value="0000001" 
                                                placeholder="Masukkan Medrec">
                                     </div>
                                 </div>

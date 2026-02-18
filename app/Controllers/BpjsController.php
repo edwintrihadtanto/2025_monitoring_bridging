@@ -275,21 +275,41 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    // public function sjpresep($tglsjp, $refasalsjp, $poli, $noresep, $tglresep, $tglpelayanan, $KdDokter, $userID)
-    public function sjpresep($userID)
+    public function sjpresep($refasalsjp, $poli, $noresep, $tglresep, $tglpelayanan, $kd_dokterbpjs, $iterasi, $userID)
+    // public function sjpresep($userID)
     {
+        // $payload = json_encode([
+        //     'TGLSJP'     => date('Y-m-d H:i:s'),
+        //     'REFASALSJP' => '1308R0010226V000001',
+        //     'POLIRSP'    => 'IGD',
+        //     'KDJNSOBAT'  => '2',
+        //     'NORESEP'    => '00003',
+        //     'IDUSERSJP'  => $userID,
+        //     'TGLRSP'     => '2026-02-03 00:00:00', 
+        //     'TGLPELRSP'  => '2026-02-03 00:00:00',
+        //     'KdDokter'   => '0',
+        //     'iterasi'    => '0'
+        // ]);
+
+        // Keterangan:
+        // Tgl Entry : Tanggal Resep dientri/direkam ke aplikasi
+        // TglResep : Tanggal Tertera pada Lembar Resep
+        // TglPelayanan : Tanggal saat resep dilayani/diterima Apotek/Instasi Farmasi
+        // TglSEP- 15  Hari <= TglSEP <= TglResep <= TglEntry <= TglSistem
+
         $payload = json_encode([
             'TGLSJP'     => date('Y-m-d H:i:s'),
-            'REFASALSJP' => '1308R0010226V000001',
-            'POLIRSP'    => 'IGD',
-            'KDJNSOBAT'  => '2',
+            'REFASALSJP' => $refasalsjp,
+            'POLIRSP'    => $poli,
+            'KDJNSOBAT'  => '0',
             'NORESEP'    => '00003',
-            'IDUSERSJP'  => 'USR-12',
-            'TGLRSP'     => '2026-02-03 00:00:00', 
-            'TGLPELRSP'  => '2026-02-03 00:00:00',
-            'KdDokter'   => '0',
-            'iterasi'    => '0'
+            'IDUSERSJP'  => $userID,
+            'TGLRSP'     => $tglresep,
+            'TGLPELRSP'  => $tglpelayanan,
+            'KdDokter'   => $kd_dokterbpjs,
+            'iterasi'    => $iterasi
         ]);
+
         $endpoint = '/sjpresep/v3/insert';
         $result = $this->bpjsInsertService->request('POST', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);

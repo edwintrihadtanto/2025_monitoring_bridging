@@ -406,4 +406,32 @@ class ResepModel extends Model
         return $builder->get()->getResultArray();
     }
 
+    public function getMappingUnitBPJS($kd_unit)
+    {
+        $builder = $this->builder('map_unit_bpjs mup');
+       
+        $builder->select("unit_bpjs, nama_unit_bpjs");
+        $builder->where('kd_unit', $kd_unit);
+
+        //         ->get()
+        //         ->getResultArray();
+        // echo $this->db->getLastQuery()->getQuery();
+        // die;
+        return $builder->get()->getResultArray();
+    }
+
+    public function getMappingDokterBPJS($kd_dokter)
+    {
+        $builder = $this->builder('dokter');
+       
+        $builder->select("kd_dokter_bpjs");
+        $builder->where('kd_dokter', $kd_dokter);
+
+        //         ->get()
+        //         ->getResultArray();
+        // echo $this->db->getLastQuery()->getQuery();
+        // die;
+        return $builder->get()->getResultArray();
+    }
+
 }

@@ -354,6 +354,11 @@ function handleProsesObatClick(e) {
             noresep   : resepItem.dataset.noresep,
             sep       : resepItem.dataset.sep,
             kdpasien  : resepItem.dataset.kdpasien,
+            no_out    : resepItem.dataset.no_out,
+            tgl_out   : resepItem.dataset.tgl_out,
+            kd_unit   : resepItem.dataset.kd_unit,
+            kd_dokter : resepItem.dataset.kd_dokter,
+            iterasi   : resepItem.dataset.iterasi,
             detailobat: detail
         }];
 
@@ -390,6 +395,11 @@ function handleProsesObatClick(e) {
             noresep   : resepItem.dataset.noresep,
             sep       : resepItem.dataset.sep,
             kdpasien  : resepItem.dataset.kdpasien,
+            no_out    : resepItem.dataset.no_out,
+            tgl_out   : resepItem.dataset.tgl_out,
+            kd_unit   : resepItem.dataset.kd_unit,
+            kd_dokter : resepItem.dataset.kd_dokter,
+            iterasi   : resepItem.dataset.iterasi,
             detailobat: detail
         });
     });
@@ -412,6 +422,42 @@ function initProsesObatSIMRS() {
     wrapper.addEventListener('click', handleProsesObatClick);
 }
 
+function prosesBatchSIMRSXX(payload) {
+    const wrapper = document.getElementById('resepWrapper');
+    if (!wrapper) return;
+
+    payload.forEach((item, index) => {
+
+        const resepItem = wrapper.querySelector(
+            `.resep-check[data-id="${item.noresep}"]`
+        )?.closest('.resep-item');
+
+        const bar = resepItem?.querySelector('.resep-progress');
+        const inner = bar?.querySelector('.progress-bar');
+
+        if (!bar || !inner) return;
+
+        bar.classList.remove('d-none');
+
+        fetch(BASE_URL + 'bpjs/insert/insresepobat', {
+            method: 'POST',
+            headers: {
+                'Content-Type':'application/json',
+                'X-Requested-With':'XMLHttpRequest'
+            },
+            body: JSON.stringify(item)
+        })
+        .then(() => {
+            inner.style.width = '100%';
+            inner.classList.remove('progress-bar-animated');
+            inner.classList.add('bg-success');
+        })
+        .catch(() => {
+            inner.classList.add('bg-danger');
+        });
+    });
+}
+
 function prosesBatchSIMRS(payload) {
     const wrapper = document.getElementById('resepWrapper');
     if (!wrapper) return;
@@ -429,20 +475,36 @@ function prosesBatchSIMRS(payload) {
 
         bar.classList.remove('d-none');
 
-        fetch(BASE_URL + '/res/prosesObat', {
+        fetch(BASE_URL + 'bpjs/insert/insresepobat', {
             method: 'POST',
             headers: {
                 'Content-Type':'application/json',
                 'X-Requested-With':'XMLHttpRequest'
-            },
+            },            
             body: JSON.stringify(item)
         })
-        .then(() => {
+        // .then(() => {
+        //     inner.style.width = '100%';
+        //     inner.classList.remove('progress-bar-animated');
+        //     inner.classList.add('bg-success');
+        // })
+        .then(data => {
+            console.log(data);
+            // if (data.status) {
+            //     // resultContainer.innerHTML = data.html;
+            // } else {
+            //     alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+            // }
+
             inner.style.width = '100%';
             inner.classList.remove('progress-bar-animated');
             inner.classList.add('bg-success');
         })
-        .catch(() => {
+        // .catch(() => {
+        //     inner.classList.add('bg-danger');
+        // });
+        .catch(error => {
+            console.error('Error:', error);
             inner.classList.add('bg-danger');
         });
     });
