@@ -8,26 +8,32 @@
     <!-- Grid 3 Kolom (Responsive: 1 kolom di HP, 3 kolom di PC) -->
     <div class="row">
         <?php foreach ($resepList as $index => $item): ?>
-            <div class="col-12 col-md-4">
+        <?php $isVerified = $item['BYVERRSP'] !== '0'; ?>
+
+            <div class="col-12 col-md-4 card-listresep" style="font-size: 15px;" data-noapotik="<?= $item['NOAPOTIK'] ?>">
                 <div class="card mb-3">
-                    <div class="card-header p-3 border-start border-4 border-success shadow-sm">
+                    <div class="card-header p-2 border-start border-4 border-success shadow-sm">
                         <!-- Informasi dasar yang selalu terlihat -->
+                        <div class="col-12">
+                            <strong class="text-primary"><?= $item['NAMA'] ?></strong>
+                        </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <strong>No. Resep : </strong><strong class="text-danger"><?= $item['NORESEP']." / ".  $item['NOAPOTIK'] ?>/</strong><br>
-                                <strong>No. SEP : </strong> <?= $item['NOSEP_KUNJUNGAN'] ?><br>
-                                <strong>Nama Pasien : </strong><strong class="text-primary"> <?= $item['NAMA'] ?></strong>
+                                <strong>No. Resep : </strong><strong class="text-danger"><?= $item['NORESEP'] ?></strong><br>
+                                <strong>No. Apotik : </strong><strong class="text-danger"><?= $item['NOAPOTIK'] ?></strong><br>
+                                <strong>No. SEP : </strong> <?= $item['NOSEP_KUNJUNGAN'] ?>
                             </div>
                             <!-- Tombol collapse -->
                             <button class="btn btn-link btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetails<?= $index ?>" aria-expanded="false" aria-controls="collapseDetails<?= $index ?>">
                                 <i class="bi bi-chevron-down"></i> Detail
                             </button>
 
-                            <form id="DeleteResepForm" action="<?= site_url('res/del_hapusresep') ?>" method="post" >                                
+                            <form id="DeleteResepForm" class="form-delete-resep" action="<?= site_url('res/del_hapusresep') ?>" method="post" >                                
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="no_resep" value="<?= esc($item['NORESEP']) ?>">
                                 <input type="hidden" name="no_apotik" value="<?= esc($item['NOAPOTIK']) ?>">
                                 <input type="hidden" name="refasalsjp" value="<?= esc($item['NOSEP_KUNJUNGAN']) ?>">
+                                <input type="hidden" name="byverrsp" value="<?= esc($item['BYVERRSP']) ?>">
 
                                 <button type="submit" class="btn btn-sm btn-danger">
                                     <i class="bi bi-trash"></i>
@@ -84,7 +90,7 @@
     <!-- Tutup Row -->
 <?php else: ?>
     <div class="alert alert-warning">
-        <h4 class="alert-heading">Data SEP Tidak Ditemukan</h4>
-        <p>Silakan periksa kembali Nomor SEP yang Anda masukkan.</p>
+        <h4 class="alert-heading">Data Resep tidak ditemukan</h4>
+        <p>Silakan periksa kembali filter data yang anda tentukan.</p>
     </div>
 <?php endif; ?>

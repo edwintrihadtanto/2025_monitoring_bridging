@@ -12,7 +12,7 @@
     <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/iconly.css'); ?>">
     <!-- PENTING: Pastikan CSS jQuery DataTables juga terpanggil -->
     <link rel="stylesheet" href="<?= base_url('public/assets/dist/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') ?>">
-
+    <link rel="stylesheet" href="<?= base_url('public/assets/dist/assets/extensions/sweetalert2/sweetalert2.min.css') ?>">
     <style>
         /* --- PAKSA STYLE BOOTSTRAP 5 PAGINATION --- */
         /* Reset margin list pagination */

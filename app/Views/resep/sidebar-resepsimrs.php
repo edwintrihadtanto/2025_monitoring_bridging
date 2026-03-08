@@ -67,7 +67,7 @@
                                     <input type="date"
                                            name="tgl_awal"
                                            class="form-control form-control-sm"
-                                           value="<?= date('Y-m-d')?>"
+                                           value="<?= date('2026-03-08')?>"
                                            required>
                                 </div>
 

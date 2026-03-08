@@ -28,8 +28,8 @@ use CodeIgniter\Router\RouteCollection;
         $routes->get('peserta/nik/(:num)', 'BpjsController::getPesertaByNik/$1');
         // END API VCLAIM
         $routes->get('getSEPPasien/(:segment)', 'BpjsController::searchingSEPPasien/$1');
-        $routes->get('createSEPBPJS', 'BpjsController::createSEPBPJS');
-        // $routes->post('sep', 'BpjsController::createSEP');
+        $routes->get('createSEPBPJS', 'BpjsController::createSEPBPJS'); //AWAS VCLAIM 
+        $routes->get('deleteSEPBPJS', 'BpjsController::delSEP');       //AWAS VCLAIM
         
         $routes->group('referensi', static function ($routes) {
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/obat/1/2024-09-01/asam
@@ -52,6 +52,7 @@ use CodeIgniter\Router\RouteCollection;
             $routes->post('updatestokobat', 'BpjsInsertController::updatestokobat');
 
             // $routes->get('getsjpresep/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::sjpresep/$1/$2/$3/$4/$5/$6/$7/$8');
+            $routes->get('sjpresep/(:segment)', 'BpjsController::sjpresep/$1');
             $routes->post('insresepobat', 'BpjsInsertController::getsjpresep', ['filter' => 'auth']);
             $routes->get('daftarresep/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::daftarresep/$1/$2/$3/$4');
         });

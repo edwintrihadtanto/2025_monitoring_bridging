@@ -30,6 +30,8 @@
     <script src="<?= base_url('public/assets/dist/assets/extensions/jquery/jquery.min.js') ?> "></script>
     <script src="<?= base_url('public/assets/dist/assets/extensions/datatables.net/js/jquery.dataTables.min.js') ?> "></script>
     <script src="<?= base_url('public/assets/dist/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js')?> "></script>
+    <script src="<?= base_url('public/assets/dist/assets/extensions/sweetalert2/sweetalert2.min.js')?>"></script>
+    <script src="<?= base_url('public/assets/dist/assets/static/js/pages/sweetalert2.js')?>"></script>>
 
     <script src="<?= base_url('public/js/page-pasien.js') ?>"></script>
     <script src="<?= base_url('public/js/page-sep.js') ?>"></script>

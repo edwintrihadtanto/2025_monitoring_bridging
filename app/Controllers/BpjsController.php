@@ -59,11 +59,11 @@ class BpjsController extends BaseController
         // $result = $this->bpjsService->request('POST', $endpoint, (array)$dataRequest);
 
         // return $this->response->setJSON($result);
-        $userID     = '123';
+        $userID     = '12345';
         $payload    = json_encode([
                     "request" => [
                         "t_sep" => [
-                            "noKartu"      => "0002056469703",
+                            "noKartu"      => "0002059334728",
                             "tglSep"       => date('Y-m-d'),
                             "ppkPelayanan" => $this->ppkSoedono,
                             "jnsPelayanan" => "2", // 1=RANAP, 2=RAJAL
@@ -75,7 +75,7 @@ class BpjsController extends BaseController
                                 "penanggungJawab" => ""
                             ],
 
-                            "noMR" => '0-00-00-1',
+                            "noMR" => '0-00-00-01',
 
                             "rujukan" => [
                                 "asalRujukan" => "2",
@@ -138,6 +138,22 @@ class BpjsController extends BaseController
         // $endpoint = '/SEP/1.1/insert';
         $endpoint = '/SEP/2.0/insert';        
         $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
+    
+    public function delSEP()
+    {
+        $userID     = '999';
+        $payload    = json_encode([
+                    "request" => [
+                        "t_sep" => [
+                            "noSep"  => "1308R0010326V000004",
+                            "user"   => "Coba ws fARMASI"
+                        ]
+                    ]
+                ]);
+        $endpoint   = '/SEP/2.0/delete';
+        $result     = $this->bpjsInsertVclaimService->request('DELETE', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
 
@@ -275,21 +291,21 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function sjpresep($refasalsjp, $poli, $noresep, $tglresep, $tglpelayanan, $kd_dokterbpjs, $iterasi, $userID)
-    // public function sjpresep($userID)
+    // public function sjpresep($refasalsjp, $poli, $noresep, $tglresep, $tglpelayanan, $kd_dokterbpjs, $iterasi, $userID)
+    public function sjpresep($userID)
     {
-        // $payload = json_encode([
-        //     'TGLSJP'     => date('Y-m-d H:i:s'),
-        //     'REFASALSJP' => '1308R0010226V000001',
-        //     'POLIRSP'    => 'IGD',
-        //     'KDJNSOBAT'  => '2',
-        //     'NORESEP'    => '00003',
-        //     'IDUSERSJP'  => $userID,
-        //     'TGLRSP'     => '2026-02-03 00:00:00', 
-        //     'TGLPELRSP'  => '2026-02-03 00:00:00',
-        //     'KdDokter'   => '0',
-        //     'iterasi'    => '0'
-        // ]);
+        $payload = json_encode([
+            'TGLSJP'     => date('Y-m-d H:i:s'),
+            'REFASALSJP' => '1308R0010326V000004',
+            'POLIRSP'    => 'IGD',
+            'KDJNSOBAT'  => '2',
+            'NORESEP'    => '00126',
+            'IDUSERSJP'  => $userID,
+            'TGLRSP'     => '2026-03-09 00:00:00', 
+            'TGLPELRSP'  => '2026-03-09 00:00:00',
+            'KdDokter'   => '0',
+            'iterasi'    => '0'
+        ]);
 
         // Keterangan:
         // Tgl Entry : Tanggal Resep dientri/direkam ke aplikasi
@@ -297,18 +313,18 @@ class BpjsController extends BaseController
         // TglPelayanan : Tanggal saat resep dilayani/diterima Apotek/Instasi Farmasi
         // TglSEP- 15  Hari <= TglSEP <= TglResep <= TglEntry <= TglSistem
 
-        $payload = json_encode([
-            'TGLSJP'     => date('Y-m-d H:i:s'),
-            'REFASALSJP' => $refasalsjp,
-            'POLIRSP'    => $poli,
-            'KDJNSOBAT'  => '0',
-            'NORESEP'    => '00003',
-            'IDUSERSJP'  => $userID,
-            'TGLRSP'     => $tglresep,
-            'TGLPELRSP'  => $tglpelayanan,
-            'KdDokter'   => $kd_dokterbpjs,
-            'iterasi'    => $iterasi
-        ]);
+        // $payload = json_encode([
+        //     'TGLSJP'     => date('Y-m-d H:i:s'),
+        //     'REFASALSJP' => $refasalsjp,
+        //     'POLIRSP'    => $poli,
+        //     'KDJNSOBAT'  => '0',
+        //     'NORESEP'    => '00003',
+        //     'IDUSERSJP'  => $userID,
+        //     'TGLRSP'     => $tglresep,
+        //     'TGLPELRSP'  => $tglpelayanan,
+        //     'KdDokter'   => $kd_dokterbpjs,
+        //     'iterasi'    => $iterasi
+        // ]);
 
         $endpoint = '/sjpresep/v3/insert';
         $result = $this->bpjsInsertService->request('POST', $endpoint, $payload, $userID);
@@ -326,5 +342,6 @@ class BpjsController extends BaseController
         $result = $this->bpjsInsertService->request('DELETE', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
+
     //END RESEP
 }

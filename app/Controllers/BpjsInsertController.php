@@ -323,6 +323,7 @@ class BpjsInsertController extends BaseController
         $no_resep   = $this->request->getPost('no_resep');
         $no_apotik  = $this->request->getPost('no_apotik');
         $refasalsjp = $this->request->getPost('refasalsjp');
+        $byverrsp   = $this->request->getPost('byverrsp');
 
         // ================= VALIDASI =================
         if (!$no_resep) {
@@ -346,6 +347,14 @@ class BpjsInsertController extends BaseController
             ]);
         }
 
+        if ($byverrsp !== '0') {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Resep sudah diverifikasi dan tidak dapat dihapus',
+                'csrfHash' => csrf_hash()
+            ]);
+        }
+        
         try {
             $userID    = session()->get('id');
             $targetUrl = base_url(
@@ -373,7 +382,8 @@ class BpjsInsertController extends BaseController
             if ($body === '') {
                 return $this->response->setJSON([
                     'status'  => true,
-                    'message' => 'Resep '.$no_resep.' Berhasil di Hapus'
+                    'message' => 'Resep '.$no_resep.' Berhasil di Hapus',
+                    'csrfHash' => csrf_hash()
                 ]);
             }
 
@@ -384,7 +394,8 @@ class BpjsInsertController extends BaseController
             if ($body === '""') {
                 return $this->response->setJSON([
                     'status'  => true,
-                    'message' => 'Resep '.$no_resep.' Berhasil di Hapus'
+                    'message' => 'Resep '.$no_resep.' Berhasil di Hapus',
+                    'csrfHash' => csrf_hash()
                 ]);
             }
 
@@ -401,7 +412,8 @@ class BpjsInsertController extends BaseController
             if ($wrapper === '') {
                 return $this->response->setJSON([
                     'status'  => true,
-                    'message' => 'Resep '.$no_resep.' Berhasil di Hapus'
+                    'message' => 'Resep '.$no_resep.' Berhasil di Hapus',
+                    'csrfHash' => csrf_hash()
                 ]);
             }
 

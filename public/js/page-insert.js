@@ -1,15 +1,18 @@
 function initListResepPage() {
 
     window.handleListResepSubmit = function(e, form) {
-        // if (e) e.preventDefault(); // <-- aman jika e undefined
-        // const form = e ? e.target : document.getElementById('form-list-resep');
 
-        // const btnSubmit = form.querySelector('button[type="submit"]');
-        // const resultContainer = document.getElementById('result-container');
-        // const alertContainer = document.getElementById('alert-container');
-        
-        e.preventDefault(); // Mencegah reload halaman
-        
+        if (e) e.preventDefault();
+
+        if (!form) {
+            form = document.getElementById('pencarianListResepForm');
+        }
+
+        if (!form) {
+            console.warn('Form pencarian tidak ditemukan');
+            return;
+        }
+
         const btnSubmit = form.querySelector('button[type="submit"]');
         const resultContainer = document.getElementById('result-container');
         const alertContainer = document.getElementById('alert-container');
@@ -30,13 +33,7 @@ function initListResepPage() {
             btnSubmit.innerHTML = '<i class="bi bi-search me-2"></i> Tampilkan Pencarian';
 
             if (data.status) {
-                // Masukkan HTML Result ke Container
                 resultContainer.innerHTML = data.html;
-                
-                // Re-inisialisasi DataTables (PENTING: Agar tabel bisa di-sort)
-                // if (typeof initializePageComponents === 'function') {
-                //     initializePageComponents();
-                // }
             } else {
                 alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
             }
@@ -49,7 +46,7 @@ function initListResepPage() {
         });
     }
 
-    window.handleDeleteResepSubmit = function (e, form) {
+    window.handleDeleteResepSubmitXX = function (e, form) {
         e.preventDefault();
 
         const btnSubmit = form.querySelector('button[type="submit"]');
@@ -119,6 +116,106 @@ function initListResepPage() {
         });
     };
 
+    window.handleDeleteResepSubmit = async function(e, form){
+
+        e.preventDefault();
+        const verifikasi = form.querySelector('[name="byverrsp"]').value;
+
+        if(verifikasi !== '0'){
+            Swal.fire({
+                icon:'warning',
+                title:'Tidak bisa dihapus',
+                text:'Resep sudah diverifikasi'
+            });
+            return;
+        }
+        
+        const konfirmasi = await Swal.fire({
+            title: "Hapus resep?",
+            text: "Data tidak bisa dikembalikan",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, hapus",
+            cancelButtonText: "Batal"
+        });
+
+        if(!konfirmasi.isConfirmed) return;
+
+        const btn = form.querySelector("button");
+        const formData = new FormData(form);
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+        try{
+
+            const res = await fetch(form.action,{
+                method:'POST',
+                body:formData,
+                headers:{'X-Requested-With':'XMLHttpRequest'}
+            });
+
+            const text = await res.text();
+            const data = JSON.parse(text);
+
+            btn.disabled=false;
+            btn.innerHTML='<i class="bi bi-trash"></i>';
+
+            if(!data.status){
+                throw data.message;
+            }
+
+            // ======================
+            // HAPUS CARD
+            // ======================
+            const noApotik = form.querySelector('[name="no_apotik"]').value;
+
+            const card = document.querySelector(
+                `.card-listresep[data-noapotik="${noApotik}"]`
+            );
+
+            if(card){
+
+                card.style.transition="0.25s";
+                card.style.opacity="0";
+                card.style.transform="scale(0.9)";
+
+                setTimeout(()=>card.remove(),250);
+            }
+
+            // ======================
+            // UPDATE CSRF TOKEN
+            // ======================
+            if(data.csrfHash){
+                document.querySelectorAll('input[name="csrf_test_name"]')
+                    .forEach(el=>el.value=data.csrfHash);
+            }
+
+            Swal.fire({
+                icon:'success',
+                title:'Berhasil',
+                text:data.message,
+                timer:1400,
+                showConfirmButton:false
+            });
+
+        }
+        catch(err){
+
+            console.error(err);
+
+            btn.disabled=false;
+            btn.innerHTML='<i class="bi bi-trash"></i>';
+
+            Swal.fire({
+                icon:'error',
+                title:'Error',
+                text: err || "Terjadi kesalahan sistem"
+            });
+
+        }
+
+    };
 }
 
 function initListPelyananObatPage() {
