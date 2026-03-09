@@ -30,6 +30,7 @@
                     <th style="width:36px"></th>
                     <th style="width:130px">Kode</th>
                     <th>Nama Obat</th>
+                    <th style="width:200px" class="text-center">Signa</th>
                     <th style="width:70px" class="text-center">Qty</th>
                 </tr>
             </thead>
@@ -49,9 +50,11 @@
                     </td>
 
                     <td class="fw-semibold">
-                        <?= esc($item['nama_obat']) ?>
+                        <?php if ($item['kd_obat_bpjs'] != 0) { echo '✅';} ?> <?= esc($item['nama_obat']) ?>
                     </td>
-
+                    <td class="fw-semibold">
+                        
+                    </td>
                     <td class="text-center fw-semibold">
                         <?= esc($item['jml_out']) ?>
                     </td>

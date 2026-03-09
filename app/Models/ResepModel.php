@@ -388,10 +388,12 @@ class ResepModel extends Model
             abod.kd_prd,
             abod.jml_out,
             abod.harga_jual,
-            apt_obat.nama_obat
+            apt_obat.nama_obat,
+            kd_obat_bpjs
         ");
 
         $builder->join('apt_obat', 'abod.kd_prd = apt_obat.kd_prd', 'inner');
+        $builder->join('apt_obat_ifrs', 'abod.kd_prd = apt_obat_ifrs.kd_prd', 'left');
        
         if (!empty($filter['noOut']) && !empty($filter['tglOut'])) {
             $builder->where('no_out =', $filter['noOut']);

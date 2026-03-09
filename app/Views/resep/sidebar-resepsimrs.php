@@ -1,6 +1,6 @@
 <div class="page-heading">
     <div class="page-title mb-2">
-        <h6 class="mb-0">Daftar Resep SIMRS</h6>
+        <!-- <h6 class="mb-0">Daftar Resep SIMRS</h6> -->
         <small class="text-muted">Data resep dari SIMRS</small>
     </div>
 
@@ -35,7 +35,7 @@
                                                    id="opt_inap"
                                                    value="2" checked>
                                             <label class="form-check-label" for="opt_inap">
-                                                Rawat Jalan
+                                                Rajal
                                             </label>
                                         </div>
                                         <div class="form-check mb-0">
@@ -45,7 +45,7 @@
                                                    id="opt_rajal"
                                                    value="1">
                                             <label class="form-check-label" for="opt_rajal">
-                                                Rawat Inap
+                                                Ranap
                                             </label>
                                         </div>
                                         <div class="form-check mb-0">
@@ -55,7 +55,7 @@
                                                    id="opt_igd"
                                                    value="3">
                                             <label class="form-check-label" for="opt_igd">
-                                                Rawat Gawat Darurat
+                                                IGD
                                             </label>
                                         </div>
                                     </div>

@@ -299,7 +299,7 @@ class BpjsController extends BaseController
             'REFASALSJP' => '1308R0010326V000004',
             'POLIRSP'    => 'IGD',
             'KDJNSOBAT'  => '2',
-            'NORESEP'    => '00126',
+            'NORESEP'    => '00128',
             'IDUSERSJP'  => $userID,
             'TGLRSP'     => '2026-03-09 00:00:00', 
             'TGLPELRSP'  => '2026-03-09 00:00:00',

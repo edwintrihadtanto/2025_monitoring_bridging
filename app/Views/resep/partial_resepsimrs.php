@@ -3,10 +3,7 @@
     <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
 
         <div class="input-group input-group-sm" style="max-width:320px">
-            <span class="input-group-text">
-                <!-- <i class="bi bi-search"></i> -->
-                🔍
-            </span>
+            <span class="input-group-text">🔍</span>
             <input type="text"
                    id="searchResep"
                    class="form-control"
