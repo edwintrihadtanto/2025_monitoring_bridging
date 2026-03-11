@@ -8,8 +8,6 @@
     <!-- Grid 3 Kolom (Responsive: 1 kolom di HP, 3 kolom di PC) -->
     <div class="row">
         <?php foreach ($resepList as $index => $item): ?>
-        <?php $isVerified = $item['BYVERRSP'] !== '0'; ?>
-
             <div class="col-12 col-md-4 card-listresep" style="font-size: 15px;" data-noapotik="<?= $item['NOAPOTIK'] ?>">
                 <div class="card mb-3">
                     <div class="card-header p-2 border-start border-4 border-success shadow-sm">
@@ -35,7 +33,8 @@
                                 <input type="hidden" name="refasalsjp" value="<?= esc($item['NOSEP_KUNJUNGAN']) ?>">
                                 <input type="hidden" name="byverrsp" value="<?= esc($item['BYVERRSP']) ?>">
 
-                                <button type="submit" class="btn btn-sm btn-danger">
+                                <button type="submit" class="btn btn-sm btn-danger" data-bs-toggle="tooltip"
+                                    title="Hapus Resep BPJS">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </form>

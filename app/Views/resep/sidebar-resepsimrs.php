@@ -136,7 +136,6 @@
                 </div>
             </div>
 
-            <!-- RESULT -->
             <div class="col-12">
                 <div id="result-container"></div>
             </div>

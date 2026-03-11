@@ -29,8 +29,9 @@
                 <tr class="text-muted">
                     <th style="width:36px"></th>
                     <th style="width:130px">Kode</th>
+                    <th style="width:100px">Racikan</th>
                     <th>Nama Obat</th>
-                    <th style="width:200px" class="text-center">Signa</th>
+                    <th style="width:250px">Signa</th>
                     <th style="width:70px" class="text-center">Qty</th>
                 </tr>
             </thead>
@@ -48,12 +49,23 @@
                     <td class="text-truncate">
                         <?= esc($item['kd_prd']) ?>
                     </td>
-
-                    <td class="fw-semibold">
-                        <?php if ($item['kd_obat_bpjs'] != 0) { echo '✅';} ?> <?= esc($item['nama_obat']) ?>
+                    <td class="text-truncate">
+                        <?= esc($item['nm_racikan']) ?>
                     </td>
                     <td class="fw-semibold">
-                        
+                        <?php if ($item['kd_obat_bpjs'] != 0): ?>
+                            <div class="avatar avatar-sm bg-success me-3">
+                                <span class="avatar-content" 
+                                    data-bs-toggle="tooltip"
+                                    title="Obat sudah termapping BPJS">
+                                    <i class="bi bi-check-circle"></i>
+                                </span>
+                            </div>
+                        <?php endif; ?>
+                        <?= esc($item['nama_obat']) ?>
+                    </td>
+                    <td class="fw-semibold">
+                        <?= esc($item['lbl_signa']) ?>
                     </td>
                     <td class="text-center fw-semibold">
                         <?= esc($item['jml_out']) ?>

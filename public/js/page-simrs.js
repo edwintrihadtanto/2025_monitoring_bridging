@@ -63,6 +63,15 @@ function initSIMRS() {
     });
 }
 
+function initProsesObatSIMRS() {
+
+    const wrapper = document.getElementById('resepWrapper');
+    if (!wrapper) return;
+
+    wrapper.removeEventListener('click', handleProsesObatClick);
+    wrapper.addEventListener('click', handleProsesObatClick);
+}
+
 function fungsi_sidebar_resepSIMRS() {
 
     const wrapper = document.getElementById('resepWrapper');
@@ -279,49 +288,6 @@ function fungsi_sidebar_resepSIMRS() {
     updateCounter();
 }
 
-/*function handleProsesObatClick(e) {
-
-    const wrapper = document.getElementById('resepWrapper');
-    if (!wrapper) return;
-
-    if (!e.target.closest('#btnProsesSIMRS')) return;
-
-    const payload = [];
-
-    wrapper.querySelectorAll('.resep-check:checked').forEach(cb => {
-
-        const resepItem = cb.closest('.resep-item');
-        if (!resepItem) return;
-
-        const detail = [];
-
-        resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
-            detail.push({
-                kd_obat: o.dataset.kdobat,
-                qty    : o.dataset.qty
-            });
-        });
-
-        if (detail.length === 0) return; // skip resep tanpa detail
-
-        payload.push({
-            noresep   : resepItem.dataset.noresep,
-            sep       : resepItem.dataset.sep,
-            kdpasien  : resepItem.dataset.kdpasien,
-            detailobat: detail
-        });
-    });
-
-    if (payload.length === 0) {
-        alert('Tidak ada detail obat yang dipilih');
-        return;
-    }
-
-    console.log('PAYLOAD PROSES:', payload);
-
-    prosesBatchSIMRS(payload);
-}*/
-
 function handleProsesObatClick(e) {
 
     const wrapper = document.getElementById('resepWrapper');
@@ -362,7 +328,7 @@ function handleProsesObatClick(e) {
             detailobat: detail
         }];
 
-        console.log('PROSES DETAIL RESEP:', payload);
+        console.log('PROSES DETAIL PER RESEP:', payload);
         prosesBatchSIMRS(payload);
 
         return; // ⛔ STOP DI SINI
@@ -411,51 +377,6 @@ function handleProsesObatClick(e) {
 
     console.log('PROSES GLOBAL:', payload);
     prosesBatchSIMRS(payload);
-}
-
-function initProsesObatSIMRS() {
-
-    const wrapper = document.getElementById('resepWrapper');
-    if (!wrapper) return;
-
-    wrapper.removeEventListener('click', handleProsesObatClick);
-    wrapper.addEventListener('click', handleProsesObatClick);
-}
-
-function prosesBatchSIMRSXX(payload) {
-    const wrapper = document.getElementById('resepWrapper');
-    if (!wrapper) return;
-
-    payload.forEach((item, index) => {
-
-        const resepItem = wrapper.querySelector(
-            `.resep-check[data-id="${item.noresep}"]`
-        )?.closest('.resep-item');
-
-        const bar = resepItem?.querySelector('.resep-progress');
-        const inner = bar?.querySelector('.progress-bar');
-
-        if (!bar || !inner) return;
-
-        bar.classList.remove('d-none');
-
-        fetch(BASE_URL + 'bpjs/insert/insresepobat', {
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json',
-                'X-Requested-With':'XMLHttpRequest'
-            },
-            body: JSON.stringify(item)
-        })
-        .then(() => {
-            inner.style.width = '100%';
-            inner.classList.remove('progress-bar-animated');
-            inner.classList.add('bg-success');
-        })
-        .catch(() => {
-            inner.classList.add('bg-danger');
-        });
-    });
 }
 
 function prosesBatchSIMRS(payload) {

@@ -383,26 +383,41 @@ class ResepModel extends Model
     public function getDetailObat(array $filter = [])
     {
         $builder = $this->builder('apt_barang_out_detail abod');
-       
+
         $builder->select("
             abod.kd_prd,
             abod.jml_out,
             abod.harga_jual,
             apt_obat.nama_obat,
-            kd_obat_bpjs
+            apt_obat_ifrs.kd_obat_bpjs,
+            ar.nm_racikan,
+            UPPER(aps.signa) || '(' || aps.jenis || ')' AS lbl_signa
         ");
 
         $builder->join('apt_obat', 'abod.kd_prd = apt_obat.kd_prd', 'inner');
         $builder->join('apt_obat_ifrs', 'abod.kd_prd = apt_obat_ifrs.kd_prd', 'left');
-       
+        $builder->join('apt_signa_barang_out asbo', 
+            'asbo.no_out = abod.no_out AND asbo.tgl_out = abod.tgl_out AND asbo.no_urut = abod.no_urut','left');      
+        $builder->join('apt_signa aps', 'aps.id = asbo.id_signa','left');
+        $builder->join('apt_racikan ar', 'ar.kode_racikan = abod.jns_racikan','left');
+
         if (!empty($filter['noOut']) && !empty($filter['tglOut'])) {
-            $builder->where('no_out =', $filter['noOut']);
-            $builder->where('tgl_out =', $filter['tglOut']);
+            $builder->where('abod.no_out', $filter['noOut']);
+            $builder->where('abod.tgl_out', $filter['tglOut']);
         }
 
-        $builder->orderBy('no_urut', 'ASC');
-        //         ->get()
-        //         ->getResultArray();
+        $builder->groupBy("
+            abod.kd_prd,
+            abod.jml_out,
+            abod.harga_jual,
+            apt_obat.nama_obat,
+            apt_obat_ifrs.kd_obat_bpjs,
+            ar.nm_racikan,
+            abod.no_urut,
+            UPPER(aps.signa) || '(' || aps.jenis || ')'
+        ");
+
+        $builder->orderBy('abod.no_urut', 'ASC');
         // echo $this->db->getLastQuery()->getQuery();
         // die;
         return $builder->get()->getResultArray();
