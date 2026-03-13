@@ -405,6 +405,47 @@
             font-size: 1.2rem;
             line-height: 1;          /* 🔑 kunci ikon */
         }
+        .dashboard-bpjs .dashboard-header{
+            background:linear-gradient(90deg,#2563eb,#06b6d4);
+            color:white;
+            border:none;
+        }
+
+        .dashboard-bpjs .title{
+            color:white;
+            margin-bottom:4px;
+        }
+
+        .dashboard-bpjs .subtitle{
+            opacity:0.8;
+        }
+
+        .kpi-card .card-body{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .kpi-title{
+            color:#6b7280;
+            font-size:14px;
+        }
+
+        .kpi-icon{
+            width:48px;
+            height:48px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:12px;
+            color:white;
+            font-size:20px;
+        }
+
+        .dashboard-chart{
+            border:none;
+            box-shadow:0 4px 20px rgba(0,0,0,0.05);
+        }
     </style>
 </head>
 <body>

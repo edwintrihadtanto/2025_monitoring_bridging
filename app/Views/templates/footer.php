@@ -32,7 +32,7 @@
     <script src="<?= base_url('public/assets/dist/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js')?> "></script>
     <script src="<?= base_url('public/assets/dist/assets/extensions/sweetalert2/sweetalert2.min.js')?>"></script>
     <script src="<?= base_url('public/assets/dist/assets/static/js/pages/sweetalert2.js')?>"></script>>
-
+    <script src="<?= base_url('public/assets/dist/assets/extensions/apexcharts/apexcharts.min.js')?>"></script>
     <script src="<?= base_url('public/js/page-pasien.js') ?>"></script>
     <script src="<?= base_url('public/js/page-sep.js') ?>"></script>
     <script src="<?= base_url('public/js/page-monitoring.js') ?>"></script>
@@ -492,6 +492,82 @@
                     behavior: 'smooth'
                 });
             });
+
+            const chartResep = new ApexCharts(
+            document.querySelector("#chartResep"),
+            {
+                chart:{type:'area',height:320,toolbar:{show:false}},
+                series:[{
+                    name:'Resep',
+                    data:[80,95,110,120,105,115,128]
+                }],
+                xaxis:{
+                    categories:['Sen','Sel','Rab','Kam','Jum','Sab','Min']
+                },
+                stroke:{curve:'smooth'},
+                colors:['#2563eb']
+            })
+
+            chartResep.render()
+
+            const chartStatus = new ApexCharts(
+                document.querySelector("#chartStatus"),
+                {
+                    chart:{type:'donut'},
+                    series:[120,5,3],
+                    labels:['Berhasil','Gagal','Pending'],
+                    colors:['#22c55e','#ef4444','#f59e0b']
+                }
+            )
+
+            chartStatus.render()
+
+
+
+            const chartObat = new ApexCharts(
+                document.querySelector("#chartObat"),
+                {
+                    chart:{type:'bar',height:300},
+                    series:[{
+                        name:'Jumlah',
+                        data:[90,70,55,40,30]
+                    }],
+                    xaxis:{
+                        categories:[
+                            'Paracetamol',
+                            'Amoxicillin',
+                            'Amlodipine',
+                            'Cefixime',
+                            'Metformin'
+                        ]
+                    }
+                }
+            )
+
+            chartObat.render()
+
+
+
+            const chartPoli = new ApexCharts(
+                document.querySelector("#chartPoli"),
+                {
+                    chart:{type:'bar'},
+                    series:[{
+                        name:'Resep',
+                        data:[60,45,35,20]
+                    }],
+                    xaxis:{
+                        categories:[
+                            'Penyakit Dalam',
+                            'Anak',
+                            'Saraf',
+                            'Umum'
+                        ]
+                    }
+                }
+            )
+
+            chartPoli.render()
         })();
 
     </script>

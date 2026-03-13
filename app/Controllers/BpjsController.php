@@ -131,11 +131,11 @@ class BpjsController extends BaseController
 
                             "dpjpLayan" => "37722", // wajib jika RAJAL
                             "noTelp" => "081111111101",
-                            "user"   => "Coba ws fARMASI"
+                            "user"   => "Coba Web Service Farmasi"
                         ]
                     ]
                 ]);
-        // $endpoint = '/SEP/1.1/insert';
+        
         $endpoint = '/SEP/2.0/insert';        
         $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
@@ -148,7 +148,7 @@ class BpjsController extends BaseController
                     "request" => [
                         "t_sep" => [
                             "noSep"  => "1308R0010326V000004",
-                            "user"   => "Coba ws fARMASI"
+                            "user"   => "Coba Web Service Farmasi"
                         ]
                     ]
                 ]);
@@ -211,7 +211,6 @@ class BpjsController extends BaseController
 
     public function getMonitoringKlaim($bulan, $tahun, $jenisobat, $status)
     {
-
         $endpoint   = "monitoring/klaim/{$bulan}/{$tahun}/{$jenisobat}/{$status}";
         $result     = $this->bpjsService->request('GET', $endpoint);
         return $this->response->setJSON($result);
@@ -276,15 +275,14 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    //RESEP
     public function daftarresep($tglawal, $tglakhr, $kdjnisobat, $userID)
     {
         $payload = json_encode([
             'kdppk'     => $this->ppkFarmasi,
             'KdJnsObat' => $kdjnisobat, // (1. Obat PRB, 2. Obat Kronis Blm Stabil, 3. Obat Kemoterapi)
             'JnsTgl'    => 'TGLPELSJP',
-            'TglMulai'  => $tglawal . ' 00:00:00',
-            'TglAkhir'  => $tglakhr . ' 23:59:59'
+            'TglMulai'  => $tglawal,
+            'TglAkhir'  => $tglakhr
         ]);
         $endpoint = '/daftarresep';
         $result = $this->bpjsInsertService->request('POST', $endpoint, $payload, $userID);
@@ -296,13 +294,13 @@ class BpjsController extends BaseController
     {
         $payload = json_encode([
             'TGLSJP'     => date('Y-m-d H:i:s'),
-            'REFASALSJP' => '1308R0010326V000004',
+            'REFASALSJP' => '1308R0010326V000007',
             'POLIRSP'    => 'IGD',
             'KDJNSOBAT'  => '2',
-            'NORESEP'    => '00128',
+            'NORESEP'    => '00130',
             'IDUSERSJP'  => $userID,
-            'TGLRSP'     => '2026-03-09 00:00:00', 
-            'TGLPELRSP'  => '2026-03-09 00:00:00',
+            'TGLRSP'     => date('Y-m-d 00:00:00'), //'2026-03-09 00:00:00', 
+            'TGLPELRSP'  => date('Y-m-d 00:00:00'),
             'KdDokter'   => '0',
             'iterasi'    => '0'
         ]);
