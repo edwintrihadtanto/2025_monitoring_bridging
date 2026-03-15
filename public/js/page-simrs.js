@@ -98,7 +98,7 @@ function fungsi_sidebar_resepSIMRS() {
     function updateCounter() {
         counter.innerText =
             wrapper.querySelectorAll('.resep-check:checked').length +
-            ' obat terpilih';
+            ' resep terpilih';
 
         updateBtnProses();
     }
@@ -307,7 +307,8 @@ function handleProsesObatClick(e) {
         resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
             detail.push({
                 kd_obat: o.dataset.kdobat,
-                qty    : o.dataset.qty
+                qty    : o.dataset.qty,
+                racikan : o.dataset.racikan
             });
         });
 
@@ -315,6 +316,7 @@ function handleProsesObatClick(e) {
             alert('Pilih minimal satu obat');
             return;
         }
+        const kdJnsObat = item.find('.kdjnsobat-select').val();
 
         const payload = [{
             noresep   : resepItem.dataset.noresep,
@@ -325,6 +327,7 @@ function handleProsesObatClick(e) {
             kd_unit   : resepItem.dataset.kd_unit,
             kd_dokter : resepItem.dataset.kd_dokter,
             iterasi   : resepItem.dataset.iterasi,
+            kdjnsobat : kdJnsObat,
             detailobat: detail
         }];
 
@@ -351,12 +354,13 @@ function handleProsesObatClick(e) {
         resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
             detail.push({
                 kd_obat: o.dataset.kdobat,
-                qty    : o.dataset.qty
+                qty    : o.dataset.qty,
+                racikan : o.dataset.racikan
             });
         });
 
         if (detail.length === 0) return;
-
+        const kdJnsObat = item.find('.kdjnsobat-select').val();
         payload.push({
             noresep   : resepItem.dataset.noresep,
             sep       : resepItem.dataset.sep,
@@ -366,6 +370,7 @@ function handleProsesObatClick(e) {
             kd_unit   : resepItem.dataset.kd_unit,
             kd_dokter : resepItem.dataset.kd_dokter,
             iterasi   : resepItem.dataset.iterasi,
+            kdjnsobat : kdJnsObat,
             detailobat: detail
         });
     });
@@ -409,14 +414,25 @@ function prosesBatchSIMRS(payload) {
         //     inner.classList.remove('progress-bar-animated');
         //     inner.classList.add('bg-success');
         // })
+        .then(res => res.json())
         .then(data => {
-            console.log(data);
+            console.log('Response server:', data);
             // if (data.status) {
             //     // resultContainer.innerHTML = data.html;
             // } else {
             //     alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
             // }
-
+            if(data.status){
+                Toast.fire({
+                    icon: 'success',
+                    title: data.message
+                });
+            }else{
+                Toast.fire({
+                    icon: 'error',
+                    title: data.message
+                });
+            }
             inner.style.width = '100%';
             inner.classList.remove('progress-bar-animated');
             inner.classList.add('bg-success');

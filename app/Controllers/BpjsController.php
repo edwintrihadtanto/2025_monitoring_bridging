@@ -289,21 +289,21 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    // public function sjpresep($refasalsjp, $poli, $noresep, $tglresep, $tglpelayanan, $kd_dokterbpjs, $iterasi, $userID)
-    public function sjpresep($userID)
+    public function getkirimresep($refasalsjp, $poli, $noresep_bpjs, $tglresep, $tglpelayanan, $kd_dokterbpjs, $iterasi, $userID)
+    // public function getkirimresep($userID)
     {
-        $payload = json_encode([
+        /*$payload = json_encode([
             'TGLSJP'     => date('Y-m-d H:i:s'),
-            'REFASALSJP' => '1308R0010326V000007',
+            'REFASALSJP' => '1308R0010326V000008',
             'POLIRSP'    => 'IGD',
-            'KDJNSOBAT'  => '2',
-            'NORESEP'    => '00130',
-            'IDUSERSJP'  => $userID,
-            'TGLRSP'     => date('Y-m-d 00:00:00'), //'2026-03-09 00:00:00', 
+            'KDJNSOBAT'  => '2', // (1. Obat PRB, 2. Obat Kronis Blm Stabil, 3. Obat Kemoterapi)
+            'NORESEP'    => '00135', //harus 5 digit dan berulang
+            'IDUSERSJP'  => 'USR-'.$userID,
+            'TGLRSP'     => date('Y-m-d 00:00:00'),
             'TGLPELRSP'  => date('Y-m-d 00:00:00'),
             'KdDokter'   => '0',
             'iterasi'    => '0'
-        ]);
+        ]);*/
 
         // Keterangan:
         // Tgl Entry : Tanggal Resep dientri/direkam ke aplikasi
@@ -311,21 +311,24 @@ class BpjsController extends BaseController
         // TglPelayanan : Tanggal saat resep dilayani/diterima Apotek/Instasi Farmasi
         // TglSEP- 15  Hari <= TglSEP <= TglResep <= TglEntry <= TglSistem
 
-        // $payload = json_encode([
-        //     'TGLSJP'     => date('Y-m-d H:i:s'),
-        //     'REFASALSJP' => $refasalsjp,
-        //     'POLIRSP'    => $poli,
-        //     'KDJNSOBAT'  => '0',
-        //     'NORESEP'    => '00003',
-        //     'IDUSERSJP'  => $userID,
-        //     'TGLRSP'     => $tglresep,
-        //     'TGLPELRSP'  => $tglpelayanan,
-        //     'KdDokter'   => $kd_dokterbpjs,
-        //     'iterasi'    => $iterasi
-        // ]);
+        $payload = json_encode([
+            'TGLSJP'     => date('Y-m-d H:i:s'),
+            'REFASALSJP' => $refasalsjp,
+            'POLIRSP'    => $poli,
+            'KDJNSOBAT'  => '3',
+            'NORESEP'    => $noresep_bpjs,
+            'IDUSERSJP'  => 'FAR-'.$userID,
+            'TGLRSP'     => $tglresep,
+            'TGLPELRSP'  => $tglpelayanan,
+            'KdDokter'   => $kd_dokterbpjs,
+            'iterasi'    => $iterasi
+        ]);
 
         $endpoint = '/sjpresep/v3/insert';
         $result = $this->bpjsInsertService->request('POST', $endpoint, $payload, $userID);
+
+        log_message('info', 'Payload Resep: ' . $payload);
+        log_message('info', 'Response BPJS: ' . json_encode($result));
         return $this->response->setJSON($result);
     }
 

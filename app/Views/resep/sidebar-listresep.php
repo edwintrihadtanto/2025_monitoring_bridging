@@ -2,8 +2,8 @@
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h5>Daftar Resep</h5>
-                <p class="text-subtitle text-muted">Daftar Resep Berdasarkan Data BPJS.</p>
+                <h5>Daftar Resep BPJS</h5>
+                <p class="text-subtitle text-muted">Daftar Resep Berdasarkan Pelayanan Resep di SIMRS.</p>
             </div>
         </div>
     </div>
@@ -15,7 +15,7 @@
             <div class="col-12 col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Filtering Data</h4>
+                        <h4 class="card-title">Filtering Data Pelayanan Resep</h4>
                     </div>
                     <div class="card-body">
                         <div id="alert-container" class="mb-3"></div>
@@ -25,11 +25,11 @@
                             
                             <div class="row">
                                 <div class="col-12 col-md-4 mb-3">
-                                    <label class="form-label">Tgl. Awal</label>
+                                    <label class="form-label">Tgl. Awal Resep</label>
                                     <input type="date" name="tgl_awal" class="form-control" value="<?= date('Y-m-d') ?>"required>
                                 </div>
                                 <div class="col-12 col-md-4 mb-3">
-                                    <label class="form-label">Tgl. Akhir</label>
+                                    <label class="form-label">Tgl. Akhir Resep</label>
                                     <input type="date" name="tgl_akhr" class="form-control" value="<?= date('Y-m-d') ?>"required>
                                 </div>
                                 <div class="col-12 col-md-4 mb-3">

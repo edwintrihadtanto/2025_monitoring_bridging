@@ -91,7 +91,8 @@
                              data-tgl_out="<?= esc($item['tgl_out']) ?>"
                              data-kd_unit="<?= esc($item['kd_unit']) ?>"
                              data-kd_dokter="<?= esc($item['dokter']) ?>"
-                             data-iterasi="<?= esc($item['sts_iter']) ?>"
+                             data-sts_iter="<?= esc($item['sts_iter']) ?>"
+                             data-kdjnsobat="1"
                              data-search="<?= strtolower(
                                  ($item['no_sep'] ?? '') . ' ' .
                                  $item['kd_pasienapt'] . ' ' .
@@ -145,13 +146,32 @@
                                 
                                 <!-- RIGHT -->
                                 <div class="text-end">
-                                    <div class="fw-semibold text-primary">
-                                        <?= esc($item['nmpasien']) ?>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <!-- ROW 1 : NAMA PASIEN -->
+                                            <div class="fw-semibold text-primary">
+                                                <?= esc($item['nmpasien']) ?>
+                                            </div>
+
+                                            <small class="text-muted">
+                                                <?= esc($item['kd_pasienapt']) ?> /
+                                                <?= esc($item['nama_unit']) ?>
+                                            </small>
+                                        </div>
+                                        <!-- ROW 2 -->
+                                        <div class="col-sm-4">
+                                            <select class="form-select form-select-sm kdjnsobat-select"
+                                                    style="width:150px"
+                                                    data-noresep="<?= esc($item['no_resep']) ?>">
+
+                                                <option value="1">PRB</option>
+                                                <option value="2">Kronis</option>
+                                                <option value="3">Kemoterapi</option>
+
+                                            </select>
+
+                                        </div>
                                     </div>
-                                    <small class="text-muted">
-                                        <?= esc($item['kd_pasienapt']) ?> /
-                                        <?= esc($item['nama_unit']) ?>
-                                    </small>
                                 </div>
                             </div>
 

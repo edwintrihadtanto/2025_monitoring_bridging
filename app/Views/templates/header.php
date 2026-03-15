@@ -446,6 +446,11 @@
             border:none;
             box-shadow:0 4px 20px rgba(0,0,0,0.05);
         }
+
+        .kdjnsobat-select{
+            font-size:12px;
+            padding:2px 6px;
+        }
     </style>
 </head>
 <body>

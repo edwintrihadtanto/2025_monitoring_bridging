@@ -12,7 +12,7 @@
      data-tgl_out="<?= esc($tgl_out ?? '') ?>"
      data-kd_unit="<?= esc($kd_unit ?? '') ?>"
      data-kd_dokter="<?= esc($dokter ?? '') ?>"
-     data-iterasi="<?= esc($sts_iter ?? '') ?>"
+     data-sts_iter="<?= esc($sts_iter ?? '') ?>"
      >
 
     <div class="fw-semibold mb-1">
@@ -42,8 +42,9 @@
                     <td class="text-center">
                         <input type="checkbox"
                                class="form-check-input obat-check"
-                               data-kdobat="<?= esc($item['kd_prd']) ?>"
-                               data-qty="<?= esc($item['jml_out']) ?>">
+                               data-kdobat="<?= esc($item['kd_prd'])?>"
+                               data-qty="<?= esc($item['jml_out']) ?>"
+                               data-racikan="<?= esc($item['nm_racikan']) ?>">
                     </td>
 
                     <td class="text-truncate">

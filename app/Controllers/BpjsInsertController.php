@@ -23,7 +23,8 @@ class BpjsInsertController extends BaseController
         return $this->renderView('resep/sidebar-resepsimrs');
     }
 
-    public function getsjpresep()
+
+    public function kirimresep()
     {   
         $request = $this->request->getJSON(true);
         if (!$request) {
@@ -39,7 +40,8 @@ class BpjsInsertController extends BaseController
         $noresep    = $request['noresep'] ?? null;
         $refasalsjp = $request['sep'] ?? null;
         $kd_unit    = $request['kd_unit'] ?? null;
-        $iterasi    = $request['iterasi'] ?? null;
+        $sts_iter   = $request['sts_iter'] ?? null;
+        $iterasi    = 1;
         $kd_dokter  = $request['kd_dokter'] ?? null;
 
         $detailObat = $request['detailobat'] ?? [];
@@ -54,36 +56,62 @@ class BpjsInsertController extends BaseController
 
         try {
 
-            $ResepModel = new ResepModel();
-            $statusResult   = false;
-            $message        = '';
-            $htmlResult     = '';
+            $ResepModel = new \App\Models\ResepModel();
 
-            $poli = $ResepModel->getMappingUnitBPJS($kd_unit);
-            if (!$poli) {
-                // $message = 'Mapping Unit BPJS tidak ditemukan!';
+            $tglresep       = $tgl_out;
+            $tglpelayanan   = $tgl_out;
+            $userID         = session()->get('id');
+
+            $poliData = $ResepModel->getMappingUnitBPJS($kd_unit);
+
+            if (!$poliData) {
                 return $this->response->setJSON([
                     'status' => false,
                     'message' => 'Mapping Unit BPJS tidak ditemukan!'
                 ]);
             }
 
-            $tglresep       = $tgl_out;
-            $tglpelayanan   = $tgl_out;
-            $userID         = session()->get('id');
-            $dokterBPJS  = $ResepModel->getMappingDokterBPJS($kd_dokter);
+            $poli = $poliData[0]['unit_bpjs'];
+
+            $dokterBPJS = $ResepModel->getMappingDokterBPJS($kd_dokter);
 
             if (!$dokterBPJS) {
-                // $message = 'Mapping Dokter BPJS tidak ditemukan!';
                 return $this->response->setJSON([
                     'status' => false,
                     'message' => 'Mapping Dokter BPJS tidak ditemukan!'
                 ]);
             }
-            $kd_dokterbpjs = $dokterBPJS[0]['kd_dokter_bpjs'] ?? '0';
+
+            $kd_dokterbpjs = $dokterBPJS[0]['kd_dokter_bpjs'];
+
+            $mappingResep = $ResepModel->getMappingResepBPJS($noresep, $tglresep);
+
+            if ($mappingResep) {
+                if ($mappingResep['status_kirim'] == 't') {
+                    return $this->response->setJSON([
+                        'status'  => false,
+                        'message' => 'Resep sudah pernah berhasil dikirim ke BPJS!<br>No.Resep:'.$mappingResep['noresep_bpjs'],
+                        'noresep_bpjs' => $mappingResep['noresep_bpjs']
+                    ]);
+                }
+
+                $noresep_bpjs = $mappingResep['noresep_bpjs'];
+            } else {
+                $noresep_bpjs = $ResepModel->generateNoResepBpjs($tglresep);
+
+                $ResepModel->insertMappingResepBPJS(
+                    $noresep,
+                    $noresep_bpjs,
+                    $no_out,
+                    $tglresep,
+                    false
+                );
+            }
+
             // var_dump($no_out, $tgl_out, $kdpasien, $noresep, $refasalsjp, $kd_dokter, $kd_unit, $poli, $kd_dokterbpjs);
+            // var_dump($refasalsjp, $poli, $noresep, $tglresep, $tglpelayanan, $kd_dokterbpjs, $iterasi, $userID);
             // die;
-            $targetUrl = base_url("bpjs/insert/sjpresep/{$refasalsjp}/{$poli}/{$noresep}/{$tglresep}/{$tglpelayanan}/{$kd_dokterbpjs}/{$iterasi}/{$userID}");
+            $targetUrl = base_url("bpjs/insert/getkirimresep/{$refasalsjp}/{$poli}/{$noresep_bpjs}/{$tglresep}/{$tglpelayanan}/{$kd_dokterbpjs}/{$iterasi}/{$userID}");
 
             $client = Services::curlrequest([
                 'timeout' => 60,
@@ -96,53 +124,65 @@ class BpjsInsertController extends BaseController
             ]);
 
             $wrapper = json_decode($response->getBody(), true);
-            // var_dump($wrapper);exit();
             $bpjsJson = $wrapper['body'] ?? $wrapper;
-            // var_dump($bpjsJson);
-            $code = $bpjsJson['metaData']['code'] ?? null;
-            $statusResult = true;
-            $message = $bpjsJson['metaData']['message']
-                ?? $bpjsJson['pesan']
-                ?? $bpjsJson['message']
-                ?? 'Respon server BPJS tidak dikenali';
 
-            // if (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+            $statusResult = false;
+            $message = 'Respon server BPJS tidak dikenali';
+            $data = null;
 
-            //     // Cek kalau response tidak null
-            //     if (!is_null($bpjsJson['data'])) {
-            //         if (!empty($bpjsJson['response']['list'])) {
-            //             $statusResult = true;
-            //             $resepList = $bpjsJson['response']['list'];
-            //             $htmlResult = view('resep/partial_listresep', ['resepList' => $resepList]);
-            //         } else {
-            //             $message = 'Data Resep kosong.';
-            //         }
-            //     } else {
-            //         $message = 'Data Resep tidak ditemukan (Response Null).';
-            //     }
-            // } elseif (isset($bpjsJson['status_code']) && $bpjsJson['status_code'] == "200") {
+            /* ===============================
+               RESPONSE SUKSES BPJS
+            ================================ */
+            if (isset($bpjsJson['status_code']) && $bpjsJson['status_code'] == '200') {
 
-            //     if (!empty($bpjsJson['data'])) {
-            //         $statusResult = true;
-            //         $resepList = $bpjsJson['data'];
-            //         $htmlResult = view('resep/partial_listresep', ['resepList' => $resepList]);
-            //     } else {
-            //         $message = 'Data Resep kosong.';
-            //     }
-            // } else {
-            //     // Pastikan metaData message terbaca
-            //     $message = $bpjsJson['metaData']['message']
-            //                 ?? $bpjsJson['pesan']
-            //                 ?? $bpjsJson['message']
-            //                 ?? 'Respon server BPJS tidak dikenali.';
-            // }
+                $statusResult = true;
+                $message = 'Resep berhasil dikirim ke BPJS';
+                $data = $bpjsJson['data'] ?? null;
+                $noApotik = $bpjsJson['data']['noApotik'] ?? null;
+
+                $responseUpdate = [
+                    'response' => $bpjsJson
+                ];
+
+                $ResepModel->updateMappingResepBPJS(
+                    $noresep,
+                    $no_out,
+                    $tglresep,
+                    true,
+                    $responseUpdate
+                );
+            }
+
+            /* ===============================
+               RESPONSE ERROR BPJS
+            ================================ */
+            elseif (isset($bpjsJson['status']) && $bpjsJson['status'] == 'gagal') {
+
+                $statusResult = false;
+                $message = $bpjsJson['message'] ?? 'Terjadi kesalahan pada API BPJS';
+
+                $ResepModel->updateMappingResepBPJS(
+                    $noresep,
+                    $no_out,
+                    $tglresep,
+                    false,
+                    $bpjsJson
+                );
+            }
+
+            /* ===============================
+               RESPONSE TIDAK DIKENALI
+            ================================ */
+            else {
+
+                $message = json_encode($bpjsJson);
+            }
 
             return $this->response->setJSON([
                 'status' => $statusResult,
                 'message' => $message,
-                'html' => $htmlResult
+                'data' => $data
             ]);
-
 
         } catch (\Throwable $e) {
             return $this->response->setJSON([

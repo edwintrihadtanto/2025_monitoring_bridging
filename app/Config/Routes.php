@@ -13,10 +13,8 @@ use CodeIgniter\Router\RouteCollection;
 
  $routes->get('/dashboard', 'Dashboard::index', ['filter' => 'auth']);
 
-
- // Agar API BPJS juga tidak bisa diakses sembarangan
- $routes->post('Bridging_apotek/(:any)', 'Bridging_apotek::$1', ['filter' => 'auth']);
- $routes->get('Bridging_apotek/(:any)', 'Bridging_apotek::$1', ['filter' => 'auth']);
+ // $routes->post('Bridging_apotek/(:any)', 'Bridging_apotek::$1', ['filter' => 'auth']);
+ // $routes->get('Bridging_apotek/(:any)', 'Bridging_apotek::$1', ['filter' => 'auth']);
 
 
  $routes->group('/', ['namespace' => 'App\Controllers'], static function ($routes) {
@@ -52,8 +50,9 @@ use CodeIgniter\Router\RouteCollection;
             $routes->post('updatestokobat', 'BpjsInsertController::updatestokobat');
 
             // $routes->get('getsjpresep/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::sjpresep/$1/$2/$3/$4/$5/$6/$7/$8');
-            $routes->get('sjpresep/(:segment)', 'BpjsController::sjpresep/$1');
-            $routes->post('insresepobat', 'BpjsInsertController::getsjpresep', ['filter' => 'auth']);
+            $routes->get('sjpresep/(:segment)', 'BpjsController::getkirimresep/$1'); //buat tes langsung insert header resep
+            $routes->post('insresepobat', 'BpjsInsertController::kirimresep', ['filter' => 'auth']);
+            $routes->get('getkirimresep/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::getkirimresep/$1/$2/$3/$4/$5/$6/$7/$8');
             $routes->get('daftarresep/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::daftarresep/$1/$2/$3/$4');
         });
 

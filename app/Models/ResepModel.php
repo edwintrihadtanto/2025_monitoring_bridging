@@ -451,4 +451,75 @@ class ResepModel extends Model
         return $builder->get()->getResultArray();
     }
 
+    public function generateNoResepBpjs($tgl)
+    {
+        $builder = $this->builder('apt_bridging_resep_bpjs');
+
+        $builder->select("LPAD((COALESCE(MAX(noresep_bpjs::int),0)+1)::text,5,'0') AS noresep");
+        // $builder->where('tgl_out', $tgl);
+        $builder->where('DATE(created_at)', 'CURRENT_DATE', false);
+
+        $query = $builder->get()->getRowArray();
+
+        return $query['noresep'];
+    }
+
+    public function insertMappingResepBPJS($noresep_simrs,$noresep_bpjs,$no_out,$tgl_out,$status)
+    {
+        $builder = $this->builder('apt_bridging_resep_bpjs');
+
+        $builder->insert([
+            'noresep_simrs' => $noresep_simrs,
+            'noresep_bpjs'  => $noresep_bpjs,
+            'no_out'        => $no_out,
+            'tgl_out'       => $tgl_out,
+            'status_kirim'  => $status,
+            'created_at'    => date('Y-m-d H:i:s')
+        ]);
+    }
+
+    public function updateMappingResepBPJS($noresep_simrs, $no_out, $tglresep, $status, $response = null)
+    {
+        /*return $this->db->table('apt_bridging_resep_bpjs')
+            ->where('noresep_simrs', $noresep_simrs)
+            ->where('no_out', $no_out)
+            ->where('tgl_out', $tglresep)
+            ->update([
+                'status_kirim' => $status,
+                'noApotik'      => json_encode($response)
+                'response_bpjs' => json_encode($response)
+            ]);*/
+
+            $builder = $this->builder('apt_bridging_resep_bpjs');
+
+            $noApotik = null;
+
+            if ($response && isset($response['response']['data']['noApotik'])) {
+                $noApotik = $response['response']['data']['noApotik'];
+            }
+
+            $dataUpdate = [
+                'status_kirim' => $status,
+                'response_bpjs' => json_encode($response)
+            ];
+
+            if ($noApotik) {
+                $dataUpdate['noApotik'] = $noApotik;
+            }
+
+            return $builder
+                ->where('noresep_simrs', $noresep_simrs)
+                ->where('no_out', $no_out)
+                ->where('tgl_out', $tglresep)
+                ->update($dataUpdate);
+    }
+
+    public function getMappingResepBPJS($noresep_simrs, $tgl_out)
+    {
+        return $this->db->table('apt_bridging_resep_bpjs')
+            ->where('noresep_simrs', $noresep_simrs)
+            ->where('tgl_out', $tgl_out)
+            ->get()
+            ->getRowArray();
+    }
 }
