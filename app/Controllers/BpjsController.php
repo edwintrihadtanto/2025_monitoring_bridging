@@ -63,7 +63,7 @@ class BpjsController extends BaseController
         $payload    = json_encode([
                     "request" => [
                         "t_sep" => [
-                            "noKartu"      => "0002059334728",
+                            "noKartu"      => "0002053588972",
                             "tglSep"       => date('Y-m-d'),
                             "ppkPelayanan" => $this->ppkSoedono,
                             "jnsPelayanan" => "2", // 1=RANAP, 2=RAJAL
@@ -75,7 +75,7 @@ class BpjsController extends BaseController
                                 "penanggungJawab" => ""
                             ],
 
-                            "noMR" => '0-00-00-01',
+                            "noMR" => '0-00-00-02',
 
                             "rujukan" => [
                                 "asalRujukan" => "2",

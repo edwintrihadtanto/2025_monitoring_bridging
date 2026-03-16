@@ -316,8 +316,8 @@ function handleProsesObatClick(e) {
             alert('Pilih minimal satu obat');
             return;
         }
-        const kdJnsObat = item.find('.kdjnsobat-select').val();
-
+        
+        const kdJnsObat = resepItem.dataset.kdjnsobat || '1';
         const payload = [{
             noresep   : resepItem.dataset.noresep,
             sep       : resepItem.dataset.sep,
@@ -360,7 +360,8 @@ function handleProsesObatClick(e) {
         });
 
         if (detail.length === 0) return;
-        const kdJnsObat = item.find('.kdjnsobat-select').val();
+        
+        const kdJnsObat = resepItem.dataset.kdjnsobat || '1';
         payload.push({
             noresep   : resepItem.dataset.noresep,
             sep       : resepItem.dataset.sep,
@@ -408,12 +409,7 @@ function prosesBatchSIMRS(payload) {
                 'X-Requested-With':'XMLHttpRequest'
             },            
             body: JSON.stringify(item)
-        })
-        // .then(() => {
-        //     inner.style.width = '100%';
-        //     inner.classList.remove('progress-bar-animated');
-        //     inner.classList.add('bg-success');
-        // })
+        })        
         .then(res => res.json())
         .then(data => {
             console.log('Response server:', data);
@@ -427,15 +423,18 @@ function prosesBatchSIMRS(payload) {
                     icon: 'success',
                     title: data.message
                 });
+                inner.style.width = '100%';
+                inner.classList.remove('progress-bar-animated');
+                inner.classList.add('bg-success');
             }else{
                 Toast.fire({
                     icon: 'error',
                     title: data.message
                 });
+
+                bar.classList.add('d-none');
             }
-            inner.style.width = '100%';
-            inner.classList.remove('progress-bar-animated');
-            inner.classList.add('bg-success');
+            
         })
         // .catch(() => {
         //     inner.classList.add('bg-danger');

@@ -76,13 +76,7 @@
                     <?php foreach ($group['data'] as $index => $item): 
                         $collapseId = 'detail-' . md5($item['no_out'].$item['tgl_out']);
                     ?>
-                        <!-- <div class="list-group-item resep-item"
-                             data-search="<?= strtolower(
-                                 ($item['no_sep'] ?? '') . ' ' .
-                                 $item['kd_pasienapt'] . ' ' .
-                                 $item['nmpasien']
-                             ) ?>"
-                             data-sep="<?= $item['no_sep'] ? '1' : '0' ?>"> -->
+                        
                         <div class="list-group-item resep-item"
                              data-noresep="<?= esc($item['no_resep']) ?>"
                              data-sep="<?= esc($item['no_sep'] ?? '') ?>"
@@ -160,9 +154,8 @@
                                         </div>
                                         <!-- ROW 2 -->
                                         <div class="col-sm-4">
-                                            <select class="form-select form-select-sm kdjnsobat-select"
-                                                    style="width:150px"
-                                                    data-noresep="<?= esc($item['no_resep']) ?>">
+                                            <select class="form-select form-select-sm kdjnsobat-select"                                                    
+                                                    onchange="this.closest('.resep-item').dataset.kdjnsobat=this.value">
 
                                                 <option value="1">PRB</option>
                                                 <option value="2">Kronis</option>

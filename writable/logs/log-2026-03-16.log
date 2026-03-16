@@ -1,0 +1,80 @@
+ERROR - 2026-03-16 15:40:14 --> ErrorException: pg_query(): Query failed: ERROR:  column &quot;noApotik&quot; of relation &quot;apt_bridging_resep_bpjs&quot; does not exist
+LINE 1: ...-16&quot;,&quot;kdJnsObat&quot;:&quot;3&quot;,&quot;tglEntry&quot;:&quot;2026-03-16&quot;}}}', &quot;noApotik&quot;...
+                                                             ^ in C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'UPDATE "apt_bri...')
+#2 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('UPDATE "apt_bri...')
+#3 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE "apt_bri...')
+#4 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE "apt_bri...', Array, false)
+#5 C:\xampp\htdocs\2025_monitoring_bridging\app\Models\ResepModel.php(514): CodeIgniter\Database\BaseBuilder->update(Array)
+#6 C:\xampp\htdocs\2025_monitoring_bridging\app\Controllers\BpjsInsertController.php(147): App\Models\ResepModel->updateMappingResepBPJS('001592597', '7016', '2026-03-16 00:0...', true, Array)
+#7 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\BpjsInsertController->kirimresep()
+#8 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+#9 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\2025_monitoring_bridging\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2026-03-16 15:41:00 --> TypeError: App\Libraries\BpjsFarmasi_InsertService::decrypt(): Argument #1 ($response) must be of type string, null given, called in C:\xampp\htdocs\2025_monitoring_bridging\app\Libraries\BpjsFarmasi_InsertService.php on line 162
+[Method: GET, Route: bpjs/delete/del_hapusresep/00004/0216A01603260000006/1308R0010326V000011/2]
+in APPPATH\Libraries\BpjsFarmasi_InsertService.php on line 56.
+ 1 APPPATH\Libraries\BpjsFarmasi_InsertService.php(162): App\Libraries\BpjsFarmasi_InsertService->decrypt(null, '1773650460')
+ 2 APPPATH\Controllers\BpjsController.php(343): App\Libraries\BpjsFarmasi_InsertService->request('DELETE', '/hapusresep', '{"nosjp":"0216A01603260000006","refasalsjp":"1308R0010326V000011","noresep":"00004"}', '2')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsController->del_hapusresep('00004', '0216A01603260000006', '1308R0010326V000011', '2')
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ERROR - 2026-03-16 15:41:09 --> ErrorException: pg_query(): Query failed: ERROR:  column &quot;noApotik&quot; of relation &quot;apt_bridging_resep_bpjs&quot; does not exist
+LINE 1: ...-16&quot;,&quot;kdJnsObat&quot;:&quot;3&quot;,&quot;tglEntry&quot;:&quot;2026-03-16&quot;}}}', &quot;noApotik&quot;...
+                                                             ^ in C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php:206
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'pg_query(): Que...', 'C:\\xampp\\htdocs...', 206)
+#1 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\Postgre\Connection.php(206): pg_query(Object(PgSql\Connection), 'UPDATE "apt_bri...')
+#2 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(729): CodeIgniter\Database\Postgre\Connection->execute('UPDATE "apt_bri...')
+#3 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE "apt_bri...')
+#4 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE "apt_bri...', Array, false)
+#5 C:\xampp\htdocs\2025_monitoring_bridging\app\Models\ResepModel.php(514): CodeIgniter\Database\BaseBuilder->update(Array)
+#6 C:\xampp\htdocs\2025_monitoring_bridging\app\Controllers\BpjsInsertController.php(147): App\Models\ResepModel->updateMappingResepBPJS('001592597', '7016', '2026-03-16 00:0...', true, Array)
+#7 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\BpjsInsertController->kirimresep()
+#8 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsInsertController))
+#9 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#11 C:\xampp\htdocs\2025_monitoring_bridging\vendor\codeigniter4\framework\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#12 C:\xampp\htdocs\2025_monitoring_bridging\public\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#13 {main}
+CRITICAL - 2026-03-16 15:42:37 --> TypeError: App\Libraries\BpjsFarmasi_InsertService::decrypt(): Argument #1 ($response) must be of type string, null given, called in C:\xampp\htdocs\2025_monitoring_bridging\app\Libraries\BpjsFarmasi_InsertService.php on line 162
+[Method: GET, Route: bpjs/delete/del_hapusresep/00004/0216A01603260000006/1308R0010326V000011/2]
+in APPPATH\Libraries\BpjsFarmasi_InsertService.php on line 56.
+ 1 APPPATH\Libraries\BpjsFarmasi_InsertService.php(162): App\Libraries\BpjsFarmasi_InsertService->decrypt(null, '1773650556')
+ 2 APPPATH\Controllers\BpjsController.php(343): App\Libraries\BpjsFarmasi_InsertService->request('DELETE', '/hapusresep', '{"nosjp":"0216A01603260000006","refasalsjp":"1308R0010326V000011","noresep":"00004"}', '2')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsController->del_hapusresep('00004', '0216A01603260000006', '1308R0010326V000011', '2')
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-16 15:44:40 --> TypeError: App\Libraries\BpjsFarmasi_InsertService::decrypt(): Argument #1 ($response) must be of type string, null given, called in C:\xampp\htdocs\2025_monitoring_bridging\app\Libraries\BpjsFarmasi_InsertService.php on line 162
+[Method: GET, Route: bpjs/delete/del_hapusresep/00001/0216A01603260000006/1308R0010326V000011/2]
+in APPPATH\Libraries\BpjsFarmasi_InsertService.php on line 56.
+ 1 APPPATH\Libraries\BpjsFarmasi_InsertService.php(162): App\Libraries\BpjsFarmasi_InsertService->decrypt(null, '1773650679')
+ 2 APPPATH\Controllers\BpjsController.php(343): App\Libraries\BpjsFarmasi_InsertService->request('DELETE', '/hapusresep', '{"nosjp":"0216A01603260000006","refasalsjp":"1308R0010326V000011","noresep":"00001"}', '2')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsController->del_hapusresep('00001', '0216A01603260000006', '1308R0010326V000011', '2')
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+CRITICAL - 2026-03-16 15:46:44 --> TypeError: App\Libraries\BpjsFarmasi_InsertService::decrypt(): Argument #1 ($response) must be of type string, null given, called in C:\xampp\htdocs\2025_monitoring_bridging\app\Libraries\BpjsFarmasi_InsertService.php on line 162
+[Method: GET, Route: bpjs/delete/del_hapusresep/00001/0216A01603260000006/1308R0010326V000011/2]
+in APPPATH\Libraries\BpjsFarmasi_InsertService.php on line 56.
+ 1 APPPATH\Libraries\BpjsFarmasi_InsertService.php(162): App\Libraries\BpjsFarmasi_InsertService->decrypt(null, '1773650803')
+ 2 APPPATH\Controllers\BpjsController.php(343): App\Libraries\BpjsFarmasi_InsertService->request('DELETE', '/hapusresep', '{"nosjp":"0216A01603260000006","refasalsjp":"1308R0010326V000011","noresep":"00001"}', '2')
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\BpjsController->del_hapusresep('00001', '0216A01603260000006', '1308R0010326V000011', '2')
+ 4 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\BpjsController))
+ 5 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
