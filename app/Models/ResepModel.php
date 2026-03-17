@@ -282,8 +282,9 @@ class ResepModel extends Model
             kun.no_sjp,
             o.kd_customer as kd_customer_apt_brangout,
             C.customer,
-            CASE WHEN o.kd_customer = '0000000001' THEN '' ELSE sjp.no_sjp END AS no_sep
-            -- sjp.no_sjp AS no_sep
+            CASE WHEN o.kd_customer = '0000000001' THEN '' ELSE sjp.no_sjp END AS no_sep,
+            abrb.noresep_bpjs,
+            abrb.status_kirim
         ");
 
         // JOIN
@@ -311,6 +312,7 @@ class ResepModel extends Model
             'left'
         );
         $builder->join('mr_resep mr', 'o.id_mrresep = mr.id_mrresep', 'left');
+        $builder->join('apt_bridging_resep_bpjs abrb', 'abrb.no_out = o.no_out and abrb.tgl_out = o.tgl_out', 'left');
 
         // WHERE utama
         // $builder->whereIn('kun.kd_customer', ['0000000043', '0000000044']);
@@ -498,9 +500,16 @@ class ResepModel extends Model
                 $noApotik = $response['response']['data']['noApotik'];
             }
 
+            if ($response['message'] == 'Resep berhasil dikirim ke BPJS') {
+                $message = 'Ok';
+            }else{
+                $message = $response['message'];
+            }
+
             $dataUpdate = [
                 'status_kirim' => $status,
-                'response_bpjs' => json_encode($response)
+                'response_bpjs' => json_encode($response),
+                'response_message' => $message
             ];
 
             if ($noApotik) {

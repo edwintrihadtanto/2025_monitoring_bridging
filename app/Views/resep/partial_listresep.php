@@ -70,7 +70,7 @@
                             </div>
                             <div class="mb-2">
                                 <strong>Kode Jenis Obat:</strong>
-                                <span><?= $item['KDJNSOBAT'] ?></span>
+                                <span><?= $item['KDJNSOBAT'] ?>. <?= $item['KDJNSOBAT'] === '1' ? 'PRB' : ($item['KDJNSOBAT'] === '2' ? 'Kronis' : ($item['KDJNSOBAT'] === '3' ? 'Kemoterapi' : '-')) ?></span>
                             </div>
                             <div class="mb-2">
                                 <strong>Faskes Asal:</strong>

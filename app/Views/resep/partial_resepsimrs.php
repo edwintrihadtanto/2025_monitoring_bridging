@@ -124,6 +124,18 @@
                                                     SEP Kosong
                                                 </span>
                                             <?php endif; ?>
+
+                                            
+                                            <?php if (esc($item['status_kirim']) == 'f'): ?>
+                                                <span class="badge bg-danger" title="Gagal terkirim!">
+                                                    ⚠️ <?= esc($item['noresep_bpjs']) ?>
+                                                </span>
+                                            <?php elseif (esc($item['status_kirim']) == 't'): ?>
+                                                <span class="badge bg-primary">
+                                                    ✅ <?= esc($item['noresep_bpjs']) ?>
+                                                </span>
+                                            <?php endif; ?>    
+                                            
                                         </div>
                                         <small class="text-muted">
                                             Resep: <?= esc($item['no_resep']) ?> /
@@ -138,11 +150,14 @@
                                     </div>
                                 </div>
                                 
+                                <div class="d-flex align-items-center gap-2">
+                                    ceklist iterasi ceklist bukan iterasi
+                                </div>
+
                                 <!-- RIGHT -->
                                 <div class="text-end">
                                     <div class="row">
-                                        <div class="col-sm-8">
-                                            <!-- ROW 1 : NAMA PASIEN -->
+                                        <div class="col-sm-9">
                                             <div class="fw-semibold text-primary">
                                                 <?= esc($item['nmpasien']) ?>
                                             </div>
@@ -152,11 +167,9 @@
                                                 <?= esc($item['nama_unit']) ?>
                                             </small>
                                         </div>
-                                        <!-- ROW 2 -->
-                                        <div class="col-sm-4">
-                                            <select class="form-select form-select-sm kdjnsobat-select"                                                    
+                                        <div class="col-sm-3">
+                                            <select class="form-select form-select-sm kdjnsobat-select"
                                                     onchange="this.closest('.resep-item').dataset.kdjnsobat=this.value">
-
                                                 <option value="1">PRB</option>
                                                 <option value="2">Kronis</option>
                                                 <option value="3">Kemoterapi</option>

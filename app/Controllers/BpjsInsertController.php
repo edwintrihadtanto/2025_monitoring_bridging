@@ -41,8 +41,9 @@ class BpjsInsertController extends BaseController
         $refasalsjp = $request['sep'] ?? null;
         $kd_unit    = $request['kd_unit'] ?? null;
         $sts_iter   = $request['sts_iter'] ?? null;
-        $iterasi    = 1;
+        $iterasi    = 0;
         $kd_dokter  = $request['kd_dokter'] ?? null;
+        $kdjnsobat  = $request['kdjnsobat'] ?? null;
 
         $detailObat = $request['detailobat'] ?? [];
         // var_dump($no_out, $tgl_out, $kdpasien, $noresep, $refasalsjp, $kd_dokter, $kd_unit, $detailObat);
@@ -111,7 +112,7 @@ class BpjsInsertController extends BaseController
             // var_dump($no_out, $tgl_out, $kdpasien, $noresep, $refasalsjp, $kd_dokter, $kd_unit, $poli, $kd_dokterbpjs);
             // var_dump($refasalsjp, $poli, $noresep, $tglresep, $tglpelayanan, $kd_dokterbpjs, $iterasi, $userID);
             // die;
-            $targetUrl = base_url("bpjs/insert/getkirimresep/{$refasalsjp}/{$poli}/{$noresep_bpjs}/{$tglresep}/{$tglpelayanan}/{$kd_dokterbpjs}/{$iterasi}/{$userID}");
+            $targetUrl = base_url("bpjs/insert/getkirimresep/{$refasalsjp}/{$poli}/{$noresep_bpjs}/{$tglresep}/{$tglpelayanan}/{$kd_dokterbpjs}/{$iterasi}/$kdjnsobat/{$userID}");
 
             $client = Services::curlrequest([
                 'timeout' => 60,
@@ -136,12 +137,13 @@ class BpjsInsertController extends BaseController
             if (isset($bpjsJson['status_code']) && $bpjsJson['status_code'] == '200') {
 
                 $statusResult = true;
-                $message = 'Resep berhasil dikirim ke BPJS';
+                $message = $bpjsJson['message'] ?? 'Resep berhasil dikirim ke BPJS';
                 $data = $bpjsJson['data'] ?? null;
                 $noApotik = $bpjsJson['data']['noApotik'] ?? null;
 
                 $responseUpdate = [
-                    'response' => $bpjsJson
+                    'response' => $bpjsJson,
+                    'message'  => $message
                 ];
 
                 $ResepModel->updateMappingResepBPJS(

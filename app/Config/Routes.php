@@ -52,7 +52,7 @@ use CodeIgniter\Router\RouteCollection;
             // $routes->get('getsjpresep/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::sjpresep/$1/$2/$3/$4/$5/$6/$7/$8');
             $routes->get('sjpresep/(:segment)', 'BpjsController::getkirimresep/$1'); //buat tes langsung insert header resep
             $routes->post('insresepobat', 'BpjsInsertController::kirimresep', ['filter' => 'auth']);
-            $routes->get('getkirimresep/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::getkirimresep/$1/$2/$3/$4/$5/$6/$7/$8');
+            $routes->get('getkirimresep/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::getkirimresep/$1/$2/$3/$4/$5/$6/$7/$8/$9');
             $routes->get('daftarresep/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::daftarresep/$1/$2/$3/$4');
         });
 

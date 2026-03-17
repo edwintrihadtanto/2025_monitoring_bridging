@@ -75,7 +75,7 @@ class BpjsController extends BaseController
                                 "penanggungJawab" => ""
                             ],
 
-                            "noMR" => '0-00-00-02',
+                            "noMR" => '6-90-63-65',
 
                             "rujukan" => [
                                 "asalRujukan" => "2",
@@ -85,7 +85,7 @@ class BpjsController extends BaseController
                             ],
 
                             "catatan" => "-",
-                            "diagAwal" => "J18.0",
+                            "diagAwal" => "I10",
 
                             "poli" => [
                                 "tujuan"    => "IGD",
@@ -289,7 +289,7 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function getkirimresep($refasalsjp, $poli, $noresep_bpjs, $tglresep, $tglpelayanan, $kd_dokterbpjs, $iterasi, $userID)
+    public function getkirimresep($refasalsjp, $poli, $noresep_bpjs, $tglresep, $tglpelayanan, $kd_dokterbpjs, $iterasi, $kdjnsobat, $userID)
     // public function getkirimresep($userID)
     {
         /*$payload = json_encode([
@@ -315,7 +315,7 @@ class BpjsController extends BaseController
             'TGLSJP'     => date('Y-m-d H:i:s'),
             'REFASALSJP' => $refasalsjp,
             'POLIRSP'    => $poli,
-            'KDJNSOBAT'  => '3',
+            'KDJNSOBAT'  => $kdjnsobat,
             'NORESEP'    => $noresep_bpjs,
             'IDUSERSJP'  => 'FAR-'.$userID,
             'TGLRSP'     => $tglresep,
