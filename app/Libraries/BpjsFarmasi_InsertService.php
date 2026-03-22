@@ -159,7 +159,8 @@ class BpjsFarmasi_InsertService
         return [
             // 'status_code' => $responseCode,
             'status_code' => $json->metaData->code,
-            'data' => $this->decrypt($json->response, $tStamp)
+            'data' => $this->decrypt($json->response, $tStamp),
+            'message' => $json->metaData->message
         ];
     }
 }

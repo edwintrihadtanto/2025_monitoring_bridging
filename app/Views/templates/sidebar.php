@@ -3,7 +3,7 @@
         <div class="sidebar-header position-relative p-0">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo logo-animasi">
-                    <a href="<?= base_url(); ?>"><img src="<?= base_url('public/img/logo_aplikasi.png'); ?>" alt="Logo" style="height: 7rem;"></a>
+                    <a href="<?= base_url(); ?>"><img src="<?= base_url('img/logo_aplikasi.png'); ?>" alt="Logo" style="height: 7rem;"></a>
                 </div>
                 <div class="sidebar-toggler  x">
                     <a href="javascript:void(0)" class="sidebar-hide d-xl-none d-block no-ajax"><i class="bi bi-x bi-middle"></i></a>
@@ -22,7 +22,7 @@
                 </li>
                 
                 <li class="sidebar-item has-sub m-0">
-                    <a href="#" class='sidebar-link'>
+                    <a href="#" class="sidebar-link no-ajax">
                         <i class="bi bi-clipboard2-data"></i>
                         <span>Monitoring Internal</span>
                     </a>
@@ -38,7 +38,7 @@
                 </li>
 
                 <li class="sidebar-item has-sub m-0">
-                    <a href="#" class='sidebar-link'>
+                    <a href="#" class="sidebar-link no-ajax">
                         <i class="bi bi-ui-checks"></i>
                         <span>Referensi</span>
                     </a>
@@ -54,7 +54,7 @@
                             <a href="<?= site_url('sidebar-poli') ?>" class="submenu-link" data-page="poli">Poli</a>
                         </li>
                         <li class="submenu-item"><!-- Daftar Plafon Harga Obat, -->
-                            <a href="<?= site_url('sidebar-dpho') ?>" class="submenu-link" data-page="dpho" data-reload="true">DPHO</a>
+                            <a href="<?= site_url('sidebar-dpho') ?>" class="submenu-link" data-page="dpho" data-reload="true" data-close-sidebar="true">DPHO</a>
                         </li>
                         <li class="submenu-item">
                             <a href="<?= site_url('sidebar-obat') ?>" class="submenu-link" data-page="obat">Obat</a>
@@ -66,33 +66,33 @@
                 </li>
                 
                 <li class="sidebar-item has-sub m-0">
-                    <a href="#" class='sidebar-link'>
+                    <a href="#" class="sidebar-link no-ajax">
                         <i class="bi bi-view-list"></i>
                         <span>Resep</span>
                     </a>
                     
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a href="<?= site_url('sidebar-ResepSIMRS') ?>" class="submenu-link" data-page="listresep">Resep SIM-RS</a>
+                            <a href="<?= site_url('sidebar-ResepSIMRS') ?>" class="submenu-link" data-page="listresepSIMRS" data-close-sidebar="true">Resep SIM-RS</a>
                         </li>
                         <li class="submenu-item">
-                            <a href="<?= site_url('sidebar-daftarresep') ?>" class="submenu-link" data-page="listresep">Daftar Resep</a>
+                            <a href="<?= site_url('sidebar-daftarresep') ?>" class="submenu-link" data-page="listresepBPJS" data-close-sidebar="true">Daftar Resep</a>
                         </li>
                     </ul>
                 </li>
                 
                 <li class="sidebar-item has-sub m-0">
-                    <a href="#" class='sidebar-link'>
+                    <a href="#" class="sidebar-link no-ajax">
                         <i class="bi bi-view-list"></i>
                         <span>Pelayanan Obat</span>
                     </a>
                     
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a href="<?= site_url('sidebar-pelobat-listpersep') ?>" class="submenu-link" data-page="pelyanan-obat">Daftar Pelayanan Obat</a>
+                            <a href="<?= site_url('sidebar-pelobat-listpersep') ?>" class="submenu-link" data-page="pelayanan-obat">Daftar Pelayanan Obat</a>
                         </li>
                         <li class="submenu-item">
-                            <a href="<?= site_url('sidebar-pelobat-riwayat') ?>" class="submenu-link" data-page="pelyanan-riwayat">Riwayat Pelayanan Obat</a>
+                            <a href="<?= site_url('sidebar-pelobat-riwayat') ?>" class="submenu-link" data-page="pelayanan-riwayat">Riwayat Pelayanan Obat</a>
                         </li>
                     </ul>
                 </li>
@@ -101,7 +101,7 @@
                 <li class="sidebar-item m-0">
                     <a href="<?= site_url('pasien') ?>" class='sidebar-link' data-page="pasien">
                         <i class="bi bi-clipboard-check"></i>
-                        <span>Cek Data Pasien</<span></span>
+                        <span>Cek Data Pasien</<span>
                     </a>
                 </li>
                 <li class="sidebar-item m-0">

@@ -27,8 +27,10 @@ use CodeIgniter\Router\RouteCollection;
         // END API VCLAIM
         $routes->get('getSEPPasien/(:segment)', 'BpjsController::searchingSEPPasien/$1');
         $routes->get('createSEPBPJS', 'BpjsController::createSEPBPJS'); //AWAS VCLAIM 
-        $routes->get('deleteSEPBPJS', 'BpjsController::delSEP');       //AWAS VCLAIM
-        
+        $routes->get('deleteSEPBPJS', 'BpjsController::delSEP');        //AWAS VCLAIM
+        $routes->get('createRUJUKAN', 'BpjsController::createRUJUKAN'); //AWAS VCLAIM 
+        $routes->get('getRujukan/(:segment)', 'BpjsController::getRujukan/$1'); //AWAS VCLAIM 
+
         $routes->group('referensi', static function ($routes) {
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/obat/1/2024-09-01/asam
             $routes->get('getobat/(:segment)/(:segment)/(:segment)', 'BpjsController::getReferensiObat/$1/$2/$3');
@@ -45,14 +47,16 @@ use CodeIgniter\Router\RouteCollection;
         });
 
         $routes->group('insert', static function ($routes) {
-            $routes->post('obatnonracikan', 'BpjsInsertController::obatnonracikan');
-            $routes->post('obatracikan', 'BpjsInsertController::obatracikan');
-            $routes->post('updatestokobat', 'BpjsInsertController::updatestokobat');
+            $routes->get('obatnonracikan', 'BpjsController::obatnonracikan');
+            $routes->get('obatracikan', 'BpjsController::obatracikan');
+            // $routes->post('updatestokobat', 'BpjsInsertController::updatestokobat');
 
             // $routes->get('getsjpresep/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::sjpresep/$1/$2/$3/$4/$5/$6/$7/$8');
             $routes->get('sjpresep/(:segment)', 'BpjsController::getkirimresep/$1'); //buat tes langsung insert header resep
             $routes->post('insresepobat', 'BpjsInsertController::kirimresep', ['filter' => 'auth']);
             $routes->get('getkirimresep/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::getkirimresep/$1/$2/$3/$4/$5/$6/$7/$8/$9');
+            // $routes->get('obatnonracikan/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::getkirimresep/$1/$2/$3/$4/$5/$6/$7/$8/$9');
+            
             $routes->get('daftarresep/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::daftarresep/$1/$2/$3/$4');
         });
 

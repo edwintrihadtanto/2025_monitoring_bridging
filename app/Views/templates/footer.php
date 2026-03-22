@@ -31,8 +31,10 @@
     <script src="<?= base_url('public/assets/dist/assets/extensions/datatables.net/js/jquery.dataTables.min.js') ?> "></script>
     <script src="<?= base_url('public/assets/dist/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js')?> "></script>
     <script src="<?= base_url('public/assets/dist/assets/extensions/sweetalert2/sweetalert2.min.js')?>"></script>
-    <script src="<?= base_url('public/assets/dist/assets/static/js/pages/sweetalert2.js')?>"></script>>
+    <script src="<?= base_url('public/assets/dist/assets/extensions/sweetalert2/sweetalert2.js')?>"></script>
     <script src="<?= base_url('public/assets/dist/assets/extensions/apexcharts/apexcharts.min.js')?>"></script>
+    <script src="<?= base_url('public/assets/dist/assets/extensions/apexcharts/apexcharts.js')?>"></script>
+    <script src="<?= base_url('public/js/page-dashboard.js') ?>"></script>
     <script src="<?= base_url('public/js/page-pasien.js') ?>"></script>
     <script src="<?= base_url('public/js/page-sep.js') ?>"></script>
     <script src="<?= base_url('public/js/page-monitoring.js') ?>"></script>
@@ -40,7 +42,18 @@
     <script src="<?= base_url('public/js/page-simrs.js') ?>"></script>
 
     <script>
-        
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
         // --- 1. GLOBAL VARIABLES (Agar bisa diakses semua fungsi) ---
         let detailModalInstance = null;
         let isDPHOLoaded = false;
@@ -91,6 +104,12 @@
                 // mainContent.innerHTML = '<div class="text-center p-5"><div class="spinner-grow text-info" role="status"></div><h5>sedang memuat halaman...</h5></div>';
                 mainContent.innerHTML = '<div class="text-center p-5"><img src="<?= base_url('public/loading.svg'); ?>" class="me-4" style="width: 3rem" alt="audio"><h6>sedang memuat halaman...</h6></div>';
             }
+
+            // DESTROY halaman aktif (jika ada)
+            if (window.PageDashboard?.destroy) {
+                window.PageDashboard.destroy();
+            }
+            window.__dashboardInitialized = false;
             // RESET FLAG JIKA PINDAH HALAMAN
             if (pageIdentifier !== 'dpho') {
                 isDPHOLoaded = false;
@@ -302,6 +321,14 @@
                     initSIMRS();
                 }
             }
+
+            const dashboardEl = document.getElementById('dashboard-container');
+            if (dashboardEl) {
+                window.PageDashboard?.init();
+            } else {
+                window.PageDashboard?.destroy();
+            }
+
             // const loadHalamanDPHO = document.getElementById('loadHalamanDPHO');            
             // const dphoTable = document.getElementById('table-dpho');
             
@@ -353,10 +380,20 @@
                     e.preventDefault();
 
                     const page = link.getAttribute('data-page');
+                    
+                    if (link.dataset.closeSidebar === 'true') {
+                        
+                        const btn = document.querySelector('.sidebar-hide');
+                        if (btn) btn.click();
+                    }
+
                     if (page === 'dpho' && link.dataset.reload === 'true') {
                         isDPHOLoaded = false;
                     }
 
+                    // console.log('PAGE:', page);
+                    // console.log('CLOSE SIDEBAR:', link.dataset.closeSidebar);
+                    
                     window.loadPageContent(link.href, page || link.href, link);
                 }
             });
@@ -469,106 +506,6 @@
                 }
             });
         });
-
-        (function () {
-            const btn = document.getElementById('btnToTop');
-            if (!btn) return;
-
-            let ticking = false;
-
-            window.addEventListener('scroll', function () {
-                if (!ticking) {
-                    window.requestAnimationFrame(() => {
-                        btn.classList.toggle('show', window.scrollY > 300);
-                        ticking = false;
-                    });
-                    ticking = true;
-                }
-            });
-
-            btn.addEventListener('click', function () {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-
-            const chartResep = new ApexCharts(
-            document.querySelector("#chartResep"),
-            {
-                chart:{type:'area',height:320,toolbar:{show:false}},
-                series:[{
-                    name:'Resep',
-                    data:[80,95,110,120,105,115,128]
-                }],
-                xaxis:{
-                    categories:['Sen','Sel','Rab','Kam','Jum','Sab','Min']
-                },
-                stroke:{curve:'smooth'},
-                colors:['#2563eb']
-            })
-
-            chartResep.render()
-
-            const chartStatus = new ApexCharts(
-                document.querySelector("#chartStatus"),
-                {
-                    chart:{type:'donut'},
-                    series:[120,5,3],
-                    labels:['Berhasil','Gagal','Pending'],
-                    colors:['#22c55e','#ef4444','#f59e0b']
-                }
-            )
-
-            chartStatus.render()
-
-
-
-            const chartObat = new ApexCharts(
-                document.querySelector("#chartObat"),
-                {
-                    chart:{type:'bar',height:300},
-                    series:[{
-                        name:'Jumlah',
-                        data:[90,70,55,40,30]
-                    }],
-                    xaxis:{
-                        categories:[
-                            'Paracetamol',
-                            'Amoxicillin',
-                            'Amlodipine',
-                            'Cefixime',
-                            'Metformin'
-                        ]
-                    }
-                }
-            )
-
-            chartObat.render()
-
-
-
-            const chartPoli = new ApexCharts(
-                document.querySelector("#chartPoli"),
-                {
-                    chart:{type:'bar'},
-                    series:[{
-                        name:'Resep',
-                        data:[60,45,35,20]
-                    }],
-                    xaxis:{
-                        categories:[
-                            'Penyakit Dalam',
-                            'Anak',
-                            'Saraf',
-                            'Umum'
-                        ]
-                    }
-                }
-            )
-
-            chartPoli.render()
-        })();
 
     </script>
 </body>

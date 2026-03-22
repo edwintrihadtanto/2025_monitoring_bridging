@@ -318,6 +318,8 @@ function handleProsesObatClick(e) {
         }
         
         const kdJnsObat = resepItem.dataset.kdjnsobat || '1';
+        const iterasi = resepItem.dataset.sts_iter || '0';
+        
         const payload = [{
             noresep   : resepItem.dataset.noresep,
             sep       : resepItem.dataset.sep,
@@ -326,7 +328,7 @@ function handleProsesObatClick(e) {
             tgl_out   : resepItem.dataset.tgl_out,
             kd_unit   : resepItem.dataset.kd_unit,
             kd_dokter : resepItem.dataset.kd_dokter,
-            iterasi   : resepItem.dataset.iterasi,
+            iterasi   : iterasi,
             kdjnsobat : kdJnsObat,
             detailobat: detail
         }];
@@ -362,6 +364,7 @@ function handleProsesObatClick(e) {
         if (detail.length === 0) return;
         
         const kdJnsObat = resepItem.dataset.kdjnsobat || '1';
+        const iterasi = resepItem.dataset.sts_iter || '0';
         payload.push({
             noresep   : resepItem.dataset.noresep,
             sep       : resepItem.dataset.sep,
@@ -370,7 +373,7 @@ function handleProsesObatClick(e) {
             tgl_out   : resepItem.dataset.tgl_out,
             kd_unit   : resepItem.dataset.kd_unit,
             kd_dokter : resepItem.dataset.kd_dokter,
-            iterasi   : resepItem.dataset.iterasi,
+            iterasi   : iterasi,
             kdjnsobat : kdJnsObat,
             detailobat: detail
         });

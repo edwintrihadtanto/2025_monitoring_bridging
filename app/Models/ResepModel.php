@@ -312,12 +312,12 @@ class ResepModel extends Model
             'left'
         );
         $builder->join('mr_resep mr', 'o.id_mrresep = mr.id_mrresep', 'left');
-        $builder->join('apt_bridging_resep_bpjs abrb', 'abrb.no_out = o.no_out and abrb.tgl_out = o.tgl_out', 'left');
+        $builder->join('apt_bridging_resep_bpjs abrb', "abrb.no_out = o.no_out and abrb.tgl_out = o.tgl_out and abrb.sts_batal = 'false'", 'left');
 
         // WHERE utama
         // $builder->whereIn('kun.kd_customer', ['0000000043', '0000000044']);
         $builder->where('o.returapt', 0);
-        $builder->where('o.tutup', 1);
+        // $builder->where('o.tutup', 1);
 
         // Filter tanggal
         if (!empty($filter['tgl_awal']) && !empty($filter['tgl_akhir'])) {
@@ -500,11 +500,11 @@ class ResepModel extends Model
                 $noApotik = $response['response']['data']['noApotik'];
             }
 
-            if ($response['message'] == 'Resep berhasil dikirim ke BPJS') {
-                $message = 'Ok';
-            }else{
+            // if ($response['message'] == 'Resep berhasil dikirim ke BPJS') {
+            //     $message = 'Ok';
+            // }else{
                 $message = $response['message'];
-            }
+            // }
 
             $dataUpdate = [
                 'status_kirim' => $status,
@@ -528,7 +528,19 @@ class ResepModel extends Model
         return $this->db->table('apt_bridging_resep_bpjs')
             ->where('noresep_simrs', $noresep_simrs)
             ->where('tgl_out', $tgl_out)
+            ->where('sts_batal', false)
             ->get()
             ->getRowArray();
+    }
+
+    public function deleteMappingResepBPJS($no_resep, $no_apotik)
+    {
+        return $this->db->table('apt_bridging_resep_bpjs')
+            ->where('noresep_bpjs', $no_resep)
+            ->where('noApotik', $no_apotik)
+            ->update([
+                'status_kirim' => false,
+                'sts_batal' => true
+            ]);
     }
 }

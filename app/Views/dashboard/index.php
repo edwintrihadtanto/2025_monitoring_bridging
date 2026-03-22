@@ -1,4 +1,4 @@
-<div class="page-heading dashboard-bpjs">
+<div id="dashboard-container" class="page-heading dashboard-bpjs">
 
     <!-- HEADER -->
     <section class="dashboard-header card">

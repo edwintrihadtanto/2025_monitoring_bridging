@@ -77,7 +77,7 @@
                                 <span><?= $item['FASKESASAL'] ?></span>
                             </div>
                             <div class="mb-2">
-                                <strong>Flag Iterasi:</strong>
+                                <strong>Iterasi:</strong>
                                 <span><?= $item['FLAGITER'] === 'False' ? 'Tidak Iterasi' : 'Iterasi' ?></span>
                             </div>
                         </div>

@@ -40,8 +40,8 @@ class BpjsInsertController extends BaseController
         $noresep    = $request['noresep'] ?? null;
         $refasalsjp = $request['sep'] ?? null;
         $kd_unit    = $request['kd_unit'] ?? null;
-        $sts_iter   = $request['sts_iter'] ?? null;
-        $iterasi    = 0;
+        // $sts_iter   = $request['iterasi'] ?? null;
+        $iterasi    = $request['iterasi'] ?? null;
         $kd_dokter  = $request['kd_dokter'] ?? null;
         $kdjnsobat  = $request['kdjnsobat'] ?? null;
 
@@ -91,7 +91,7 @@ class BpjsInsertController extends BaseController
                 if ($mappingResep['status_kirim'] == 't') {
                     return $this->response->setJSON([
                         'status'  => false,
-                        'message' => 'Resep sudah pernah berhasil dikirim ke BPJS!<br>No.Resep:'.$mappingResep['noresep_bpjs'],
+                        'message' => 'Resep sudah pernah berhasil dikirim ke BPJS!<br>No.Resep: '.$mappingResep['noresep_bpjs'].'<br>No.Apotik: '.$mappingResep['noApotik'],
                         'noresep_bpjs' => $mappingResep['noresep_bpjs']
                     ]);
                 }
@@ -113,6 +113,8 @@ class BpjsInsertController extends BaseController
             // var_dump($refasalsjp, $poli, $noresep, $tglresep, $tglpelayanan, $kd_dokterbpjs, $iterasi, $userID);
             // die;
             $targetUrl = base_url("bpjs/insert/getkirimresep/{$refasalsjp}/{$poli}/{$noresep_bpjs}/{$tglresep}/{$tglpelayanan}/{$kd_dokterbpjs}/{$iterasi}/$kdjnsobat/{$userID}");
+
+            $targetUrlDetailObat = base_url("bpjs/insert/obatnonracikan/{$refasalsjp}/{$poli}/{$noresep_bpjs}/{$tglresep}/{$tglpelayanan}/{$kd_dokterbpjs}/{$iterasi}/$kdjnsobat/{$userID}");
 
             $client = Services::curlrequest([
                 'timeout' => 60,
@@ -398,6 +400,7 @@ class BpjsInsertController extends BaseController
         }
         
         try {
+            $ResepModel = new \App\Models\ResepModel();
             $userID    = session()->get('id');
             $targetUrl = base_url(
                 "bpjs/delete/del_hapusresep/{$no_resep}/{$no_apotik}/{$refasalsjp}/{$userID}"
@@ -434,6 +437,12 @@ class BpjsInsertController extends BaseController
              * Body = JSON string kosong → "\"\"" → DELETE SUKSES
              */
             if ($body === '""') {
+
+                $ResepModel->deleteMappingResepBPJS(
+                    $no_resep,
+                    $no_apotik
+                );
+
                 return $this->response->setJSON([
                     'status'  => true,
                     'message' => 'Resep '.$no_resep.' Berhasil di Hapus',
@@ -762,153 +771,6 @@ class BpjsInsertController extends BaseController
                 'status'  => false,
                 'message' => 'Gagal terhubung ke API BPJS!<br>Error ' . $e->getMessage(),
                 'error'   => $e->getMessage()
-            ]);
-        }
-    }
-
-    public function getResepSIMRSLAMA()
-    {
-        $ResepModel = new ResepModel();
-        $searchType = $this->request->getPost('search_typepasien');
-
-        $filter = [
-            'tgl_awal'  => trim($this->request->getPost('tgl_awal')),
-            'tgl_akhir' => trim($this->request->getPost('tgl_akhr')),
-            'unit'      => trim($this->request->getPost('option_radio')),
-        ];
-
-        if ($searchType === 'medrec') {
-            $filter['medrec'] = trim($this->request->getPost('medrec'));
-        } else {
-            $filter['nama_pasien'] = trim($this->request->getPost('nama_pasien'));
-        }
-
-        if (
-            (!empty($filter['tgl_awal']) && empty($filter['tgl_akhir'])) || (empty($filter['tgl_awal']) && !empty($filter['tgl_akhir']))
-        ) {
-            return $this->response->setJSON([
-                'status' => false,
-                'message' => 'Tgl Awal & Akhir harus diisi.'
-            ]);
-        }
-
-        if (!empty($filter['tgl_awal']) && !empty($filter['tgl_akhir'])) {
-            if (strtotime($filter['tgl_awal']) > strtotime($filter['tgl_akhir'])) {
-                return $this->response->setJSON([
-                    'status' => false,
-                    'message' => 'Tgl Awal tidak boleh lebih besar dari Tgl Akhir'
-                ]);
-            }
-        }
-
-        try {
-            
-            $statusResult = false;
-            $message = '';
-            $htmlResult = '';
-            
-            $rekap = $ResepModel->getResepGrouped($filter);
-
-            if (!empty($rekap)) {
-                $statusResult = true;
-                $message = 'Data ditemukan';
-                $htmlResult = view('resep/partial_resepsimrs', ['dataList' => $rekap]);
-            } else {
-                $message = 'Data Obat tidak ditemukan!';
-            }
-    
-            return $this->response->setJSON([
-                'status' => $statusResult,
-                'message' => $message,
-                'html' => $htmlResult
-            ]);
-
-        } catch (\Exception $e) {
-            return $this->response->setJSON([
-                'status'    => false,
-                'message'   => 'Error ' . $e->getMessage(),
-                'error'     => $e->getMessage()
-            ]);
-        }
-    }
-
-    public function getResepSIMRSLAMA2()
-    {
-        $ResepModel = new ResepModel();
-        $searchType = $this->request->getPost('search_typepasien');
-
-        $filter = [
-            'tgl_awal'  => trim($this->request->getPost('tgl_awal')),
-            'tgl_akhir' => trim($this->request->getPost('tgl_akhr')),
-            'unit'      => trim($this->request->getPost('option_radio')),
-        ];
-
-        if ($searchType === 'medrec') {
-            $filter['medrec'] = trim($this->request->getPost('medrec'));
-        } else {
-            $filter['nama_pasien'] = trim($this->request->getPost('nama_pasien'));
-        }
-
-        /* VALIDASI TANGGAL */
-        if (
-            (!empty($filter['tgl_awal']) && empty($filter['tgl_akhir'])) ||
-            (empty($filter['tgl_awal']) && !empty($filter['tgl_akhir']))
-        ) {
-            return $this->response->setJSON([
-                'status' => false,
-                'message' => 'Tgl Awal & Akhir harus diisi.'
-            ]);
-        }
-
-        if (!empty($filter['tgl_awal']) && !empty($filter['tgl_akhir'])) {
-            if (strtotime($filter['tgl_awal']) > strtotime($filter['tgl_akhir'])) {
-                return $this->response->setJSON([
-                    'status' => false,
-                    'message' => 'Tgl Awal tidak boleh lebih besar dari Tgl Akhir'
-                ]);
-            }
-        }
-
-        try {
-
-            $rekap = $ResepModel->getResepGrouped($filter);
-
-            if (empty($rekap)) {
-                return $this->response->setJSON([
-                    'status' => false,
-                    'message' => 'Data Obat tidak ditemukan!'
-                ]);
-            }
-
-            $grouped = [];
-
-            foreach ($rekap as $row) {
-
-                $tgl = $row['tgl_out'];
-
-                if (!isset($grouped[$tgl])) {
-                    $grouped[$tgl] = [
-                        'tgl'  => $tgl,
-                        'data' => []
-                    ];
-                }
-
-                $grouped[$tgl]['data'][] = $row;
-            }
-
-
-            return $this->response->setJSON([
-                'status'  => true,
-                'message' => 'Data ditemukan',
-                'html'    => view('resep/partial_resepsimrs', [
-                    'groups' => $grouped
-                ])
-            ]);
-
-        } catch (\Exception $e) {
-            return $this->response->setJSON([
-                'status'  => false,
-                'message' => 'Error ' . $e->getMessage()
             ]);
         }
     }

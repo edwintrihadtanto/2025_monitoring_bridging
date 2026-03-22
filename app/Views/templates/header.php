@@ -451,6 +451,19 @@
             font-size:12px;
             padding:2px 6px;
         }
+
+        .resep-item {
+            border-bottom: 1px solid #2c2f3a;
+            transition: 0.2s;
+        }
+
+        .resep-item:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .form-check-input:checked {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
