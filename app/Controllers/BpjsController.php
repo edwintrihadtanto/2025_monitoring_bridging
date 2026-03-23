@@ -389,17 +389,17 @@ class BpjsController extends BaseController
 
         $signa1     = 1;
         $signa2     = 1;
-        $jho        = 8;
-        $permintaan = 1;
+        $jho        = 1;
+        $permintaan = 100;
 
-        $qty = $signa1 * $signa2 * $jho;
-
+        // $qty = $signa1 * $signa2 * $jho;
+        $qty = 2;
         $payload = json_encode([
             'NOSJP'      => '0216A01603260000013',
             'NORESEP'    => '00018',
-            'JNSROBT'    => 'RP.01', // ✅ racikan
-            'KDOBT'      => '14250804953',
-            'NMOBAT'     => 'Bicalutamide 50 SK tab 50 mg',
+            'JNSROBT'    => 'R.01',
+            'KDOBT'      => '14250805250',
+            'NMOBAT'     => 'Fulvestrant 50 SK inj 50 mg/mL',
             'SIGNA1OBT'  => $signa1,
             'SIGNA2OBT'  => $signa2,
             'PERMINTAAN' => $permintaan,
