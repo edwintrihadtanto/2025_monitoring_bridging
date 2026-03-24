@@ -49,7 +49,7 @@ use CodeIgniter\Router\RouteCollection;
         $routes->group('insert', static function ($routes) {
             $routes->get('obatnonracikan', 'BpjsController::obatnonracikan');
             $routes->get('obatracikan', 'BpjsController::obatracikan');
-            // $routes->post('updatestokobat', 'BpjsInsertController::updatestokobat');
+            $routes->get('updatestokobat', 'BpjsController::updatestokobat'); //masih gagal Unauthorized!
 
             // $routes->get('getsjpresep/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::sjpresep/$1/$2/$3/$4/$5/$6/$7/$8');
             $routes->get('sjpresep/(:segment)', 'BpjsController::getkirimresep/$1'); //buat tes langsung insert header resep
@@ -61,7 +61,7 @@ use CodeIgniter\Router\RouteCollection;
         });
 
         $routes->group('delete', static function ($routes) {
-            $routes->get('del_pelayananobat', 'BpjsDeleteController::del_pelayananobat');
+            $routes->get('del_pelayananobat', 'BpjsController::hapusobat');
             $routes->get('del_hapusresep/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::del_hapusresep/$1/$2/$3/$4');
         });
 
@@ -93,7 +93,8 @@ use CodeIgniter\Router\RouteCollection;
 
     $routes->get('sidebar-daftarresep', 'BpjsInsertController::viewgetdaftar_resep', ['filter' => 'auth']);
     $routes->post('res/search_listResep', 'BpjsInsertController::getdaftarresep', ['filter' => 'auth']);
-    
+    $routes->get('getStatusResepBPJS', 'BpjsInsertController::getStatusResepBPJS', ['filter' => 'auth']);
+
     $routes->get('/profile', 'Profile::index', ['filter' => 'auth']);
     $routes->post('/profile/update', 'Profile::updatePassword');
 

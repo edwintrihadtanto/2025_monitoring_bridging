@@ -1,7 +1,7 @@
 <?php
 // Cek apakah data monitoring ada
-if (isset($monitoringData) && !empty($monitoringData['rekap'])): 
-    $rekap = $monitoringData['rekap'];
+if (isset($monitoringData) && !empty($monitoringData['response'])): 
+    $rekap = $monitoringData['response'];
     $list = $rekap['listsep'];
 ?>
 
@@ -44,11 +44,10 @@ if (isset($monitoringData) && !empty($monitoringData['rekap'])):
                 <thead>
                     <tr>
                         <th width="5%">No</th>
-                        <th>No SEP Apotek</th>
                         <th>Nama Peserta</th>
-                        <th>No Resep</th>
-                        <th>Jenis Obat</th>
-                        <th>Tgl Pelayanan</th>
+                        <th width="10%">No Resep</th>
+                        <th width="20%">Jenis Obat</th>
+                        <th width="13%">Tgl Pelayanan</th>
                         <th width="20%">Biaya Pengajuan</th>
                         <th width="20%">Biaya Setuju</th>
                     </tr>
@@ -57,22 +56,20 @@ if (isset($monitoringData) && !empty($monitoringData['rekap'])):
                     <?php foreach ($list as $index => $item): ?>
                     <tr>
                         <td><?= $index + 1 ?></td>
-                        <td class="text-truncate" title="<?= $item['nosepapotek'] ?>">
-                            <?= $item['nosepapotek'] ?>
-                        </td>
                         <td>
-                            <strong><?= $item['namapeserta'] ?></strong>
-                            <div class="small text-muted">No Kartu: <?= $item['nokartu'] ?></div>
+                            <div class="small text-truncate">No Apotik: <?= $item['nosepapotek'] ?></div>
+                            <strong><?= $item['nmpst'] ?></strong>
+                            <div class="small text-muted">No Kartu: <?= $item['nokapst'] ?></div>
                         </td>
                         <td><?= $item['noresep'] ?></td>
                         <td>
                             <?php 
                             $badgeClass = 'bg-secondary';
-                            if(strpos($item['jnsobat'], 'PRB') !== false) $badgeClass = 'bg-info';
-                            if(strpos($item['jnsobat'], 'Kronis') !== false) $badgeClass = 'bg-warning';
-                            if(strpos($item['jnsobat'], 'Kemoterapi') !== false) $badgeClass = 'bg-danger';
+                            if(strpos($item['nmjnsobat'], 'PRB') !== false) $badgeClass = 'bg-info';
+                            if(strpos($item['nmjnsobat'], 'Kronis') !== false) $badgeClass = 'bg-warning';
+                            if(strpos($item['nmjnsobat'], 'Kemoterapi') !== false) $badgeClass = 'bg-danger';
                             ?>
-                            <span class="badge <?= $badgeClass ?>"><?= $item['jnsobat'] ?></span>
+                            <span class="badge <?= $badgeClass ?>"><?= $item['nmjnsobat'] ?></span>
                         </td>
                         <td><?= $item['tglpelayanan'] ?></td>
                         <td class="text-end">
@@ -82,7 +79,7 @@ if (isset($monitoringData) && !empty($monitoringData['rekap'])):
                         </td>
                         <td class="text-end">
                             <span class="fw-bold text-success">
-                                Rp <?= number_format($item['biayasetuju'], 0, ',', '.') ?>
+                                Rp <?= number_format($item['biayasetujui'], 0, ',', '.') ?>
                             </span>
                         </td>
                     </tr>

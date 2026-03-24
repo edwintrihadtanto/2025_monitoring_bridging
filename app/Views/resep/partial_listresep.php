@@ -33,6 +33,10 @@
                                 <input type="hidden" name="refasalsjp" value="<?= esc($item['NOSEP_KUNJUNGAN']) ?>">
                                 <input type="hidden" name="byverrsp" value="<?= esc($item['BYVERRSP']) ?>">
 
+                                <input type="hidden" name="tgl_awal" value="<?= esc($item['TGLRESEP']) ?>">
+                                <input type="hidden" name="tgl_akhr" value="<?= esc($item['TGLRESEP']) ?>">
+                                <input type="hidden" name="jns_obat" value="<?= esc($item['KDJNSOBAT']) ?>">
+
                                 <button type="submit" class="btn btn-sm btn-danger" data-bs-toggle="tooltip"
                                     title="Hapus Resep BPJS">
                                     <i class="bi bi-trash"></i>

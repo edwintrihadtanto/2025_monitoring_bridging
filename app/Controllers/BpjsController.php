@@ -255,19 +255,6 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function DELpelayananobat($sepapotek, $noresep, $kodeobat)
-    {
-        $payload = json_encode([
-            'nosepapotek'   => '1801A00104190000001',
-            'noresep'       => '12345',
-            'kodeobat'      => '25180404057',
-            'tipeobat'      => 'N'
-        ]);
-        $endpoint = '/pelayanan/obat/hapus/';
-        $result = $this->bpjsInsertService->request('DELETE', $endpoint, $payload);
-        return $this->response->setJSON($result);
-    }
-
     public function getListPelayananObatX($SEP, $userID)
     {
         $data = null;
@@ -349,15 +336,27 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    // public function obatnonracikan($sepapotik, $noresep_bpjs, $kdobat, $nmobat, $signasatu, $signadua, $qty, $jho, $catkhususobat)
+    public function del_hapusresep($no_resep, $no_apotik, $refasalsjp, $userID)
+    {
+        $payload = json_encode([
+            'nosjp'         => $no_apotik,
+            'refasalsjp'    => $refasalsjp,
+            'noresep'       => $no_resep
+        ]);
+        $endpoint = '/hapusresep';
+        $result = $this->bpjsInsertService->request('DELETE', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
+
+       // public function obatnonracikan($sepapotik, $noresep_bpjs, $kdobat, $nmobat, $signasatu, $signadua, $qty, $jho, $catkhususobat)
     public function obatnonracikan()
     {
         $userID = '1';
         $payload = json_encode([
             'NOSJP'         => '0216A01603260000013',
             'NORESEP'       => '00018',
-            'KDOBT'         => '14250804953',
-            'NMOBAT'        => 'Bicalutamide 50 SK tab 50 mg',
+            'KDOBT'         => '14250805248',
+            'NMOBAT'        => 'Lenvatinib 10 SK kaps 10 mg',
             'SIGNA1OBT'     => '1',
             'SIGNA2OBT'     => '1',
             'JMLOBT'        => 1,
@@ -390,22 +389,22 @@ class BpjsController extends BaseController
         $signa1     = 1;
         $signa2     = 1;
         $jho        = 1;
-        $permintaan = 100;
+        $permintaan = 1;
 
         // $qty = $signa1 * $signa2 * $jho;
-        $qty = 2;
+        $qty = 30;
         $payload = json_encode([
-            'NOSJP'      => '0216A01603260000013',
-            'NORESEP'    => '00018',
+            'NOSJP'      => '0216A01603260000014',
+            'NORESEP'    => '00019',
             'JNSROBT'    => 'R.01',
-            'KDOBT'      => '14250805250',
-            'NMOBAT'     => 'Fulvestrant 50 SK inj 50 mg/mL',
+            'KDOBT'      => '14250805221',
+            'NMOBAT'     => 'Vitamin B6 (Piridoksin HCl) 10 SK tab 10 mg',
             'SIGNA1OBT'  => $signa1,
             'SIGNA2OBT'  => $signa2,
             'PERMINTAAN' => $permintaan,
             'JHO'        => $jho,
             'JMLOBT'     => $qty,
-            'CatKhsObt'  => 'RACIKAN PUYER'
+            'CatKhsObt'  => 'RACIKAN PUYER ANAK'
         ]);
 
        /* $payload = json_encode([
@@ -428,17 +427,44 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function del_hapusresep($no_resep, $no_apotik, $refasalsjp, $userID)
+    /*{
+        "status":"gagal",
+        "code":"404",
+        "message":"Unauthorized! You are not registered for this service!"
+    }*/
+    public function updatestokobat()
     {
+        $userID = '1';
         $payload = json_encode([
-            'nosjp'         => $no_apotik,
-            'refasalsjp'    => $refasalsjp,
-            'noresep'       => $no_resep
+            'KDOBT'   => '14250805250',
+            'STOK'     => '100',
         ]);
-        $endpoint = '/hapusresep';
+
+       /* $payload = json_encode([
+            'KDOBAT'   => '14250805250',
+            'STOK'     => 100,
+        ]);*/
+
+        $endpoint = '/UpdateStokObat/updatestok';
+        $result = $this->bpjsInsertService->request('POST', $endpoint, $payload, $userID);
+
+        return $this->response->setJSON($result);
+    }
+
+    // public function hapusobat($sepapotek, $noresep, $kodeobat)
+    public function hapusobat()
+    {
+        $userID     = '1';
+        $payload = json_encode([
+            'nosepapotek'   => '0038A07903260000010',
+            'noresep'       => '52035',
+            'kodeobat'      => '02250804925',
+            'tipeobat'      => 'R.01' 
+            //Jenis obat harus N atau R (khusus racik nama racikan harus sesuai ex:R.01)
+        ]);
+        $endpoint = '/pelayanan/obat/hapus';
         $result = $this->bpjsInsertService->request('DELETE', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
 
-    //END RESEP
 }
