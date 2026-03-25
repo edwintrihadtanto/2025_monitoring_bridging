@@ -284,7 +284,8 @@ class ResepModel extends Model
             C.customer,
             CASE WHEN o.kd_customer = '0000000001' THEN '' ELSE sjp.no_sjp END AS no_sep,
             abrb.noresep_bpjs,
-            abrb.status_kirim
+            abrb.status_kirim,
+            abrb.response_message
         ");
 
         // JOIN
@@ -533,14 +534,15 @@ class ResepModel extends Model
             ->getRowArray();
     }
 
-    public function deleteMappingResepBPJS($no_resep, $no_apotik)
+    public function deleteMappingResepBPJS($no_resep, $no_apotik, $alasan_hapus)
     {
         return $this->db->table('apt_bridging_resep_bpjs')
             ->where('noresep_bpjs', $no_resep)
             ->where('noApotik', $no_apotik)
             ->update([
                 'status_kirim' => false,
-                'sts_batal' => true
+                'sts_batal' => true,
+                'alasan_batal' => $alasan_hapus
             ]);
     }
 }

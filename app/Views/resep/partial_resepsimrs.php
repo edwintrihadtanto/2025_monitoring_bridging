@@ -123,11 +123,11 @@
                                         <?php endif; ?>
 
                                         <?php if ($item['status_kirim'] == 'f'): ?>
-                                            <span class="badge bg-danger">
+                                            <span class="badge bg-danger" title="<?= esc($item['response_message']) ?>">
                                                 ⚠️ <?= esc($item['noresep_bpjs']) ?>
                                             </span>
                                         <?php elseif ($item['status_kirim'] == 't'): ?>
-                                            <span class="badge bg-primary">
+                                            <span class="badge bg-primary" title="<?= esc($item['response_message']) ?>">
                                                 ✅ <?= esc($item['noresep_bpjs']) ?>
                                             </span>
                                         <?php endif; ?>

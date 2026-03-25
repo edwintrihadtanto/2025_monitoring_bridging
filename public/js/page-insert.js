@@ -116,10 +116,10 @@ function initListResepPage() {
         });
     };
 
-    window.handleDeleteResepSubmit = async function(e, form){
+    window.handleDeleteResepSubmitXX = async function(e, form){
 
         e.preventDefault();
-        const verifikasi = form.querySelector('[name="byverrsp"]').value;
+        /*const verifikasi = form.querySelector('[name="byverrsp"]').value;
 
         if(verifikasi !== '0'){
             Swal.fire({
@@ -128,11 +128,11 @@ function initListResepPage() {
                 text:'Resep sudah diverifikasi'
             });
             return;
-        }
+        }*/
         
         const konfirmasi = await Swal.fire({
             title: "Hapus resep?",
-            text: "Data tidak bisa dikembalikan",
+            text: "Data tidak bisa dikembalikan, detail obat juga akan dihapus.",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Ya, hapus",
@@ -216,6 +216,181 @@ function initListResepPage() {
         }
 
     };
+
+    window.handleDeleteResepSubmit = async function(e, form) {
+
+        e.preventDefault();
+
+        // 1. Tampilkan Alert Konfirmasi dengan Input Alasan
+        const { value: alasan, isConfirmed } = await Swal.fire({
+            title: "Hapus resep?",
+            text: "Data tidak bisa dikembalikan, detail obat juga akan dihapus.",
+            icon: "warning",
+            input: 'textarea',
+            inputLabel: 'Alasan Penghapusan',
+            inputPlaceholder: 'Masukkan alasan mengapa resep dihapus...',
+            inputAttributes: {
+                'aria-label': 'Alasan penghapusan'
+            },
+            showCancelButton: true,
+            confirmButtonText: "Ya, hapus",
+            cancelButtonText: "Batal",
+            inputValidator: (value) => {
+                if (!value || value.trim() === '') {
+                    return 'Alasan penghapusan wajib diisi!';
+                }
+            }
+        });
+
+        // Jika user batal atau tidak mengisi alasan (validasi gagal)
+        if (!isConfirmed) return;
+
+        const btn = form.querySelector("button");
+        const formData = new FormData(form);
+
+        // 2. Sisipkan alasan ke FormData (akan dibaca controller sebagai POST)
+        formData.append('alasan_hapus', alasan);
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+        try {
+
+            const res = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+
+            const text = await res.text();
+            const data = JSON.parse(text);
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-trash"></i>';
+
+            if (!data.status) {
+                throw data.message;
+            }
+
+            // ======================
+            // HAPUS CARD
+            // ======================
+            const noApotik = form.querySelector('[name="no_apotik"]').value;
+
+            const card = document.querySelector(
+                `.card-listresep[data-noapotik="${noApotik}"]`
+            );
+
+            if (card) {
+                card.style.transition = "0.25s";
+                card.style.opacity = "0";
+                card.style.transform = "scale(0.9)";
+
+                setTimeout(() => card.remove(), 250);
+            }
+
+            // ======================
+            // UPDATE CSRF TOKEN
+            // ======================
+            if (data.csrfHash) {
+                document.querySelectorAll('input[name="csrf_test_name"]')
+                    .forEach(el => el.value = data.csrfHash);
+            }
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: data.message,
+                timer: 1400,
+                showConfirmButton: false
+            });
+
+        } catch (err) {
+
+            console.error(err);
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-trash"></i>';
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: err || "Terjadi kesalahan sistem"
+            });
+
+        }
+    };
+
+    window.handleDeleteItemObatSubmit = async function(e, form){
+
+        e.preventDefault();
+        
+        const konfirmasi = await Swal.fire({
+            title: "Hapus item obat?",
+            text: "Data tidak bisa dikembalikan.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, hapus",
+            cancelButtonText: "Batal"
+        });
+
+        if(!konfirmasi.isConfirmed) return;
+
+        const btn = form.querySelector("button");
+        const formData = new FormData(form);
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+        try{
+
+            const res = await fetch(form.action,{
+                method:'POST',
+                body:formData,
+                headers:{'X-Requested-With':'XMLHttpRequest'}
+            });
+
+            const text = await res.text();
+            const data = JSON.parse(text);
+
+            btn.disabled=false;
+            btn.innerHTML='<i class="bi bi-trash"></i>';
+
+            if(!data.status){
+                throw data.message;
+            }
+
+            if(data.csrfHash){
+                document.querySelectorAll('input[name="csrf_test_name"]')
+                    .forEach(el=>el.value=data.csrfHash);
+            }
+
+            Swal.fire({
+                icon:'success',
+                title:'Berhasil',
+                text:data.message,
+                timer:1400,
+                showConfirmButton:false
+            });
+
+        }
+        catch(err){
+
+            console.error(err);
+
+            btn.disabled=false;
+            btn.innerHTML='<i class="bi bi-trash"></i>';
+
+            Swal.fire({
+                icon:'error',
+                title:'Error',
+                text: err || "Terjadi kesalahan sistem"
+            });
+
+        }
+
+    };
+
 }
 
 function initListPelyananObatPage() {

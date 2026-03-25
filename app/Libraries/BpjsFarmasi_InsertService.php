@@ -29,9 +29,6 @@ class BpjsFarmasi_InsertService
         return (string)(time() - strtotime('1970-01-01 07:00:00'));
     }
 
-    /* ===============================
-     * HEADER SIGNATURE (DINAMIS)
-     * =============================== */
     protected function headers(string $method, string $tStamp): array
     {
         $signature = base64_encode(
@@ -50,9 +47,7 @@ class BpjsFarmasi_InsertService
             "Content-Type: {$contentType}",
         ];
     }
-    /* ===============================
-     * DECRYPT RESPONSE
-     * =============================== */
+   
     protected function decrypt(string $response, string $tStamp): array
     {
         $key  = $this->consId . $this->secretKey . $tStamp;
@@ -72,9 +67,7 @@ class BpjsFarmasi_InsertService
             true
         );
     }
-    /* ===============================
-     * REQUEST GENERIC
-     * =============================== */
+   
     public function request(
         string $method,
         string $endpoint,
@@ -152,15 +145,28 @@ class BpjsFarmasi_InsertService
             ];
         }
 
+        $decryptedData = [];
+
+        // Pastikan response ada, bukan null, dan bertipe string
+        if (isset($json->response) && is_string($json->response) && !empty($json->response)) {
+            $decryptedData = $this->decrypt($json->response, $tStamp);
+        }
+
+        return [
+            'status_code' => $json->metaData->code,
+            'data'        => $decryptedData,
+            'message'     => $json->metaData->message
+        ];
+        
         // return [
         //     'status' => 'sukses',
         //     'data'   => $this->decrypt($json->response, $tStamp)
         // ];
-        return [
-            // 'status_code' => $responseCode,
-            'status_code' => $json->metaData->code,
-            'data' => $this->decrypt($json->response, $tStamp),
-            'message' => $json->metaData->message
-        ];
+        // return [
+        //     // 'status_code' => $responseCode,
+        //     'status_code' => $json->metaData->code,
+        //     'data' => $this->decrypt($json->response, $tStamp),
+        //     'message' => $json->metaData->message
+        // ];
     }
 }

@@ -353,14 +353,14 @@ class BpjsController extends BaseController
     {
         $userID = '1';
         $payload = json_encode([
-            'NOSJP'         => '0216A01603260000013',
-            'NORESEP'       => '00018',
-            'KDOBT'         => '14250805248',
-            'NMOBAT'        => 'Lenvatinib 10 SK kaps 10 mg',
-            'SIGNA1OBT'     => '1',
+            'NOSJP'         => '0216A01603260000015',
+            'NORESEP'       => '00014',
+            'KDOBT'         => '14250804928',
+            'NMOBAT'        => 'Amlodipin 10 SK tab 10 mg',
+            'SIGNA1OBT'     => '2',
             'SIGNA2OBT'     => '1',
-            'JMLOBT'        => 1,
-            'JHO'           => '1',
+            'JMLOBT'        => 10,
+            'JHO'           => '5',
             'CatKhsObt'     => 'single'
         ]);
 
@@ -392,19 +392,19 @@ class BpjsController extends BaseController
         $permintaan = 1;
 
         // $qty = $signa1 * $signa2 * $jho;
-        $qty = 30;
+        $qty = 1;
         $payload = json_encode([
-            'NOSJP'      => '0216A01603260000014',
-            'NORESEP'    => '00019',
+            'NOSJP'      => '0216A01603260000015',
+            'NORESEP'    => '00014',
             'JNSROBT'    => 'R.01',
-            'KDOBT'      => '14250805221',
-            'NMOBAT'     => 'Vitamin B6 (Piridoksin HCl) 10 SK tab 10 mg',
+            'KDOBT'      => '14250805202',
+            'NMOBAT'     => 'tiotropium 2,5 SK cairan ih 2,5 mcg/semprot',
             'SIGNA1OBT'  => $signa1,
             'SIGNA2OBT'  => $signa2,
             'PERMINTAAN' => $permintaan,
             'JHO'        => $jho,
             'JMLOBT'     => $qty,
-            'CatKhsObt'  => 'RACIKAN PUYER ANAK'
+            'CatKhsObt'  => 'RACIKAN PUYER'
         ]);
 
        /* $payload = json_encode([

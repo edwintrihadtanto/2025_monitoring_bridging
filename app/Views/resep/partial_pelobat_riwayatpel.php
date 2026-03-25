@@ -1,6 +1,6 @@
 <?php
-$peserta = $data['response']['list'] ?? null;
-$history = $peserta['history'] ?? [];
+ $peserta = $data['response']['list'] ?? null;
+ $history = $peserta['history'] ?? [];
 ?>
 
 <?php if (!$peserta || empty($history)): ?>
@@ -33,7 +33,7 @@ $history = $peserta['history'] ?? [];
 </div>
 
 <?php
-$grouped = [];
+ $grouped = [];
 foreach ($history as $row) {
     $grouped[$row['tglpelayanan']][] = $row;
 }
@@ -53,40 +53,68 @@ foreach ($history as $row) {
         <div class="card-body py-2">
 
             <?php foreach ($items as $obat): ?>
-                <div class="border rounded p-2 mb-2 small">
+                
+                <?php
+                    $no_resep   = $obat['noresep'] ?? '';
+                    $no_apotik  = $obat['nosjp'] ?? ''; 
+                ?>
 
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <div class="fw-semibold text-primary">
-                                <?= esc($obat['namaobat']) ?>
+                <form action="<?= base_url('del_itemobat') ?>" 
+                      method="POST" 
+                      class="d-flex align-items-stretch gap-1 mb-2"
+                      onsubmit="return window.handleDeleteItemObatSubmit(event, this)">
+
+                    <?= csrf_field() ?>
+                    <input type="hidden" name="no_resep" value="<?= esc($no_resep) ?>">
+                    <input type="hidden" name="no_apotik" value="<?= esc($no_apotik) ?>">
+                    <input type="hidden" name="tgl_awal" value="<?= date('Y-m-d', strtotime($tgl)) ?>">
+                    <input type="hidden" name="tgl_akhr" value="<?= date('Y-m-d', strtotime($tgl)) ?>">
+                    <input type="hidden" name="jns_obat" value="0"> 
+
+                    <!-- Konten Obat (Dipindahkan ke dalam flex item flex-grow-1) -->
+                    <div class="border rounded p-2 small flex-grow-1">
+                        
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <div class="fw-semibold text-primary">
+                                    <?= esc($obat['namaobat']) ?>
+                                </div>
+                                <div class="text-muted">
+                                    Kode: <?= esc($obat['kodeobat']) ?>
+                                </div>
                             </div>
-                            <div class="text-muted">
-                                Kode: <?= esc($obat['kodeobat']) ?>
+
+                            <div class="text-end">
+                                <span class="badge bg-info">
+                                    <?= rtrim($obat['jmlobat']) ?>
+                                </span>
                             </div>
                         </div>
 
-                        <div class="text-end">
-                            <span class="badge bg-info">
-                                <!-- <?= rtrim($obat['jmlobat'], '.00') ?> -->
-                                <?= rtrim($obat['jmlobat']) ?>
-                            </span>
+                        <hr class="my-1">
+
+                        <div class="d-flex justify-content-between text-muted">
+                            <div>
+                                <i class="bi bi-receipt me-1"></i>
+                                Resep: <?= esc($obat['noresep']) ?>
+                            </div>
+                            <div>
+                                <i class="bi bi-file-earmark-text me-1"></i>
+                                SEP: <?= esc($obat['nosjp']) ?>
+                            </div>
                         </div>
+
                     </div>
 
-                    <hr class="my-1">
-
-                    <div class="d-flex justify-content-between text-muted">
-                        <div>
-                            <i class="bi bi-receipt me-1"></i>
-                            Resep: <?= esc($obat['noresep']) ?>
-                        </div>
-                        <div>
-                            <i class="bi bi-file-earmark-text me-1"></i>
-                            SEP: <?= esc($obat['nosjp']) ?>
-                        </div>
+                    <!-- Tombol Hapus (Di luar div border, sebelah kanan) -->
+                    <div class="d-flex align-items-center">
+                        <button type="submit" class="btn btn-outline-danger btn-sm h-100 d-flex align-items-center" title="Hapus Resep">
+                            <i class="bi bi-trash"></i>
+                        </button>
                     </div>
 
-                </div>
+                </form>
+
             <?php endforeach; ?>
 
         </div>
