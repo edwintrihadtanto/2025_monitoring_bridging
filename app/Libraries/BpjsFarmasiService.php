@@ -111,6 +111,8 @@ class BpjsFarmasiService
             'debug' => false,
             'http_errors' => false,
             'verify' => false, // Sama dengan 'verify_peer' => false
+            'timeout' => 60,         // Tambahkan ini: batas waktu maksimal request (detik)
+            'connect_timeout' => 30, // Tambahkan ini: batas waktu untuk konek ke server
         ];
 
         if ($method === 'POST' && $data !== null) {
