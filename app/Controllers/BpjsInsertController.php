@@ -520,133 +520,6 @@ class BpjsInsertController extends BaseController
         }
     }
 
-    public function del_hapusresepXXX()
-    {
-        // ================= INPUT STANDAR =================
-        $no_resep   = $this->request->getPost('no_resep');
-        $no_apotik  = $this->request->getPost('no_apotik');
-        $refasalsjp = $this->request->getPost('refasalsjp');
-        $byverrsp   = $this->request->getPost('byverrsp');
-        
-        // ================= INPUT TAMBAHAN UNTUK CEK STATUS =================
-        // Frontend WAJIB mengirim 3 parameter ini agar validasi bisa jalan
-        $tgl_awal   = $this->request->getPost('tgl_awal');
-        $tgl_akhr   = $this->request->getPost('tgl_akhr');
-        $jns_obat   = $this->request->getPost('jns_obat');
-
-        // ================= VALIDASI INPUT =================
-        if (!$no_resep || !$no_apotik || !$refasalsjp) {
-            return $this->response->setJSON([
-                'status'  => false,
-                'message' => 'Parameter Resep tidak lengkap (No Resep/No Apotik/SJP).'
-            ]);
-        }
-
-        if (!$tgl_awal || !$tgl_akhr) {
-            return $this->response->setJSON([
-                'status'  => false,
-                'message' => 'Parameter Tanggal wajib diisi untuk validasi status.'
-            ]);
-        }
-
-        // ================= 1. CEK STATUS BYVERRSP KE BPJS =================
-        // Panggil private method yang sudah dibuat di atas
-        $check = $this->_getResepStatus($tgl_awal, $tgl_akhr, $jns_obat, $no_resep, $no_apotik);
-
-        // Jika proses ambil data gagal
-        if (!$check['status']) {
-            return $this->response->setJSON([
-                'status'  => false,
-                'message' => $check['message'] ?? 'Gagal mengecek status resep ke BPJS.'
-            ]);
-        }
-
-        // Ambil nilai BYVERRSP
-        $byverrsp = $check['byverrsp'];
-
-        // ================= 2. VALIDASI STATUS VERIFIKASI =================
-        // Jika BYVERRSP bukan '0', berarti sudah diverifikasi/diproses, tidak boleh dihapus
-        if ($byverrsp !== '0') {
-            return $this->response->setJSON([
-                'status'  => false,
-                'message' => "Resep tidak dapat dihapus karena status verifikasi sudah diproses (Status: $byverrsp).",
-                'csrfHash' => csrf_hash()
-            ]);
-        }
-
-        // ================= 3. PROSES HAPUS KE API BPJS =================
-        try {
-            $ResepModel = new \App\Models\ResepModel();
-            $userID     = session()->get('id');
-            
-            $targetUrl = base_url(
-                "bpjs/delete/del_hapusresep/{$no_resep}/{$no_apotik}/{$refasalsjp}/{$userID}"
-            );
-
-            $client = \Config\Services::curlrequest([
-                'timeout'     => 60,
-                'http_errors' => false,
-            ]);
-
-            $response = $client->get($targetUrl, [
-                'headers' => ['X-Internal-Request' => 'TRUE']
-            ]);
-
-            $body = trim($response->getBody());
-
-            // Handle Response (Sama seperti kode asli Anda)
-            if ($body === '' || $body === '""') {
-                $ResepModel->deleteMappingResepBPJS($no_resep, $no_apotik);
-                return $this->response->setJSON([
-                    'status'  => true,
-                    'message' => 'Resep ' . $no_resep . ' Berhasil di Hapus',
-                    'csrfHash' => csrf_hash()
-                ]);
-            }
-
-            $wrapper = json_decode($body, true);
-
-            if ($wrapper === '') {
-                return $this->response->setJSON([
-                    'status'  => true,
-                    'message' => 'Resep ' . $no_resep . ' Berhasil di Hapus',
-                    'csrfHash' => csrf_hash()
-                ]);
-            }
-
-            if (!is_array($wrapper)) {
-                return $this->response->setJSON([
-                    'status'  => false,
-                    'message' => 'Response BPJS tidak valid',
-                    'raw'     => $body
-                ]);
-            }
-
-            $bpjsJson = $wrapper['body'] ?? $wrapper;
-            $code     = $bpjsJson['metaData']['code'] ?? null;
-            $message  = $bpjsJson['metaData']['message'] ?? $bpjsJson['pesan'] ?? $bpjsJson['message'] ?? 'Respon server BPJS tidak dikenali';
-
-            if ($code !== '200') {
-                return $this->response->setJSON([
-                    'status'  => false,
-                    'message' => $message
-                ]);
-            }
-
-            return $this->response->setJSON([
-                'status'  => true,
-                'message' => $message
-            ]);
-
-        } catch (\Throwable $e) {
-            return $this->response->setJSON([
-                'status'  => false,
-                'message' => 'Kesalahan sistem: ' . $e->getMessage(),
-                'error'   => $e->getMessage()
-            ]);
-        }
-    }
-
     public function del_hapusresep()
     {
         $no_resep   = $this->request->getPost('no_resep');
@@ -766,6 +639,129 @@ class BpjsInsertController extends BaseController
             return $this->response->setJSON([
                 'status'  => true,
                 'message' => 'Resep ' . $no_resep . ' Berhasil di Hapus',
+                'csrfHash' => csrf_hash()
+            ]);
+
+        } catch (\Throwable $e) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Kesalahan sistem: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function del_itemobat()
+    {
+        $no_resep   = $this->request->getPost('no_resep');
+        $no_apotik  = $this->request->getPost('no_apotik');
+        $kodeobat   = $this->request->getPost('kodeobat');
+        $nmobat     = $this->request->getPost('nmobat');
+        $tipeobat   = 'N';
+        // $refasalsjp = $this->request->getPost('refasalsjp');
+        
+        // Parameter Tambahan untuk Validasi BYVERRSP
+        $tgl_awal   = $this->request->getPost('tgl_awal');
+        $tgl_akhr   = $this->request->getPost('tgl_akhr');
+        $jns_obat   = $this->request->getPost('jns_obat');
+
+        // ================= VALIDASI INPUT =================
+        if (!$no_resep || !$no_apotik || $kodeobat) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Parameter Resep tidak lengkap.']);
+        }
+        
+        if (!$tgl_awal || !$tgl_akhr) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Parameter Tgl Resep tidak lengkap.']);
+        }
+
+        
+        $check = $this->_getResepStatus($tgl_awal, $tgl_akhr, $jns_obat, $no_resep, $no_apotik);
+
+        if (!$check['status']) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => $check['message'] ?? 'Gagal mengecek status resep ke BPJS.'
+            ]);
+        }
+
+        // Jika BYVERRSP bukan '0', tolak penghapusan
+        if ($check['byverrsp'] !== '0') {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => "Obat tidak dapat dihapus karena status resep sudah diverifikasi (Status: {$check['byverrsp']}).",
+                'csrfHash' => csrf_hash()
+            ]);
+        }
+
+        // ================= 2. PROSES HAPUS KE API BPJS =================
+        try {
+            $ResepModel = new \App\Models\ResepModel();
+            $userID     = session()->get('id');
+            
+            $targetUrl = base_url(
+                "bpjs/delete/del_hapusobat/{$no_resep}/{$no_apotik}/{$kd_obat}/{$userID}/{$tipeobat}"
+            );
+
+            $client = \Config\Services::curlrequest([
+                'timeout'     => 60,
+                'http_errors' => false,
+            ]);
+
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE']
+            ]);
+
+            $body = trim($response->getBody());
+
+            // 1. Handle Jika Body Kosong (Sukses tapi tidak ada output)
+            if ($body === '' || $body === '""') {
+                // $ResepModel->deleteMappingResepBPJS($no_resep, $no_apotik, $alasan_hapus);
+                return $this->response->setJSON([
+                    'status'  => true,
+                    'message' => 'Obat ' . $nmobat . ' Berhasil di Hapus!',
+                    'csrfHash' => csrf_hash()
+                ]);
+            }
+
+            $wrapper = json_decode($body, true);
+
+            // 2. Handle Jika JSON tidak valid
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($wrapper)) {
+                 return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => 'Response JSON tidak valid.',
+                    'raw'     => $body
+                ]);
+            }
+
+            // 3. Parsing Data (Handle struktur Library vs Raw BPJS)
+            $bpjsJson = $wrapper['body'] ?? $wrapper;
+
+            // [PERBAIKAN UTAMA DI SINI]
+            // Cek 'status_code' (dari Library) ATAU 'metaData.code' (Raw BPJS) ATAU 'code' (Error Library)
+            $code = $bpjsJson['status_code'] 
+                 ?? $bpjsJson['metaData']['code'] 
+                 ?? $bpjsJson['code'] 
+                 ?? null;
+
+            $message = $bpjsJson['message'] 
+                    ?? $bpjsJson['metaData']['message'] 
+                    ?? 'Respon server tidak dikenali';
+
+            // 4. Validasi Kode
+            if ($code !== '200') {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => $message . " (Code: $code)"
+                ]);
+            }
+
+            // 5. Sukses
+            // Panggil mapping delete jika ada
+            // $ResepModel->deleteMappingResepBPJS($no_resep, $no_apotik, $alasan_hapus);
+
+            return $this->response->setJSON([
+                'status'  => true,
+                'message' => 'Obat ' . $nmobat . ' Berhasil di Hapus!',
                 'csrfHash' => csrf_hash()
             ]);
 

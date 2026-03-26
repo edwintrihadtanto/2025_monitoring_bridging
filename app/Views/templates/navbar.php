@@ -85,11 +85,11 @@
                                 <div class="user-img d-flex align-items-center">
                                     <div class="avatar avatar-md">
                                         <?php if (session()->get('genre') == 't'){ ?>
-                                            <img src="<?= base_url('public/img/iconL.png'); ?>">
+                                            <img src="<?= base_url('img/iconL.png'); ?>">
                                         <?php }else if (session()->get('genre') == 'f'){ ?>
-                                            <img src="<?= base_url('public/img/iconP.png'); ?>">
+                                            <img src="<?= base_url('img/iconP.png'); ?>">
                                         <?php }else{ ?>
-                                            <img src="<?= base_url('public/img/iconL.png'); ?>">
+                                            <img src="<?= base_url('img/iconL.png'); ?>">
                                         <?php } ?>
                                     </div>
                                 </div>
@@ -99,15 +99,14 @@
                             <li>
                                 <h6 class="dropdown-header">Hello, <?= session()->get('name') ?? '???' ?>!</h6>
                             </li>
-                            <li><a class="dropdown-item" href="<?= site_url('profile') ?>"><i class="icon-mid bi bi-person me-2"></i> My
-                                    Profile</a></li>
+                            <li><a class="dropdown-item" href="<?= site_url('profile') ?>"><i class="icon-mid bi bi-person me-2"></i> Profil Saya</a></li>
                             <li><a class="dropdown-item" href="<?= site_url('settings') ?>"><i class="icon-mid bi bi-gear me-2"></i>
-                                    Settings</a></li>
+                                    Pengaturan</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item no-ajax" href="<?= site_url('logout') ?>">
-                                <i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a>
+                                <i class="icon-mid bi bi-box-arrow-left me-2"></i> Keluar</a>
                             </li>
                         </ul>
                     </div>

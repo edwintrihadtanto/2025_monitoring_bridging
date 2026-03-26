@@ -6,13 +6,13 @@
     <title><?= isset($page_title) ? $page_title . ' - ' : '' ?><?php echo SITE_NAME; ?></title>
     
     <link rel="shortcut icon" href="" type="image/x-icon">
-    <link rel="shortcut icon" href="<?= base_url('public/img/rssmico.png') ?>" type="image/png">
-    <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/app.css'); ?>">
-    <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/app-dark.css'); ?>">
-    <link rel="stylesheet" crossorigin href="<?= base_url('public/assets/dist/assets/compiled/css/iconly.css'); ?>">
+    <link rel="shortcut icon" href="<?= base_url('img/rssmico.png') ?>" type="image/png">
+    <link rel="stylesheet" crossorigin href="<?= base_url('assets/dist/assets/compiled/css/app.css'); ?>">
+    <link rel="stylesheet" crossorigin href="<?= base_url('assets/dist/assets/compiled/css/app-dark.css'); ?>">
+    <link rel="stylesheet" crossorigin href="<?= base_url('assets/dist/assets/compiled/css/iconly.css'); ?>">
     <!-- PENTING: Pastikan CSS jQuery DataTables juga terpanggil -->
-    <link rel="stylesheet" href="<?= base_url('public/assets/dist/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('public/assets/dist/assets/extensions/sweetalert2/sweetalert2.min.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/dist/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/dist/assets/extensions/sweetalert2/sweetalert2.min.css') ?>">
     <style>
         /* --- PAKSA STYLE BOOTSTRAP 5 PAGINATION --- */
         /* Reset margin list pagination */
@@ -374,7 +374,7 @@
             z-index: 2;
         }
 
-        #btnToTop {
+        /*#btnToTop {
             position: fixed;
             bottom: 50px;
             right: 15px;
@@ -390,21 +390,39 @@
             justify-content: center;
 
             line-height: 1;
-        }
+        }*/
 
+        #btnToTop {
+            position: fixed;
+            bottom: 50px;
+            right: 15px;
+            z-index: 1050;
+            display: none;
+            width: 50px;
+            height: 50px;
+            padding: 0px 2px 5px 0px;
+            border-radius: 100%;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            border-block-color: #d6338400;
+        }
+        
         #btnToTop.show {
             display: flex;
         }
 
         #btnToTop:hover {
             transform: translateY(-3px);
-            background-color: #0ab0d1;
+            /*background-color: #1e1e2d5c;*/
+            color: #ffe8ba;
         }
 
         #btnToTop i {
             font-size: 1.2rem;
             line-height: 1;          /* 🔑 kunci ikon */
         }
+
         .dashboard-bpjs .dashboard-header{
             background:linear-gradient(90deg,#2563eb,#06b6d4);
             color:white;
@@ -467,7 +485,7 @@
     </style>
 </head>
 <body>
-    <script src="<?= base_url('public/assets/dist/assets/static/js/initTheme.js'); ?>"></script>
+    <script src="<?= base_url('assets/dist/assets/static/js/initTheme.js'); ?>"></script>
     <script>
         const BASE_URL = "<?= base_url() ?>";
         const LOADING_HTML = '<div class="text-center py-2 text-muted small"><div class="spinner-border spinner-border-sm"></div>Memuat detail obat...</div>';

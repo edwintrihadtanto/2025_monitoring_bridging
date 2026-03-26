@@ -451,7 +451,7 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    // public function hapusobat($sepapotek, $noresep, $kodeobat)
+    // public function hapusobat($no_resep, $no_apotik, $kd_obat, $userID, $tipeobat)
     public function hapusobat()
     {
         $userID     = '1';
@@ -462,6 +462,14 @@ class BpjsController extends BaseController
             'tipeobat'      => 'R.01' 
             //Jenis obat harus N atau R (khusus racik nama racikan harus sesuai ex:R.01)
         ]);
+
+        /*$payload = json_encode([
+            'nosepapotek'   => $no_apotik,
+            'noresep'       => $no_resep,
+            'kodeobat'      => $kd_obat,
+            'tipeobat'      => 'N' 
+        ]);*/
+
         $endpoint = '/pelayanan/obat/hapus';
         $result = $this->bpjsInsertService->request('DELETE', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);

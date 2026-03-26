@@ -12,7 +12,27 @@
         </div>
         <div class="sidebar-menu flex-grow-1 overflow-auto">
             <ul class="menu p-0">
-                <li class="sidebar-title mb-0">Menu</li>
+                <li class="sidebar-item has-sub m-0">
+                    <a href="#" class="sidebar-link no-ajax">
+                        <i class="bi bi-gear"></i>
+                        <span>Konfigurasi</span>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="<?= site_url('sidebar-user') ?>" class="submenu-link" data-page="user">User</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="<?= site_url('sidebar-modul') ?>" class="submenu-link" data-page="modul">Modul</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="<?= site_url('sidebar-group-modul') ?>" class="submenu-link" data-page="group-modul">Group Modul</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="<?= site_url('sidebar-modul-user') ?>" class="submenu-link" data-page="modul-user">Modul User</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-title mb-0 mt-0">Menu</li>
                 
                 <li class="sidebar-item m-0">
                     <a href="<?= site_url('dashboard') ?>" class='sidebar-link' data-page="dashboard">
@@ -96,7 +116,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="sidebar-title mb-0">Lain-Lain</li>
+                <li class="sidebar-title mb-0 mt-0">Lain-Lain</li>
                
                 <li class="sidebar-item m-0">
                     <a href="<?= site_url('pasien') ?>" class='sidebar-link' data-page="pasien">
@@ -121,13 +141,13 @@
         </div>
         <div class="sidebar-footer">
             <div class="theme-toggle d-flex gap-2 m-2 align-items-center justify-content-center">
-                <img src="<?= base_url('public/img/lightmode.png'); ?>" style="width:20px">
+                <img src="<?= base_url('img/lightmode.png'); ?>" style="width:20px">
 
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="toggle-dark" style="cursor:pointer">
                 </div>
 
-                <img src="<?= base_url('public/img/darkmode.png'); ?>" style="width:20px">
+                <img src="<?= base_url('img/darkmode.png'); ?>" style="width:20px">
             </div>
         </div>
     </div>

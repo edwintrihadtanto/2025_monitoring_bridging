@@ -34,11 +34,7 @@
                         <h3>128</h3>
                         <small>Hari ini</small>
                     </div>
-
-                    <div class="kpi-icon bg-primary">
-                        <i class="bi bi-receipt"></i>
-                    </div>
-
+                    <a href="" class="btn icon btn-lg btn-primary"><i class="bi bi-receipt"></i></a>
                 </div>
             </div>
         </div>
@@ -53,11 +49,7 @@
                         <h3 class="text-success">120</h3>
                         <small>Bridging sukses</small>
                     </div>
-
-                    <div class="kpi-icon bg-success">
-                        <i class="bi bi-check-circle"></i>
-                    </div>
-
+                    <a href="" class="btn icon btn-lg btn-success"><i class="bi bi-check-circle"></i></a>
                 </div>
             </div>
         </div>
@@ -72,11 +64,7 @@
                         <h3 class="text-danger">5</h3>
                         <small>Error API</small>
                     </div>
-
-                    <div class="kpi-icon bg-danger">
-                        <i class="bi bi-x-circle"></i>
-                    </div>
-
+                    <a href="" class="btn icon btn-lg btn-danger"><i class="bi bi-x-circle"></i></a>
                 </div>
             </div>
         </div>
@@ -91,11 +79,7 @@
                         <h3 class="text-warning">3</h3>
                         <small>Menunggu proses</small>
                     </div>
-
-                    <div class="kpi-icon bg-warning">
-                        <i class="bi bi-clock"></i>
-                    </div>
-
+                    <a href="" class="btn icon btn-lg btn-warning"><i class="bi bi-clock"></i></a>
                 </div>
             </div>
         </div>

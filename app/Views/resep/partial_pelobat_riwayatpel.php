@@ -59,14 +59,14 @@ foreach ($history as $row) {
                     $no_apotik  = $obat['nosjp'] ?? ''; 
                 ?>
 
-                <form action="<?= base_url('del_itemobat') ?>" 
-                      method="POST" 
-                      class="d-flex align-items-stretch gap-1 mb-2"
-                      onsubmit="return window.handleDeleteItemObatSubmit(event, this)">
+                <form id="DeleteItemObat" action="<?= site_url('res/del_itemobat') ?>" 
+                      method="POST" class="d-flex align-items-stretch gap-1 mb-2">
 
                     <?= csrf_field() ?>
                     <input type="hidden" name="no_resep" value="<?= esc($no_resep) ?>">
                     <input type="hidden" name="no_apotik" value="<?= esc($no_apotik) ?>">
+                    <input type="hidden" name="kodeobat" value="<?= esc($obat['kodeobat']) ?>">
+                    <input type="hidden" name="nmobat" value="<?= esc($obat['namaobat']) ?>">
                     <input type="hidden" name="tgl_awal" value="<?= date('Y-m-d', strtotime($tgl)) ?>">
                     <input type="hidden" name="tgl_akhr" value="<?= date('Y-m-d', strtotime($tgl)) ?>">
                     <input type="hidden" name="jns_obat" value="0"> 
@@ -106,9 +106,8 @@ foreach ($history as $row) {
 
                     </div>
 
-                    <!-- Tombol Hapus (Di luar div border, sebelah kanan) -->
                     <div class="d-flex align-items-center">
-                        <button type="submit" class="btn btn-outline-danger btn-sm h-100 d-flex align-items-center" title="Hapus Resep">
+                        <button type="submit" class="btn btn-outline-danger btn-sm h-100 d-flex align-items-center" title="Hapus Obat <?= esc($obat['namaobat']) ?>" data-bs-toggle="tooltip">
                             <i class="bi bi-trash"></i>
                         </button>
                     </div>

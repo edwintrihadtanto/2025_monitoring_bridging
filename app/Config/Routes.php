@@ -61,8 +61,8 @@ use CodeIgniter\Router\RouteCollection;
         });
 
         $routes->group('delete', static function ($routes) {
-            $routes->get('del_pelayananobat', 'BpjsController::hapusobat');
             $routes->get('del_hapusresep/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::del_hapusresep/$1/$2/$3/$4');
+            $routes->get('del_hapusobat/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::hapusobat/$1/$2/$3/$4/$5');
         });
 
         // http://localhost/2025_monitoring_bridging/bpjs/listpelayananobat_perSEP/1801R0010419V000001
@@ -117,7 +117,7 @@ use CodeIgniter\Router\RouteCollection;
     $routes->post('res/getDetailObat', 'BpjsInsertController::getDetailObat', ['filter' => 'auth']);
 
     $routes->post('res/del_hapusresep', 'BpjsInsertController::del_hapusresep', ['filter' => 'auth']);
-    $routes->post('res/prosesObat', 'BpjsInsertController::prosesObat', ['filter' => 'auth']);
+    $routes->post('res/del_itemobat', 'BpjsInsertController::del_itemobat', ['filter' => 'auth']);
 
  });
 

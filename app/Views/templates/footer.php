@@ -13,33 +13,34 @@
             </footer>
 
             <button id="btnToTop"
-                    class="btn btn-info rgb-border"
+                    class="btn"
                     title="Kembali ke atas"
                     aria-label="Back to top">
-                <i class="bi bi-arrow-up"></i>
+                <!-- <i class="bi bi-arrow-up"></i> -->
+                <img src="rocket.gif" alt="Kembali ke atas" width="140%" height="160%" />
             </button>
         </div>
         <!-- END MAIN -->
 
     </div>
     
-    <script src="<?= base_url('public/assets/dist/assets/static/js/components/dark.js'); ?>"></script>
-    <script src="<?= base_url('public/assets/dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js'); ?>"></script>
-    <script src="<?= base_url('public/assets/dist/assets/compiled/js/app.js'); ?> "></script>
+    <script src="<?= base_url('assets/dist/assets/static/js/components/dark.js'); ?>"></script>
+    <script src="<?= base_url('assets/dist/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js'); ?>"></script>
+    <script src="<?= base_url('assets/dist/assets/compiled/js/app.js'); ?> "></script>
     
-    <script src="<?= base_url('public/assets/dist/assets/extensions/jquery/jquery.min.js') ?> "></script>
-    <script src="<?= base_url('public/assets/dist/assets/extensions/datatables.net/js/jquery.dataTables.min.js') ?> "></script>
-    <script src="<?= base_url('public/assets/dist/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js')?> "></script>
-    <script src="<?= base_url('public/assets/dist/assets/extensions/sweetalert2/sweetalert2.min.js')?>"></script>
-    <script src="<?= base_url('public/assets/dist/assets/extensions/sweetalert2/sweetalert2.js')?>"></script>
-    <script src="<?= base_url('public/assets/dist/assets/extensions/apexcharts/apexcharts.min.js')?>"></script>
-    <script src="<?= base_url('public/assets/dist/assets/extensions/apexcharts/apexcharts.js')?>"></script>
-    <script src="<?= base_url('public/js/page-dashboard.js') ?>"></script>
-    <script src="<?= base_url('public/js/page-pasien.js') ?>"></script>
-    <script src="<?= base_url('public/js/page-sep.js') ?>"></script>
-    <script src="<?= base_url('public/js/page-monitoring.js') ?>"></script>
-    <script src="<?= base_url('public/js/page-insert.js') ?>"></script>
-    <script src="<?= base_url('public/js/page-simrs.js') ?>"></script>
+    <script src="<?= base_url('assets/dist/assets/extensions/jquery/jquery.min.js') ?> "></script>
+    <script src="<?= base_url('assets/dist/assets/extensions/datatables.net/js/jquery.dataTables.min.js') ?> "></script>
+    <script src="<?= base_url('assets/dist/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js')?> "></script>
+    <script src="<?= base_url('assets/dist/assets/extensions/sweetalert2/sweetalert2.min.js')?>"></script>
+    <script src="<?= base_url('assets/dist/assets/extensions/sweetalert2/sweetalert2.js')?>"></script>
+    <script src="<?= base_url('assets/dist/assets/extensions/apexcharts/apexcharts.min.js')?>"></script>
+    <script src="<?= base_url('assets/dist/assets/extensions/apexcharts/apexcharts.js')?>"></script>
+    <script src="<?= base_url('js/page-dashboard.js') ?>"></script>
+    <script src="<?= base_url('js/page-pasien.js') ?>"></script>
+    <script src="<?= base_url('js/page-sep.js') ?>"></script>
+    <script src="<?= base_url('js/page-monitoring.js') ?>"></script>
+    <script src="<?= base_url('js/page-insert.js') ?>"></script>
+    <script src="<?= base_url('js/page-simrs.js') ?>"></script>
 
     <script>
         const Toast = Swal.mixin({
@@ -102,7 +103,7 @@
             const mainContent = document.getElementById('main-content');
             if(mainContent) {
                 // mainContent.innerHTML = '<div class="text-center p-5"><div class="spinner-grow text-info" role="status"></div><h5>sedang memuat halaman...</h5></div>';
-                mainContent.innerHTML = '<div class="text-center p-5"><img src="<?= base_url('public/loading.svg'); ?>" class="me-4" style="width: 3rem" alt="audio"><h6>sedang memuat halaman...</h6></div>';
+                mainContent.innerHTML = '<div class="text-center p-5"><img src="<?= base_url('loading.svg'); ?>" class="me-4" style="width: 3rem" alt="audio"><h6>sedang memuat halaman...</h6></div>';
             }
 
             // DESTROY halaman aktif (jika ada)
@@ -313,6 +314,7 @@
             if (pelObatRiwayat) {
                 if (typeof initRiwayatPelyananObatPage === 'function') {
                     initRiwayatPelyananObatPage();
+
                 }
             }
 
@@ -481,6 +483,10 @@
                 }else if (form.id === 'DeleteResepForm') {
                     if (typeof handleDeleteResepSubmit === 'function') {
                         handleDeleteResepSubmit(e, form);
+                    }
+                }else if (form.id === 'DeleteItemObat') {
+                    if (typeof handleDeleteItemObatSubmit === 'function') {
+                        handleDeleteItemObatSubmit(e, form);
                     }
                 }else if (form.id === 'pencarianListPelyananObatForm') {
                     if (typeof handleListPelyananObatSubmit === 'function') {
