@@ -26,9 +26,11 @@ use CodeIgniter\Router\RouteCollection;
         $routes->get('peserta/nik/(:num)', 'BpjsController::getPesertaByNik/$1');
         // END API VCLAIM
         $routes->get('getSEPPasien/(:segment)', 'BpjsController::searchingSEPPasien/$1');
-        $routes->get('createSEPBPJS', 'BpjsController::createSEPBPJS'); //AWAS VCLAIM 
+        $routes->get('createSEPBPJS_JALAN', 'BpjsController::createSEPBPJS_JALAN'); //AWAS VCLAIM 
+        $routes->get('createSEPBPJS_INAP', 'BpjsController::createSEPBPJS_INAP'); //AWAS VCLAIM 
         $routes->get('deleteSEPBPJS', 'BpjsController::delSEP');        //AWAS VCLAIM
         $routes->get('createRUJUKAN', 'BpjsController::createRUJUKAN'); //AWAS VCLAIM 
+        $routes->get('buatSPRI', 'BpjsController::buatSPRI'); //AWAS VCLAIM 
         $routes->get('getRujukan/(:segment)', 'BpjsController::getRujukan/$1'); //AWAS VCLAIM 
 
         $routes->group('referensi', static function ($routes) {
@@ -63,6 +65,7 @@ use CodeIgniter\Router\RouteCollection;
         $routes->group('delete', static function ($routes) {
             $routes->get('del_hapusresep/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::del_hapusresep/$1/$2/$3/$4');
             $routes->get('del_hapusobat/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::hapusobat/$1/$2/$3/$4/$5');
+            $routes->get('hapusobatX', 'BpjsController::hapusobatX');
         });
 
         // http://localhost/2025_monitoring_bridging/bpjs/listpelayananobat_perSEP/1801R0010419V000001
@@ -114,7 +117,7 @@ use CodeIgniter\Router\RouteCollection;
 
     $routes->get('sidebar-ResepSIMRS', 'BpjsInsertController::viewresepsimrs', ['filter' => 'auth']);
     $routes->post('res/search_resepSIMRS', 'BpjsInsertController::getResepSIMRS', ['filter' => 'auth']);
-    $routes->post('res/getDetailObat', 'BpjsInsertController::getDetailObat', ['filter' => 'auth']);
+    $routes->post('res/getDetailObat', 'BpjsInsertController::getDetailObatSIMRS', ['filter' => 'auth']);
 
     $routes->post('res/del_hapusresep', 'BpjsInsertController::del_hapusresep', ['filter' => 'auth']);
     $routes->post('res/del_itemobat', 'BpjsInsertController::del_itemobat', ['filter' => 'auth']);

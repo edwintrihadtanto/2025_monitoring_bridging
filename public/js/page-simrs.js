@@ -330,6 +330,7 @@ function handleProsesObatClick(e) {
             kd_dokter : resepItem.dataset.kd_dokter,
             iterasi   : iterasi,
             kdjnsobat : kdJnsObat,
+            kdmodulresep : document.querySelector('input[name="option_radio"]:checked')?.value,
             detailobat: detail
         }];
 
@@ -375,6 +376,7 @@ function handleProsesObatClick(e) {
             kd_dokter : resepItem.dataset.kd_dokter,
             iterasi   : iterasi,
             kdjnsobat : kdJnsObat,
+            kdmodulresep : document.querySelector('input[name="option_radio"]:checked')?.value,
             detailobat: detail
         });
     });

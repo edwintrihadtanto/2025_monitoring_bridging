@@ -42,13 +42,14 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
     
-    public function createSEPBPJS()
+    //JALAN/IGD
+    public function createSEPBPJS_JALAN()
     {
         $userID     = '12345';
         $payload    = json_encode([
                     "request" => [
                         "t_sep" => [
-                            "noKartu"      => "0002045623645",
+                            "noKartu"      => "0002056469703",
                             "tglSep"       => date('Y-m-d'),
                             "ppkPelayanan" => $this->ppkSoedono,
                             "jnsPelayanan" => "2", // 1=RANAP, 2=RAJAL
@@ -60,7 +61,7 @@ class BpjsController extends BaseController
                                 "penanggungJawab" => ""
                             ],
 
-                            "noMR" => '1-22-33-44-5',
+                            "noMR" => '0-00-00-04',
 
                             "rujukan" => [
                                 "asalRujukan" => "2",
@@ -125,6 +126,90 @@ class BpjsController extends BaseController
         $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
+    //INAP
+    public function createSEPBPJS_INAP()
+    {
+        $userID     = '12345';
+        $payload    = json_encode([
+                    "request" => [
+                        "t_sep" => [
+                            "noKartu"      => "0002056469703",
+                            "tglSep"       => date('Y-m-d'),
+                            "ppkPelayanan" => $this->ppkSoedono,
+                            "jnsPelayanan" => "1", // 1=RANAP, 2=RAJAL
+
+                            "klsRawat" => [
+                                "klsRawatHak"  => "2",
+                                "klsRawatNaik" => "",
+                                "pembiayaan"   => "",
+                                "penanggungJawab" => ""
+                            ],
+
+                            "noMR" => '0-00-00-04',
+
+                            "rujukan" => [
+                                "asalRujukan" => "2",
+                                "tglRujukan"  => date('Y-m-d'),
+                                "noRujukan"   => "1308R0010326V000039", //INI PENTING SESUAI SEP AWAL IGD
+                                "ppkRujukan"  => $this->ppkSoedono
+                            ],
+
+                            "catatan" => "SJP RWI",
+                            "diagAwal" => "I10",
+
+                            "poli" => [
+                                "tujuan"    => "",
+                                "eksekutif" => "0"
+                            ],
+
+                            "cob" => [
+                                "cob" => "0"
+                            ],
+
+                            "katarak" => [
+                                "katarak" => "0"
+                            ],
+
+                            "jaminan" => [
+                                "lakaLantas" => "0",
+                                "noLP" => "",
+                                "penjamin" => [
+                                    "tglKejadian" => "",
+                                    "keterangan"  => "",
+                                    "suplesi" => [
+                                        "suplesi" => "0",
+                                        "noSepSuplesi" => "",
+                                        "lokasiLaka" => [
+                                            "kdPropinsi"  => "",
+                                            "kdKabupaten" => "",
+                                            "kdKecamatan" => ""
+                                        ]
+                                    ]
+                                ]
+                            ],
+
+                            // ===== FIELD BARU =====
+                            "tujuanKunj" => "0",
+                            "flagProcedure" => "",
+                            "kdPenunjang" => "",
+                            "assesmentPel" => "",
+
+                            "skdp" => [
+                                "noSurat"  => "1308R0010326K000002", //INI PENTING SESUAI BUATSPRI
+                                "kodeDPJP" => "30882"
+                            ],
+
+                            "dpjpLayan" => "", // wajib jika RAJAL
+                            "noTelp" => "081111111101",
+                            "user"   => "Coba Web Service Farmasi"
+                        ]
+                    ]
+                ]);
+        
+        $endpoint = '/SEP/2.0/insert';        
+        $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
     
     public function createRUJUKAN()
     {
@@ -132,21 +217,38 @@ class BpjsController extends BaseController
         $payload    = json_encode([
                     "request" => [
                         "t_rujukan" => [
-                            "noSep"      => "1308R0010326V000020",
+                            "noSep"      => "1308R0010326V000038",
                             "tglRujukan"       => date('Y-m-d'),
                             "tglRencanaKunjungan" => date('Y-m-d'),
-                            "ppkDirujuk" => '0199R004', 
-                            "jnsPelayanan" => "2", 
-                            "catatan" => "tes YA", 
+                            "ppkDirujuk" => $this->ppkSoedono, 
+                            "jnsPelayanan" => "1", 
+                            "catatan" => "spri tes", 
                             "diagRujukan" => "I10", 
-                            "tipeRujukan" => "2", //{0->Penuh, 1->Partial, 2->balik PRB}
-                            "poliRujukan" => "", //{kosong untuk tipe rujukan 2, harus diisi jika 0 atau 1}
+                            "tipeRujukan" => "0", //{0->Penuh, 1->Partial, 2->balik PRB}
+                            "poliRujukan" => "iccu", //{kosong untuk tipe rujukan 2, harus diisi jika 0 atau 1}
                             "user"   => "Coba Web Service Farmasi"
                         ]
                     ]
                 ]);
         
         $endpoint = '/Rujukan/2.0/insert';        
+        $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
+
+    public function buatSPRI(){
+        $userID     = '12345';
+        $payload    =   json_encode([
+                            "request" => [
+                                "noKartu"      => "0002056469703",
+                                "kodeDokter"       => "30882",
+                                "poliKontrol" => "BED",
+                                "tglRencanaKontrol" => date('Y-m-d'),
+                                "user"   => "Coba Web Service Farmasi"
+                            ]
+                        ]);
+        
+        $endpoint = '/RencanaKontrol/InsertSPRI';        
         $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
@@ -353,10 +455,10 @@ class BpjsController extends BaseController
     {
         $userID = '1';
         $payload = json_encode([
-            'NOSJP'         => '0216A01603260000015',
-            'NORESEP'       => '00014',
-            'KDOBT'         => '14250804928',
-            'NMOBAT'        => 'Amlodipin 10 SK tab 10 mg',
+            'NOSJP'         => '0216A01603260000018',
+            'NORESEP'       => '00003',
+            'KDOBT'         => '14250800912',
+            'NMOBAT'        => 'Mesalazine 250 SK tab 250 mg',
             'SIGNA1OBT'     => '2',
             'SIGNA2OBT'     => '1',
             'JMLOBT'        => 10,
@@ -432,18 +534,22 @@ class BpjsController extends BaseController
         "code":"404",
         "message":"Unauthorized! You are not registered for this service!"
     }*/
+
+    // public function updatestokobat($kd_obat, $qty)
     public function updatestokobat()
     {
         $userID = '1';
         $payload = json_encode([
             'KDOBT'   => '14250805250',
-            'STOK'     => '100',
+            'STOK'    => '100',
         ]);
 
-       /* $payload = json_encode([
-            'KDOBAT'   => '14250805250',
-            'STOK'     => 100,
-        ]);*/
+        /* 
+        $payload = json_encode([
+            'KDOBAT'   => $kd_obat,
+            'STOK'     => $qty,
+        ]);
+        */
 
         $endpoint = '/UpdateStokObat/updatestok';
         $result = $this->bpjsInsertService->request('POST', $endpoint, $payload, $userID);
@@ -451,24 +557,23 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    // public function hapusobat($no_resep, $no_apotik, $kd_obat, $userID, $tipeobat)
-    public function hapusobat()
+    public function hapusobat($no_resep, $no_apotik, $kd_obat, $userID, $tipeobat)
+    // public function hapusobatX()
     {
-        $userID     = '1';
-        $payload = json_encode([
-            'nosepapotek'   => '0038A07903260000010',
-            'noresep'       => '52035',
-            'kodeobat'      => '02250804925',
-            'tipeobat'      => 'R.01' 
-            //Jenis obat harus N atau R (khusus racik nama racikan harus sesuai ex:R.01)
-        ]);
+        // $userID     = '1';
+        // $payload = json_encode([
+        //     'nosepapotek'   => '0216A01603260000018',
+        //     'noresep'       => '00003',
+        //     'kodeobat'      => '14250800912',
+        //     'tipeobat'      => 'N' //Jenis obat harus N atau R (khusus racik nama racikan harus sesuai ex:R.01)            
+        // ]);
 
-        /*$payload = json_encode([
+        $payload = json_encode([
             'nosepapotek'   => $no_apotik,
             'noresep'       => $no_resep,
             'kodeobat'      => $kd_obat,
-            'tipeobat'      => 'N' 
-        ]);*/
+            'tipeobat'      => $tipeobat
+        ]);
 
         $endpoint = '/pelayanan/obat/hapus';
         $result = $this->bpjsInsertService->request('DELETE', $endpoint, $payload, $userID);

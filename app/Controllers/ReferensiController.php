@@ -254,7 +254,7 @@ class ReferensiController extends BaseController
         }
     }
 
-    public function search_dpho()
+    public function search_dphoLAMA()
     {
         try {
             $baseUrl = base_url();
@@ -312,6 +312,68 @@ class ReferensiController extends BaseController
             return $this->response->setJSON([
                 'status' => false,
                 'message' => 'Gagal terhubung ke API BPJS: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function search_dpho()
+    {
+        try {
+            // PERBAIKAN: Gunakan site_url() agar mengikuti konfigurasi index.php dan path,
+            // atau hardcode jika diperlukan.
+            $targetUrl = site_url('bpjs/referensi/getdpho'); 
+            
+            // Jika site_url() pun masih bermasalah, gunakan hardcode manual:
+            // $targetUrl = "http://192.168.0.98/monitoring/public/bpjs/referensi/getdpho";
+
+            $client = Services::curlrequest();
+            
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE'],
+                'timeout' => 65,
+                // PERBAIKAN PENTING: Ikuti redirect secara otomatis
+                'allow_redirects' => true 
+            ]);
+
+            $wrapper = json_decode($response->getBody(), true);
+            
+            // Cek jika json_decode gagal (kemungkinan masih error HTML)
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                 return $this->response->setJSON([
+                    'status' => false,
+                    'message' => 'Gagal parsing JSON. Respon server: ' . $response->getBody()
+                ]);
+            }
+
+            // ... Lanjutkan logika pemrosesan data seperti sebelumnya ...
+            $statusResult = false;
+            $message = '';
+            $htmlResult = '';
+
+            if (isset($wrapper['status_code']) && $wrapper['status_code'] == "200") {
+                $bpjsBody = $wrapper['body'] ?? [];
+
+                if (isset($bpjsBody['response']['list']) && !empty($bpjsBody['response']['list'])) {
+                    $statusResult = true;
+                    $dphoList = $bpjsBody['response']['list'];
+                    $htmlResult = view('referensi/partial_dpho_result', ['dphoList' => $dphoList]);
+                } else {
+                    $message = 'Data DPHO kosong.';
+                }
+            } else {
+                $message = $wrapper['body']['metaData']['message'] ?? 'Error tidak diketahui.';
+            }
+
+            return $this->response->setJSON([
+                'status' => $statusResult,
+                'message' => $message,
+                'html' => $htmlResult
+            ]);
+
+        } catch (\Exception $e) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'Gagal terhubung: ' . $e->getMessage()
             ]);
         }
     }
@@ -396,7 +458,8 @@ class ReferensiController extends BaseController
     {
         try {
             $baseUrl = base_url();
-            $targetUrl = $baseUrl . 'bpjs/referensi/getspesialistik/';
+            // $targetUrl = $baseUrl . 'bpjs/referensi/getspesialistik/';
+            $targetUrl = site_url('bpjs/referensi/getspesialistik'); 
             
             $client = Services::curlrequest();
             $response = $client->get($targetUrl, [

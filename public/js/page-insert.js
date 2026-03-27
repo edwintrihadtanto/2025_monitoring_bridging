@@ -320,77 +320,6 @@ function initListResepPage() {
 
         }
     };
-
-    window.handleDeleteItemObatSubmit = async function(e, form){
-
-        e.preventDefault();
-        
-        const konfirmasi = await Swal.fire({
-            title: "Hapus item obat?",
-            text: "Data tidak bisa dikembalikan.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Ya, hapus",
-            cancelButtonText: "Batal"
-        });
-
-        if(!konfirmasi.isConfirmed) return;
-
-        const btn = form.querySelector("button");
-        const formData = new FormData(form);
-
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
-
-        try{
-
-            const res = await fetch(form.action,{
-                method:'POST',
-                body:formData,
-                headers:{'X-Requested-With':'XMLHttpRequest'}
-            });
-
-            const text = await res.text();
-            const data = JSON.parse(text);
-
-            btn.disabled=false;
-            btn.innerHTML='<i class="bi bi-trash"></i>';
-
-            if(!data.status){
-                throw data.message;
-            }
-
-            if(data.csrfHash){
-                document.querySelectorAll('input[name="csrf_test_name"]')
-                    .forEach(el=>el.value=data.csrfHash);
-            }
-
-            Swal.fire({
-                icon:'success',
-                title:'Berhasil',
-                text:data.message,
-                timer:1400,
-                showConfirmButton:false
-            });
-
-        }
-        catch(err){
-
-            console.error(err);
-
-            btn.disabled=false;
-            btn.innerHTML='<i class="bi bi-trash"></i>';
-
-            Swal.fire({
-                icon:'error',
-                title:'Error',
-                text: err || "Terjadi kesalahan sistem"
-            });
-
-        }
-
-    };
-
 }
 
 function initListPelyananObatPage() {
@@ -481,4 +410,74 @@ function initRiwayatPelyananObatPage() {
             alertContainer.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan sistem.</div>`;
         });
     }
+
+    window.handleDeleteItemObatSubmit = async function(e, form){
+
+        e.preventDefault();
+        
+        const konfirmasi = await Swal.fire({
+            title: "Hapus item obat?",
+            text: "Data tidak bisa dikembalikan.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, hapus",
+            cancelButtonText: "Batal"
+        });
+
+        if(!konfirmasi.isConfirmed) return;
+
+        const btn = form.querySelector("button");
+        const formData = new FormData(form);
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+        try{
+
+            const res = await fetch(form.action,{
+                method:'POST',
+                body:formData,
+                headers:{'X-Requested-With':'XMLHttpRequest'}
+            });
+
+            const text = await res.text();
+            const data = JSON.parse(text);
+
+            btn.disabled=false;
+            btn.innerHTML='<i class="bi bi-trash"></i>';
+
+            if(!data.status){
+                throw data.message;
+            }
+
+            if(data.csrfHash){
+                document.querySelectorAll('input[name="csrf_test_name"]')
+                    .forEach(el=>el.value=data.csrfHash);
+            }
+
+            Swal.fire({
+                icon:'success',
+                title:'Berhasil',
+                text:data.message,
+                timer:1400,
+                showConfirmButton:false
+            });
+
+        }
+        catch(err){
+
+            console.error(err);
+
+            btn.disabled=false;
+            btn.innerHTML='<i class="bi bi-trash"></i>';
+
+            Swal.fire({
+                icon:'error',
+                title:'Error',
+                text: err || "Terjadi kesalahan sistem"
+            });
+
+        }
+
+    };
 }

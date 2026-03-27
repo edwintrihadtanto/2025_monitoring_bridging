@@ -48,7 +48,7 @@ class BpjsFarmasi_InsertService
         ];
     }
    
-    protected function decrypt(string $response, string $tStamp): array
+    /*protected function decrypt(string $response, string $tStamp): array
     {
         $key  = $this->consId . $this->secretKey . $tStamp;
         $hash = hex2bin(hash('sha256', $key));
@@ -168,5 +168,136 @@ class BpjsFarmasi_InsertService
         //     'data' => $this->decrypt($json->response, $tStamp),
         //     'message' => $json->metaData->message
         // ];
+    }*/
+
+    protected function decrypt(string $response, string $tStamp)
+    {
+        $key  = $this->consId . $this->secretKey . $tStamp;
+        $hash = hex2bin(hash('sha256', $key));
+        $iv   = substr($hash, 0, 16);
+
+        $decrypt = openssl_decrypt(
+            base64_decode($response),
+            'AES-256-CBC',
+            $hash,
+            OPENSSL_RAW_DATA,
+            $iv
+        );
+
+        // Jika decrypt gagal (hasil false), kembalikan null
+        if ($decrypt === false) {
+            return null;
+        }
+
+        $decompressed = LZString::decompressFromEncodedURIComponent($decrypt);
+
+        // Jika decompress gagal, kembalikan null
+        if (empty($decompressed)) {
+            return null;
+        }
+
+        $result = json_decode($decompressed, true);
+
+        // Kembalikan array jika valid, jika tidak null
+        return is_array($result) ? $result : null;
+    }
+
+    public function request(
+        string $method,
+        string $endpoint,
+        string $payload = null,
+        string $userID = null
+    ): array {
+        $method = strtoupper($method);
+        $tStamp = $this->timestamp();
+        $url    = rtrim($this->baseUrl, '/') . $endpoint;
+
+        $headers = $this->headers($method, $tStamp);
+
+        // === LOG REQUEST ===
+        $logData = [
+            'endpoint'       => $url,
+            'method'         => $method,
+            'request_header' => json_encode($headers),
+            'request_body'   => $payload ?? '-',
+            'iduser'         => $userID ?? '999'
+        ];
+
+        $opts = [
+            'http' => [
+                'method'  => $method,
+                'header'  => $headers,
+                'content' => $payload ?? '',
+                'timeout' => 60, // Naikkan timeout
+            ],
+            'ssl' => [
+                'verify_peer'      => false,
+                'verify_peer_name' => false,
+            ],
+        ];
+
+        $context = stream_context_create($opts);
+        $rawBody = @file_get_contents($url, false, $context);
+
+        // === LOG RESPONSE RAW ===
+        $logData['response_body'] = $rawBody ?: 'NO RESPONSE';
+
+        if ($rawBody === false) {
+            $logData['response_code']    = 500;
+            $logData['response_message'] = 'Connection failed';
+            log_to_db($logData);
+            return ['status' => 'error', 'message' => 'Gagal koneksi ke BPJS'];
+        }
+
+        $json = json_decode($rawBody);
+
+        if (!isset($json->metaData)) {
+            $logData['response_code']    = 500;
+            $logData['response_message'] = 'Invalid response';
+            log_to_db($logData);
+            return ['status' => 'error', 'raw' => $rawBody];
+        }
+
+        // === LOG METADATA ===
+        $logData['response_code']    = $json->metaData->code;
+        $logData['response_message'] = $json->metaData->message;
+        log_to_db($logData);
+
+        if ($json->metaData->code != 200) {
+            return [
+                'status'  => 'gagal',
+                'code'    => $json->metaData->code,
+                'message' => $json->metaData->message
+            ];
+        }
+
+        $decryptedData = [];
+
+        // === LOGIKA PEMBERSIHAN RESPONSE YANG SUDAH AMAN ===
+        if (isset($json->response)) {
+            if (is_string($json->response) && !empty($json->response)) {
+                // 1. Coba decrypt dulu (untuk kasus POST/GET yang terenkripsi)
+                $tempDecrypt = $this->decrypt($json->response, $tStamp);
+
+                if (!empty($tempDecrypt) && is_array($tempDecrypt)) {
+                    // Jika berhasil decrypt, ambil hasilnya
+                    $decryptedData = $tempDecrypt;
+                } else {
+                    // 2. Jika gagal decrypt, artinya ini string biasa (Kasus DELETE/Hapus)
+                    // Kita bungkus jadi array agar konsisten
+                    $decryptedData = ['message' => $json->response]; 
+                }
+            } 
+            // Jika response sudah berupa object/array (jarang terjadi di API baru, tapi untuk jaga-jaga)
+            elseif (is_object($json->response) || is_array($json->response)) {
+                $decryptedData = (array) $json->response;
+            }
+        }
+
+        return [
+            'status_code' => $json->metaData->code,
+            'data'        => $decryptedData,
+            'message'     => $json->metaData->message
+        ];
     }
 }
