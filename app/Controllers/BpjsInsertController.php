@@ -205,7 +205,7 @@ class BpjsInsertController extends BaseController
         }
     }
 
-    public function kirimresep()
+    public function kirimresep_BERHASIL()
     {
         $request = $this->request->getJSON(true);
         if (!$request) {
@@ -223,6 +223,8 @@ class BpjsInsertController extends BaseController
         $kd_dokter  = $request['kd_dokter'] ?? null;
         $kdjnsobat  = $request['kdjnsobat'] ?? null;
         $detailObat = $request['detailobat'] ?? [];
+        
+        $kdmodulresep  = $request['kdmodulresep'] ?? null;
 
         // ... (Validasi input sama seperti kode Anda) ...
         if (!$no_out || !$tgl_out || !$kdpasien || !$noresep || !$refasalsjp || !$kd_dokter || !$kd_unit || empty($detailObat)) {
@@ -235,14 +237,19 @@ class BpjsInsertController extends BaseController
             $tglpelayanan   = $tgl_out;
             $userID         = session()->get('id');
 
-            // ... (Proses Mapping Unit & Dokter sama seperti kode Anda) ...
-            $poliData = $ResepModel->getMappingUnitBPJS($kd_unit);
-            if (!$poliData) return $this->response->setJSON(['status' => false, 'message' => 'Mapping Unit BPJS tidak ditemukan!']);
-            $poli = $poliData[0]['unit_bpjs'];
+            if ($kdmodulresep !== '1'){
+                $poliData = $ResepModel->getMappingUnitBPJS($kd_unit);
+                if (!$poliData) return $this->response->setJSON(['status' => false, 'message' => 'Mapping Unit BPJS tidak ditemukan!']);
+                $poli = $poliData[0]['unit_bpjs'];
 
-            $dokterBPJS = $ResepModel->getMappingDokterBPJS($kd_dokter);
-            if (!$dokterBPJS) return $this->response->setJSON(['status' => false, 'message' => 'Mapping Dokter BPJS tidak ditemukan!']);
-            $kd_dokterbpjs = $dokterBPJS[0]['kd_dokter_bpjs'];
+                $dokterBPJS = $ResepModel->getMappingDokterBPJS($kd_dokter);
+                if (!$dokterBPJS) return $this->response->setJSON(['status' => false, 'message' => 'Mapping Dokter BPJS tidak ditemukan!']);
+                $kd_dokterbpjs = $dokterBPJS[0]['kd_dokter_bpjs'];
+
+            }else{
+                $poli = 'BED';
+                $kd_dokterbpjs = '30882';
+            }
 
             // ... (Proses Generate/Check No Resep BPJS) ...
             $mappingResep = $ResepModel->getMappingResepBPJS($noresep, $tglresep);
@@ -283,6 +290,7 @@ class BpjsInsertController extends BaseController
             $dataResponse = $bpjsJson['data'] ?? null;
             $noApotik    = $dataResponse['noApotik'] ?? null;
             $noResepBPJS = $dataResponse['noResep'] ?? $noresep_bpjs;
+            $ResepModel->updateMappingResepBPJS($noresep, $no_out, $tglresep, true, $bpjsJson);
 
             if (!$noApotik) {
                  return $this->response->setJSON(['status' => false, 'message' => 'Header Resep berhasil, tapi No Apotik tidak ditemukan.']);
@@ -291,14 +299,13 @@ class BpjsInsertController extends BaseController
             // ==========================================
             // STEP 2: KIRIM DETAIL OBAT (Menggunakan Fungsi Terpisah)
             // ==========================================
-            $resultObat = $this->_sendDetailObat($detailObat, $noApotik, $noResepBPJS, $kdjnsobat, $userID);
+            $resultObat = $this->_sendDetailObat($detailObat, $noApotik, $noResepBPJS, $kdjnsobat, $userID, $noresep, $no_out);
 
             // ==========================================
             // FINALISASI
             // ==========================================
             if (empty($resultObat['errors'])) {
                 // Update status kirim menjadi TRUE
-                $ResepModel->updateMappingResepBPJS($noresep, $no_out, $tglresep, true, $bpjsJson);
                 
                 return $this->response->setJSON([
                     'status'  => true,
@@ -306,6 +313,7 @@ class BpjsInsertController extends BaseController
                     'data'    => $dataResponse
                 ]);
             } else {
+                $ResepModel->updateMappingResepBPJS($noresep, $no_out, $tglresep, false, $bpjsJson);
                 // Sebagian obat gagal
                 return $this->response->setJSON([
                     'status'  => false, 
@@ -321,11 +329,440 @@ class BpjsInsertController extends BaseController
             ]);
         }
     }
-    /**
-     * Fungsi private untuk mengirim detail obat secara looping.
-     * Mengembalikan array berisi status berhasil/gagal dan pesan error.
-    */
-    private function _sendDetailObat(array $detailObat, string $noApotik, string $noResepBPJS, string $kdjnsobat, string $userID)
+
+    private function _sendDetailObat_BERHASIL(array $detailObat, string $noApotik, string $noResepBPJS, string $kdjnsobat, string $userID, string $noresep, string $no_out)
+    {
+        $client = Services::curlrequest(['timeout' => 60]);
+        $ResepModel = new \App\Models\ResepModel();
+        $successCount = 0;
+        $errorsObat = [];
+
+        // TAMBAHKAN INI: Double protection
+        if (is_string($detailObat)) {
+            $detailObat = json_decode($detailObat, true) ?? [];
+        }
+
+        foreach ($detailObat as $index => $obat) {
+            // TAMBAHKAN INI: Jika tiap item juga masih string
+            if (is_string($obat)) {
+                $obat = json_decode($obat, true);
+            }
+
+            // Skip jika bukan array setelah decode
+            if (!is_array($obat)) {
+                $errorsObat[] = "Baris " . ($index + 1) . ": Format data obat tidak valid";
+                continue;
+            }
+
+            $kdObatSimrs = $obat['kd_obat'] ?? null;
+            $nmobat      = $obat['nmobat'] ?? '';
+            if (empty($kdObatSimrs)) {
+                $errorsObat[] = "Baris " . ($index + 1) . ": Kode obat kosong";
+                continue;
+            }
+
+            // ============================================
+            // MAPPING OBAT SIMRS -> BPJS
+            // ============================================
+            $mappingObat = $ResepModel->getMappingObatBPJS($kdObatSimrs);
+
+            if (!$mappingObat) {
+                $errorsObat[] = "Baris " . ($index + 1) . ": Obat {$nmobat} tidak memiliki mapping BPJS";
+                continue;
+            }
+
+            // Siapkan payload sesuai struktur BPJS (DINAMIS dari data loop)
+            $payloadItem = [
+                'NOSJP'         => $noApotik,
+                'NORESEP'       => $noResepBPJS,
+                'KDOBT'         => $mappingObat['kd_obat_bpjs'],  // ← Kode BPJS
+                'NMOBAT'        => $mappingObat['nama_obat'],     // ← Nama dari DB
+                // 'SIGNA1OBT'     => $obat['signa1'] ?? '1',
+                // 'SIGNA2OBT'     => $obat['signa2'] ?? '1',
+                // 'JMLOBT'        => (int)($obat['qty'] ?? 0),
+                // 'JHO'           => (string)($obat['jho'] ?? 0),
+                'SIGNA1OBT'     => '2',
+                'SIGNA2OBT'     => '1',
+                'JMLOBT'        => 10,
+                'JHO'           => '5',
+                'CatKhsObt'     => $obat['catkhusus'] ?? 'Single'
+            ];
+
+            /*$payloadItem = [
+                'NOSJP'         => $noApotik,
+                'NORESEP'       => $noResepBPJS,
+                'KDOBT'         => '14250805021',
+                'NMOBAT'        => 'Hidroksi Urea 500 SK tab 500 mg',
+                'SIGNA1OBT'     => '2',
+                'SIGNA2OBT'     => '1',
+                'JMLOBT'        => 10,
+                'JHO'           => '5',
+                'CatKhsObt'     => 'Single'
+            ];*/
+
+            // Validasi data obat wajib
+            // if (empty($payloadItem['KDOBT'])) {
+            //     $errorsObat[] = "Baris " . ($index + 1) . ": Kode obat kosong";
+            //     continue;
+            // }
+
+            // ============================================
+            // LOG 1: Insert log AWAL (status = false)
+            // ============================================
+            $logId = $ResepModel->insertLogDetailResepBPJS(
+                $noresep,
+                $no_out,
+                $noResepBPJS,
+                $noApotik,
+                $kdObatSimrs,                        // kd_obat_simrs
+                $payloadItem['KDOBT'],               // kd_obat_bpjs
+                $payloadItem['NMOBAT'],
+                $payloadItem['SIGNA1OBT'],
+                $payloadItem['SIGNA2OBT'],
+                $payloadItem['JMLOBT'],
+                $payloadItem['JHO'],
+                $payloadItem['CatKhsObt'],
+                false,  // status kirim = gagal dulu
+                [
+                    'kd_obat_simrs' => $kdObatSimrs,
+                    'kd_obat_bpjs'  => $payloadItem['KDOBT'],  // Log juga kode BPJS-nya
+                    'payload'       => $payloadItem, 
+                    'status'        => 'PENDING'
+                ]
+            );
+
+            $targetUrlDetail = site_url("bpjs/insert/obatnonracikan");
+            
+            try {
+                $resDetail = $client->post($targetUrlDetail, [
+                    'headers' => [
+                        'X-Internal-Request' => 'TRUE',
+                        'Content-Type'       => 'application/json'
+                    ],
+                    // Encode sekali saja di sini
+                    'body' => json_encode($payloadItem)
+                ]);
+
+                $resBodyDetail = json_decode($resDetail->getBody(), true);
+                
+                // Handle response wrapper dari BPJSController
+                $detailWrapper = $resBodyDetail['body'] ?? $resBodyDetail;
+                
+                // Cek status code (bisa string '200' atau int 200)
+                $detailCode = $detailWrapper['status_code'] 
+                              ?? $detailWrapper['metaData']['code'] 
+                              ?? $detailWrapper['code'] 
+                              ?? '500';
+
+                if ((string)$detailCode === '200') {
+                    $successCount++;
+                    // ============================================
+                    // LOG 2: Update log SUKSES
+                    // ============================================
+                    $ResepModel->updateLogDetailResepBPJS($logId, true, $detailWrapper);
+                } else {
+                    $errMsg = $detailWrapper['message'] 
+                             ?? $detailWrapper['metaData']['message'] 
+                             ?? 'Error tidak diketahui';
+                    $errorsObat[] = "Obat {$payloadItem['NMOBAT']} ({$payloadItem['KDOBT']}): {$errMsg}";
+
+                    // ============================================
+                    // LOG 3: Update log GAGAL
+                    // ============================================
+                    $ResepModel->updateLogDetailResepBPJS($logId, false, $detailWrapper);
+                }
+
+            } catch (\Exception $e) {
+                $errorsObat[] = "Koneksi error Obat {$payloadItem['NMOBAT']}: " . $e->getMessage();
+
+                // ============================================
+                // LOG 4: Update log ERROR KONEKSI
+                // ============================================
+                $ResepModel->updateLogDetailResepBPJS($logId, false, [
+                    'status_code' => '500',
+                    'message'     => $e->getMessage()
+                ]);
+            }
+        }
+
+        return [
+            'success' => $successCount,
+            'errors'  => $errorsObat
+        ];
+    }
+    
+    public function kirimresep()
+    {
+        $request = $this->request->getJSON(true);
+        if (!$request) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Payload kosong']);
+        }
+
+        $no_out     = $request['no_out'] ?? null;
+        $tgl_out    = $request['tgl_out'] ?? null;
+        $kdpasien   = $request['kdpasien'] ?? null;
+        $noresep    = $request['noresep'] ?? null;
+        $refasalsjp = $request['sep'] ?? null;
+        $kd_unit    = $request['kd_unit'] ?? null;
+        $iterasi    = $request['iterasi'] ?? null;
+        $kd_dokter  = $request['kd_dokter'] ?? null;
+        $kdjnsobat  = $request['kdjnsobat'] ?? null;
+        $detailObat = $request['detailobat'] ?? [];
+        $kdmodulresep  = $request['kdmodulresep'] ?? null;
+
+        if (!$no_out || !$tgl_out || !$kdpasien || !$noresep || !$refasalsjp || !$kd_dokter || !$kd_unit || empty($detailObat)) {
+            return $this->response->setJSON(['status'  => false, 'message' => 'Parameter masih ada yang kurang!']);
+        }
+
+        if (is_string($detailObat)) {
+            $detailObat = json_decode($detailObat, true) ?? [];
+        }
+
+        try {
+            $ResepModel = new \App\Models\ResepModel();
+            $tglresep       = $tgl_out;
+            $tglpelayanan   = $tgl_out;
+            $userID         = session()->get('id');
+
+            if ($kdmodulresep !== '1'){
+                $poliData = $ResepModel->getMappingUnitBPJS($kd_unit);
+                if (!$poliData) return $this->response->setJSON(['status' => false, 'message' => 'Mapping Unit BPJS tidak ditemukan!']);
+                $poli = $poliData[0]['unit_bpjs'];
+
+                $dokterBPJS = $ResepModel->getMappingDokterBPJS($kd_dokter);
+                if (!$dokterBPJS) return $this->response->setJSON(['status' => false, 'message' => 'Mapping Dokter BPJS tidak ditemukan!']);
+                $kd_dokterbpjs = $dokterBPJS[0]['kd_dokter_bpjs'];
+            } else {
+                $poli = 'BED';
+                $kd_dokterbpjs = '30882';
+            }
+
+            // ==========================================
+            // CEK LOG HEADER SEBELUM KIRIM KE BPJS
+            // ==========================================
+            $mappingResep = $ResepModel->getMappingResepBPJS($noresep, $tglresep);
+            $skipHeaderApi = false;
+            $noApotik = null;
+            $noResepBPJS = null;
+
+            if ($mappingResep) {
+                $noresep_bpjs = $mappingResep['noresep_bpjs'];
+                $noResepBPJS = $noresep_bpjs;
+                
+                // Coba ambil noApotik dari response_bpjs yang tersimpan di log
+                // $prevResponse = json_decode($mappingResep['response_bpjs'], true);
+                // $bodyPrev = $prevResponse['body'] ?? $prevResponse;
+                // $noApotik = $bodyPrev['data']['noApotik'] ?? null;
+                // $noResepBPJS = $bodyPrev['data']['noResep'] ?? $noResepBPJS;
+                $noApotik = $mappingResep['noApotik'];
+                // Jika noApotik ada di log, berarti header sudah SUKSES di BPJS, skip HTTP request header
+                if ($noApotik) {
+                    $skipHeaderApi = true;
+                }
+            } else {
+                // Jika belum ada log sama sekali, buat nomor resep BPJS baru
+                $noresep_bpjs = $ResepModel->generateNoResepBpjs($tglresep);
+                $noResepBPJS = $noresep_bpjs;
+                $ResepModel->insertMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, false);
+            }
+
+            // ==========================================
+            // STEP 1: KIRIM HEADER RESEP (JIKA BELUM PERNAH)
+            // ==========================================
+            if (!$skipHeaderApi) {
+                $client = Services::curlrequest(['timeout' => 60]);
+                $targetUrl = site_url("bpjs/insert/getkirimresep/{$refasalsjp}/{$poli}/{$noResepBPJS}/{$tglresep}/{$tglpelayanan}/{$kd_dokterbpjs}/{$iterasi}/{$kdjnsobat}/{$userID}");
+
+                $responseHeader = $client->get($targetUrl, ['headers' => ['X-Internal-Request' => 'TRUE']]);
+                
+                $bodyHeader = $responseHeader->getBody();
+                $wrapperHeader = json_decode($bodyHeader, true);
+                $bpjsJson = $wrapperHeader['body'] ?? $wrapperHeader;
+
+                $code = $bpjsJson['status_code'] ?? $bpjsJson['metaData']['code'] ?? '500';
+                
+                if ($code != '200') {
+                    $msg = $bpjsJson['message'] ?? $bpjsJson['metaData']['message'] ?? 'Gagal membuat header resep di BPJS';
+                    // Simpan response gagal ke log
+                    $ResepModel->updateMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, false, $bpjsJson);
+                    return $this->response->setJSON(['status' => false, 'message' => $msg]);
+                }
+
+                $dataResponse = $bpjsJson['data'] ?? null;
+                $noApotik    = $dataResponse['noApotik'] ?? null;
+                $noResepBPJS = $dataResponse['noResep'] ?? $noResepBPJS;
+
+                if (!$noApotik) {
+                     return $this->response->setJSON(['status' => false, 'message' => 'Header Resep berhasil, tapi No Apotik tidak ditemukan.']);
+                }
+
+                // Simpan response SUKSES ke log header
+                $ResepModel->updateMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, true, $bpjsJson);
+            }
+
+            // ==========================================
+            // STEP 2: AMBIL DAFTAR OBAT YANG SUDAH SUKSES
+            // ==========================================
+            $alreadySentObats = $ResepModel->getDetailObatSukses($noresep, $no_out);
+
+            // ==========================================
+            // STEP 3: KIRIM DETAIL OBAT (HANYA YANG BELUM SUKSES)
+            // ==========================================
+            $resultObat = $this->_sendDetailObat(
+                $detailObat, 
+                $noApotik, 
+                $noResepBPJS, 
+                $kdjnsobat, 
+                $userID, 
+                $noresep, 
+                $no_out, 
+                $alreadySentObats // ← TAMBAHKAN INI
+            );
+
+            // ==========================================
+            // FINALISASI
+            // ==========================================
+            if (empty($resultObat['errors'])) {
+                // Update status header menjadi TRUE (jika sebelumnya false karena ada error di detail)
+                $ResepModel->updateMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, true, ['message' => 'Resep dan semua detail obat sukses']);
+                
+                return $this->response->setJSON([
+                    'status'  => true,
+                    'message' => "Resep & Detail Obat berhasil dikirim. No Apotik: {$noApotik}",
+                    'data'    => ['noApotik' => $noApotik, 'noResep' => $noResepBPJS]
+                ]);
+            } else {
+                // Ada obat yang gagal, rollback status header menjadi FALSE
+                $ResepModel->updateMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, false, ['message' => 'Sebagian detail obat gagal', 'errors' => $resultObat['errors']]);
+                
+                return $this->response->setJSON([
+                    'status'  => false, 
+                    'message' => "Header Resep aman, tapi ada kesalahan saat mengirim detail obat:<br>" . implode("<br>", $resultObat['errors']),
+                    'data'    => ['noApotik' => $noApotik, 'noResep' => $noResepBPJS]
+                ]);
+            }
+
+        } catch (\Throwable $e) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Kesalahan sistem: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    private function _sendDetailObat(
+        array $detailObat, 
+        string $noApotik, 
+        string $noResepBPJS, 
+        string $kdjnsobat, 
+        string $userID,
+        string $noresep,
+        string $no_out,
+        array $alreadySentObats = [] // ← TAMBAHKAN PARAMETER INI
+    ) {
+        $client = Services::curlrequest(['timeout' => 60]);
+        $ResepModel = new \App\Models\ResepModel();
+        $successCount = 0;
+        $errorsObat = [];
+
+        if (is_string($detailObat)) {
+            $detailObat = json_decode($detailObat, true) ?? [];
+        }
+
+        // Flatten array hasil database menjadi 1 dimensi: ['00002178', '00002179']
+        $flatSentObats = array_column($alreadySentObats, 'kd_obat_simrs');
+
+        foreach ($detailObat as $index => $obat) {
+            if (is_string($obat)) {
+                $obat = json_decode($obat, true);
+            }
+
+            if (!is_array($obat)) {
+                $errorsObat[] = "Baris " . ($index + 1) . ": Format data obat tidak valid";
+                continue;
+            }
+
+            $kdObatSimrs = $obat['kd_obat'] ?? null;
+
+            if (empty($kdObatSimrs)) {
+                $errorsObat[] = "Baris " . ($index + 1) . ": Kode obat kosong";
+                continue;
+            }
+
+            // ============================================
+            // SKIP JIKA OBAT INI SUDAH SUKSES DIKIRIM SEBELUMNYA
+            // ============================================
+            if (in_array($kdObatSimrs, $flatSentObats)) {
+                $successCount++; // Dianggap sukses agar tidak mengganggu hitungan final
+                continue;
+            }
+
+            // MAPPING OBAT SIMRS -> BPJS
+            $mappingObat = $ResepModel->getMappingObatBPJS($kdObatSimrs);
+
+            if (!$mappingObat) {
+                $errorsObat[] = "Baris " . ($index + 1) . ": Obat {$kdObatSimrs} tidak memiliki mapping BPJS";
+                continue;
+            }
+
+            $payloadItem = [
+                'NOSJP'         => $noApotik,
+                'NORESEP'       => $noResepBPJS,
+                'KDOBT'         => $mappingObat['kd_obat_bpjs'],
+                'NMOBAT'        => $mappingObat['nama_obat'],
+                'SIGNA1OBT'     => $obat['signa1'] ?? '1',
+                'SIGNA2OBT'     => $obat['signa2'] ?? '1',
+                'JMLOBT'        => (int)($obat['qty'] ?? 0),
+                'JHO'           => (string)($obat['jho'] ?? 1),
+                'CatKhsObt'     => $obat['catkhusus'] ?? 'Single'
+            ];
+
+            // LOG DATABASE AWAL
+            $logId = $ResepModel->insertLogDetailResepBPJS(
+                $noresep, $no_out, $noResepBPJS, $noApotik,
+                $kdObatSimrs, $payloadItem['KDOBT'], $payloadItem['NMOBAT'],
+                $payloadItem['SIGNA1OBT'], $payloadItem['SIGNA2OBT'],
+                $payloadItem['JMLOBT'], $payloadItem['JHO'], $payloadItem['CatKhsObt'],
+                false, ['payload' => $payloadItem, 'status' => 'PENDING']
+            );
+
+            $targetUrlDetail = site_url("bpjs/insert/obatnonracikan");
+            
+            try {
+                $resDetail = $client->post($targetUrlDetail, [
+                    'headers' => [
+                        'X-Internal-Request' => 'TRUE',
+                        'Content-Type'       => 'application/json'
+                    ],
+                    'body' => json_encode($payloadItem)
+                ]);
+
+                $resBodyDetail = json_decode($resDetail->getBody(), true);
+                $detailWrapper = $resBodyDetail['body'] ?? $resBodyDetail;
+                $detailCode = $detailWrapper['status_code'] ?? $detailWrapper['metaData']['code'] ?? $detailWrapper['code'] ?? '500';
+
+                if ((string)$detailCode === '200') {
+                    $successCount++;
+                    $ResepModel->updateLogDetailResepBPJS($logId, true, $detailWrapper);
+                } else {
+                    $errMsg = $detailWrapper['message'] ?? $detailWrapper['metaData']['message'] ?? 'Error tidak diketahui';
+                    $errorsObat[] = "Obat {$payloadItem['NMOBAT']} ({$kdObatSimrs}): {$errMsg}";
+                    $ResepModel->updateLogDetailResepBPJS($logId, false, $detailWrapper);
+                }
+
+            } catch (\Exception $e) {
+                $errorsObat[] = "Koneksi error Obat {$payloadItem['NMOBAT']}: " . $e->getMessage();
+                $ResepModel->updateLogDetailResepBPJS($logId, false, ['status_code' => '500', 'message' => $e->getMessage()]);
+            }
+        }
+
+        return [
+            'success' => $successCount,
+            'errors'  => $errorsObat
+        ];
+    }
+
+    private function _sendDetailObatXX(array $detailObat, string $noApotik, string $noResepBPJS, string $kdjnsobat, string $userID)
     {
         $client = Services::curlrequest(['timeout' => 60]);
         $successCount = 0;
@@ -336,7 +773,7 @@ class BpjsInsertController extends BaseController
             // Asumsi: $detailObat dari front-end sudah memiliki key: kd_obat, nmobat, signa1, signa2, qty, jho, catkhusus
             // Jika key berbeda, sesuaikan di sini.
             
-            $payloadItem = [
+            $payloadItemX = [
                 'NOSJP'         => $noApotik,          // Dari response header
                 'NORESEP'       => $noResepBPJS,       // Dari response header
                 'KDOBT'         => $obat['kd_obat'] ?? null,
@@ -347,6 +784,18 @@ class BpjsInsertController extends BaseController
                 'JHO'           => $obat['jho'] ?? 0,      // Jumlah Hari Obat
                 'CatKhsObt'     => $obat['catkhusus'] ?? 'single' // Kategori khusus
             ];
+
+            $payloadItem = json_encode([
+                'NOSJP'         => $noApotik,
+                'NORESEP'       => $noResepBPJS,
+                'KDOBT'         => '14250805021',
+                'NMOBAT'        => 'Hidroksi Urea 500 SK tab 500 mg',
+                'SIGNA1OBT'     => '2',
+                'SIGNA2OBT'     => '1',
+                'JMLOBT'        => 10,
+                'JHO'           => '5',
+                'CatKhsObt'     => 'Single'
+            ]);
 
             // URL endpoint internal
             $targetUrlDetail = site_url("bpjs/insert/obatnonracikan");
@@ -959,10 +1408,10 @@ class BpjsInsertController extends BaseController
         try {
             $userID     = session()->get('id');
             $baseUrl    = base_url();
-            $targetUrl  = $baseUrl . 'bpjs/listpelayananobat_perSEP/' . $sep.'/'.$userID;
-            
-            $client = Services::curlrequest();
-            $response = $client->get($targetUrl, [
+            // $targetUrl  = $baseUrl . 'bpjs/listpelayananobat_perSEP/' . $sep.'/'.$userID;
+            $targetUrl  = site_url("bpjs/listpelayananobat_perSEP/{$sep}/{$userID}");
+            $client     = Services::curlrequest();
+            $response   = $client->get($targetUrl, [
                 'headers' => ['X-Internal-Request' => 'TRUE']
             ]);
             

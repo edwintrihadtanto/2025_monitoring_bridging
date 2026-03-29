@@ -459,8 +459,9 @@ class ResepModel extends Model
         $builder = $this->builder('apt_bridging_resep_bpjs');
 
         $builder->select("LPAD((COALESCE(MAX(noresep_bpjs::int),0)+1)::text,5,'0') AS noresep");
-        // $builder->where('tgl_out', $tgl);
-        $builder->where('DATE(created_at)', 'CURRENT_DATE', false);
+        $builder->where('tgl_out', $tgl);
+        // $builder->where('DATE(created_at)', 'CURRENT_DATE', false);
+        // $builder->where('DATE(tgl_out)', 'CURRENT_DATE', false);
 
         $query = $builder->get()->getRowArray();
 
@@ -481,7 +482,7 @@ class ResepModel extends Model
         ]);
     }
 
-    public function updateMappingResepBPJS($noresep_simrs, $no_out, $tglresep, $status, $response = null)
+    public function updateMappingResepBPJS($noresep_simrs, $noresep_bpjs, $no_out, $tglresep, $status, $response = null)
     {
         /*return $this->db->table('apt_bridging_resep_bpjs')
             ->where('noresep_simrs', $noresep_simrs)
@@ -497,10 +498,13 @@ class ResepModel extends Model
 
             $noApotik = null;
 
-            if ($response && isset($response['response']['data']['noApotik'])) {
-                $noApotik = $response['response']['data']['noApotik'];
-            }
+            // if ($response && isset($response['response']['data']['noApotik'])) {
+            //     $noApotik = $response['response']['data']['noApotik'];
+            // }
 
+            if ($response && isset($response['data']['noApotik'])) {
+                $noApotik = $response['data']['noApotik'];
+            }
             // if ($response['message'] == 'Resep berhasil dikirim ke BPJS') {
             //     $message = 'Ok';
             // }else{
@@ -519,6 +523,7 @@ class ResepModel extends Model
 
             return $builder
                 ->where('noresep_simrs', $noresep_simrs)
+                ->where('noresep_bpjs', $noresep_bpjs)
                 ->where('no_out', $no_out)
                 ->where('tgl_out', $tglresep)
                 ->update($dataUpdate);
@@ -544,5 +549,85 @@ class ResepModel extends Model
                 'sts_batal' => true,
                 'alasan_batal' => $alasan_hapus
             ]);
+    }
+
+    public function insertLogDetailResepBPJS(
+        string $noresep,
+        string $no_out,
+        ?string $noresep_bpjs,
+        ?string $no_apotik,
+        ?string $kd_obat_simrs,   // ← Ubah parameter
+        ?string $kd_obat_bpjs,    // ← Tambah parameter
+        ?string $nm_obat,
+        ?string $signa1,
+        ?string $signa2,
+        int $jml_obat,
+        ?string $jho,
+        ?string $cat_khusus,
+        bool $status_kirim,
+        $response_bpjs
+    ) {
+        $data = [
+            'noresep'       => $noresep,
+            'no_out'        => $no_out,
+            'noresep_bpjs'  => $noresep_bpjs,
+            'no_apotik'     => $no_apotik,
+            'kd_obat_simrs' => $kd_obat_simrs,
+            'kd_obat_bpjs'  => $kd_obat_bpjs,
+            'nm_obat'       => $nm_obat,
+            'signa1'        => $signa1,
+            'signa2'        => $signa2,
+            'jml_obat'      => $jml_obat,
+            'jho'           => $jho,
+            'cat_khusus'    => $cat_khusus,
+            'status_kirim'  => $status_kirim, // Langsung boolean, tanpa ? 1 : 0
+            'response_bpjs' => is_array($response_bpjs) ? json_encode($response_bpjs) : $response_bpjs,
+            'created_at'    => date('Y-m-d H:i:s')
+        ];
+
+        $this->db->table('apt_bridging_resep_detail')->insert($data);
+        return $this->db->insertID();
+    }
+
+    public function updateLogDetailResepBPJS(int $id, bool $status_kirim, $response_bpjs)
+    {
+        $this->db->table('apt_bridging_resep_detail')
+            ->where('id', $id)
+            ->update([
+                'status_kirim'  => $status_kirim, // Langsung boolean
+                'response_bpjs' => is_array($response_bpjs) ? json_encode($response_bpjs) : $response_bpjs
+            ]);
+    }
+
+    /**
+     * Get mapping obat SIMRS ke BPJS
+     */
+    public function getMappingObatBPJS($kdObatSimrs)
+    {
+        return $this->db->table('apt_obat')
+            ->select('apt_obat.kd_prd, nama_obat, kd_obat_bpjs')
+            ->join(
+                'apt_obat_ifrs', 
+                'apt_obat.kd_prd = apt_obat_ifrs.kd_prd AND apt_obat_ifrs.kd_obat_bpjs != 0', 
+                'inner'
+            )
+            ->where('apt_obat.kd_prd', $kdObatSimrs)
+            ->orderBy('apt_obat.kd_prd', 'ASC')
+            ->get()
+            ->getRowArray();
+    }
+
+    /**
+     * Get daftar kode obat SIMRS yang sudah berhasil dikirim ke BPJS
+     */
+    public function getDetailObatSukses($noresep, $no_out)
+    {
+        return $this->db->table('apt_bridging_resep_detail')
+            ->select('kd_obat_simrs')
+            ->where('noresep', $noresep)
+            ->where('no_out', $no_out)
+            ->where('status_kirim', true) // true di PostgreSQL akan dibaca sebagai boolean true
+            ->get()
+            ->getResultArray();
     }
 }

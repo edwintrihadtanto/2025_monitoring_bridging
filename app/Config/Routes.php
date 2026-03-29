@@ -30,6 +30,7 @@ use CodeIgniter\Router\RouteCollection;
         $routes->get('createSEPBPJS_INAP', 'BpjsController::createSEPBPJS_INAP'); //AWAS VCLAIM 
         $routes->get('deleteSEPBPJS', 'BpjsController::delSEP');        //AWAS VCLAIM
         $routes->get('createRUJUKAN', 'BpjsController::createRUJUKAN'); //AWAS VCLAIM 
+        $routes->get('batalRUJUKAN', 'BpjsController::batalRUJUKAN'); //AWAS VCLAIM 
         $routes->get('buatSPRI', 'BpjsController::buatSPRI'); //AWAS VCLAIM 
         $routes->get('getRujukan/(:segment)', 'BpjsController::getRujukan/$1'); //AWAS VCLAIM 
 
@@ -49,6 +50,8 @@ use CodeIgniter\Router\RouteCollection;
         });
 
         $routes->group('insert', static function ($routes) {
+
+            $routes->post('obatnonracikan', 'BpjsController::obatnonracikan');
             $routes->get('obatnonracikan', 'BpjsController::obatnonracikan');
             $routes->get('obatracikan', 'BpjsController::obatracikan');
             $routes->get('updatestokobat', 'BpjsController::updatestokobat'); //masih gagal Unauthorized!
@@ -70,7 +73,6 @@ use CodeIgniter\Router\RouteCollection;
 
         // http://localhost/2025_monitoring_bridging/bpjs/listpelayananobat_perSEP/1801R0010419V000001
         $routes->get('listpelayananobat_perSEP/(:segment)/(:segment)', 'BpjsController::getListPelayananObat/$1/$2');
-        // http://localhost/2025_monitoring_bridging/bpjs/riwayatpelayananobat/2024-09-01/2024-09-01/12345678
         $routes->get('riwayatpelayananobat/(:segment)/(:segment)/(:segment)/(:segment)', 'BpjsController::getRiwayatPelayananObat/$1/$2/$3/$4');
 
         $routes->get('monitoringklaim/(:num)/(:num)/(:num)/(:num)', 'BpjsController::getMonitoringKlaim/$1/$2/$3/$4');

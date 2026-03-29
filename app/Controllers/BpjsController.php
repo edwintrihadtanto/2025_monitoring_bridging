@@ -218,14 +218,14 @@ class BpjsController extends BaseController
                     "request" => [
                         "t_rujukan" => [
                             "noSep"      => "1308R0010326V000038",
-                            "tglRujukan"       => date('Y-m-d'),
-                            "tglRencanaKunjungan" => date('Y-m-d'),
-                            "ppkDirujuk" => $this->ppkSoedono, 
+                            "tglRujukan"       => '2026-03-27',
+                            "tglRencanaKunjungan" => '2026-03-28',
+                            "ppkDirujuk" => '0216R010', 
                             "jnsPelayanan" => "1", 
-                            "catatan" => "spri tes", 
+                            "catatan" => "buatrujuakan", 
                             "diagRujukan" => "I10", 
                             "tipeRujukan" => "0", //{0->Penuh, 1->Partial, 2->balik PRB}
-                            "poliRujukan" => "iccu", //{kosong untuk tipe rujukan 2, harus diisi jika 0 atau 1}
+                            "poliRujukan" => "", //{kosong untuk tipe rujukan 2, harus diisi jika 0 atau 1}
                             "user"   => "Coba Web Service Farmasi"
                         ]
                     ]
@@ -233,6 +233,23 @@ class BpjsController extends BaseController
         
         $endpoint = '/Rujukan/2.0/insert';        
         $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
+
+    public function batalRUJUKAN()
+    {
+        $userID     =   '12345';
+        $payload    =   json_encode([
+                            "request" => [
+                                "t_rujukan" => [
+                                    "noRujukan"      => "1308R0010326B000001",
+                                    "user"   => "Coba Web Service Farmasi"
+                                ]
+                            ]
+                        ]);
+        
+        $endpoint = '/Rujukan/delete';        
+        $result = $this->bpjsInsertVclaimService->request('DELETE', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
 
@@ -357,7 +374,7 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function getListPelayananObatX($SEP, $userID)
+    public function getListPelayananObat($SEP, $userID)
     {
         $data = null;
         $endpoint   = "obat/daftar/{$SEP}";
@@ -365,10 +382,10 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
-    public function getListPelayananObat($SEP, $userID)
+    public function getListPelayananObatXX($SEP, $userID)
     {
         $data = null;
-        $endpoint   = "Rujukan/Peserta/{$SEP}";
+        $endpoint   = "Rujukan/{$SEP}";
         $result     = $this->bpjsvclaimService->request('GET', $endpoint, $data, $userID);
         return $this->response->setJSON($result);
     }
@@ -451,7 +468,7 @@ class BpjsController extends BaseController
     }
 
        // public function obatnonracikan($sepapotik, $noresep_bpjs, $kdobat, $nmobat, $signasatu, $signadua, $qty, $jho, $catkhususobat)
-    public function obatnonracikan()
+    public function obatnonracikanXX()
     {
         $userID = '1';
         $payload = json_encode([
@@ -477,6 +494,40 @@ class BpjsController extends BaseController
             'JHO'           => $jho,
             'CatKhsObt'     => $catkhususobat
         ]);*/
+
+        $endpoint = '/obatnonracikan/v3/insert';
+        $result = $this->bpjsInsertService->request('POST', $endpoint, $payload, $userID);
+
+        return $this->response->setJSON($result);
+    }
+
+    public function obatnonracikan()
+    {
+        // Ambil payload dari request body (dikirim oleh _sendDetailObat)
+        $request = $this->request->getJSON(true);
+        
+        if (!$request) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'code'    => '400',
+                'message' => 'Payload kosong'
+            ]);
+        }
+
+        $userID = session()->get('id') ?? '1';
+
+        // Ambil data dari payload
+        $payload = json_encode([
+            'NOSJP'         => $request['NOSJP'] ?? '',
+            'NORESEP'       => $request['NORESEP'] ?? '',
+            'KDOBT'         => $request['KDOBT'] ?? '',
+            'NMOBAT'        => $request['NMOBAT'] ?? '',
+            'SIGNA1OBT'     => $request['SIGNA1OBT'] ?? '1',
+            'SIGNA2OBT'     => $request['SIGNA2OBT'] ?? '1',
+            'JMLOBT'        => $request['JMLOBT'] ?? 0,
+            'JHO'           => $request['JHO'] ?? '0',
+            'CatKhsObt'     => $request['CatKhsObt'] ?? 'Single'
+        ]);
 
         $endpoint = '/obatnonracikan/v3/insert';
         $result = $this->bpjsInsertService->request('POST', $endpoint, $payload, $userID);
