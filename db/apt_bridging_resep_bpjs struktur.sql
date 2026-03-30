@@ -15,13 +15,14 @@
  Date: 30/03/2026 02:08:22
 */
 
-
+CREATE SEQUENCE apt_bridging_resep_detail_id_seq;
+CREATE SEQUENCE apt_bridging_resep_bpjs_id_seq;
 -- ----------------------------
 -- Table structure for apt_bridging_resep_bpjs
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."apt_bridging_resep_bpjs";
 CREATE TABLE "public"."apt_bridging_resep_bpjs" (
-  "id" int4 NOT NULL DEFAULT nextval('bridging_resep_bpjs_id_seq'::regclass),
+  "id" int4 NOT NULL DEFAULT nextval('apt_bridging_resep_bpjs_id_seq'::regclass),
   "noresep_simrs" varchar(30) COLLATE "pg_catalog"."default" NOT NULL,
   "noresep_bpjs" varchar(5) COLLATE "pg_catalog"."default" NOT NULL,
   "created_at" timestamp(6) NOT NULL DEFAULT now(),

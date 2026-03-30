@@ -285,7 +285,9 @@ class ResepModel extends Model
             CASE WHEN o.kd_customer = '0000000001' THEN '' ELSE sjp.no_sjp END AS no_sep,
             abrb.noresep_bpjs,
             abrb.status_kirim,
-            abrb.response_message
+            abrb.response_message,
+            abrb.kdjnsobat,
+            abrb.iterasi
         ");
 
         // JOIN
@@ -468,7 +470,7 @@ class ResepModel extends Model
         return $query['noresep'];
     }
 
-    public function insertMappingResepBPJS($noresep_simrs,$noresep_bpjs,$no_out,$tgl_out,$status)
+    public function insertMappingResepBPJS($noresep_simrs,$noresep_bpjs,$no_out,$tgl_out,$status, $kdjnsobat, $iterasi)
     {
         $builder = $this->builder('apt_bridging_resep_bpjs');
 
@@ -478,8 +480,28 @@ class ResepModel extends Model
             'no_out'        => $no_out,
             'tgl_out'       => $tgl_out,
             'status_kirim'  => $status,
-            'created_at'    => date('Y-m-d H:i:s')
+            'created_at'    => date('Y-m-d H:i:s'),
+            'kdjnsobat'     => $kdjnsobat,
+            'iterasi'       => $iterasi
         ]);
+    }
+
+    public function updateIterResepBPJS($noresep_simrs, $noresep_bpjs, $no_out, $tglresep, $kdjnsobat, $iterasi)
+    {
+        
+            $builder = $this->builder('apt_bridging_resep_bpjs');
+                        
+            $dataUpdate = [
+                'kdjnsobat' => $kdjnsobat,
+                'iterasi'   => $iterasi,
+            ];            
+
+            return $builder
+                ->where('noresep_simrs', $noresep_simrs)
+                ->where('noresep_bpjs', $noresep_bpjs)
+                ->where('no_out', $no_out)
+                ->where('tgl_out', $tglresep)
+                ->update($dataUpdate);
     }
 
     public function updateMappingResepBPJS($noresep_simrs, $noresep_bpjs, $no_out, $tglresep, $status, $response = null)

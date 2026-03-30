@@ -236,6 +236,73 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
+    public function createPostMRS()
+    {
+        $userID     = '12345';
+        /*$payload    = json_encode([
+                        "request" => [                        
+                            "noSEP"             => "1308R0010326V000040",
+                            "kodeDokter"        => '2026-03-27',
+                            "poliKontrol"       => '2026-03-28',
+                            "tglRencanaKontrol" => '0216R010',                             
+                            "user"              => "Coba Web Service Farmasi",
+                            "formPRB" => [
+                                "kdStatusPRB"      => "01", //(01. Diabetes Melitus,02. Hipertensi, 03. Asma, 04. Penyakit Jantung, 05. PPOK, 06. Skizofrenia, 07. Stroke, 08. Epilepsi, 09. SLE)
+                                    "data" => [
+                                        "HBA1C" => null, 
+                                        "GDP" =>  78, 
+                                        "GD2JPP" =>  null,
+                                        "eGFR" => null,
+                                        "TD_Sistolik" =>  90,
+                                        "TD_Diastolik" =>  90,
+                                        "LDL" =>  20,
+                                        "Rata_TD_Sistolik" => null,
+                                        "Rata_TD_Diastolik" => null,
+                                        "JantungKoroner" => null,
+                                        "Stroke" => null,
+                                        "VaskularPerifer" => null,
+                                        "Aritmia" => null, 
+                                        "AtrialFibrilasi" => null,
+                                        "NadiIstirahat" => null,
+                                        "SesakNapas3Bulan" => null,
+                                        "NyeriDada3Bulan" => null,
+                                        "SesakNapasAktivitas" => null,
+                                        "NyeriDadaAktivitas" => null,
+                                        "Terkontrol" => null,
+                                        "Gejala2xMinggu" => null,
+                                        "BangunMalam" => null,
+                                        "KeterbatasanFisik" => null,
+                                        "FungsiParu" => null,
+                                        "SkorMMRC" => null,
+                                        "Eksaserbasi1Tahun" => null,
+                                        "MampuAktivitas" => null,
+                                        "Epileptik6Bulan" => null,
+                                        "EfekSampingOAB" => null,
+                                        "HamilMenyusui" => null,
+                                        "Remisi" => null,
+                                        "TerapiRumatan" => null,
+                                        "Usia" => null,
+                                        "AsamUrat" =>  0.1,
+                                        "RemisiSLE" => null,
+                                        "Hamil" => null 
+                                    ]
+                            ]
+                        ]
+                    ]);*/
+        $payload    = json_encode([
+                        "request" => [                        
+                            "noSEP"             => "1308R0010326V000040",
+                            "kodeDokter"        => '30882',
+                            "poliKontrol"       => 'BED',
+                            "tglRencanaKontrol" => '2026-03-31',                             
+                            "user"              => "Coba Web Service Farmasi"
+                        ]
+                    ]);
+        $endpoint = '/RencanaKontrol/insert';        
+        $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
+
     public function batalRUJUKAN()
     {
         $userID     =   '12345';

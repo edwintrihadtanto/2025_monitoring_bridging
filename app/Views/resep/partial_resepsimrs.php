@@ -71,6 +71,8 @@
 
                 <?php foreach ($group['data'] as $item): 
                     $collapseId = 'detail-' . md5($item['no_out'].$item['tgl_out']);
+                    $isBPJS = !empty($item['noresep_bpjs']);
+                    $iterValue = $isBPJS ? $item['iterasi'] : $item['sts_iter'];
                 ?>
 
                     <div class="list-group-item resep-item"
@@ -150,7 +152,7 @@
                                                name="iterasi_<?= $item['no_resep'] ?>"
                                                class="form-check-input"
                                                value="1"
-                                               <?= $item['sts_iter'] == '1' ? 'checked' : '' ?>
+                                               <?= $iterValue == '1' ? 'checked' : '' ?>
                                                onchange="this.closest('.resep-item').dataset.sts_iter=this.value">
                                         <label class="form-check-label text-warning small">
                                             Iterasi
@@ -162,7 +164,7 @@
                                                name="iterasi_<?= $item['no_resep'] ?>"
                                                class="form-check-input"
                                                value="0"
-                                               <?= $item['sts_iter'] != '1' ? 'checked' : '' ?>
+                                               <?= $iterValue == '0' ? 'checked' : '' ?>
                                                onchange="this.closest('.resep-item').dataset.sts_iter=this.value">
                                         <label class="form-check-label text-secondary small">
                                             Non
@@ -189,10 +191,11 @@
 
                                     <div class="col-4">
                                         <select class="form-select form-select-sm"
-                                                onchange="this.closest('.resep-item').dataset.kdjnsobat=this.value">
-                                            <option value="1">PRB</option>
-                                            <option value="2">Kronis</option>
-                                            <option value="3">Kemo</option>
+                                            onchange="this.closest('.resep-item').dataset.kdjnsobat=this.value">
+
+                                            <option value="1" <?= $item['kdjnsobat'] == 1 ? 'selected' : '' ?>>Obat PRB</option>
+                                            <option value="2" <?= $item['kdjnsobat'] == 2 ? 'selected' : '' ?>>Obat Kronis</option>
+                                            <option value="3" <?= $item['kdjnsobat'] == 3 ? 'selected' : '' ?>>Obat Kemo</option>
                                         </select>
                                     </div>
 

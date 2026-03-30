@@ -559,11 +559,13 @@ class BpjsInsertController extends BaseController
                 if ($noApotik) {
                     $skipHeaderApi = true;
                 }
+
+                $ResepModel->updateIterResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, $kdjnsobat, $iterasi);
             } else {
                 // Jika belum ada log sama sekali, buat nomor resep BPJS baru
-                $noresep_bpjs = $ResepModel->generateNoResepBpjs($tglresep);
-                $noResepBPJS = $noresep_bpjs;
-                $ResepModel->insertMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, false);
+                $noresep_bpjs   = $ResepModel->generateNoResepBpjs($tglresep);
+                $noResepBPJS    = $noresep_bpjs;
+                $ResepModel->insertMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, false, $kdjnsobat, $iterasi);
             }
 
             // ==========================================
@@ -600,6 +602,23 @@ class BpjsInsertController extends BaseController
                 $ResepModel->updateMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, true, $bpjsJson);
             }
 
+            $tanggal = $tglresep ? date('Y-m-d', strtotime($tglresep)) : null;
+            $check = $this->_getResepStatus($tanggal, $tanggal, $kdjnsobat, $noResepBPJS, $noApotik);
+           
+            if (!$check['status']) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => $check['message'] ?? 'Gagal mengecek status resep ke BPJS.'
+                ]);
+            }
+            
+            if ($check['byverrsp'] !== '0') {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => "Obat tidak dapat dihapus karena status resep sudah diverifikasi (Status: {$check['byverrsp']}).",
+                    'csrfHash' => csrf_hash()
+                ]);
+            }
             // ==========================================
             // STEP 2: AMBIL DAFTAR OBAT YANG SUDAH SUKSES
             // ==========================================
@@ -633,11 +652,11 @@ class BpjsInsertController extends BaseController
                 ]);
             } else {
                 // Ada obat yang gagal, rollback status header menjadi FALSE
-                $ResepModel->updateMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, false, ['message' => 'Sebagian detail obat gagal', 'errors' => $resultObat['errors']]);
+                // $ResepModel->updateMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, false, ['message' => 'Sebagian detail obat gagal', 'errors' => $resultObat['errors']]);
                 
                 return $this->response->setJSON([
                     'status'  => false, 
-                    'message' => "Header Resep aman, tapi ada kesalahan saat mengirim detail obat:<br>" . implode("<br>", $resultObat['errors']),
+                    'message' => "Header Resep aman, tapi ada kesalahan saat mengirim detail obat:<br>" . implode("<br>", $resultObat['errors']."<br>"),
                     'data'    => ['noApotik' => $noApotik, 'noResep' => $noResepBPJS]
                 ]);
             }
