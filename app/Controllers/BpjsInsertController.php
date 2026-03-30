@@ -518,6 +518,23 @@ class BpjsInsertController extends BaseController
             $detailObat = json_decode($detailObat, true) ?? [];
         }
 
+        // CEK FLAG PRB
+        // ==========================================
+        $prbCheck = $this->_cekSepPasien($refasalsjp);
+        if (!$prbCheck['status']) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => $check['message'] ?? 'Gagal mengecek data SEP pasien.'
+            ]);
+        }
+
+        if ($prbCheck['flagprb'] !== '0' ) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => "Resep tidak dapat diproses. Status PRB Aktif (".($prbCheck['namaprb'].")" ?: "-")
+            ]);
+        }
+
         try {
             $ResepModel = new \App\Models\ResepModel();
             $tglresep       = $tgl_out;
@@ -604,7 +621,7 @@ class BpjsInsertController extends BaseController
 
             $tanggal = $tglresep ? date('Y-m-d', strtotime($tglresep)) : null;
             $check = $this->_getResepStatus($tanggal, $tanggal, $kdjnsobat, $noResepBPJS, $noApotik);
-           
+            
             if (!$check['status']) {
                 return $this->response->setJSON([
                     'status'  => false,
@@ -615,10 +632,11 @@ class BpjsInsertController extends BaseController
             if ($check['byverrsp'] !== '0') {
                 return $this->response->setJSON([
                     'status'  => false,
-                    'message' => "Obat tidak dapat dihapus karena status resep sudah diverifikasi (Status: {$check['byverrsp']}).",
+                    'message' => "Obat tidak dapat ditambahkan karena resep sudah diverifikasi.",
                     'csrfHash' => csrf_hash()
                 ]);
             }
+
             // ==========================================
             // STEP 2: AMBIL DAFTAR OBAT YANG SUDAH SUKSES
             // ==========================================
@@ -635,15 +653,15 @@ class BpjsInsertController extends BaseController
                 $userID, 
                 $noresep, 
                 $no_out, 
-                $alreadySentObats // ← TAMBAHKAN INI
+                $alreadySentObats
             );
 
             // ==========================================
             // FINALISASI
             // ==========================================
             if (empty($resultObat['errors'])) {
-                // Update status header menjadi TRUE (jika sebelumnya false karena ada error di detail)
-                $ResepModel->updateMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, true, ['message' => 'Resep dan semua detail obat sukses']);
+                
+                // $ResepModel->updateMappingResepBPJS($noresep, $noresep_bpjs, $no_out, $tglresep, true, ['message' => 'Resep dan semua detail obat sukses']);
                 
                 return $this->response->setJSON([
                     'status'  => true,
@@ -677,7 +695,7 @@ class BpjsInsertController extends BaseController
         string $userID,
         string $noresep,
         string $no_out,
-        array $alreadySentObats = [] // ← TAMBAHKAN PARAMETER INI
+        array $alreadySentObats = []
     ) {
         $client = Services::curlrequest(['timeout' => 60]);
         $ResepModel = new \App\Models\ResepModel();
@@ -1718,6 +1736,95 @@ class BpjsInsertController extends BaseController
 
         } catch (\Throwable $e) {
             return ['status' => false, 'message' => 'Error koneksi: ' . $e->getMessage()];
+        }
+    }
+
+    private function _getSepPasien($refasalsjp)
+    {
+        try {
+            $userID    = session()->get('id');
+            $targetUrl = base_url("bpjs/getSEPPasien/{$refasalsjp}");
+
+            $client = Services::curlrequest(['timeout' => 60]);
+
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE']
+            ]);
+
+            $wrapper = json_decode($response->getBody(), true);
+            $bpjsJson = $wrapper['body'] ?? $wrapper;
+            // var_dump($bpjsJson);
+            // exit();
+            $resepList = [];
+
+            // Parsing response (Handle 2 format: metaData / status_code)
+            if (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+                if (!is_null($bpjsJson['data']) && !empty($bpjsJson['response']['list'])) {
+                    $resepList = $bpjsJson['response']['list'];
+                }
+            } elseif (isset($bpjsJson['status_code']) && $bpjsJson['status_code'] == "200") {
+                if (!empty($bpjsJson['data'])) {
+                    $resepList = $bpjsJson['data'];
+                }
+            }
+
+            // Cari item spesifik
+            if (!empty($resepList)) {
+                foreach ($resepList as $item) {
+                    if ($item['NORESEP'] == $search_noresep && $item['NOAPOTIK'] == $search_noapotik) {
+                        return [
+                            'status'   => true,
+                            'byverrsp' => $item['BYVERRSP'] ?? null,
+                            'data'     => $item
+                        ];
+                    }
+                }
+            }
+
+            // return ['status' => false, 'message' => 'Data resep tidak ditemukan di server BPJS'];
+            return ['status' => false, 'message' => $bpjsJson['message'] ?? 'Data resep tidak ditemukan di server BPJS'];
+
+        } catch (\Throwable $e) {
+            return ['status' => false, 'message' => 'Error koneksi: ' . $e->getMessage()];
+        }
+    }
+
+    private function _cekSepPasien(string $refasalsjp): array
+    {
+        try {
+            $client = Services::curlrequest(['timeout' => 10]);
+            $targetUrl = base_url('bpjs/getSEPPasien/' . $refasalsjp);
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE']
+            ]);
+
+            $wrapper = json_decode($response->getBody(), true);
+            $bpjsJson = $wrapper['body'] ?? $wrapper;
+
+            if (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+                $sepData = $bpjsJson['response'] ?? [];
+
+                if (!empty($sepData['noSep'])) {
+                    // return [
+                    //     'status'  => false,
+                    //     'message' => 'Resep tidak dapat diproses. Status PRB Aktif (' . ($sepData['namaprb'] .')' ?: '-')
+                    // ];
+                    return [
+                        'status'    => true,
+                        'flagprb'   => $sepData['flagprb'] ?? null,
+                        'namaprb'   => $sepData['namaprb'] ?? '--',
+                        'nokartu'   => $sepData['nokartu'] ?? '0',
+                        'data'      => $sepData
+                    ];
+                }
+            }
+
+            return ['status' => false, 'message' => ''];
+
+        } catch (\Exception $e) {
+            // API error tidak memblokir proses resep
+            log_message('error', 'Gagal cek flag PRB SEP ' . $noSep . ': ' . $e->getMessage());
+            return ['status' => false, 'message' => ''];
         }
     }
 

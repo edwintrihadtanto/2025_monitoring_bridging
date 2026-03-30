@@ -386,7 +386,7 @@ function handleProsesObatClick(e) {
         return;
     }
 
-    console.log('PROSES GLOBAL:', payload);
+    // console.log('PROSES GLOBAL:', payload);
     prosesBatchSIMRS(payload);
 }
 
@@ -432,9 +432,15 @@ function prosesBatchSIMRS(payload) {
                 inner.classList.remove('progress-bar-animated');
                 inner.classList.add('bg-success');
             }else{
-                Toast.fire({
+                // Toast.fire({
+                //     icon: 'error',
+                //     title: data.message
+                // });
+                Swal.fire({
                     icon: 'error',
-                    title: data.message
+                    text: data.message,
+                    timer: 3400,
+                    showConfirmButton: false
                 });
 
                 bar.classList.add('d-none');

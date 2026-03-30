@@ -67,6 +67,8 @@
                     </td>
                     <td class="fw-semibold">
                         <?= esc($item['lbl_signa']) ?>
+                        <!-- <input type="number" name="signasatu" class="form-control">
+                        <input type="number" name="signadua" class="form-control"> -->
                     </td>
                     <td class="text-center fw-semibold">
                         <?= esc($item['jml_out']) ?>

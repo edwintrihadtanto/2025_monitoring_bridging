@@ -1,17 +1,13 @@
-<?php
-// Cek apakah data SEP ada
-//if (!empty($pasien['noSep'])): 
-?>
 <?php if (!empty($pasien)): ?>
     <div class="alert alert-success mb-4">
         <h4 class="alert-heading"><i class="bi bi-check-circle-fill"></i> Data SEP Ditemukan</h4>
         <p class="mb-0">Pencarian Surat Eligibilitas Peserta berhasil dilakukan.</p>
     </div>
 
-    <!-- Grid 3 Kolom (Responsive: 1 kolom di HP, 3 kolom di PC) -->
+    <!-- Grid 3 Kolom -->
     <div class="row">
         
-        <!-- KARTU 1: INFORMASI SEP (BPJS) -->
+        <!-- KARTU 1: INFORMASI SEP -->
         <div class="col-12 col-md-4">
             <div class="card">
                 <div class="card-header">
@@ -25,38 +21,53 @@
                         </tr>
                         <tr>
                             <th>Tgl SEP</th>
-                            <td><?= $pasien['tglSep'] ?></td>
+                            <td><?= tgl_indo($pasien['tglsep']) ?? $pasien['tglsep'] ?></td>
+                        </tr>
+                        <tr>
+                            <th>Tgl Pulang</th>
+                            <td><?= tgl_indo($pasien['tglplgsep']) ?? $pasien['tglplgsep'] ?></td>
                         </tr>
                         <tr>
                             <th>Jns. Pelayanan</th>
                             <td>
-                                <span class="badge bg-info"><?= $pasien['jnsPelayanan'] ?></span>
+                                <span class="badge bg-info">
+                                    <?= $pasien['jnspelayanan'] == 'RITL' ? 'Rawat Inap Tingkat Lanjut' : $pasien['jnspelayanan'] ?>
+                                </span>
                             </td>
                         </tr>
                         <tr>
-                            <th>Kelas Rawat</th>
-                            <td><?= $pasien['kelasRawat'] ?></td>
-                        </tr>
-                        <tr>
                             <th>Diagnosa</th>
-                            <td><?= $pasien['diagnosa'] ?></td>
+                            <td><?= $pasien['nmdiag'] ?: '-' ?></td>
                         </tr>
                         <tr>
-                            <th>Catatan</th>
-                            <td><?= $pasien['catatan'] ?: '-' ?></td>
+                            <th>Poli</th>
+                            <td><?= $pasien['poli'] ?: '-' ?></td>
                         </tr>
-                        <?php if(isset($pasien['noRujukan'])): ?>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Faskes Asal Resep -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h6 class="card-title text-success mb-0"><i class="bi bi-hospital me-2"></i>Faskes Asal Resep</h6>
+                </div>
+                <div class="card-body py-2">
+                    <table class="table table-sm table-striped mb-0">
                         <tr>
-                            <th>No. Rujukan</th>
-                            <td><?= $pasien['noRujukan'] ?></td>
+                            <th width="40%">Kode</th>
+                            <td><?= $pasien['faskesasalresep'] ?: '-' ?></td>
                         </tr>
-                        <?php endif; ?>
+                        <tr>
+                            <th>Nama</th>
+                            <td><strong><?= $pasien['nmfaskesasalresep'] ?: '-' ?></strong></td>
+                        </tr>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- KARTU 2: DATA PASIEN -->
+        <!-- KARTU 2: DATA PESERTA -->
         <div class="col-12 col-md-4">
             <div class="card">
                 <div class="card-header">
@@ -66,89 +77,95 @@
                     <table class="table table-sm table-striped mb-0">
                         <tr>
                             <th width="40%">Nama</th>
-                            <td><strong><?= $pasien['peserta']['nama'] ?></strong></td>
+                            <td><strong><?= $pasien['namapeserta'] ?></strong></td>
                         </tr>
                         <tr>
                             <th>No. Kartu</th>
-                            <td><?= $pasien['peserta']['noKartu'] ?></td>
-                        </tr>
-                        <tr>
-                            <th>No. MR</th>
-                            <td><?= $pasien['peserta']['noMr'] ?: '-' ?></td>
+                            <td><?= $pasien['nokartu'] ?></td>
                         </tr>
                         <tr>
                             <th>Tgl Lahir</th>
-                            <td><?= $pasien['peserta']['tglLahir'] ?></td>
+                            <td><?= tgl_indo($pasien['tgllhr']) ?? $pasien['tgllhr'] ?></td>
                         </tr>
                         <tr>
                             <th>Kelamin</th>
-                            <td><?= $pasien['peserta']['kelamin'] == 'P' ? 'Perempuan' : 'Laki-laki' ?></td>
+                            <td>
+                                <span class="badge <?= $pasien['jnskelamin'] == 'P' ? 'bg-pink' : 'bg-blue' ?>">
+                                    <?= $pasien['jnskelamin'] == 'P' ? 'Perempuan' : 'Laki-laki' ?>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Info Kepegawaian -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h6 class="card-title text-info mb-0"><i class="bi bi-building me-2"></i>Info Kepegawaian</h6>
+                </div>
+                <div class="card-body py-2">
+                    <table class="table table-sm table-striped mb-0">
+                        <tr>
+                            <th width="40%">Jns. Peserta</th>
+                            <td><?= $pasien['nmjenispeserta'] ?: '-' ?></td>
                         </tr>
                         <tr>
-                            <th>Jns. Peserta</th>
-                            <td><?= $pasien['peserta']['jnsPeserta'] ?></td>
+                            <th>Kode BU</th>
+                            <td><?= $pasien['kodebu'] ?: '-' ?></td>
                         </tr>
                         <tr>
-                            <th>Hak Kelas</th>
-                            <td><?= $pasien['peserta']['hakKelas'] ?></td>
+                            <th>Nama BU</th>
+                            <td><strong><?= $pasien['namabu'] ?: '-' ?></strong></td>
+                        </tr>
+                        <tr>
+                            <th>Pisat</th>
+                            <td>
+                                <span class="badge <?= $pasien['pisat'] == '1' ? 'bg-success' : 'bg-secondary' ?>">
+                                    <?= $pasien['pisat'] == '1' ? 'PISAT' : 'Non PISAT' ?>
+                                </span>
+                            </td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- KARTU 3: INFORMASI MEDIS & KONTROL -->
+        <!-- KARTU 3: INFORMASI MEDIS & PRB -->
         <div class="col-12 col-md-4">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title text-warning"><i class="bi bi-heart-pulse me-2"></i>Medis & Kontrol</h4>
+                    <h4 class="card-title text-warning"><i class="bi bi-heart-pulse me-2"></i>Medis & Lainnya</h4>
                 </div>
                 <div class="card-body">
                     
-                    <!-- Sub Bagian DPJP -->
+                    <!-- DPJP -->
                     <h6 class="text-muted font-italic mb-2">Dokter Penanggung Jawab (DPJP)</h6>
                     <table class="table table-sm table-striped mb-3">
                         <tr>
                             <th width="40%">Kode DPJP</th>
-                            <td><?= $pasien['dpjp']['kdDPJP'] ?: '-' ?></td>
+                            <td><?= $pasien['kodedokter'] ?: '-' ?></td>
                         </tr>
                         <tr>
                             <th>Nama DPJP</th>
-                            <td><?= $pasien['dpjp']['nmDPJP'] ?: '-' ?></td>
+                            <td><?= $pasien['namadokter'] ?: '-' ?></td>
                         </tr>
                     </table>
 
-                    <!-- Sub Bagian Kelas Rawat Detail -->
-                    <h6 class="text-muted font-italic mb-2">Kelas Rawat Detail</h6>
-                    <table class="table table-sm table-striped mb-3">
-                        <tr>
-                            <th>Kelas Hak</th>
-                            <td><?= $pasien['klsRawat']['klsRawatHak'] ?></td>
-                        </tr>
-                        <tr>
-                            <th>Pembiayaan</th>
-                            <td><?= $pasien['klsRawat']['pembiayaan'] ?: '-' ?></td>
-                        </tr>
-                        <tr>
-                            <th>Penanggung Jawab</th>
-                            <td><?= $pasien['klsRawat']['penanggungJawab'] ?: '-' ?></td>
-                        </tr>
-                    </table>
-
-                    <!-- Sub Bagian Kontrol -->
-                    <h6 class="text-muted font-italic mb-2">Rencana Kontrol</h6>
+                    <!-- PRB -->
+                    <h6 class="text-muted font-italic mb-2">Program Pengelolaan Penyakit (PRB)</h6>
                     <table class="table table-sm table-striped mb-0">
                         <tr>
-                            <th width="40%">No. Surat</th>
-                            <td><?= $pasien['kontrol']['noSurat'] ?></td>
+                            <th width="40%">Flag PRB</th>
+                            <td>
+                                <span class="badge <?= $pasien['flagprb'] == '1' ? 'bg-danger' : 'bg-secondary' ?>">
+                                    <?= $pasien['flagprb'] == '1' ? 'Ya' : 'Tidak' ?>
+                                </span>
+                            </td>
                         </tr>
                         <tr>
-                            <th>Kode Dokter</th>
-                            <td><?= $pasien['kontrol']['kdDokter'] ?></td>
-                        </tr>
-                        <tr>
-                            <th>Nama Dokter</th>
-                            <td><?= $pasien['kontrol']['nmDokter'] ?></td>
+                            <th>Nama PRB</th>
+                            <td><?= $pasien['namaprb'] ?: '-' ?></td>
                         </tr>
                     </table>
 
@@ -157,11 +174,10 @@
         </div>
 
     </div>
-    <!-- Tutup Row -->
 
 <?php else: ?>
     <div class="alert alert-warning">
-        <h4 class="alert-heading">Data SEP Tidak Ditemukan</h4>
+        <h4 class="alert-heading"><i class="bi bi-exclamation-triangle-fill me-2"></i>Data SEP Tidak Ditemukan</h4>
         <p>Silakan periksa kembali Nomor SEP yang Anda masukkan.</p>
     </div>
 <?php endif; ?>

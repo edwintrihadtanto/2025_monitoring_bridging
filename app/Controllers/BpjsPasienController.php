@@ -133,7 +133,6 @@ class BpjsPasienController extends BaseController
             
             $wrapper = json_decode($response->getBody(), true);            
             $bpjsJson = $wrapper['body'] ?? $wrapper;
-
             $statusResult = false;
             $message = '';
             $htmlResult = '';
@@ -145,7 +144,8 @@ class BpjsPasienController extends BaseController
             // 2. Cek SUKSES (Code 200)
             elseif (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
                 
-                if (!empty($bpjsJson['response']['peserta'])) {
+                // if (!empty($bpjsJson['response']['peserta'])) {
+                if (!empty($bpjsJson['response']['noSep'])) {
                     $statusResult = true;
                     $pasienData = $bpjsJson['response'];
                     $htmlResult = view('pasien/partial_sep_result', ['pasien' => $pasienData]);
