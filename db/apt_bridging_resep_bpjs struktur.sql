@@ -34,6 +34,8 @@ CREATE TABLE "public"."apt_bridging_resep_bpjs" (
   "response_message" varchar(255) COLLATE "pg_catalog"."default",
   "sts_batal" bool NOT NULL DEFAULT false,
   "alasan_batal" text COLLATE "pg_catalog"."default"
+"kdjnsobat"  int4 DEFAULT 0,
+"iterasi"  int4 DEFAULT 0,
 )
 ;
 COMMENT ON COLUMN "public"."apt_bridging_resep_bpjs"."response_message" IS 'Ok = Resep berhasil dikirim ke BPJS';
