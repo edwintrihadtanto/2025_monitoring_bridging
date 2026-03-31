@@ -65,7 +65,7 @@ class BpjsController extends BaseController
 
                             "rujukan" => [
                                 "asalRujukan" => "2",
-                                "tglRujukan"  => "2026-03-30",
+                                "tglRujukan"  => date('Y-m-d'),
                                 "noRujukan"   => "1308R0010326K000004",
                                 "ppkRujukan"  => $this->ppkSoedono,
                             ],

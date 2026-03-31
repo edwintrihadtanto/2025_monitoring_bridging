@@ -438,9 +438,14 @@ function prosesBatchSIMRS(payload) {
                 // });
                 Swal.fire({
                     icon: 'error',
-                    text: data.message,
+                    html: data.message,
                     timer: 3400,
-                    showConfirmButton: false
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
                 });
 
                 bar.classList.add('d-none');

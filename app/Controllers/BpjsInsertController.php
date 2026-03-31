@@ -528,6 +528,11 @@ class BpjsInsertController extends BaseController
             ]);
         }
 
+        if ($prbCheck['nokartu'] !== '0' ) {
+            $noka = $prbCheck['nokartu'] ?? 0;
+            // $statusCheck = $this->_cekNokaPasien($noka);
+        }
+
         if ($prbCheck['flagprb'] !== '0' ) {
             return $this->response->setJSON([
                 'status'  => false,
@@ -674,7 +679,8 @@ class BpjsInsertController extends BaseController
                 
                 return $this->response->setJSON([
                     'status'  => false, 
-                    'message' => "Header Resep aman, tapi ada kesalahan saat mengirim detail obat:<br>" . implode("<br>", $resultObat['errors']."<br>"),
+                    // 'message' => "Header Resep aman, tapi ada kesalahan saat mengirim detail obat:<br>" . implode("<br>", $resultObat['errors']."<br>"),                    
+                    'message' => "Header Resep aman, tapi ada kesalahan saat mengirim detail obat:<br>" . implode("<br>", $resultObat['errors']),
                     'data'    => ['noApotik' => $noApotik, 'noResep' => $noResepBPJS]
                 ]);
             }
