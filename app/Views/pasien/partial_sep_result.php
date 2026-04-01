@@ -1,4 +1,11 @@
-<?php if (!empty($pasien)): ?>
+<?php 
+if (!empty($pasien)): 
+$map = [
+    'RITL' => 'Rawat Inap Tingkat Lanjut',
+    'RJTL' => 'Rawat Jalan Tingkat Lanjut',
+    'RJTP' => 'Rawat Jalan Tingkat Pertama',
+];
+?>
     <div class="alert alert-success mb-4">
         <h4 class="alert-heading"><i class="bi bi-check-circle-fill"></i> Data SEP Ditemukan</h4>
         <p class="mb-0">Pencarian Surat Eligibilitas Peserta berhasil dilakukan.</p>
@@ -31,7 +38,7 @@
                             <th>Jns. Pelayanan</th>
                             <td>
                                 <span class="badge bg-info">
-                                    <?= $pasien['jnspelayanan'] == 'RITL' ? 'Rawat Inap Tingkat Lanjut' : $pasien['jnspelayanan'] ?>
+                                    <?php echo $map[$pasien['jnspelayanan']] ?? $pasien['jnspelayanan']; ?>
                                 </span>
                             </td>
                         </tr>

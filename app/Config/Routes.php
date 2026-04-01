@@ -32,6 +32,8 @@ use CodeIgniter\Router\RouteCollection;
         $routes->get('batalRUJUKAN', 'BpjsController::batalRUJUKAN');   //VCLAIM 
         $routes->get('buatSPRI', 'BpjsController::buatSPRI');           //VCLAIM 
         $routes->get('createPostMRS', 'BpjsController::createPostMRS'); //VCLAIM 
+        $routes->get('getRencanaKontrol', 'BpjsController::getRencanaKontrol'); //VCLAIM 
+
         // END API VCLAIM
         $routes->get('getRujukan/(:segment)', 'BpjsController::getRujukan/$1'); //VCLAIM 
 

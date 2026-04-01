@@ -55,7 +55,7 @@ class BpjsController extends BaseController
                             "jnsPelayanan" => "2", // 1=RANAP, 2=RAJAL
 
                             "klsRawat" => [
-                                "klsRawatHak"  => "3",
+                                "klsRawatHak"  => "2",
                                 "klsRawatNaik" => "",
                                 "pembiayaan"   => "",
                                 "penanggungJawab" => ""
@@ -65,8 +65,8 @@ class BpjsController extends BaseController
 
                             "rujukan" => [
                                 "asalRujukan" => "2",
-                                "tglRujukan"  => date('Y-m-d'),
-                                "noRujukan"   => "1308R0010326K000004",
+                                "tglRujukan"  => "2026-03-27",
+                                "noRujukan"   => "1308R0010326V000002",
                                 "ppkRujukan"  => $this->ppkSoedono,
                             ],
 
@@ -108,11 +108,11 @@ class BpjsController extends BaseController
                             "tujuanKunj" => "0",
                             "flagProcedure" => "",
                             "kdPenunjang" => "",
-                            "assesmentPel" => "",
+                            "assesmentPel" => "4",
 
                             "skdp" => [
-                                "noSurat"  => "",
-                                "kodeDPJP" => ""
+                                "noSurat"  => "1308R0010326K000004",
+                                "kodeDPJP" => "299693"
                             ],
 
                             "dpjpLayan" => "299693", // wajib jika RAJAL
@@ -219,7 +219,7 @@ class BpjsController extends BaseController
                         "t_rujukan" => [
                             "noSep"      => "1308R0010326V000038",
                             "tglRujukan"       => '2026-03-27',
-                            "tglRencanaKunjungan" => '2026-03-28',
+                            "tglRencanaKunjungan" => '2026-04-01',
                             "ppkDirujuk" => '0216R010', 
                             "jnsPelayanan" => "1", 
                             "catatan" => "buatrujuakan", 
@@ -244,7 +244,7 @@ class BpjsController extends BaseController
                             "noSEP"             => "1308R0010326V000040",
                             "kodeDokter"        => '299693',
                             "poliKontrol"       => 'INT',
-                            "tglRencanaKontrol" => '2026-03-31',
+                            "tglRencanaKontrol" => '2026-04-02',
                             "user"              => "Coba Web Service Farmasi"
                         ]
                     ]);
@@ -253,14 +253,22 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
 
+    public function getRencanaKontrol()
+    {
+        $userID     = '12345';
+        $payload    = '';
+        $endpoint = '/RencanaKontrol/nosep/1308R0010326V000040';        
+        $result = $this->bpjsInsertVclaimService->request('GET', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
     public function batalRUJUKAN()
     {
         $userID     =   '12345';
         $payload    =   json_encode([
                             "request" => [
                                 "t_rujukan" => [
-                                    "noRujukan"      => "1308R0010326B000001",
-                                    "user"   => "Coba Web Service Farmasi"
+                                    "noRujukan"      => "1308R0010326B000003",
+                                    "user"          => "Coba Web Service Farmasi"
                                 ]
                             ]
                         ]);
