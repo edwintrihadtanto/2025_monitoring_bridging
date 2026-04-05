@@ -1,0 +1,145 @@
+.monitoring-theme {
+    /*background: #0f172a;*/
+    color: #e5e7eb;
+}
+
+/* CARD */
+.monitoring-theme .card {
+    /*background: #111827;
+    border: 1px solid #1f2937;*/
+    border-radius: 12px;
+}
+
+.monitoring-theme .card-body {
+    padding: 1rem;
+}
+
+/* TITLE */
+.monitoring-theme h4 {
+    /*color: #f9fafb;*/
+}
+
+.monitoring-theme .text-muted {
+    color: #9ca3af !important;
+}
+
+/* STAT CARD */
+.monitoring-theme .stat-card {
+    background: linear-gradient(145deg, #111827, #0b1220);
+    border: 1px solid #1f2937;
+    transition: all 0.2s ease;
+}
+
+.monitoring-theme .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+}
+
+/* TABLE */
+.monitoring-theme .table {
+    color: #e5e7eb;
+}
+
+.monitoring-theme .table thead {
+    background: #020617;
+    color: #9ca3af;
+}
+
+.monitoring-theme .table tbody tr {
+    border-bottom: 1px solid #1f2937;
+}
+
+.monitoring-theme .table tbody tr:hover {
+    background: rgba(59, 130, 246, 0.08);
+}
+
+/* BADGE STYLE (Grafana feel) */
+.monitoring-theme .badge {
+    font-size: 0.7rem;
+    padding: 5px 8px;
+    border-radius: 6px;
+}
+
+/* STATUS COLORS */
+.monitoring-theme .bg-success {
+    background: rgba(34, 197, 94, 0.15) !important;
+    color: #22c55e !important;
+}
+
+.monitoring-theme .bg-info {
+    background: rgba(59, 130, 246, 0.15) !important;
+    color: #3b82f6 !important;
+}
+
+.monitoring-theme .bg-warning {
+    background: rgba(234, 179, 8, 0.15) !important;
+    color: #eab308 !important;
+}
+
+.monitoring-theme .bg-danger {
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #ef4444 !important;
+}
+
+/* BUTTON */
+.monitoring-theme .btn-outline-dark {
+    border: 1px solid #374151;
+    color: #9ca3af;
+}
+
+.monitoring-theme .btn-outline-dark:hover {
+    background: #1f2937;
+    color: #fff;
+}
+
+/* ICON BADGE */
+.monitoring-theme .badge i {
+    font-size: 0.9rem;
+}
+
+/* SCROLL TABLE */
+.monitoring-theme .table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+/* MODAL DARK */
+.monitoring-theme .modal-content {
+    /*background: #020617;*/
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+}
+
+.monitoring-theme .modal-header {
+    border-bottom: 1px solid #1f2937;
+}
+
+.monitoring-theme .modal-footer {
+    border-top: 1px solid #1f2937;
+}
+
+/* CODE BOX (KIBANA STYLE) */
+.code-box {
+    background: #020617;
+    border: 1px solid #1f2937;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    color: #e5e7eb;
+    max-height: 220px;
+    overflow: auto;
+    white-space: pre-wrap;
+}
+
+/* RESPONSE lebih tinggi */
+.response-box {
+    max-height: 350px;
+}
+
+/* COPY BUTTON */
+.copy-btn {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+}

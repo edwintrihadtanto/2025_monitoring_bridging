@@ -42,7 +42,91 @@ class BpjsController extends BaseController
         return $this->response->setJSON($result);
     }
     
-    //JALAN/IGD
+    //IGD
+    public function createSEPBPJS_IGD()
+    {
+        $userID     = '12345';
+        $payload    = json_encode([
+                    "request" => [
+                        "t_sep" => [
+                            "noKartu"      => "0002056469703",
+                            "tglSep"       => date('Y-m-d'),
+                            "ppkPelayanan" => $this->ppkSoedono,
+                            "jnsPelayanan" => "2", // 1=RANAP, 2=RAJAL
+
+                            "klsRawat" => [
+                                "klsRawatHak"  => "2",
+                                "klsRawatNaik" => "",
+                                "pembiayaan"   => "",
+                                "penanggungJawab" => ""
+                            ],
+
+                            "noMR" => '0-00-00-04',
+
+                            "rujukan" => [
+                                "asalRujukan" => "2",
+                                "tglRujukan"  => "",
+                                "noRujukan"   => "",
+                                "ppkRujukan"  => $this->ppkSoedono,
+                            ],
+
+                            "catatan" => "-",
+                            "diagAwal" => "I11",
+
+                            "poli" => [
+                                "tujuan"    => "IGD",
+                                "eksekutif" => "0"
+                            ],
+
+                            "cob" => [
+                                "cob" => "0"
+                            ],
+
+                            "katarak" => [
+                                "katarak" => "0"
+                            ],
+
+                            "jaminan" => [
+                                "lakaLantas" => "0",
+                                "noLP" => "",
+                                "penjamin" => [
+                                    "tglKejadian" => "",
+                                    "keterangan"  => "",
+                                    "suplesi" => [
+                                        "suplesi" => "0",
+                                        "noSepSuplesi" => "",
+                                        "lokasiLaka" => [
+                                            "kdPropinsi"  => "",
+                                            "kdKabupaten" => "",
+                                            "kdKecamatan" => ""
+                                        ]
+                                    ]
+                                ]
+                            ],
+
+                            // ===== FIELD BARU =====
+                            "tujuanKunj" => "0",
+                            "flagProcedure" => "",
+                            "kdPenunjang" => "",
+                            "assesmentPel" => "",
+
+                            "skdp" => [
+                                "noSurat"  => "",
+                                "kodeDPJP" => ""
+                            ],
+
+                            "dpjpLayan" => "299693", // wajib jika RAJAL
+                            "noTelp" => "081111111101",
+                            "user"   => "Coba Web Service Farmasi"
+                        ]
+                    ]
+                ]);
+        
+        $endpoint = '/SEP/2.0/insert';        
+        $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
+    //JALAN
     public function createSEPBPJS_JALAN()
     {
         $userID     = '12345';
@@ -66,7 +150,7 @@ class BpjsController extends BaseController
                             "rujukan" => [
                                 "asalRujukan" => "2",
                                 "tglRujukan"  => "2026-03-27",
-                                "noRujukan"   => "1308R0010326V000002",
+                                "noRujukan"   => "1308R0010326V000040",
                                 "ppkRujukan"  => $this->ppkSoedono,
                             ],
 
@@ -108,10 +192,10 @@ class BpjsController extends BaseController
                             "tujuanKunj" => "0",
                             "flagProcedure" => "",
                             "kdPenunjang" => "",
-                            "assesmentPel" => "4",
+                            "assesmentPel" => "",
 
                             "skdp" => [
-                                "noSurat"  => "1308R0010326K000004",
+                                "noSurat"  => "1308R0010426K000002",
                                 "kodeDPJP" => "299693"
                             ],
 
@@ -217,9 +301,9 @@ class BpjsController extends BaseController
         $payload    = json_encode([
                     "request" => [
                         "t_rujukan" => [
-                            "noSep"      => "1308R0010326V000038",
+                            "noSep"      => "1308R0010326V000040",
                             "tglRujukan"       => '2026-03-27',
-                            "tglRencanaKunjungan" => '2026-04-01',
+                            "tglRencanaKunjungan" => '2026-04-03',
                             "ppkDirujuk" => '0216R010', 
                             "jnsPelayanan" => "1", 
                             "catatan" => "buatrujuakan", 
@@ -244,12 +328,28 @@ class BpjsController extends BaseController
                             "noSEP"             => "1308R0010326V000040",
                             "kodeDokter"        => '299693',
                             "poliKontrol"       => 'INT',
-                            "tglRencanaKontrol" => '2026-04-02',
+                            "tglRencanaKontrol" => '2026-04-04',
                             "user"              => "Coba Web Service Farmasi"
                         ]
                     ]);
         $endpoint = '/RencanaKontrol/insert';        
         $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
+
+    public function batalPostMRS()
+    {
+        $userID     = '12345';
+        $payload    = json_encode([
+                        "request" => [                        
+                            "t_suratkontrol" => [
+                                    "noSuratKontrol"      => "1308R0010326K000004",
+                                    "user"          => "Coba Web Service Farmasi"
+                                ]
+                        ]
+                    ]);
+        $endpoint = '/RencanaKontrol/Delete';        
+        $result = $this->bpjsInsertVclaimService->request('DELETE', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
 
@@ -261,6 +361,16 @@ class BpjsController extends BaseController
         $result = $this->bpjsInsertVclaimService->request('GET', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
+
+    public function getfinger()
+    {
+        $userID     = '12345';
+        $payload    = '';
+        $endpoint = '/SEP/FingerPrint/Peserta/0003339213344/TglPelayanan/2026-04-02';        
+        $result = $this->bpjsvclaimService->request('GET', $endpoint);
+        return $this->response->setJSON($result);
+    }
+
     public function batalRUJUKAN()
     {
         $userID     =   '12345';
@@ -275,6 +385,27 @@ class BpjsController extends BaseController
         
         $endpoint = '/Rujukan/delete';        
         $result = $this->bpjsInsertVclaimService->request('DELETE', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
+
+    public function approval()
+    {
+        $userID     =   '12345';
+        $payload    =   json_encode([
+                            "request" => [
+                                "t_sep" => [
+                                    "noKartu"      => "0002056469703",
+                                    "tglSep"       => "2026-03-27",
+                                    "jnsPelayanan" => "2",
+                                    // "jnsPengajuan" => "2",
+                                    "keterangan"    => "Hari libur",
+                                    "user"          => "Coba Web Service Farmasi"
+                                ]
+                            ]
+                        ]);
+        
+        $endpoint = '/Sep/aprovalSEP';        
+        $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
 
@@ -529,7 +660,6 @@ class BpjsController extends BaseController
 
     public function obatnonracikan()
     {
-        // Ambil payload dari request body (dikirim oleh _sendDetailObat)
         $request = $this->request->getJSON(true);
         
         if (!$request) {
@@ -563,7 +693,17 @@ class BpjsController extends BaseController
 
     public function obatracikan()
     {
-        $userID = '1';
+        $request = $this->request->getJSON(true);
+        
+        if (!$request) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'code'    => '400',
+                'message' => 'Payload kosong'
+            ]);
+        }
+
+        $userID = session()->get('id') ?? '1';
 
         $signa1     = 1;
         $signa2     = 1;
@@ -573,6 +713,19 @@ class BpjsController extends BaseController
         // $qty = $signa1 * $signa2 * $jho;
         $qty = 1;
         $payload = json_encode([
+            'NOSJP'         => $request['NOSJP'] ?? '',
+            'NORESEP'       => $request['NORESEP'] ?? '',
+            'JNSROBT'       => 'R.01',
+            'KDOBT'         => $request['KDOBT'] ?? '',
+            'NMOBAT'        => $request['NMOBAT'] ?? '',
+            'SIGNA1OBT'     => $request['SIGNA1OBT'] ?? '1',
+            'SIGNA2OBT'     => $request['SIGNA2OBT'] ?? '1',
+            'PERMINTAAN'    => $request['PERMINTAAN'] ?? '1',
+            'JMLOBT'        => $request['JMLOBT'] ?? 0,
+            'JHO'           => $request['JHO'] ?? '0',
+            'CatKhsObt'     => $request['CatKhsObt'] ?? 'Racikan'
+        ]);
+        /*$payload = json_encode([
             'NOSJP'      => '0216A01603260000015',
             'NORESEP'    => '00014',
             'JNSROBT'    => 'R.01',
@@ -584,7 +737,7 @@ class BpjsController extends BaseController
             'JHO'        => $jho,
             'JMLOBT'     => $qty,
             'CatKhsObt'  => 'RACIKAN PUYER'
-        ]);
+        ]);*/
 
        /* $payload = json_encode([
             'NOSJP'         => $sepapotik,

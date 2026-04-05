@@ -350,6 +350,7 @@
             document.body.addEventListener('click', function(e) {
                 // Tombol Detail
                 const btnDetail = e.target.closest('.btn-detail-log');
+                const copybtn = e.target.closest('.copy-btn');
                 if (btnDetail) {
                     e.preventDefault();
                     const modalEl = document.getElementById('detailModal');
@@ -362,6 +363,24 @@
                     return;
                 }
 
+                if (copybtn) {
+                    const targetId = copybtn.dataset.target;
+                    const targetEl = document.getElementById(targetId);
+
+                    if (!targetEl) return;
+
+                    navigator.clipboard.writeText(targetEl.textContent).then(() => {
+                        copybtn.innerHTML = '<i class="bi bi-check"></i>';
+                    }).catch(() => {
+                        copybtn.innerHTML = '<i class="bi bi-x"></i>';
+                    });
+
+                    // efek visual
+                    copybtn.innerHTML = '<i class="bi bi-check"></i>';
+                    setTimeout(() => {
+                        copybtn.innerHTML = '<i class="bi bi-clipboard"></i>';
+                    }, 1500);
+                }
                 // Link Navigation
                 const link = e.target.closest('a');
                 if (!link) return;

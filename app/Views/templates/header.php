@@ -13,6 +13,7 @@
     <!-- PENTING: Pastikan CSS jQuery DataTables juga terpanggil -->
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/extensions/sweetalert2/sweetalert2.min.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('js/log.css') ?>">
     <style>
         /* --- PAKSA STYLE BOOTSTRAP 5 PAGINATION --- */
         /* Reset margin list pagination */
@@ -473,6 +474,7 @@
         .resep-item {
             border-bottom: 1px solid #2c2f3a;
             transition: 0.2s;
+            font-size: 0.85rem;
         }
 
         .resep-item:hover {
@@ -482,6 +484,58 @@
         .form-check-input:checked {
             transform: scale(1.1);
         }
+        .resep-card {
+            /*background: #020617;*/
+            border: 1px solid #1f2937;
+            border-radius: 10px;
+            transition: 0.2s;
+            margin-bottom: 0.2rem;
+        }
+
+        .resep-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+        }
+
+        .resep-group {
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+        }
+
+        /*.resep-item {
+            font-size: 0.85rem;
+        }*/
+
+        .resep-toolbar {
+            background: #020617;
+            padding: 6px 8px;
+            border-radius: 8px;
+        }
+
+        .detail-obat-wrapper .accordion-button {
+            background: #f8f9fa;
+            box-shadow: none;
+        }
+
+        .detail-obat-wrapper .accordion-button:not(.collapsed) {
+            background: #e9ecef;
+        }
+
+        .detail-obat-wrapper .list-group-item {
+            border: none;
+            border-bottom: 1px solid #eee;
+        }
+
+        .racikan-box {
+            border: 1px dashed #ddd;
+            border-radius: 6px;
+        }
+
+        .racikan-header {
+            font-size: 11px;
+        }
+
+        
     </style>
 </head>
 <body>

@@ -25,13 +25,18 @@ use CodeIgniter\Router\RouteCollection;
         $routes->get('peserta/nokartu/(:num)', 'BpjsController::getPesertaByNoKartu/$1');
         $routes->get('peserta/nik/(:num)', 'BpjsController::getPesertaByNik/$1');
         $routes->get('getSEPPasien/(:segment)', 'BpjsController::searchingSEPPasien/$1');
+        $routes->get('createSEPBPJS_IGD', 'BpjsController::createSEPBPJS_IGD'); //VCLAIM 
         $routes->get('createSEPBPJS_JALAN', 'BpjsController::createSEPBPJS_JALAN'); //VCLAIM 
         $routes->get('createSEPBPJS_INAP', 'BpjsController::createSEPBPJS_INAP'); //VCLAIM 
         $routes->get('deleteSEPBPJS', 'BpjsController::delSEP');        //VCLAIM
         $routes->get('createRUJUKAN', 'BpjsController::createRUJUKAN'); //VCLAIM 
         $routes->get('batalRUJUKAN', 'BpjsController::batalRUJUKAN');   //VCLAIM 
         $routes->get('buatSPRI', 'BpjsController::buatSPRI');           //VCLAIM 
+        $routes->get('approval', 'BpjsController::approval');           //VCLAIM 
+        $routes->get('getfinger', 'BpjsController::getfinger');           //VCLAIM         
         $routes->get('createPostMRS', 'BpjsController::createPostMRS'); //VCLAIM 
+        $routes->get('batalPostMRS', 'BpjsController::batalPostMRS'); //VCLAIM 
+
         $routes->get('getRencanaKontrol', 'BpjsController::getRencanaKontrol'); //VCLAIM 
 
         // END API VCLAIM

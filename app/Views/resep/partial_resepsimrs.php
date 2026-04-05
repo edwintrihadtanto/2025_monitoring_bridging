@@ -1,6 +1,6 @@
 <div id="resepWrapper">
 
-    <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
+    <!-- <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
 
         <div class="input-group input-group-sm" style="max-width:320px">
             <span class="input-group-text">🔍</span>
@@ -43,8 +43,62 @@
         <span class="badge bg-primary" id="selectedCounter">
             0 terpilih
         </span>
-    </div>
+    </div> -->
+    <div class="resep-toolbar d-flex flex-wrap gap-2 mb-2 align-items-center">
 
+        <div class="input-group input-group-sm" style="max-width:260px">
+            <span class="input-group-text">🔍</span>
+            <input type="text" id="searchResep" class="form-control"
+                   placeholder="Cari SEP/Medrec/Nm Pasien">
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+
+            <label class="form-check m-0">
+                <input class="form-check-input"
+                       type="radio"
+                       name="filter_sep"
+                       value="kosong"
+                       id="sepkosong">
+                <span class="form-check-label small text-danger">SEP Kosong</span>
+            </label>
+
+            <label class="form-check m-0">
+                <input class="form-check-input"
+                       type="radio"
+                       name="filter_sep"
+                       value="ada"
+                       id="sepada">
+                <span class="form-check-label small text-success">Ada SEP</span>
+            </label>
+
+            <label class="form-check m-0">
+                <input class="form-check-input"
+                       type="radio"
+                       name="filter_sep"
+                       value=""
+                       checked>
+                <span class="form-check-label small text-muted">Semua</span>
+            </label>
+        </div>
+
+        <div class="ms-auto d-flex align-items-center gap-2">
+            <span class="badge bg-primary" id="selectedCounter">0</span>
+
+            <button id="btnProsesTerpilih"
+                    type="button"
+                    class="btn btn-success btn-sm"
+                    disabled>
+                <i class="bi bi-lightning"></i>
+            </button>
+
+            <div class="form-check m-0">
+                <input class="form-check-input" type="checkbox" id="checkAllGlobal">
+                <label class="form-check-label small">All</label>
+            </div>
+        </div>
+
+    </div>
     <!-- 📦 GROUP BY TANGGAL -->
     <div id="resepContainer">
 
@@ -71,8 +125,6 @@
 
                 <?php foreach ($group['data'] as $item): 
                     $collapseId = 'detail-' . md5($item['no_out'].$item['tgl_out']);
-                    $isBPJS = !empty($item['noresep_bpjs']);
-                    $iterValue = $isBPJS ? $item['iterasi'] : $item['sts_iter'];
                 ?>
 
                     <div class="list-group-item resep-item"
@@ -152,7 +204,7 @@
                                                name="iterasi_<?= $item['no_resep'] ?>"
                                                class="form-check-input"
                                                value="1"
-                                               <?= $iterValue == '1' ? 'checked' : '' ?>
+                                               <?= $item['sts_iter'] == '1' ? 'checked' : '' ?>
                                                onchange="this.closest('.resep-item').dataset.sts_iter=this.value">
                                         <label class="form-check-label text-warning small">
                                             Iterasi
@@ -164,7 +216,7 @@
                                                name="iterasi_<?= $item['no_resep'] ?>"
                                                class="form-check-input"
                                                value="0"
-                                               <?= $iterValue == '0' ? 'checked' : '' ?>
+                                               <?= $item['sts_iter'] != '1' ? 'checked' : '' ?>
                                                onchange="this.closest('.resep-item').dataset.sts_iter=this.value">
                                         <label class="form-check-label text-secondary small">
                                             Non
@@ -191,11 +243,10 @@
 
                                     <div class="col-4">
                                         <select class="form-select form-select-sm"
-                                            onchange="this.closest('.resep-item').dataset.kdjnsobat=this.value">
-
-                                            <option value="1" <?= $item['kdjnsobat'] == 1 ? 'selected' : '' ?>>Obat PRB</option>
-                                            <option value="2" <?= $item['kdjnsobat'] == 2 ? 'selected' : '' ?>>Obat Kronis</option>
-                                            <option value="3" <?= $item['kdjnsobat'] == 3 ? 'selected' : '' ?>>Obat Kemo</option>
+                                                onchange="this.closest('.resep-item').dataset.kdjnsobat=this.value">
+                                            <option value="1">PRB</option>
+                                            <option value="2">Kronis</option>
+                                            <option value="3">Kemo</option>
                                         </select>
                                     </div>
 

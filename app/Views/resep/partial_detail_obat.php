@@ -1,10 +1,23 @@
 <?php if (empty($detail)): ?>
-    <div class="text-muted fst-italic py-2">
+    <div class="text-muted fst-italic py-2 small">
         Tidak ada detail obat
     </div>
 <?php else: ?>
 
-<div class="mt-2 detail-obat-wrapper"
+<?php
+$obat_jadi = [];
+$racikan = [];
+
+foreach ($detail as $item) {
+    if (empty($item['nm_racikan']) || strtolower($item['nm_racikan']) == 'tidak') {
+        $obat_jadi[] = $item;
+    } else {
+        $racikan[$item['nm_racikan']][] = $item;
+    }
+}
+?>
+
+<div class="mt-2 detail-obat-wrapper compact-mode"
      data-noresep="<?= esc($noresep ?? '') ?>"
      data-sep="<?= esc($sep ?? '') ?>"
      data-kdpasien="<?= esc($kd_pasien ?? '') ?>"
@@ -15,77 +28,203 @@
      data-sts_iter="<?= esc($sts_iter ?? '') ?>"
      >
 
-    <div class="fw-semibold mb-1">
+    <!-- HEADER -->
+    <div class="fw-semibold mb-2 small">
         Detail Obat
-        <span class="badge bg-primary ms-1">
-            <?= count($detail) ?>
-        </span>
+        <span class="badge bg-primary"><?= count($detail) ?></span>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
+    <div class="row g-2">
 
-            <thead>
-                <tr class="text-muted">
-                    <th style="width:36px"></th>
-                    <th style="width:130px">Kode</th>
-                    <th style="width:100px">Racikan</th>
-                    <th>Nama Obat</th>
-                    <th style="width:250px">Signa</th>
-                    <th style="width:70px" class="text-center">Qty</th>
-                </tr>
-            </thead>
+        <!-- ================= KIRI : OBAT JADI ================= -->
+        <div class="col-md-6">
 
-            <tbody>
-                <?php foreach ($detail as $item): ?>
-                <tr>
-                    <td class="text-center">
-                        <input type="checkbox"
-                               class="form-check-input obat-check"
-                               data-kdobat="<?= esc($item['kd_prd'])?>"
-                               data-qty="<?= esc($item['jml_out']) ?>"
-                               data-racikan="<?= esc($item['nm_racikan']) ?>">
-                    </td>
+            <div class="card shadow-sm h-100">
+                <div class="card-header py-1 px-2 bg-light fw-semibold small border-bottom">
+                    <i class="bi bi-capsule text-success"></i>
+                    Obat Jadi
+                    <span class="badge bg-success float-end">
+                        <?= count($obat_jadi) ?>
+                    </span>
+                </div>
 
-                    <td class="text-truncate">
-                        <?= esc($item['kd_prd']) ?>
-                    </td>
-                    <td class="text-truncate">
-                        <?= esc($item['nm_racikan']) ?>
-                    </td>
-                    <td class="fw-semibold">
-                        <?php if ($item['kd_obat_bpjs'] != 0): ?>
-                            <div class="avatar avatar-sm bg-success me-3">
-                                <span class="avatar-content" 
-                                    data-bs-toggle="tooltip"
-                                    title="Obat sudah termapping BPJS">
-                                    <i class="bi bi-check-circle"></i>
-                                </span>
-                            </div>
-                        <?php endif; ?>
-                        <?= esc($item['nama_obat']) ?>
-                    </td>
-                    <td class="fw-semibold">
-                        <?= esc($item['lbl_signa']) ?>
-                        <!-- <input type="number" name="signasatu" class="form-control">
-                        <input type="number" name="signadua" class="form-control"> -->
-                    </td>
-                    <td class="text-center fw-semibold">
-                        <?= esc($item['jml_out']) ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
+                <div class="card-body p-1">
 
-        </table>
+                    <?php if (!empty($obat_jadi)): ?>
+                        <div class="list-group list-group-flush">
+                            <?php foreach ($obat_jadi as $item): ?>
+                                <?= view('resep/partial_detail_itemobat_jadi', ['item' => $item]) ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else: ?>
+                        <div class="text-muted small fst-italic p-2">
+                            Tidak ada obat jadi
+                        </div>
+                    <?php endif; ?>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= KANAN : OBAT RACIKAN ================= -->
+        <div class="col-md-6">
+
+            <div class="card shadow-sm h-100">
+                <div class="card-header py-1 px-2 bg-light fw-semibold small border-bottom">
+                    <i class="bi bi-bezier2 text-warning"></i>
+                    Obat Racikan
+                    <span class="badge bg-warning text-dark float-end">
+                        <?= count($racikan) ?>
+                    </span>
+                </div>
+
+                <div class="card-body p-1">
+
+                    <?php if (!empty($racikan)): ?>
+
+                        <div class="accordion accordion-flush" id="accordionRacikan">
+
+                            <?php foreach ($racikan as $nama => $items): ?>
+
+                                <div class="racikan-box mb-2">
+
+                                    <!-- HEADER -->
+                                    <div class="racikan-header fw-semibold small bg-light px-2 py-1"
+                                         data-bs-toggle="collapse"
+                                         data-bs-target="#racik<?= md5($nama) ?>"
+                                         style="cursor:pointer">
+
+                                        ▶ <?= esc($nama) ?>
+                                        <span class="badge bg-secondary"><?= count($items) ?></span>
+                                    </div>
+
+                                    <!-- BODY -->
+                                    <div id="racik<?= md5($nama) ?>" class="collapse show px-2 py-1">
+
+                                        <!-- LIST OBAT -->
+                                        <div class="racikan-list">
+                                            <?php foreach ($items as $item): ?>
+                                                <div class="racikan-item py-1">
+
+                                                    <!-- BARIS UTAMA -->
+                                                    <div class="d-flex justify-content-between align-items-start gap-1">
+
+                                                        <!-- KIRI -->
+                                                        <div class="d-flex align-items-start gap-1 flex-grow-1">
+
+                                                            <input type="checkbox"
+                                                                   class="form-check-input mt-1 obat-check"
+                                                                   data-kdobat="<?= esc($item['kd_prd'])?>"
+                                                                   data-qty="<?= esc($item['jml_out']) ?>"
+                                                                   data-racikan="<?= esc($item['nm_racikan']) ?>"
+                                                                   >
+
+                                                            <?php if ($item['kd_obat_bpjs'] != 0): ?>
+                                                                <i class="bi bi-check-circle text-success" data-bs-toggle="tooltip" title="Sudah mapping BPJS"></i>
+                                                            <?php endif; ?>
+
+                                                            <div class="flex-grow-1">
+
+                                                                <!-- NAMA -->
+                                                                <div class="fw-semibold text-truncate">
+                                                                    <?= esc($item['nama_obat']) ?>
+                                                                    <span class="text-muted small">(<?= esc($item['kd_prd']) ?>)</span>
+                                                                </div>
+
+                                                                <!-- CATATAN (PINDAH KE BAWAH) -->
+                                                                <?php if (!empty($item['catatan'])): ?>
+                                                                    <div class="text-warning small">
+                                                                        📝 <?= esc($item['catatan']) ?>
+                                                                    </div>
+                                                                <?php endif; ?>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <!-- KANAN (QTY) -->
+                                                        <div class="d-flex align-items-center gap-1">
+                                                            <span class="small text-muted">Qty:</span>
+                                                            <input type="number"
+                                                                   class="form-control form-control-sm qty"
+                                                                   value="<?= esc($item['jml_out']) ?>"
+                                                                   style="width:65px">
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <!-- SIGNA (ATAS SENDIRI) -->
+                                            <?php if (!empty($item['lbl_signa'])): ?>
+                                                <div class="mt-1">
+                                                    <span class="badge bg-danger">
+                                                        <?= esc($item['lbl_signa']) ?>
+                                                    </span>
+                                                </div>
+                                            <?php endif; ?>
+                                            <!-- INPUT GLOBAL RACIKAN -->
+                                            <div class="d-flex flex-wrap align-items-center gap-2 small mb-1">
+                                                
+                                                <!-- SIGNA -->
+                                                <span class="d-flex align-items-center gap-1">
+                                                    <input type="number" class="form-control form-control-sm signa1" style="width:55px">
+                                                    x
+                                                    <input type="number" class="form-control form-control-sm signa2" style="width:55px">
+                                                </span>
+
+                                                <!-- PERMINTAAN -->
+                                                <span class="d-flex align-items-center gap-1">
+                                                    Permintaan:
+                                                    <input type="number" class="form-control form-control-sm permintaan" style="width:65px">
+                                                </span>
+
+                                                <!-- JHO -->
+                                                <span class="d-flex align-items-center gap-1">
+                                                    JHO:
+                                                    <input type="number" class="form-control form-control-sm jho" style="width:55px">
+                                                </span>
+
+                                            </div>
+
+                                            
+
+                                            <!-- <div class="mb-1">
+                                                <input type="text"
+                                                       class="form-control form-control-sm catatan-racikan"
+                                                       placeholder="Catatan racikan...">
+                                            </div> -->
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            <?php endforeach; ?>
+
+                        </div>
+
+                    <?php else: ?>
+                        <div class="text-muted small fst-italic p-2">
+                            Tidak ada obat racikan
+                        </div>
+                    <?php endif; ?>
+
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
-    <!-- BUTTON PROSES -->
-    <div class="text-end">
+    <!-- BUTTON -->
+    <div class="text-end mt-2">
         <button type="button" class="btn btn-sm btn-success btn-proses-detail">
-            <i class="bi bi-check2-circle me-1"></i> Proses
+            <i class="bi bi-check2-circle"></i> Proses
         </button>
     </div>
-</div>
 
-<?php endif ?>
+</div>
+<?php endif; ?>

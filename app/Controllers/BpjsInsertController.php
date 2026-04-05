@@ -524,13 +524,20 @@ class BpjsInsertController extends BaseController
         if (!$prbCheck['status']) {
             return $this->response->setJSON([
                 'status'  => false,
-                'message' => $check['message'] ?? 'Gagal mengecek data SEP pasien.'
+                'message' => $prbCheck['message'] ?? 'Gagal mengecek data SEP pasien.',
+                'data'    => $prbCheck
             ]);
         }
 
         if ($prbCheck['nokartu'] !== '0' ) {
             $noka = $prbCheck['nokartu'] ?? 0;
-            // $statusCheck = $this->_cekNokaPasien($noka);
+            $statusCheck = $this->_cekNokaPasien($noka);
+            if ($statusCheck['kode'] !== '0' ) {
+                return $this->response->setJSON([
+                    'status'  => false,
+                    'message' => "Status Peserta (".($statusCheck['ket'].")" ?: "tidak diketahui!")
+                ]);
+            }
         }
 
         if ($prbCheck['flagprb'] !== '0' ) {
@@ -744,22 +751,25 @@ class BpjsInsertController extends BaseController
             $mappingObat = $ResepModel->getMappingObatBPJS($kdObatSimrs);
 
             if (!$mappingObat) {
-                $errorsObat[] = "Baris " . ($index + 1) . ": Obat {$kdObatSimrs} tidak memiliki mapping BPJS";
+                $errorsObat[] = "Baris " . ($index + 1) . ": Obat ".$kdObatSimrs ." tidak memiliki mapping BPJS";
                 continue;
             }
 
-            $payloadItem = [
-                'NOSJP'         => $noApotik,
-                'NORESEP'       => $noResepBPJS,
-                'KDOBT'         => $mappingObat['kd_obat_bpjs'],
-                'NMOBAT'        => $mappingObat['nama_obat'],
-                'SIGNA1OBT'     => $obat['signa1'] ?? '1',
-                'SIGNA2OBT'     => $obat['signa2'] ?? '1',
-                'JMLOBT'        => (int)($obat['qty'] ?? 0),
-                'JHO'           => (string)($obat['jho'] ?? 1),
-                'CatKhsObt'     => $obat['catkhusus'] ?? 'Single'
-            ];
+            // if ($obat['racikan'] == 'Tidak'){
+                $payloadItem = [
+                    'NOSJP'         => $noApotik,
+                    'NORESEP'       => $noResepBPJS,
+                    'KDOBT'         => $mappingObat['kd_obat_bpjs'],
+                    'NMOBAT'        => $mappingObat['nama_obat'],
+                    'SIGNA1OBT'     => $obat['signa1'] ?? '1',
+                    'SIGNA2OBT'     => $obat['signa2'] ?? '1',
+                    'JMLOBT'        => (int)($obat['qty'] ?? 0),
+                    'JHO'           => (string)($obat['jho'] ?? 1),
+                    'CatKhsObt'     => $obat['catkhusus'] ?? 'Single'
+                ];
 
+            // }
+            
             // LOG DATABASE AWAL
             $logId = $ResepModel->insertLogDetailResepBPJS(
                 $noresep, $no_out, $noResepBPJS, $noApotik,
@@ -1825,11 +1835,54 @@ class BpjsInsertController extends BaseController
                 }
             }
 
-            return ['status' => false, 'message' => ''];
+            return ['status' => false, 'message' => $bpjsJson['metaData']['message'] ?? 'Gagal Cek SEP!', 'data' => $bpjsJson];
 
         } catch (\Exception $e) {
             // API error tidak memblokir proses resep
             log_message('error', 'Gagal cek flag PRB SEP ' . $noSep . ': ' . $e->getMessage());
+            return ['status' => false, 'message' => ''];
+        }
+    }
+
+    private function _cekNokaPasien(string $noka): array
+    {
+        try {
+            $client = Services::curlrequest(['timeout' => 10]);
+            $targetUrl = base_url('bpjs/peserta/nokartu/' . $noka);
+            $response = $client->get($targetUrl, [
+                'headers' => ['X-Internal-Request' => 'TRUE']
+            ]);
+
+            $wrapper = json_decode($response->getBody(), true);
+            $bpjsJson = $wrapper['body'] ?? $wrapper;
+
+            if (isset($bpjsJson['metaData']['code']) && $bpjsJson['metaData']['code'] == "200") {
+                $data = $bpjsJson['response']['peserta'] ?? [];
+
+                if (!empty($data['noKartu'])) {
+                    // return [
+                    //     'status'  => false,
+                    //     'message' => 'Resep tidak dapat diproses. Status PRB Aktif (' . ($sepData['namaprb'] .')' ?: '-')
+                    // ];
+                    return [
+                        'status'    => true,
+                        'kode'      => $data['statusPeserta']['kode'] ?? null,
+                        'ket'       => $data['statusPeserta']['keterangan'] ?? '--',
+                        'noKartu'   => $data['noKartu'] ?? '0',
+                        'data'      => $data
+                    ];
+                }
+            }
+
+            return [
+                'status'    => false, 
+                'message'   => $bpjsJson['metaData']['message'] ?? 'Gagal Cek Data Pasien!', 
+                'data'      => $bpjsJson
+            ];
+
+        } catch (\Exception $e) {
+            // API error tidak memblokir proses resep
+            log_message('error', 'Gagal cek data pasien ' . $noka . ': ' . $e->getMessage());
             return ['status' => false, 'message' => ''];
         }
     }

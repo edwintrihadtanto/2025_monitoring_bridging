@@ -393,6 +393,7 @@ class ResepModel extends Model
             abod.kd_prd,
             abod.jml_out,
             abod.harga_jual,
+            abod.catatan,
             apt_obat.nama_obat,
             apt_obat_ifrs.kd_obat_bpjs,
             ar.nm_racikan,
@@ -415,6 +416,7 @@ class ResepModel extends Model
             abod.kd_prd,
             abod.jml_out,
             abod.harga_jual,
+            abod.catatan,
             apt_obat.nama_obat,
             apt_obat_ifrs.kd_obat_bpjs,
             ar.nm_racikan,
@@ -423,8 +425,12 @@ class ResepModel extends Model
         ");
 
         $builder->orderBy('abod.no_urut', 'ASC');
-        // echo $this->db->getLastQuery()->getQuery();
-        // die;
+        /*$builder->orderBy('abod.no_urut', 'ASC')
+                ->get()
+                ->getResultArray();
+        echo $this->db->getLastQuery()->getQuery();
+        die;*/
+        
         return $builder->get()->getResultArray();
     }
 

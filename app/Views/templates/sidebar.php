@@ -49,7 +49,7 @@
                     
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a href="<?= site_url('monitoring') ?>" class="submenu-link" data-page="monitoring">Logs Result Bridging </a>
+                            <a href="<?= site_url('monitoring') ?>" class="submenu-link" data-page="monitoring" data-close-sidebar="true">Logs Result Bridging </a>
                         </li>
                         <li class="submenu-item">
                             <a href="<?= site_url('koneksi') ?>" class="submenu-link" data-page="koneksi">Cek Koneksi </a>
@@ -109,10 +109,10 @@
                     
                     <ul class="submenu">
                         <li class="submenu-item">
-                            <a href="<?= site_url('sidebar-pelobat-listpersep') ?>" class="submenu-link" data-page="pelayanan-obat">Daftar Pelayanan Obat</a>
+                            <a href="<?= site_url('sidebar-pelobat-listpersep') ?>" class="submenu-link" data-page="pelayanan-obat">Daftar Pelayanan</a>
                         </li>
                         <li class="submenu-item">
-                            <a href="<?= site_url('sidebar-pelobat-riwayat') ?>" class="submenu-link" data-page="pelayanan-riwayat">Riwayat Pelayanan Obat</a>
+                            <a href="<?= site_url('sidebar-pelobat-riwayat') ?>" class="submenu-link" data-page="pelayanan-riwayat">Riwayat Pelayanan</a>
                         </li>
                     </ul>
                 </li>
@@ -125,7 +125,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item m-0">
-                    <a href="<?= site_url('seppasien') ?>" class='sidebar-link' data-page="seppasien">
+                    <a href="<?= site_url('seppasien') ?>" class='sidebar-link' data-page="seppasien"  data-close-sidebar="true">
                         <i class="bi bi-clipboard-check"></i>
                         <span>Cek SEP Pasien</span>
                     </a>
@@ -133,7 +133,13 @@
                 <li class="sidebar-item m-0">
                     <a href="<?= site_url('monitoringklaim') ?>" class='sidebar-link' data-page="monitoringklaim">
                         <i class="bi bi-clipboard-pulse"></i>
-                        <span>Cek Monitoring Klaim</span>
+                        <span>Monitoring Klaim</span>
+                    </a>
+                </li>
+                <li class="sidebar-item m-0">
+                    <a href="<?= site_url('rekapprb') ?>" class='sidebar-link' data-page="rekapprb">
+                        <i class="bi bi-clipboard-pulse"></i>
+                        <span>Daftar Peserta PRB</span>
                     </a>
                 </li>
                 
