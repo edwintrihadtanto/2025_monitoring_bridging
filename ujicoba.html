@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard IRJA — Rawat Jalan</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    /* ========== MODE GELAP ========== */
+    :root, [data-theme="dark"] {
+      --bg-primary: #0B1120;
+      --bg-secondary: #111827;
+      --bg-card: #1A2332;
+      --bg-card-hover: #1F2B3E;
+      --border: #2A3A50;
+      --border-light: #354560;
+      --text-primary: #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --header-bg: rgba(17,24,39,0.85);
+      --modal-bg: rgba(0,0,0,0.6);
+      --grid-opacity: 0.3;
+      --blob-opacity-1: 0.08;
+      --blob-opacity-2: 0.06;
+      --card-shadow: rgba(0,0,0,0.3);
+      --card-shadow-hover: rgba(0,0,0,0.25);
+      --toast-shadow: rgba(0,0,0,0.4);
+      --drag-bg: rgba(20,184,166,0.04);
+      --badge-muted-bg: rgba(100,116,139,0.1);
+      --toggle-icon: "\f186";
+    }
+
+    /* ========== MODE TERANG ========== */
+    [data-theme="light"] {
+      --bg-primary: #F4F6FB;
+      --bg-secondary: #FFFFFF;
+      --bg-card: #FFFFFF;
+      --bg-card-hover: #F8FAFC;
+      --border: #E2E8F0;
+      --border-light: #CBD5E1;
+      --text-primary: #1E293B;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      --header-bg: rgba(255,255,255,0.88);
+      --modal-bg: rgba(15,23,42,0.35);
+      --grid-opacity: 0.15;
+      --blob-opacity-1: 0.12;
+      --blob-opacity-2: 0.09;
+      --card-shadow: rgba(15,23,42,0.06);
+      --card-shadow-hover: rgba(15,23,42,0.1);
+      --toast-shadow: rgba(15,23,42,0.12);
+      --drag-bg: rgba(20,184,166,0.06);
+      --badge-muted-bg: rgba(100,116,139,0.08);
+      --toggle-icon: "\f185";
+    }
+
+    /* Warna accent sama di kedua mode */
+    :root {
+      --accent-teal: #14B8A6;
+      --accent-teal-dim: rgba(20,184,166,0.12);
+      --accent-amber: #F59E0B;
+      --accent-amber-dim: rgba(245,158,11,0.12);
+      --accent-rose: #F43F5E;
+      --accent-rose-dim: rgba(244,63,94,0.12);
+      --accent-emerald: #10B981;
+      --accent-emerald-dim: rgba(16,185,129,0.12);
+      --accent-sky: #38BDF8;
+      --accent-sky-dim: rgba(56,189,248,0.12);
+      --accent-violet: #A78BFA;
+      --accent-violet-dim: rgba(167,139,250,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    /* Latar belakang atmosferik */
+    .bg-atmosphere {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      transition: opacity 0.4s;
+    }
+    .bg-atmosphere::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      top: -200px; right: -100px;
+      background: radial-gradient(circle, rgba(20,184,166,var(--blob-opacity-1)) 0%, transparent 70%);
+      animation: floatBlob 20s ease-in-out infinite;
+    }
+    .bg-atmosphere::after {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      bottom: -150px; left: -100px;
+      background: radial-gradient(circle, rgba(245,158,11,var(--blob-opacity-2)) 0%, transparent 70%);
+      animation: floatBlob 25s ease-in-out infinite reverse;
+    }
+    @keyframes floatBlob {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -20px) scale(1.05); }
+      66% { transform: translate(-20px, 15px) scale(0.95); }
+    }
+
+    /* Pola grid halus */
+    .grid-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(42,58,80,var(--grid-opacity)) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(42,58,80,var(--grid-opacity)) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 75%);
+      transition: opacity 0.4s;
+    }
+    [data-theme="light"] .grid-pattern {
+      background-image:
+        linear-gradient(rgba(100,116,139,var(--grid-opacity)) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100,116,139,var(--grid-opacity)) 1px, transparent 1px);
+    }
+
+    .app-container {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    .app-header {
+      background: var(--header-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      transition: background 0.4s, border-color 0.4s;
+    }
+
+    /* Tombol Toggle Tema */
+    .theme-toggle {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .theme-toggle::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-amber-dim), var(--accent-teal-dim));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .theme-toggle:hover {
+      border-color: var(--border-light);
+      color: var(--text-primary);
+      transform: scale(1.05);
+    }
+    .theme-toggle:hover::before { opacity: 1; }
+    .theme-toggle:active { transform: scale(0.95); }
+    .theme-toggle i {
+      position: relative;
+      z-index: 1;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .theme-toggle:active i {
+      transform: rotate(180deg);
+    }
+
+    /* Statistik cards */
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 14px 14px 0 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .stat-card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px var(--card-shadow);
+    }
+    .stat-card:hover::before { opacity: 1; }
+    .stat-card.teal::before { background: var(--accent-teal); }
+    .stat-card.amber::before { background: var(--accent-amber); }
+    .stat-card.rose::before { background: var(--accent-rose); }
+    .stat-card.emerald::before { background: var(--accent-emerald); }
+    .stat-card.sky::before { background: var(--accent-sky); }
+
+    .stat-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .stat-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    /* Kanban Board */
+    .kanban-board {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 24px;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+    .kanban-board::-webkit-scrollbar { height: 6px; }
+    .kanban-board::-webkit-scrollbar-track { background: transparent; }
+    .kanban-board::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+    .kanban-board::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+
+    .kanban-column {
+      min-width: 320px;
+      max-width: 320px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .column-header {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, border-color 0.4s;
+    }
+
+    .column-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .column-count {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 20px;
+      min-width: 28px;
+      text-align: center;
+    }
+
+    .column-body {
+      flex: 1;
+      min-height: 200px;
+      border-radius: 14px;
+      border: 2px dashed transparent;
+      transition: all 0.3s;
+      padding: 4px;
+    }
+    .column-body.drag-over {
+      border-color: var(--accent-teal);
+      background: var(--drag-bg);
+      border-radius: 14px;
+    }
+
+    /* Pasien Card */
+    .patient-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      cursor: grab;
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+      position: relative;
+      user-select: none;
+    }
+    .patient-card:hover {
+      border-color: var(--border-light);
+      background: var(--bg-card-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px var(--card-shadow-hover);
+    }
+    .patient-card:active { cursor: grabbing; }
+    .patient-card.dragging {
+      opacity: 0.4;
+      transform: scale(0.97);
+    }
+
+    .patient-avatar {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .poli-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    .priority-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .priority-high { background: var(--accent-rose); box-shadow: 0 0 8px rgba(244,63,94,0.4); }
+    .priority-medium { background: var(--accent-amber); box-shadow: 0 0 8px rgba(245,158,11,0.3); }
+    .priority-low { background: var(--accent-emerald); box-shadow: 0 0 8px rgba(16,185,129,0.3); }
+
+    .time-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Search & Filter */
+    .search-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      outline: none;
+      transition: all 0.25s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      width: 100%;
+    }
+    .search-box::placeholder { color: var(--text-muted); }
+    .search-box:focus {
+      border-color: var(--accent-teal);
+      box-shadow: 0 0 0 3px var(--accent-teal-dim);
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover {
+      border-color: var(--border-light);
+      color: var(--text-primary);
+    }
+    .filter-btn.active {
+      background: var(--accent-teal-dim);
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--modal-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal-content {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.4s, border-color 0.4s;
+    }
+    .modal-overlay.show .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      box-shadow: 0 8px 32px var(--toast-shadow);
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), background 0.4s, border-color 0.4s;
+      min-width: 280px;
+    }
+    .toast.show { transform: translateX(0); }
+
+    /* Animasi masuk */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in {
+      animation: fadeInUp 0.5s cubic-bezier(0.4,0,0.2,1) both;
+    }
+
+    /* Pulse pada angka statistik */
+    @keyframes countPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .count-pulse { animation: countPulse 0.4s ease; }
+
+    /* Transisi tema global untuk elemen inline */
+    .theme-transition {
+      transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    /* Scrollbar global */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+
+    /* Responsif */
+    @media (max-width: 768px) {
+      .kanban-column { min-width: 280px; max-width: 280px; }
+      .stat-number { font-size: 1.5rem; }
+      .stat-card { padding: 14px 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-atmosphere"></div>
+  <div class="grid-pattern"></div>
+
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="app-header">
+      <div style="max-width:1440px; margin:0 auto; padding:16px 28px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent-teal),#0D9488);display:flex;align-items:center;justify-content:center;">
+              <i class="fas fa-hospital-alt" style="color:#fff;font-size:18px;"></i>
+            </div>
+            <div>
+              <h1 style="font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:700;letter-spacing:-0.02em;">Dashboard IRJA</h1>
+              <p style="font-size:0.75rem;color:var(--text-muted);margin-top:1px;">Instalasi Rawat Jalan — <span id="currentDate"></span></p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <!-- Tombol Toggle Tema -->
+            <button class="theme-toggle" id="themeToggle" aria-label="Ganti mode tampilan" title="Ganti mode terang/gelap">
+              <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+            <div style="position:relative;">
+              <i class="fas fa-bell" style="color:var(--text-muted);font-size:16px;cursor:pointer;transition:color 0.2s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-muted)'"></i>
+              <span style="position:absolute;top:-4px;right:-6px;width:8px;height:8px;border-radius:50%;background:var(--accent-rose);border:2px solid var(--bg-secondary);transition:border-color 0.4s;"></span>
+            </div>
+            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent-amber),#D97706);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;cursor:pointer;color:#fff;">
+              DR
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <main style="max-width:1440px; margin:0 auto; padding:24px 28px 48px;">
+
+      <!-- Statistik Ringkas -->
+      <section id="statsSection" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:28px;" aria-label="Statistik pasien">
+      </section>
+
+      <!-- Search & Filter Bar -->
+      <section style="display:flex; align-items:center; gap:12px; margin-bottom:24px; flex-wrap:wrap;" aria-label="Pencarian dan filter">
+        <div style="position:relative; flex:1; min-width:220px;">
+          <i class="fas fa-search" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:14px;"></i>
+          <input type="text" id="searchInput" class="search-box" placeholder="Cari nama pasien atau no. RM..." style="padding-left:40px;" aria-label="Cari pasien">
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;" id="filterContainer">
+          <button class="filter-btn active" data-filter="all">Semua</button>
+          <button class="filter-btn" data-filter="high"><span class="priority-dot priority-high" style="display:inline-block;margin-right:4px;vertical-align:middle;"></span> Urgensi</button>
+          <button class="filter-btn" data-filter="medium"><span class="priority-dot priority-medium" style="display:inline-block;margin-right:4px;vertical-align:middle;"></span> Sedang</button>
+          <button class="filter-btn" data-filter="low"><span class="priority-dot priority-low" style="display:inline-block;margin-right:4px;vertical-align:middle;"></span> Ringan</button>
+        </div>
+      </section>
+
+      <!-- Kanban Board -->
+      <section class="kanban-board" id="kanbanBoard" aria-label="Papan Kanban pasien rawat jalan">
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Modal Detail Pasien -->
+  <div class="modal-overlay" id="patientModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content" id="modalContent">
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script>
+  // === DATA PASIEN IRJA ===
+  const poliList = [
+    { name: 'Umum', color: 'var(--accent-teal)', bg: 'var(--accent-teal-dim)' },
+    { name: 'Penyakit Dalam', color: 'var(--accent-amber)', bg: 'var(--accent-amber-dim)' },
+    { name: 'Anak', color: 'var(--accent-sky)', bg: 'var(--accent-sky-dim)' },
+    { name: 'Kandungan', color: 'var(--accent-rose)', bg: 'var(--accent-rose-dim)' },
+    { name: 'Mata', color: 'var(--accent-violet)', bg: 'var(--accent-violet-dim)' },
+    { name: 'THT', color: '#FB923C', bg: 'rgba(251,146,60,0.12)' },
+    { name: 'Kulit', color: '#E879F9', bg: 'rgba(232,121,249,0.12)' },
+    { name: 'Ortopedi', color: '#34D399', bg: 'rgba(52,211,153,0.12)' },
+  ];
+
+  // Kolom kanban
+  const columns = [
+    { id: 'registrasi', title: 'Registrasi', icon: 'fa-clipboard-list', color: 'var(--accent-sky)', bg: 'var(--accent-sky-dim)' },
+    { id: 'antrian', title: 'Antrian Poli', icon: 'fa-users', color: 'var(--accent-amber)', bg: 'var(--accent-amber-dim)' },
+    { id: 'pemeriksaan', title: 'Sedang Diperiksa', icon: 'fa-stethoscope', color: 'var(--accent-teal)', bg: 'var(--accent-teal-dim)' },
+    { id: 'farmasi', title: 'Ambil Obat', icon: 'fa-pills', color: 'var(--accent-violet)', bg: 'var(--accent-violet-dim)' },
+    { id: 'selesai', title: 'Selesai', icon: 'fa-check-circle', color: 'var(--accent-emerald)', bg: 'var(--accent-emerald-dim)' },
+  ];
+
+  // Data pasien
+  const patients = [
+    { id: 'P001', nama: 'Siti Nurhaliza', noRM: 'RM-2024-08172', poli: 'Umum', dokter: 'dr. Ahmad Fauzi', usia: 34, jk: 'P', keluhan: 'Demam tinggi 3 hari, sakit kepala', priority: 'high', waktu: '07:30', column: 'registrasi', bp: '130/85', hr: 98, temp: 38.7, alamat: 'Jl. Merdeka No. 12' },
+    { id: 'P002', nama: 'Budi Santoso', noRM: 'RM-2024-08198', poli: 'Penyakit Dalam', dokter: 'dr. Rina Wijaya', usia: 58, jk: 'L', keluhan: 'Nyeri dada sebelah kiri, sesak napas', priority: 'high', waktu: '07:45', column: 'antrian', bp: '155/95', hr: 110, temp: 36.8, alamat: 'Jl. Sudirman No. 45' },
+    { id: 'P003', nama: 'Anisa Rahma', noRM: 'RM-2024-08201', poli: 'Anak', dokter: 'dr. Dewi Lestari', usia: 5, jk: 'P', keluhan: 'Batuk pilek 5 hari, tidak nafsu makan', priority: 'medium', waktu: '08:00', column: 'antrian', bp: '-', hr: 105, temp: 37.5, alamat: 'Jl. Kenanga No. 8' },
+    { id: 'P004', nama: 'Hendra Gunawan', noRM: 'RM-2024-08215', poli: 'Ortopedi', dokter: 'dr. Bambang S., Sp.OT', usia: 45, jk: 'L', keluhan: 'Nyeri lutut kanan saat berjalan', priority: 'medium', waktu: '08:10', column: 'pemeriksaan', bp: '125/80', hr: 78, temp: 36.5, alamat: 'Jl. Pahlawan No. 22' },
+    { id: 'P005', nama: 'Maria Putri', noRM: 'RM-2024-08220', poli: 'Kandungan', dokter: 'dr. Sari Indah, Sp.OG', usia: 28, jk: 'P', keluhan: 'Kontrol kehamilan 7 bulan', priority: 'low', waktu: '08:15', column: 'pemeriksaan', bp: '115/75', hr: 82, temp: 36.4, alamat: 'Jl. Melati No. 5' },
+    { id: 'P006', nama: 'Agus Prasetyo', noRM: 'RM-2024-08233', poli: 'Mata', dokter: 'dr. Lina Kusuma, Sp.M', usia: 62, jk: 'L', keluhan: 'Penglihatan kabur mata kiri', priority: 'medium', waktu: '08:20', column: 'antrian', bp: '140/90', hr: 76, temp: 36.6, alamat: 'Jl. Cempaka No. 17' },
+    { id: 'P007', nama: 'Dewi Anggraini', noRM: 'RM-2024-08241', poli: 'Kulit', dokter: 'dr. Fitri Handayani, Sp.KK', usia: 25, jk: 'P', keluhan: 'Ruam merah dan gatal di lengan', priority: 'low', waktu: '08:30', column: 'registrasi', bp: '110/70', hr: 72, temp: 36.3, alamat: 'Jl. Anggrek No. 9' },
+    { id: 'P008', nama: 'Rahmat Hidayat', noRM: 'RM-2024-08250', poli: 'THT', dokter: 'dr. Tono Sugiarto, Sp.THT', usia: 40, jk: 'L', keluhan: 'Sakit telinga sebelah kanan', priority: 'medium', waktu: '08:35', column: 'registrasi', bp: '120/78', hr: 80, temp: 36.7, alamat: 'Jl. Dahlia No. 31' },
+    { id: 'P009', nama: 'Lina Marlina', noRM: 'RM-2024-08212', poli: 'Penyakit Dalam', dokter: 'dr. Rina Wijaya', usia: 50, jk: 'P', keluhan: 'Kontrol diabetes melitus', priority: 'low', waktu: '07:50', column: 'farmasi', bp: '130/85', hr: 74, temp: 36.5, alamat: 'Jl. Mawar No. 14' },
+    { id: 'P010', nama: 'Wahyu Nugroho', noRM: 'RM-2024-08195', poli: 'Umum', dokter: 'dr. Ahmad Fauzi', usia: 30, jk: 'L', keluhan: 'Sakit perut setelah makan', priority: 'low', waktu: '07:40', column: 'selesai', bp: '118/76', hr: 70, temp: 36.4, alamat: 'Jl. Flamboyan No. 7' },
+    { id: 'P011', nama: 'Sri Wahyuni', noRM: 'RM-2024-08260', poli: 'Anak', dokter: 'dr. Dewi Lestari', usia: 8, jk: 'P', keluhan: 'Demam dan nyeri tenggorokan', priority: 'high', waktu: '08:40', column: 'registrasi', bp: '-', hr: 112, temp: 39.1, alamat: 'Jl. Teratai No. 20' },
+    { id: 'P012', nama: 'Joko Widodo', noRM: 'RM-2024-08205', poli: 'Umum', dokter: 'dr. Ahmad Fauzi', usia: 55, jk: 'L', keluhan: 'Hipertensi kontrol rutin', priority: 'low', waktu: '08:05', column: 'selesai', bp: '135/88', hr: 75, temp: 36.3, alamat: 'Jl. Bougenville No. 3' },
+    { id: 'P013', nama: 'Rina Oktaviani', noRM: 'RM-2024-08270', poli: 'Kandungan', dokter: 'dr. Sari Indah, Sp.OG', usia: 32, jk: 'P', keluhan: 'Nyeri perut bawah, keputihan', priority: 'medium', waktu: '08:50', column: 'antrian', bp: '118/75', hr: 84, temp: 36.8, alamat: 'Jl. Sakura No. 11' },
+    { id: 'P014', nama: 'Dimas Prayoga', noRM: 'RM-2024-08218', poli: 'Ortopedi', dokter: 'dr. Bambang S., Sp.OT', usia: 22, jk: 'L', keluhan: 'Keseleo pergelangan kaki kanan', priority: 'low', waktu: '08:12', column: 'farmasi', bp: '115/72', hr: 68, temp: 36.5, alamat: 'Jl. Jasmine No. 26' },
+    { id: 'P015', nama: 'Nur Aini', noRM: 'RM-2024-08280', poli: 'Mata', dokter: 'dr. Lina Kusuma, Sp.M', usia: 70, jk: 'P', keluhan: 'Katarak mata kanan bertambah', priority: 'medium', waktu: '09:00', column: 'pemeriksaan', bp: '145/92', hr: 80, temp: 36.5, alamat: 'Jl. Kenanga No. 2' },
+  ];
+
+  // State
+  let currentFilter = 'all';
+  let searchQuery = '';
+  let draggedCardId = null;
+
+  // === MANAJEMEN TEMA ===
+  function getStoredTheme() {
+    return localStorage.getItem('irja-theme') || 'dark';
+  }
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('irja-theme', theme);
+    updateThemeIcon(theme);
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+
+    // Toast konfirmasi
+    const label = next === 'light' ? 'Mode Terang' : 'Mode Gelap';
+    showToast(
+      `<i class="fas ${next === 'light' ? 'fa-sun' : 'fa-moon'}" style="color:${next === 'light' ? 'var(--accent-amber)' : 'var(--accent-sky)'};font-size:16px;"></i>
+       <span>Beralih ke <strong>${label}</strong></span>`,
+      'theme'
+    );
+  }
+
+  function updateThemeIcon(theme) {
+    const icon = document.getElementById('themeIcon');
+    if (theme === 'light') {
+      icon.className = 'fas fa-sun';
+    } else {
+      icon.className = 'fas fa-moon';
+    }
+  }
+
+  // === INISIALISASI ===
+  function init() {
+    // Terapkan tema tersimpan
+    setTheme(getStoredTheme());
+
+    // Pasang event toggle
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+    setCurrentDate();
+    renderStats();
+    renderBoard();
+    setupSearch();
+    setupFilters();
+    setupModalClose();
+  }
+
+  // Set tanggal hari ini
+  function setCurrentDate() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('currentDate').textContent = now.toLocaleDateString('id-ID', options);
+  }
+
+  // === RENDER STATISTIK ===
+  function renderStats() {
+    const total = patients.length;
+    const registrasi = patients.filter(p => p.column === 'registrasi').length;
+    const antrian = patients.filter(p => p.column === 'antrian').length;
+    const diperiksa = patients.filter(p => p.column === 'pemeriksaan').length;
+    const selesai = patients.filter(p => p.column === 'selesai').length;
+
+    const stats = [
+      { label: 'Total Pasien', value: total, icon: 'fa-users', theme: 'teal', iconBg: 'var(--accent-teal-dim)', iconColor: 'var(--accent-teal)', change: '+3 hari ini' },
+      { label: 'Registrasi', value: registrasi, icon: 'fa-clipboard-list', theme: 'sky', iconBg: 'var(--accent-sky-dim)', iconColor: 'var(--accent-sky)', change: 'menunggu verifikasi' },
+      { label: 'Antrian Poli', value: antrian, icon: 'fa-clock', theme: 'amber', iconBg: 'var(--accent-amber-dim)', iconColor: 'var(--accent-amber)', change: 'est. 15-30 menit' },
+      { label: 'Sedang Diperiksa', value: diperiksa, icon: 'fa-stethoscope', theme: 'teal', iconBg: 'var(--accent-teal-dim)', iconColor: 'var(--accent-teal)', change: 'dalam proses' },
+      { label: 'Selesai', value: selesai, icon: 'fa-check-circle', theme: 'emerald', iconBg: 'var(--accent-emerald-dim)', iconColor: 'var(--accent-emerald)', change: 'dilayani hari ini' },
+    ];
+
+    const section = document.getElementById('statsSection');
+    section.innerHTML = stats.map((s, i) => `
+      <div class="stat-card ${s.theme} theme-transition animate-in" style="animation-delay:${i * 0.08}s;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
+          <div class="stat-icon" style="background:${s.iconBg};color:${s.iconColor};">
+            <i class="fas ${s.icon}"></i>
+          </div>
+          <span style="font-size:0.72rem;color:var(--text-muted);background:var(--badge-muted-bg);padding:3px 8px;border-radius:6px;transition:background 0.4s;">${s.change}</span>
+        </div>
+        <div class="stat-number" style="color:var(--text-primary);margin-bottom:4px;">${s.value}</div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);font-weight:500;">${s.label}</div>
+      </div>
+    `).join('');
+  }
+
+  // === RENDER KANBAN BOARD ===
+  function renderBoard() {
+    const board = document.getElementById('kanbanBoard');
+    board.innerHTML = columns.map((col, ci) => {
+      const colPatients = getFilteredPatients(col.id);
+      return `
+        <div class="kanban-column animate-in" style="animation-delay:${ci * 0.1}s;">
+          <div class="column-header">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="column-dot" style="background:${col.color};box-shadow:0 0 8px ${col.color};"></div>
+              <div>
+                <div style="font-size:0.85rem;font-weight:700;color:var(--text-primary);">${col.title}</div>
+              </div>
+            </div>
+            <div class="column-count" style="background:${col.bg};color:${col.color};">${colPatients.length}</div>
+          </div>
+          <div class="column-body" data-column="${col.id}"
+               ondragover="handleDragOver(event)"
+               ondragleave="handleDragLeave(event)"
+               ondrop="handleDrop(event, '${col.id}')">
+            ${colPatients.map(p => renderPatientCard(p, col.color)).join('')}
+            ${colPatients.length === 0 ? `
+              <div style="text-align:center;padding:32px 16px;color:var(--text-muted);font-size:0.8rem;">
+                <i class="fas fa-inbox" style="font-size:24px;margin-bottom:8px;display:block;opacity:0.4;"></i>
+                Tidak ada pasien
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Ambil pasien terfilter
+  function getFilteredPatients(columnId) {
+    return patients.filter(p => {
+      if (p.column !== columnId) return false;
+      if (currentFilter !== 'all' && p.priority !== currentFilter) return false;
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        return p.nama.toLowerCase().includes(q) || p.noRM.toLowerCase().includes(q);
+      }
+      return true;
+    });
+  }
+
+  // Render card pasien
+  function renderPatientCard(p, colColor) {
+    const poli = poliList.find(pl => pl.name === p.poli) || poliList[0];
+    const initials = p.nama.split(' ').map(w => w[0]).join('').substring(0, 2);
+    const avatarBg = p.jk === 'P' ? 'linear-gradient(135deg,#F43F5E,#E11D48)' : 'linear-gradient(135deg,var(--accent-teal),#0D9488)';
+
+    return `
+      <div class="patient-card theme-transition" draggable="true"
+           data-patient-id="${p.id}"
+           ondragstart="handleDragStart(event, '${p.id}')"
+           ondragend="handleDragEnd(event)"
+           onclick="openModal('${p.id}')"
+           tabindex="0"
+           role="button"
+           aria-label="Detail pasien ${p.nama}">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;">
+          <div class="patient-avatar" style="background:${avatarBg};color:#fff;">
+            ${initials}
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+              <span class="priority-dot priority-${p.priority}" title="Prioritas: ${p.priority === 'high' ? 'Urgensi' : p.priority === 'medium' ? 'Sedang' : 'Ringan'}"></span>
+              <span style="font-size:0.85rem;font-weight:700;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.nama}</span>
+            </div>
+            <div style="font-size:0.72rem;color:var(--text-muted);">${p.noRM} &middot; ${p.usia} th, ${p.jk === 'L' ? 'Laki-laki' : 'Perempuan'}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+          <span class="poli-badge" style="background:${poli.bg};color:${poli.color};">Poli ${poli.name}</span>
+        </div>
+        <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.45;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+          ${p.keluhan}
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border);">
+          <div class="time-label">
+            <i class="far fa-clock"></i> ${p.waktu}
+          </div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">
+            <i class="fas fa-user-md" style="margin-right:3px;"></i>${p.dokter.split(',')[0]}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // === DRAG & DROP ===
+  function handleDragStart(e, patientId) {
+    draggedCardId = patientId;
+    e.target.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', patientId);
+  }
+
+  function handleDragEnd(e) {
+    e.target.classList.remove('dragging');
+    document.querySelectorAll('.column-body').forEach(cb => cb.classList.remove('drag-over'));
+    draggedCardId = null;
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    e.currentTarget.classList.add('drag-over');
+  }
+
+  function handleDragLeave(e) {
+    e.currentTarget.classList.remove('drag-over');
+  }
+
+  function handleDrop(e, targetColumn) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    const patientId = e.dataTransfer.getData('text/plain');
+    const patient = patients.find(p => p.id === patientId);
+    if (!patient) return;
+
+    const oldColumn = patient.column;
+    if (oldColumn === targetColumn) return;
+
+    patient.column = targetColumn;
+    renderBoard();
+    renderStats();
+
+    // Toast notifikasi
+    const targetCol = columns.find(c => c.id === targetColumn);
+    showToast(
+      `<i class="fas fa-arrows-alt" style="color:var(--accent-teal);font-size:16px;"></i>
+       <span><strong>${patient.nama}</strong> dipindahkan ke <strong>${targetCol.title}</strong></span>`,
+      'move'
+    );
+  }
+
+  // === SEARCH ===
+  function setupSearch() {
+    const input = document.getElementById('searchInput');
+    let debounce;
+    input.addEventListener('input', () => {
+      clearTimeout(debounce);
+      debounce = setTimeout(() => {
+        searchQuery = input.value.trim();
+        renderBoard();
+      }, 200);
+    });
+  }
+
+  // === FILTER ===
+  function setupFilters() {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderBoard();
+      });
+    });
+  }
+
+  // === MODAL DETAIL PASIEN ===
+  function openModal(patientId) {
+    const p = patients.find(pt => pt.id === patientId);
+    if (!p) return;
+
+    const poli = poliList.find(pl => pl.name === p.poli) || poliList[0];
+    const col = columns.find(c => c.id === p.column);
+    const initials = p.nama.split(' ').map(w => w[0]).join('').substring(0, 2);
+    const avatarBg = p.jk === 'P' ? 'linear-gradient(135deg,#F43F5E,#E11D48)' : 'linear-gradient(135deg,var(--accent-teal),#0D9488)';
+    const priorityLabel = p.priority === 'high' ? 'Urgensi Tinggi' : p.priority === 'medium' ? 'Sedang' : 'Ringan';
+    const priorityColor = p.priority === 'high' ? 'var(--accent-rose)' : p.priority === 'medium' ? 'var(--accent-amber)' : 'var(--accent-emerald)';
+
+    document.getElementById('modalContent').innerHTML = `
+      <div style="padding:28px;">
+        <!-- Header Modal -->
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;">
+          <div style="display:flex;align-items:center;gap:16px;">
+            <div style="width:52px;height:52px;border-radius:14px;background:${avatarBg};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;">
+              ${initials}
+            </div>
+            <div>
+              <h2 id="modalTitle" style="font-size:1.15rem;font-weight:800;color:var(--text-primary);margin-bottom:2px;">${p.nama}</h2>
+              <span style="font-size:0.78rem;color:var(--text-muted);">${p.noRM} &middot; ${p.usia} tahun, ${p.jk === 'L' ? 'Laki-laki' : 'Perempuan'}</span>
+            </div>
+          </div>
+          <button onclick="closeModal()" style="width:34px;height:34px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--border-light)';this.style.color='var(--text-primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'" aria-label="Tutup modal">
+            <i class="fas fa-times" style="font-size:14px;"></i>
+          </button>
+        </div>
+
+        <!-- Status & Prioritas -->
+        <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;background:${col.bg};color:${col.color};">
+            <i class="fas ${col.icon}"></i> ${col.title}
+          </span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;font-size:0.78rem;font-weight:600;background:${p.priority === 'high' ? 'var(--accent-rose-dim)' : p.priority === 'medium' ? 'var(--accent-amber-dim)' : 'var(--accent-emerald-dim)'};color:${priorityColor};">
+            <span class="priority-dot priority-${p.priority}"></span> ${priorityLabel}
+          </span>
+          <span class="poli-badge" style="background:${poli.bg};color:${poli.color};padding:6px 14px;">Poli ${poli.name}</span>
+        </div>
+
+        <!-- Detail Info Grid -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+          <div class="theme-transition" style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Dokter</div>
+            <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);">${p.dokter}</div>
+          </div>
+          <div class="theme-transition" style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Waktu Daftar</div>
+            <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);">${p.waktu} WIB</div>
+          </div>
+          <div class="theme-transition" style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Alamat</div>
+            <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);">${p.alamat}</div>
+          </div>
+          <div class="theme-transition" style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;">
+            <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">ID Pasien</div>
+            <div style="font-size:0.85rem;font-weight:600;color:var(--text-primary);font-family:'Space Grotesk',sans-serif;">${p.id}</div>
+          </div>
+        </div>
+
+        <!-- Keluhan -->
+        <div class="theme-transition" style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:24px;">
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em;">
+            <i class="fas fa-notes-medical" style="margin-right:4px;"></i> Keluhan Utama
+          </div>
+          <div style="font-size:0.88rem;color:var(--text-primary);line-height:1.6;">${p.keluhan}</div>
+        </div>
+
+        <!-- Tanda Vital -->
+        ${p.bp !== '-' ? `
+        <div style="margin-bottom:24px;">
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.05em;">
+            <i class="fas fa-heartbeat" style="margin-right:4px;"></i> Tanda Vital
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+            <div class="theme-transition" style="text-align:center;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 10px;">
+              <i class="fas fa-tachometer-alt" style="color:var(--accent-rose);font-size:16px;margin-bottom:6px;display:block;"></i>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text-primary);">${p.bp}</div>
+              <div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px;">mmHg</div>
+            </div>
+            <div class="theme-transition" style="text-align:center;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 10px;">
+              <i class="fas fa-heartbeat" style="color:var(--accent-amber);font-size:16px;margin-bottom:6px;display:block;"></i>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text-primary);">${p.hr}</div>
+              <div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px;">x/mnt</div>
+            </div>
+            <div class="theme-transition" style="text-align:center;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px 10px;">
+              <i class="fas fa-thermometer-half" style="color:var(--accent-sky);font-size:16px;margin-bottom:6px;display:block;"></i>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text-primary);">${p.temp}</div>
+              <div style="font-size:0.68rem;color:var(--text-muted);margin-top:2px;">°C</div>
+            </div>
+          </div>
+        </div>
+        ` : ''}
+
+        <!-- Aksi -->
+        <div style="display:flex;gap:10px;">
+          <button onclick="movePatient('${p.id}', 'next')" style="flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--accent-teal),#0D9488);color:#fff;font-size:0.85rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 16px rgba(20,184,166,0.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+            <i class="fas fa-arrow-right" style="margin-right:6px;"></i> Pindah ke Tahap Berikutnya
+          </button>
+        </div>
+      </div>
+    `;
+
+    const modal = document.getElementById('patientModal');
+    modal.classList.add('show');
+    modal.focus();
+  }
+
+  function closeModal() {
+    document.getElementById('patientModal').classList.remove('show');
+  }
+
+  function setupModalClose() {
+    document.getElementById('patientModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  }
+
+  // Pindahkan pasien ke tahap berikutnya
+  function movePatient(patientId, direction) {
+    const patient = patients.find(p => p.id === patientId);
+    if (!patient) return;
+
+    const currentIdx = columns.findIndex(c => c.id === patient.column);
+    if (direction === 'next' && currentIdx < columns.length - 1) {
+      patient.column = columns[currentIdx + 1].id;
+      const newCol = columns[currentIdx + 1];
+
+      renderBoard();
+      renderStats();
+      closeModal();
+
+      showToast(
+        `<i class="fas fa-check" style="color:var(--accent-emerald);font-size:16px;"></i>
+         <span><strong>${patient.nama}</strong> dipindahkan ke <strong>${newCol.title}</strong></span>`,
+        'success'
+      );
+    } else if (direction === 'next' && currentIdx === columns.length - 1) {
+      closeModal();
+      showToast(
+        `<i class="fas fa-info-circle" style="color:var(--accent-sky);font-size:16px;"></i>
+         <span>Pasien sudah berada di tahap akhir.</span>`,
+        'info'
+      );
+    }
+  }
+
+  // === TOAST ===
+  function showToast(html, type) {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = html;
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        toast.classList.add('show');
+      });
+    });
+
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 400);
+    }, 3500);
+  }
+
+  // Keyboard support untuk card
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.classList.contains('patient-card')) {
+      const id = e.target.dataset.patientId;
+      if (id) openModal(id);
+    }
+  });
+
+  // Jalankan
+  init();
+</script>
+</body>
+</html>
