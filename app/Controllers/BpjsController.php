@@ -145,12 +145,12 @@ class BpjsController extends BaseController
                                 "penanggungJawab" => ""
                             ],
 
-                            "noMR" => '0-00-00-04',
+                            "noMR" => '6-90-63-64',
 
                             "rujukan" => [
                                 "asalRujukan" => "2",
-                                "tglRujukan"  => "2026-03-27",
-                                "noRujukan"   => "1308R0010326V000040",
+                                "tglRujukan"  => "2026-04-07",
+                                "noRujukan"   => "1308R0010426V000003",
                                 "ppkRujukan"  => $this->ppkSoedono,
                             ],
 
@@ -195,7 +195,7 @@ class BpjsController extends BaseController
                             "assesmentPel" => "",
 
                             "skdp" => [
-                                "noSurat"  => "1308R0010426K000002",
+                                "noSurat"  => "1308R0010426K000005",
                                 "kodeDPJP" => "299693"
                             ],
 
