@@ -664,7 +664,8 @@ class BpjsInsertController extends BaseController
                 $kdjnsobat, 
                 $userID, 
                 $noresep, 
-                $no_out, 
+                $no_out,
+                $tgl_out,
                 $alreadySentObats
             );
 
@@ -708,6 +709,7 @@ class BpjsInsertController extends BaseController
         string $userID,
         string $noresep,
         string $no_out,
+        string $tgl_out,
         array $alreadySentObats = []
     ) {
         $client = Services::curlrequest(['timeout' => 60]);
@@ -772,7 +774,7 @@ class BpjsInsertController extends BaseController
             
             // LOG DATABASE AWAL
             $logId = $ResepModel->insertLogDetailResepBPJS(
-                $noresep, $no_out, $noResepBPJS, $noApotik,
+                $noresep, $no_out, $tgl_out, $noResepBPJS, $noApotik,
                 $kdObatSimrs, $payloadItem['KDOBT'], $payloadItem['NMOBAT'],
                 $payloadItem['SIGNA1OBT'], $payloadItem['SIGNA2OBT'],
                 $payloadItem['JMLOBT'], $payloadItem['JHO'], $payloadItem['CatKhsObt'],

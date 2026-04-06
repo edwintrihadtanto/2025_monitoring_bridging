@@ -582,6 +582,7 @@ class ResepModel extends Model
     public function insertLogDetailResepBPJS(
         string $noresep,
         string $no_out,
+        string $tgl_out,
         ?string $noresep_bpjs,
         ?string $no_apotik,
         ?string $kd_obat_simrs,   // ← Ubah parameter
@@ -598,6 +599,7 @@ class ResepModel extends Model
         $data = [
             'noresep'       => $noresep,
             'no_out'        => $no_out,
+            'tgl_out'       => $tgl_out,
             'noresep_bpjs'  => $noresep_bpjs,
             'no_apotik'     => $no_apotik,
             'kd_obat_simrs' => $kd_obat_simrs,
