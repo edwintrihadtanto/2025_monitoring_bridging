@@ -421,7 +421,8 @@ class ResepModel extends Model
             apt_obat_ifrs.kd_obat_bpjs,
             ar.nm_racikan,
             abod.no_urut,
-            UPPER(aps.signa) || '(' || aps.jenis || ')'
+            aps.signa,
+            aps.jenis
         ");
 
         $builder->orderBy('abod.no_urut', 'ASC');

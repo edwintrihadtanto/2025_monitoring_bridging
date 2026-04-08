@@ -9,10 +9,31 @@ $obat_jadi = [];
 $racikan = [];
 
 foreach ($detail as $item) {
-    if (empty($item['nm_racikan']) || strtolower($item['nm_racikan']) == 'tidak') {
+
+    $is_racikan = !empty($item['nm_racikan']) && strtolower($item['nm_racikan']) != 'tidak';
+
+    if (!$is_racikan) {
         $obat_jadi[] = $item;
-    } else {
-        $racikan[$item['nm_racikan']][] = $item;
+        continue;
+    }
+
+    $key = $item['nm_racikan'];
+
+    // init racikan
+    if (!isset($racikan[$key])) {
+        $racikan[$key] = [
+            'nama'   => $key,
+            'items'  => [],
+            'signa'  => '',
+        ];
+    }
+
+    // push item
+    $racikan[$key]['items'][] = $item;
+
+    // ambil signa pertama yang ada
+    if (!empty($item['lbl_signa']) && empty($racikan[$key]['signa'])) {
+        $racikan[$key]['signa'] = $item['lbl_signa'];
     }
 }
 ?>
@@ -30,7 +51,7 @@ foreach ($detail as $item) {
 
     <!-- HEADER -->
     <div class="fw-semibold mb-2 small">
-        Detail Obat
+        Total item Obat
         <span class="badge bg-primary"><?= count($detail) ?></span>
     </div>
 
@@ -39,7 +60,7 @@ foreach ($detail as $item) {
         <!-- ================= KIRI : OBAT JADI ================= -->
         <div class="col-md-6">
 
-            <div class="card shadow-sm h-100">
+            <div class="card h-100 md-cardresep">
                 <div class="card-header py-1 px-2 bg-light fw-semibold small border-bottom">
                     <i class="bi bi-capsule text-success"></i>
                     Obat Jadi
@@ -48,7 +69,7 @@ foreach ($detail as $item) {
                     </span>
                 </div>
 
-                <div class="card-body p-1">
+                <div class="card-body p-1" style="border-left: 1px dashed #ddd; border-right: 1px dashed #ddd;border-bottom: 1px dashed #ddd; border-radius: 0 0 6px 6px;">
 
                     <?php if (!empty($obat_jadi)): ?>
                         <div class="list-group list-group-flush">
@@ -70,11 +91,11 @@ foreach ($detail as $item) {
         <!-- ================= KANAN : OBAT RACIKAN ================= -->
         <div class="col-md-6">
 
-            <div class="card shadow-sm h-100">
+            <div class="card h-100 md-cardresep">
                 <div class="card-header py-1 px-2 bg-light fw-semibold small border-bottom">
                     <i class="bi bi-bezier2 text-warning"></i>
                     Obat Racikan
-                    <span class="badge bg-warning text-dark float-end">
+                    <span class="badge bg-danger text-dark float-end">
                         <?= count($racikan) ?>
                     </span>
                 </div>
@@ -85,7 +106,11 @@ foreach ($detail as $item) {
 
                         <div class="accordion accordion-flush" id="accordionRacikan">
 
-                            <?php foreach ($racikan as $nama => $items): ?>
+                            <?php foreach ($racikan as $racik): ?>
+                            <?php 
+                                $nama  = $racik['nama'];
+                                $items = $racik['items'];
+                            ?>
 
                                 <div class="racikan-box mb-2">
 
@@ -130,9 +155,13 @@ foreach ($detail as $item) {
                                                                 <div class="fw-semibold text-truncate">
                                                                     <?= esc($item['nama_obat']) ?>
                                                                     <span class="text-muted small">(<?= esc($item['kd_prd']) ?>)</span>
+                                                                    <!-- ✅ TAMBAHKAN SPAN INI UNTUK ICON STATUS ERROR -->
+                                                                    <span class="obat-bpjs-status small text-muted" data-kdobat="<?= esc($item['kd_prd']) ?>"></span>
                                                                 </div>
 
-                                                                <!-- CATATAN (PINDAH KE BAWAH) -->
+                                                                
+
+                                                                <!-- CATATAN -->
                                                                 <?php if (!empty($item['catatan'])): ?>
                                                                     <div class="text-warning small">
                                                                         📝 <?= esc($item['catatan']) ?>
@@ -157,17 +186,19 @@ foreach ($detail as $item) {
                                                 </div>
                                             <?php endforeach; ?>
                                         </div>
-                                        <div class="flex-grow-1">
+                                        
+                                        <div class="flex-grow-1" style="margin-top: -12px;">
                                             <!-- SIGNA (ATAS SENDIRI) -->
-                                            <?php if (!empty($item['lbl_signa'])): ?>
-                                                <div class="mt-1">
+                                            <?php if (!empty($racik['signa'])): ?>
+                                                <div class="mb-1">
                                                     <span class="badge bg-danger">
-                                                        <?= esc($item['lbl_signa']) ?>
+                                                        <?= esc($racik['signa']) ?>
                                                     </span>
                                                 </div>
                                             <?php endif; ?>
+                                            
                                             <!-- INPUT GLOBAL RACIKAN -->
-                                            <div class="d-flex flex-wrap align-items-center gap-2 small mb-1">
+                                            <div class="d-flex flex-wrap align-items-center gap-2 small mb-0">
                                                 
                                                 <!-- SIGNA -->
                                                 <span class="d-flex align-items-center gap-1">
@@ -189,14 +220,6 @@ foreach ($detail as $item) {
                                                 </span>
 
                                             </div>
-
-                                            
-
-                                            <!-- <div class="mb-1">
-                                                <input type="text"
-                                                       class="form-control form-control-sm catatan-racikan"
-                                                       placeholder="Catatan racikan...">
-                                            </div> -->
                                         </div>
                                     </div>
 

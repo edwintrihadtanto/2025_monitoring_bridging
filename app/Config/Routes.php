@@ -62,6 +62,7 @@ use CodeIgniter\Router\RouteCollection;
 
             $routes->post('obatnonracikan', 'BpjsController::obatnonracikan');
             $routes->get('obatnonracikan', 'BpjsController::obatnonracikan');
+            $routes->post('obatracikan', 'BpjsController::obatracikan');
             $routes->get('obatracikan', 'BpjsController::obatracikan');
             $routes->get('updatestokobat', 'BpjsController::updatestokobat'); //masih gagal Unauthorized!
 

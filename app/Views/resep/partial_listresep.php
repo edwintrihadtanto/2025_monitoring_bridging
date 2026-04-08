@@ -7,7 +7,7 @@
 <div class="row g-1">
 
     <?php foreach ($resepList as $index => $item): ?>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-3 card-listresep" data-noapotik="<?= $item['NOAPOTIK'] ?>">
 
         <div class="card resep-card h-90">
 

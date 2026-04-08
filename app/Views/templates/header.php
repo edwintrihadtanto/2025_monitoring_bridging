@@ -525,16 +525,6 @@
             border: none;
             border-bottom: 1px solid #eee;
         }
-
-        .racikan-box {
-            border: 1px dashed #ddd;
-            border-radius: 6px;
-        }
-
-        .racikan-header {
-            font-size: 11px;
-        }
-
         
     </style>
 </head>

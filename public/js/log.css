@@ -143,3 +143,30 @@
     font-size: 0.75rem;
     padding: 4px 8px;
 }
+
+.md-cardresep {
+  background: #ffffff;
+  /*border-radius: 14px;*/
+  border: 1px solid #898b8e;
+  padding: 12px;
+  /*box-shadow: 0 4px 12px rgba(0,0,0,0.05);*/
+  transition: 0.2s;
+}
+
+.md-cardresep:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 43%);
+}
+
+.racikan-box {
+    /*border: 1px dashed #ddd;
+    border-radius: 6px;*/
+    border-left: 1px dashed #ddd;
+    border-right: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+    border-radius: 0 0 6px 6px;
+}
+
+.racikan-header {
+    font-size: 11px;
+}

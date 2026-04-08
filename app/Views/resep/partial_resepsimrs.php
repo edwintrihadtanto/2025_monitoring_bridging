@@ -176,6 +176,7 @@
                                             </span>
                                         <?php endif; ?>
 
+                                        <div id="noResep">
                                         <?php if ($item['status_kirim'] == 'f'): ?>
                                             <span class="badge bg-danger" title="<?= esc($item['response_message']) ?>">
                                                 ⚠️ <?= esc($item['noresep_bpjs']) ?>
@@ -185,7 +186,7 @@
                                                 ✅ <?= esc($item['noresep_bpjs']) ?>
                                             </span>
                                         <?php endif; ?>
-
+                                        </div>
                                     </div>
 
                                     <small class="text-muted">

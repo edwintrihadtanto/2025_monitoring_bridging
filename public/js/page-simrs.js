@@ -495,6 +495,106 @@ function prosesBatchSIMRS(payload) {
         .then(res => res.json())
         .then(data => {
             console.log('Response server:', data);
+            
+            if(data.status){
+                Toast.fire({
+                    icon: 'success',
+                    title: data.message
+                });
+                inner.style.width = '100%';
+                inner.classList.remove('progress-bar-animated');
+                inner.classList.add('bg-success');
+            } else {
+                // ✅ PROSES ERROR SPESIFIK UNTUK DETAIL OBAT
+                if (data.errors && data.errors.length > 0) {
+                    let detailMsg = "<ul class='text-start mb-0' style='font-size:13px;'>";
+                    
+                    // 1. Tampilkan pesan di SweetAlert
+                    data.errors.forEach(err => {
+                        detailMsg += `<li><strong>${err.nama_obat}</strong>: ${err.error}</li>`;
+                    });
+                    detailMsg += "</ul>";
+
+                    Swal.fire({
+                        icon: 'warning',
+                        title: `Gagal Kirim Obat (No Apotek: ${data.data?.noApotik || '-'})`,
+                        html: detailMsg,
+                        timer: 6000,
+                        timerProgressBar: true,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Tutup'
+                    });
+
+                    // 2. ✅ TEMPELKAN ICON SERU DI VIEW BERDASARKAN KODE OBAT
+                    data.errors.forEach(err => {
+                        if (err.kd_obat) {
+                            // Cari span status berdasarkan data-kdobat
+                            const statusEl = resepItem.querySelector(`.obat-bpjs-status[data-kdobat="${err.kd_obat}"]`);
+                            if (statusEl) {
+                                statusEl.innerHTML = ` <i class="bi bi-exclamation-triangle-fill text-danger" data-bs-toggle="tooltip" title="${err.error}"></i>`;
+                                // Re-init tooltip jika pakai bootstrap
+                                if (typeof bootstrap !== 'undefined') {
+                                    new bootstrap.Tooltip(statusEl.querySelector('i'));
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    // Error umum (bukan dari detail obat)
+                    Swal.fire({
+                        icon: 'error',
+                        html: data.message,
+                        timer: 3400,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    });
+                }
+                
+                bar.classList.add('d-none');
+            }
+
+            if(data.data != null){
+                console.log('No Resep BPJS:', data.data.noResep);   
+            }
+            
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            inner.classList.remove('progress-bar-animated');
+            inner.classList.add('bg-danger');
+            inner.style.width = '100%';
+        });
+    });
+}
+
+function prosesBatchSIMRSXX(payload) {
+    const wrapper = document.getElementById('resepWrapper');
+    if (!wrapper) return;
+
+    payload.forEach((item, index) => {
+
+        const resepItem = wrapper.querySelector(
+            `.resep-check[data-id="${item.noresep}"]`
+        )?.closest('.resep-item');
+
+        const bar = resepItem?.querySelector('.resep-progress');
+        const inner = bar?.querySelector('.progress-bar');
+
+        if (!bar || !inner) return;
+
+        bar.classList.remove('d-none');
+
+        fetch(BASE_URL + 'bpjs/insert/insresepobat', {
+            method: 'POST',
+            headers: {
+                'Content-Type':'application/json',
+                'X-Requested-With':'XMLHttpRequest'
+            },            
+            body: JSON.stringify(item)
+        })        
+        .then(res => res.json())
+        .then(data => {
+            console.log('Response server:', data);
             // if (data.status) {
             //     // resultContainer.innerHTML = data.html;
             // } else {
@@ -524,8 +624,11 @@ function prosesBatchSIMRS(payload) {
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
                     }
                 });
-
                 bar.classList.add('d-none');
+            }
+
+            if(data.data != null){
+                console.log(data.data.noResep);   
             }
             
         })
