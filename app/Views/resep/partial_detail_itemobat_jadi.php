@@ -1,4 +1,4 @@
-<div class="py-1 px-2">
+<div class="obat-item py-1 px-2">
     <div class="d-flex align-items-start gap-2">
 
         <input type="checkbox"
@@ -50,7 +50,7 @@
                 <span class="d-flex align-items-center gap-1">
                     Qty:
                     <input type="number"
-                           class="form-control form-control-sm"
+                           class="form-control form-control-sm qty"
                            style="width:60px"
                            value="<?= esc($item['jml_out']) ?>">
                 </span>
@@ -58,7 +58,7 @@
                 <span class="d-flex align-items-center gap-1">
                     Jho:
                     <input type="number"
-                           class="form-control form-control-sm"
+                           class="form-control form-control-sm jho"
                            style="width:60px"
                            value="0">
                 </span>
@@ -68,7 +68,7 @@
                         📝 <?= esc($item['catatan']) ?>
                     </span>
                 <?php endif; ?>
-
+                
             </div>
 
         </div>

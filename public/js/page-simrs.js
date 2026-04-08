@@ -288,6 +288,11 @@ function fungsi_sidebar_resepSIMRS() {
     updateCounter();
 }
 
+function getInputValueDetailItem(parent, selector) {
+    const el = parent?.querySelector(selector);
+    return el ? el.value : '';
+}
+
 function handleProsesObatClick(e) {
 
     const wrapper = document.getElementById('resepWrapper');
@@ -304,12 +309,48 @@ function handleProsesObatClick(e) {
 
         const detail = [];
 
-        resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
+        /*resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
+            const parent = o.closest('.py-1'); // wrapper item obat
             detail.push({
-                kd_obat: o.dataset.kdobat,
-                qty    : o.dataset.qty,
-                racikan : o.dataset.racikan
+                kd_obat   : o.dataset.kdobat,
+                // qty       : o.dataset.qty,
+                racikan   : o.dataset.racikan,
+                signa1    : parent.querySelector('.signa1')?.value || 0,
+                signa2    : parent.querySelector('.signa2')?.value || 0,
+                qty       : parent.querySelector('.qty')?.value || 0,
+                jho       : parent.querySelector('.jho')?.value || 0,
+                permintaan: parent.querySelector('.permintaan')?.value || ''
             });
+        });*/
+        resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
+
+            const racikanBox = o.closest('.racikan-box');
+            const obatItem   = o.closest('.obat-item, .racikan-item');
+
+            let data = {
+                kd_obat : o.dataset.kdobat,
+                racikan : o.dataset.racikan || ''
+            };
+
+            if (racikanBox) {
+                // ✅ RACIKAN
+                data.signa1     = parseFloat(getInputValueDetailItem(racikanBox, '.signa1')) || 0;
+                data.signa2     = parseFloat(getInputValueDetailItem(racikanBox, '.signa2')) || 0;
+                data.jho        = parseFloat(getInputValueDetailItem(racikanBox, '.jho')) || 0;
+                data.permintaan = getInputValueDetailItem(racikanBox, '.permintaan');
+
+                data.qty        = parseFloat(getInputValueDetailItem(obatItem, '.qty')) || 0;
+
+            } else {
+                // ✅ NON RACIKAN
+                data.signa1     = parseFloat(getInputValueDetailItem(obatItem, '.signa1')) || 0;
+                data.signa2     = parseFloat(getInputValueDetailItem(obatItem, '.signa2')) || 0;
+                data.jho        = parseFloat(getInputValueDetailItem(obatItem, '.jho')) || 0;
+                data.permintaan = getInputValueDetailItem(obatItem, '.permintaan');
+                data.qty        = parseFloat(getInputValueDetailItem(obatItem, '.qty')) || 0;
+            }
+
+            detail.push(data);
         });
 
         if (detail.length === 0) {
@@ -354,12 +395,48 @@ function handleProsesObatClick(e) {
 
         const detail = [];
 
-        resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
+        /*resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
+            const parent = o.closest('.py-1'); // wrapper item obat
             detail.push({
-                kd_obat: o.dataset.kdobat,
-                qty    : o.dataset.qty,
-                racikan : o.dataset.racikan
+                kd_obat   : o.dataset.kdobat,
+                // qty       : o.dataset.qty,
+                racikan   : o.dataset.racikan,
+                signa1    : parent.querySelector('.signa1')?.value || 0,
+                signa2    : parent.querySelector('.signa2')?.value || 0,
+                qty       : parent.querySelector('.qty')?.value || 0,
+                jho       : parent.querySelector('.jho')?.value || 0,
+                permintaan: parent.querySelector('.permintaan')?.value || ''
             });
+        });*/
+        resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
+
+            const racikanBox = o.closest('.racikan-box');
+            const obatItem   = o.closest('.obat-item, .racikan-item');
+
+            let data = {
+                kd_obat : o.dataset.kdobat,
+                racikan : o.dataset.racikan || ''
+            };
+
+            if (racikanBox) {
+                // ✅ RACIKAN
+                data.signa1     = parseFloat(getInputValueDetailItem(racikanBox, '.signa1')) || 0;
+                data.signa2     = parseFloat(getInputValueDetailItem(racikanBox, '.signa2')) || 0;
+                data.jho        = parseFloat(getInputValueDetailItem(racikanBox, '.jho')) || 0;
+                data.permintaan = getInputValueDetailItem(racikanBox, '.permintaan');
+
+                data.qty        = parseFloat(getInputValueDetailItem(obatItem, '.qty')) || 0;
+
+            } else {
+                // ✅ NON RACIKAN
+                data.signa1     = parseFloat(getInputValueDetailItem(obatItem, '.signa1')) || 0;
+                data.signa2     = parseFloat(getInputValueDetailItem(obatItem, '.signa2')) || 0;
+                data.jho        = parseFloat(getInputValueDetailItem(obatItem, '.jho')) || 0;
+                data.permintaan = getInputValueDetailItem(obatItem, '.permintaan');
+                data.qty        = parseFloat(getInputValueDetailItem(obatItem, '.qty')) || 0;
+            }
+
+            detail.push(data);
         });
 
         if (detail.length === 0) return;

@@ -210,6 +210,90 @@ class BpjsController extends BaseController
         $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
+
+    public function createSEPBPJS_JALAN2()
+    {
+        $userID     = '12345';
+        $payload    = json_encode([
+                    "request" => [
+                        "t_sep" => [
+                            "noKartu"      => "0002046121615",
+                            "tglSep"       => date('Y-m-d'),
+                            "ppkPelayanan" => $this->ppkSoedono,
+                            "jnsPelayanan" => "2", // 1=RANAP, 2=RAJAL
+
+                            "klsRawat" => [
+                                "klsRawatHak"  => "2",
+                                "klsRawatNaik" => "",
+                                "pembiayaan"   => "",
+                                "penanggungJawab" => ""
+                            ],
+
+                            "noMR" => '0-00-00-01',
+
+                            "rujukan" => [
+                                "asalRujukan" => "2",
+                                "tglRujukan"  => "",
+                                "noRujukan"   => "",
+                                "ppkRujukan"  => "",
+                            ],
+
+                            "catatan" => "-",
+                            "diagAwal" => "I10",
+
+                            "poli" => [
+                                "tujuan"    => "IGD",
+                                "eksekutif" => "0"
+                            ],
+
+                            "cob" => [
+                                "cob" => "0"
+                            ],
+
+                            "katarak" => [
+                                "katarak" => "0"
+                            ],
+
+                            "jaminan" => [
+                                "lakaLantas" => "0",
+                                "noLP" => "",
+                                "penjamin" => [
+                                    "tglKejadian" => "",
+                                    "keterangan"  => "",
+                                    "suplesi" => [
+                                        "suplesi" => "0",
+                                        "noSepSuplesi" => "",
+                                        "lokasiLaka" => [
+                                            "kdPropinsi"  => "",
+                                            "kdKabupaten" => "",
+                                            "kdKecamatan" => ""
+                                        ]
+                                    ]
+                                ]
+                            ],
+
+                            // ===== FIELD BARU =====
+                            "tujuanKunj" => "0",
+                            "flagProcedure" => "",
+                            "kdPenunjang" => "",
+                            "assesmentPel" => "",
+
+                            "skdp" => [
+                                "noSurat"  => "",
+                                "kodeDPJP" => "299693"
+                            ],
+
+                            "dpjpLayan" => "299693", // wajib jika RAJAL
+                            "noTelp" => "081111111101",
+                            "user"   => "Coba Web Service Farmasi"
+                        ]
+                    ]
+                ]);
+        
+        $endpoint = '/SEP/2.0/insert';        
+        $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
     //INAP
     public function createSEPBPJS_INAP()
     {

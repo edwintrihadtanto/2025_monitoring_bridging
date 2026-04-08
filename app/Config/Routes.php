@@ -27,6 +27,7 @@ use CodeIgniter\Router\RouteCollection;
         $routes->get('getSEPPasien/(:segment)', 'BpjsController::searchingSEPPasien/$1');
         $routes->get('createSEPBPJS_IGD', 'BpjsController::createSEPBPJS_IGD'); //VCLAIM 
         $routes->get('createSEPBPJS_JALAN', 'BpjsController::createSEPBPJS_JALAN'); //VCLAIM 
+        $routes->get('createSEPBPJS_JALAN2', 'BpjsController::createSEPBPJS_JALAN2'); //VCLAIM 
         $routes->get('createSEPBPJS_INAP', 'BpjsController::createSEPBPJS_INAP'); //VCLAIM 
         $routes->get('deleteSEPBPJS', 'BpjsController::delSEP');        //VCLAIM
         $routes->get('createRUJUKAN', 'BpjsController::createRUJUKAN'); //VCLAIM 
