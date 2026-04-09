@@ -229,7 +229,7 @@ class BpjsController extends BaseController
                                 "penanggungJawab" => ""
                             ],
 
-                            "noMR" => '6-65-45-04',
+                            "noMR" => '6-94-47-03',
 
                             "rujukan" => [
                                 "asalRujukan" => "2",

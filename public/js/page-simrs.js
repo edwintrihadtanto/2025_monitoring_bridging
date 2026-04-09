@@ -477,12 +477,11 @@ function prosesBatchSIMRS(payload) {
             `.resep-check[data-id="${item.noresep}"]`
         )?.closest('.resep-item');
 
-        const bar = resepItem?.querySelector('.resep-progress');
-        const inner = bar?.querySelector('.progress-bar');
+        const spinner = resepItem?.querySelector('.resep-overlay-spinner');
+        if (!spinner) return;
 
-        if (!bar || !inner) return;
-
-        bar.classList.remove('d-none');
+        // Tampilkan spinner
+        spinner.classList.remove('d-none');
 
         fetch(BASE_URL + 'bpjs/insert/insresepobat', {
             method: 'POST',
@@ -495,15 +494,24 @@ function prosesBatchSIMRS(payload) {
         .then(res => res.json())
         .then(data => {
             console.log('Response server:', data);
-            
+            // ==========================================
+            // HELPER: UPDATE BADGE NO RESEP
+            // ==========================================
+            const updateNoResepBadge = (icon, bgClass, tooltipText) => {
+                const noResepDiv = resepItem.querySelector('.no-resep-bpjs');
+                if (noResepDiv && data.data && data.data.noResep) {
+                    noResepDiv.innerHTML = `<span class="badge ${bgClass}" data-bs-toggle="tooltip" title="${tooltipText}">${icon} ${data.data.noResep}</span>`;
+                }
+            };
+
             if(data.status){
                 Toast.fire({
                     icon: 'success',
                     title: data.message
                 });
-                inner.style.width = '100%';
-                inner.classList.remove('progress-bar-animated');
-                inner.classList.add('bg-success');
+                
+                // ✅ Ubah badge jadi Biru (Sukses Penuh)
+                updateNoResepBadge('✅', 'bg-primary', `No Apotik: ${data.data.noApotik}`);
             } else {
                 // ✅ PROSES ERROR SPESIFIK UNTUK DETAIL OBAT
                 if (data.errors && data.errors.length > 0) {
@@ -521,24 +529,28 @@ function prosesBatchSIMRS(payload) {
                         html: detailMsg,
                         timer: 6000,
                         timerProgressBar: true,
-                        showConfirmButton: true,
-                        confirmButtonText: 'Tutup'
+                        showConfirmButton: false,
+                        // confirmButtonText: 'Tutup'
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
                     });
 
-                    // 2. ✅ TEMPELKAN ICON SERU DI VIEW BERDASARKAN KODE OBAT
+                    // ✅ Tempel icon seru di view obat
                     data.errors.forEach(err => {
                         if (err.kd_obat) {
-                            // Cari span status berdasarkan data-kdobat
                             const statusEl = resepItem.querySelector(`.obat-bpjs-status[data-kdobat="${err.kd_obat}"]`);
                             if (statusEl) {
                                 statusEl.innerHTML = ` <i class="bi bi-exclamation-triangle-fill text-danger" data-bs-toggle="tooltip" title="${err.error}"></i>`;
-                                // Re-init tooltip jika pakai bootstrap
-                                if (typeof bootstrap !== 'undefined') {
-                                    new bootstrap.Tooltip(statusEl.querySelector('i'));
-                                }
                             }
                         }
                     });
+                    // ✅ Ubah badge jadi Info (Header aman, tapi obat ada yang gagal)
+                    if (data.data && data.data.noApotik) {
+                        updateNoResepBadge('✅', 'bg-primary', `Header Sukses, Detail Obat Gagal. No Apotik: ${data.data.noApotik}`);
+                    }
+
                 } else {
                     // Error umum (bukan dari detail obat)
                     Swal.fire({
@@ -549,20 +561,20 @@ function prosesBatchSIMRS(payload) {
                         showConfirmButton: false
                     });
                 }
-                
-                bar.classList.add('d-none');
-            }
-
-            if(data.data != null){
-                console.log('No Resep BPJS:', data.data.noResep);   
             }
             
+            // ✅ SEMBUNYIKAN SPINNER SETELAH SELESAI (SUKSES MAUPUN GAGAL)
+            spinner.classList.add('d-none');
         })
         .catch(error => {
             console.error('Error:', error);
-            inner.classList.remove('progress-bar-animated');
-            inner.classList.add('bg-danger');
-            inner.style.width = '100%';
+             // ✅ SEMBUNYIKAN SPINNER JIKA ERROR JARINGAN
+            spinner.classList.add('d-none');
+            
+            Toast.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan koneksi ke server.'
+            });
         });
     });
 }

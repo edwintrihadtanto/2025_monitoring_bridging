@@ -170,3 +170,26 @@
 .racikan-header {
     font-size: 11px;
 }
+
+.resep-item {
+    position: relative;
+    overflow: hidden; /* Agar spinner tidak keluar dari card */
+}
+
+.resep-overlay-spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.resep-overlay-spinner .spinner-border {
+    width: 2rem;
+    height: 2rem;
+}

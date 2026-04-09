@@ -562,8 +562,8 @@ class BpjsInsertController extends BaseController
                 if (!$dokterBPJS) return $this->response->setJSON(['status' => false, 'message' => 'Mapping Dokter BPJS tidak ditemukan!']);
                 $kd_dokterbpjs = $dokterBPJS[0]['kd_dokter_bpjs'];
             } else {
-                $poli = 'BED';
-                $kd_dokterbpjs = '30882';
+                $poli = 'INT';
+                $kd_dokterbpjs = '299693';
             }
 
             // ==========================================

@@ -1,49 +1,5 @@
 <div id="resepWrapper">
 
-    <!-- <div class="d-flex flex-wrap gap-2 mb-3 align-items-center">
-
-        <div class="input-group input-group-sm" style="max-width:320px">
-            <span class="input-group-text">🔍</span>
-            <input type="text"
-                   id="searchResep"
-                   class="form-control"
-                   placeholder="Cari SEP / Medrec / Nama Pasien">
-        </div>
-
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" id="sepkosong">
-            <label class="form-check-label text-danger small" for="sepkosong">
-                SEP Kosong
-            </label>
-        </div>
-
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" id="sepada">
-            <label class="form-check-label text-danger small" for="sepada">
-                Terdapat SEP
-            </label>
-        </div>
-
-        <div class="form-check ms-auto">
-            <button
-                id="btnProsesTerpilih"
-                type="button"
-                class="btn btn-success btn-sm"
-                disabled>
-                <i class="bi bi-lightning"></i> Proses Terpilih
-            </button>
-        </div>
-        <div class="form-check ms-auto">
-            <input class="form-check-input" type="checkbox" id="checkAllGlobal">
-            <label class="form-check-label fw-semibold">
-                Pilih Semua
-            </label>
-        </div>
-
-        <span class="badge bg-primary" id="selectedCounter">
-            0 terpilih
-        </span>
-    </div> -->
     <div class="resep-toolbar d-flex flex-wrap gap-2 mb-2 align-items-center">
 
         <div class="input-group input-group-sm" style="max-width:260px">
@@ -127,6 +83,7 @@
                     $collapseId = 'detail-' . md5($item['no_out'].$item['tgl_out']);
                 ?>
 
+                   
                     <div class="list-group-item resep-item"
                          data-noresep="<?= esc($item['no_resep']) ?>"
                          data-sep="<?= esc($item['no_sep'] ?? '') ?>"
@@ -143,12 +100,13 @@
                              $item['nmpasien']
                          ) ?>" >
 
-                        <div class="progress mt-2 d-none resep-progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated"
-                                 style="width:0%">
+                        <!-- ✅ TAMBAHKAN OVERLAY SPINNER INI -->
+                        <div class="resep-overlay-spinner d-none">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
                             </div>
                         </div>
-                        
+                    
                         <div class="row align-items-center">
 
                             <!-- LEFT -->
@@ -176,16 +134,16 @@
                                             </span>
                                         <?php endif; ?>
 
-                                        <div id="noResep">
-                                        <?php if ($item['status_kirim'] == 'f'): ?>
-                                            <span class="badge bg-danger" title="<?= esc($item['response_message']) ?>">
-                                                ⚠️ <?= esc($item['noresep_bpjs']) ?>
-                                            </span>
-                                        <?php elseif ($item['status_kirim'] == 't'): ?>
-                                            <span class="badge bg-primary" title="<?= esc($item['response_message']) ?>">
-                                                ✅ <?= esc($item['noresep_bpjs']) ?>
-                                            </span>
-                                        <?php endif; ?>
+                                        <div class="no-resep-bpjs">
+                                            <?php if ($item['status_kirim'] == 'f'): ?>
+                                                <span class="badge bg-danger" title="<?= esc($item['response_message']) ?>">
+                                                    ⚠️ <?= esc($item['noresep_bpjs']) ?>
+                                                </span>
+                                            <?php elseif ($item['status_kirim'] == 't'): ?>
+                                                <span class="badge bg-primary" title="<?= esc($item['response_message']) ?>">
+                                                    ✅ <?= esc($item['noresep_bpjs']) ?>
+                                                </span>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
 
@@ -260,6 +218,7 @@
                         <div class="collapse mt-2 ps-4" id="<?= $collapseId ?>" data-loaded="0"></div>
 
                     </div>
+                    
 
                 <?php endforeach; ?>
 
