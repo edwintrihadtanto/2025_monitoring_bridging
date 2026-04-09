@@ -509,9 +509,18 @@ function prosesBatchSIMRS(payload) {
                     icon: 'success',
                     title: data.message
                 });
-                
-                // ✅ Ubah badge jadi Biru (Sukses Penuh)
-                updateNoResepBadge('✅', 'bg-primary', `No Apotik: ${data.data.noApotik}`);
+                                
+                updateNoResepBadge('✅', 'bg-primary', `No Apotik: ${data.data.noApotik}`);                
+                if (item.detailobat && item.detailobat.length > 0) {
+                    item.detailobat.forEach(obat => {
+                        if (obat.kd_obat) {
+                            const statusEl = resepItem.querySelector(`.obat-bpjs-status[data-kdobat="${obat.kd_obat}"]`);
+                            if (statusEl) {
+                                statusEl.innerHTML = ` <i class="bi bi-check-circle-fill text-success" data-bs-toggle="tooltip" title="Berhasil dikirim ke BPJS"></i>`;
+                            }
+                        }
+                    });
+                }
             } else {
                 // ✅ PROSES ERROR SPESIFIK UNTUK DETAIL OBAT
                 if (data.errors && data.errors.length > 0) {
@@ -537,7 +546,7 @@ function prosesBatchSIMRS(payload) {
                         }
                     });
 
-                    // ✅ Tempel icon seru di view obat
+                    // ⚠️ Tempel icon seru di view obat
                     data.errors.forEach(err => {
                         if (err.kd_obat) {
                             const statusEl = resepItem.querySelector(`.obat-bpjs-status[data-kdobat="${err.kd_obat}"]`);
