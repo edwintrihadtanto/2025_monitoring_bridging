@@ -66,7 +66,7 @@
                     <div class="fw-semibold">
                         📦 <?= date('d M Y', strtotime($group['tgl'])) ?>
                         <span class="badge bg-secondary ms-2">
-                            <?= count($group['data']) ?> resep
+                            Total : <?= count($group['data']) ?> Resep per Hari
                         </span>
                     </div>
 
@@ -83,7 +83,6 @@
                     $collapseId = 'detail-' . md5($item['no_out'].$item['tgl_out']);
                 ?>
 
-                   
                     <div class="list-group-item resep-item"
                          data-noresep="<?= esc($item['no_resep']) ?>"
                          data-sep="<?= esc($item['no_sep'] ?? '') ?>"
@@ -100,7 +99,7 @@
                              $item['nmpasien']
                          ) ?>" >
 
-                        <!-- ✅ TAMBAHKAN OVERLAY SPINNER INI -->
+                        <!-- OVERLAY SPINNER -->
                         <div class="resep-overlay-spinner d-none">
                             <div class="spinner-border text-primary" role="status">
                                 <span class="visually-hidden">Loading...</span>
@@ -126,7 +125,7 @@
 
                                         <?php if (!empty($item['no_sep'])): ?>
                                             <span class="badge bg-success">
-                                                <?= esc($item['no_sep']) ?>
+                                                <?= esc($item['no_sep']) ?> <i class="fa fa-copy"></i>
                                             </span>
                                         <?php else: ?>
                                             <span class="badge bg-danger">
@@ -147,65 +146,50 @@
                                         </div>
                                     </div>
 
-                                    <small class="text-muted">
-                                        Resep: <?= esc($item['no_resep']) ?> /
-                                        <?= esc($item['customer']) ?>
-                                    </small>
+                                    <?php if ($item['kd_customer_apt_brangout'] !== '0000000044' && $item['kd_customer_apt_brangout'] !== '0000000043'): ?>
+                                        <span class="badge bg-danger" title="<?= esc($item['response_message']) ?>">
+                                            ⚠️ Resep: <?= esc($item['no_resep']) ?> /
+                                            <?= esc($item['customer']) ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <small class="text-muted">
+                                            Resep: <?= esc($item['no_resep']) ?> /
+                                            <?= esc($item['customer']) ?>
+                                        </small>
+                                    <?php endif; ?>
+                                    
                                 </div>
                             </div>
 
-                            <!-- MIDDLE -->
-                            <div class="col-md-3 text-center">
-                                <div class="d-flex justify-content-center gap-3">
-
-                                    <div class="form-check">
-                                        <input type="radio"
-                                               name="iterasi_<?= $item['no_resep'] ?>"
-                                               class="form-check-input"
-                                               value="1"
-                                               <?= $item['sts_iter'] == '1' ? 'checked' : '' ?>
-                                               onchange="this.closest('.resep-item').dataset.sts_iter=this.value">
-                                        <label class="form-check-label text-warning small">
-                                            Iterasi
-                                        </label>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input type="radio"
-                                               name="iterasi_<?= $item['no_resep'] ?>"
-                                               class="form-check-input"
-                                               value="0"
-                                               <?= $item['sts_iter'] != '1' ? 'checked' : '' ?>
-                                               onchange="this.closest('.resep-item').dataset.sts_iter=this.value">
-                                        <label class="form-check-label text-secondary small">
-                                            Non
-                                        </label>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <!-- RIGHT -->
-                            <div class="col-md-4">
-                                <div class="row align-items-center">
-
-                                    <div class="col-8">
+                            <!-- ✅ RIGHT (DIGABUNG, KARENA MIDDLE SUDAH DIHAPUS) -->
+                                                        <!-- RIGHT -->
+                            <div class="col-md-7">
+                                <div class="gap-2" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end;">
+                                    
+                                    <!-- KIRI: NAMA PASIEN (Flex Grow) -->
+                                    <div class="text-truncate">
                                         <div class="fw-semibold text-primary text-truncate">
                                             <?= esc($item['nmpasien']) ?>
                                         </div>
-
                                         <small class="text-muted">
                                             <?= esc($item['kd_pasienapt']) ?> /
                                             <?= esc($item['nama_unit']) ?>
                                         </small>
                                     </div>
 
-                                    <div class="col-4">
-                                        <select class="form-select form-select-sm"
+                                    <!-- KANAN: SELECT BOX (Tidak memuai / Shrink) -->
+                                    <div class="d-flex gap-1 flex-shrink-0">
+                                        <select class="form-select form-select-sm" style="width:auto; min-width:90px"
                                                 onchange="this.closest('.resep-item').dataset.kdjnsobat=this.value">
                                             <option value="1">PRB</option>
                                             <option value="2">Kronis</option>
                                             <option value="3">Kemo</option>
+                                        </select>
+                                        <select class="form-select form-select-sm" style="width:auto; min-width:110px"
+                                                onchange="this.closest('.resep-item').dataset.sts_iter=this.value">
+                                            <option value="0" <?= $item['sts_iter'] == '0' ? 'selected' : '' ?>>Non Iterasi</option>
+                                            <option value="1" <?= $item['sts_iter'] == '1' ? 'selected' : '' ?>>Iterasi 1 Kali</option>
+                                            <option value="2" <?= $item['sts_iter'] == '2' ? 'selected' : '' ?>>Iterasi 2 Kali</option>                                            
                                         </select>
                                     </div>
 
@@ -218,7 +202,6 @@
                         <div class="collapse mt-2 ps-4" id="<?= $collapseId ?>" data-loaded="0"></div>
 
                     </div>
-                    
 
                 <?php endforeach; ?>
 
