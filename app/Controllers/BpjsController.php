@@ -532,6 +532,27 @@ class BpjsController extends BaseController
         $result     = $this->bpjsInsertVclaimService->request('DELETE', $endpoint, $payload, $userID);
         return $this->response->setJSON($result);
     }
+
+    public function createBackdate()
+    {
+        $userID     = '12345';
+        $payload    = json_encode([
+                        "request" => [
+                            "t_sep" => [
+                                "noKartu"      => "0002034453284",
+                                "tglSep"       => '2026-02-06',
+                                "jnsPelayanan" => '2',
+                                "jnsPengajuan" => '1', 
+                                "keterangan" => "backdate", 
+                                "user"   => "Coba Web Service Farmasi"
+                            ]
+                        ]
+                    ]);
+        $endpoint = '/Sep/pengajuanSEP';        
+        $result = $this->bpjsInsertVclaimService->request('POST', $endpoint, $payload, $userID);
+        return $this->response->setJSON($result);
+    }
+    
     /*END VCLAIM*/
     public function searchingSEPPasien($sep)
     {

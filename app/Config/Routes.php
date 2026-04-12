@@ -24,25 +24,25 @@ use CodeIgniter\Router\RouteCollection;
         // API VCLAIM
         $routes->get('peserta/nokartu/(:num)', 'BpjsController::getPesertaByNoKartu/$1');
         $routes->get('peserta/nik/(:num)', 'BpjsController::getPesertaByNik/$1');
+        $routes->get('createSEPBPJS_IGD', 'BpjsController::createSEPBPJS_IGD');
+        $routes->get('createSEPBPJS_JALAN', 'BpjsController::createSEPBPJS_JALAN');
+        $routes->get('createSEPBPJS_JALAN2', 'BpjsController::createSEPBPJS_JALAN2');
+        $routes->get('createSEPBPJS_INAP', 'BpjsController::createSEPBPJS_INAP');
+        $routes->get('deleteSEPBPJS', 'BpjsController::delSEP');
+        $routes->get('createRUJUKAN', 'BpjsController::createRUJUKAN');
+        $routes->get('batalRUJUKAN', 'BpjsController::batalRUJUKAN');
+        $routes->get('buatSPRI', 'BpjsController::buatSPRI');
+        $routes->get('approval', 'BpjsController::approval');
+        $routes->get('getfinger', 'BpjsController::getfinger');
+        $routes->get('createPostMRS', 'BpjsController::createPostMRS');
+        $routes->get('batalPostMRS', 'BpjsController::batalPostMRS');
+        $routes->get('createBackdate', 'BpjsController::createBackdate');
+        $routes->get('getRencanaKontrol', 'BpjsController::getRencanaKontrol');
+        $routes->get('getRujukan/(:segment)', 'BpjsController::getRujukan/$1');
+        // END API VCLAIM 
+
         $routes->get('getSEPPasien/(:segment)', 'BpjsController::searchingSEPPasien/$1');
-        $routes->get('createSEPBPJS_IGD', 'BpjsController::createSEPBPJS_IGD'); //VCLAIM 
-        $routes->get('createSEPBPJS_JALAN', 'BpjsController::createSEPBPJS_JALAN'); //VCLAIM 
-        $routes->get('createSEPBPJS_JALAN2', 'BpjsController::createSEPBPJS_JALAN2'); //VCLAIM 
-        $routes->get('createSEPBPJS_INAP', 'BpjsController::createSEPBPJS_INAP'); //VCLAIM 
-        $routes->get('deleteSEPBPJS', 'BpjsController::delSEP');        //VCLAIM
-        $routes->get('createRUJUKAN', 'BpjsController::createRUJUKAN'); //VCLAIM 
-        $routes->get('batalRUJUKAN', 'BpjsController::batalRUJUKAN');   //VCLAIM 
-        $routes->get('buatSPRI', 'BpjsController::buatSPRI');           //VCLAIM 
-        $routes->get('approval', 'BpjsController::approval');           //VCLAIM 
-        $routes->get('getfinger', 'BpjsController::getfinger');           //VCLAIM         
-        $routes->get('createPostMRS', 'BpjsController::createPostMRS'); //VCLAIM 
-        $routes->get('batalPostMRS', 'BpjsController::batalPostMRS'); //VCLAIM 
-
-        $routes->get('getRencanaKontrol', 'BpjsController::getRencanaKontrol'); //VCLAIM 
-
-        // END API VCLAIM
-        $routes->get('getRujukan/(:segment)', 'BpjsController::getRujukan/$1'); //VCLAIM 
-
+        
         $routes->group('referensi', static function ($routes) {
             // http://localhost/2025_monitoring_bridging/bpjs/referensi/obat/1/2024-09-01/asam
             $routes->get('getobat/(:segment)/(:segment)/(:segment)', 'BpjsController::getReferensiObat/$1/$2/$3');
