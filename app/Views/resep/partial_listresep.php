@@ -29,8 +29,9 @@
 
                 <!-- INFO UTAMA -->
                 <div class="small mb-2">
-                    <div><strong>No Resep:</strong> <span class="text-danger"><?= $item['NORESEP'] ?></span></div>
-                    <div><strong>No SEP:</strong> <?= $item['NOSEP_KUNJUNGAN'] ?></div>
+                    <div><strong>No. Resep:</strong> <span class="text-danger"><?= $item['NORESEP'] ?></span></div>
+                    <div><strong>No. Apotik:</strong> <span class="text-danger"><?= $item['NOAPOTIK'] ?></span></div>
+                    <div><strong>No. SEP:</strong> <?= $item['NOSEP_KUNJUNGAN'] ?></div>
                     <div><strong>Tgl Resep:</strong> <?= $item['TGLRESEP'] ?></div>
                 </div>
 

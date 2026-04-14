@@ -217,8 +217,8 @@ class BpjsController extends BaseController
         $payload    = json_encode([
                     "request" => [
                         "t_sep" => [
-                            "noKartu"      => "0002045650173",
-                            "tglSep"       => date('Y-m-d'),
+                            "noKartu"      => "0002034453284", //0002045650173
+                            "tglSep"       => '2026-02-10',
                             "ppkPelayanan" => $this->ppkSoedono,
                             "jnsPelayanan" => "2", // 1=RANAP, 2=RAJAL
 
@@ -229,7 +229,7 @@ class BpjsController extends BaseController
                                 "penanggungJawab" => ""
                             ],
 
-                            "noMR" => '6-94-47-03',
+                            "noMR" => '0-00-00-01',
 
                             "rujukan" => [
                                 "asalRujukan" => "2",
@@ -540,11 +540,11 @@ class BpjsController extends BaseController
                         "request" => [
                             "t_sep" => [
                                 "noKartu"      => "0002034453284",
-                                "tglSep"       => '2026-02-06',
+                                "tglSep"       => '2026-02-10',
                                 "jnsPelayanan" => '2',
                                 "jnsPengajuan" => '1', 
-                                "keterangan" => "backdate", 
-                                "user"   => "Coba Web Service Farmasi"
+                                "keterangan"    => "backdate", 
+                                "user"          => "Coba Web Service Farmasi"
                             ]
                         ]
                     ]);
