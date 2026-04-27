@@ -527,6 +527,162 @@
             border-bottom: 1px solid #eee;
         }
         
+        /* ===== SIDEBAR BASE ===== */
+        #sidebar {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* ===== HEADER ULTRA ===== */
+        .sidebar-brand-ultra {
+            position: relative;
+            padding: 20px 10px 15px;
+            overflow: hidden;
+        }
+
+        /* Glow background */
+        .brand-glow {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(67,94,190,0.25) 0%, transparent 70%);
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            filter: blur(20px);
+        }
+
+        /* Logo */
+        .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 58px;
+            z-index: 2;
+            position: relative;
+            transition: all 0.35s ease;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.12));
+        }
+
+        .logo-img:hover {
+            transform: scale(1.08) rotate(2deg);
+        }
+
+        /* Text */
+        .brand-text {
+            margin-top: 6px;
+        }
+
+        .brand-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .brand-sub {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        /* ===== MENU ===== */
+        .sidebar-menu {
+            padding-top: 5px;
+        }
+
+        /* Menu item */
+        .sidebar-item .sidebar-link {
+            border-radius: 12px;
+            margin: 3px 8px;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hover effect */
+        .sidebar-item .sidebar-link:hover {
+            background: rgba(67,94,190,0.08);
+            transform: translateX(5px);
+        }
+
+        /* Active */
+        .sidebar-item.active .sidebar-link {
+            background: linear-gradient(135deg, #435ebe, #6366f1);
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(67,94,190,0.35);
+        }
+
+        /* Active glow line */
+        .sidebar-item.active .sidebar-link::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 20%;
+            height: 60%;
+            width: 4px;
+            background: #fff;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* ===== SUBMENU SMOOTH ===== */
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.35s ease;
+            padding-left: 10px;
+        }
+
+        .sidebar-item.active .submenu {
+            max-height: 500px;
+        }
+
+        .submenu-link {
+            display: block;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #6b7280;
+            transition: all 0.2s ease;
+        }
+
+        .submenu-link:hover {
+            background: rgba(0,0,0,0.05);
+            padding-left: 16px;
+        }
+
+        /* ===== ICON ANIMATION ===== */
+        .sidebar-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-item.active > .sidebar-link i {
+            transform: scale(1.1);
+        }
+
+        /* ===== SCROLLBAR CLEAN ===== */
+        .sidebar-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.15);
+            border-radius: 10px;
+        }
+
+        /* ===== COLLAPSE MODE ===== */
+        .sidebar-collapsed .sidebar-link span {
+            display: none;
+        }
+
+        .sidebar-collapsed .logo-text {
+            display: none;
+        }
+
+        .sidebar-collapsed .logo-img {
+            height: 40px;
+        }
     </style>
 </head>
 <body>

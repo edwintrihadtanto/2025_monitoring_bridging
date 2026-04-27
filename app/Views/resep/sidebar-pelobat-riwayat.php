@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-12 col-md-3 mb-3">
                             <label class="form-label">Tgl. Awal</label>
-                            <input type="date" name="tgl_awal" class="form-control" value="2026-03-01"required>
+                            <input type="date" name="tgl_awal" class="form-control" value="<?= date('Y-m-d') ?>"required>
                         </div>
                         <div class="col-12 col-md-3 mb-3">
                             <label class="form-label">Tgl. Akhir</label>
@@ -32,7 +32,7 @@
                         <div class="col-12 col-md-6 mb-3">
                             <p class="mb-2 font-weight-bold">Pencarian No. Kartu BPJS</p>
                             <div class="form-group position-relative has-icon-left mb-3">
-                                <input type="text" class="form-control" name="no_kartu" id="no_kartu" placeholder="Masukkan No. Kartu BPJS" maxlength="13" value="0002059334728" required>
+                                <input type="text" class="form-control" name="no_kartu" id="no_kartu" placeholder="Masukkan No. Kartu BPJS" maxlength="13" value="" required>
                                 <div class="form-control-icon">
                                     <i class="bi bi-card-text"></i>
                                 </div>

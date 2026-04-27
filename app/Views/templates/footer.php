@@ -43,6 +43,28 @@
     <script src="<?= base_url('js/page-simrs.js') ?>"></script>
 
     <script>
+
+        document.querySelectorAll('.has-sub > .sidebar-link').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                let parent = this.parentElement;
+
+                document.querySelectorAll('.sidebar-item.has-sub').forEach(el => {
+                    if (el !== parent) el.classList.remove('active');
+                });
+
+                parent.classList.toggle('active');
+            });
+        });
+
+        /* Auto active dari URL */
+        const current = window.location.href;
+        document.querySelectorAll('.submenu-link').forEach(link => {
+            if (current.includes(link.getAttribute('href'))) {
+                link.closest('.sidebar-item').classList.add('active');
+            }
+        });
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',

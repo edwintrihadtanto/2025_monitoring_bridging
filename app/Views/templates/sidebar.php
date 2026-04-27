@@ -1,17 +1,30 @@
 <div id="sidebar">
     <div class="sidebar-wrapper active d-flex flex-column">
         <div class="sidebar-header position-relative p-0">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="logo logo-animasi">
-                    <a href="<?= base_url(); ?>"><img src="<?= base_url('img/logo_aplikasi.png'); ?>" alt="Logo" style="height: 7rem;"></a>
+            <div class="sidebar-brand-ultra">
+                
+                <div class="brand-glow"></div>
+
+                <div class="brand-content text-center">
+                    <div class="logo-wrapper">
+                        <img src="<?= base_url('img/logo_aplikasi.png'); ?>" class="logo-img">
+                    </div>
+
+                    <div class="brand-text">
+                        <div class="brand-title">RSUD dr. Soedono</div>
+                        <div class="brand-sub">Smart Monitoring System</div>
+                    </div>
                 </div>
-                <div class="sidebar-toggler  x">
-                    <a href="javascript:void(0)" class="sidebar-hide d-xl-none d-block no-ajax"><i class="bi bi-x bi-middle"></i></a>
+
+                <div class="sidebar-toggler x">
+                    <a href="javascript:void(0)" class="sidebar-hide d-xl-none d-block no-ajax">
+                        <i class="bi bi-x-lg"></i>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="sidebar-menu flex-grow-1 overflow-auto">
-            <ul class="menu p-0">
+            <ul class="menu p-0 mt-0">
                 <li class="sidebar-item has-sub m-0">
                     <a href="#" class="sidebar-link no-ajax">
                         <i class="bi bi-gear"></i>

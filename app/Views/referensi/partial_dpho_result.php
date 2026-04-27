@@ -16,11 +16,11 @@ if (!empty($dphoList)):
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Kode Obat</th>
+                    <th width="100">Kode Obat</th>
                     <th>Nama Obat</th>
                     <th>Generik</th>
                     <th>Kategori (PRB/Kronis/Kemo)</th>
-                    <th>Harga</th>
+                    <th width="80">Harga</th>
                     <th>Stok</th>
                     <th>Tersedia</th>
                 </tr>
@@ -41,7 +41,7 @@ if (!empty($dphoList)):
                         echo implode('', $badges);
                         ?>
                     </td>
-                    <td class="text-end">
+                    <td class="text-start">
                         <span class="fw-bold text-success">
                             Rp <?= number_format($item['harga'], 0, ',', '.') ?>
                         </span>
