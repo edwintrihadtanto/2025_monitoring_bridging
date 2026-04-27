@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= isset($page_title) ? $page_title . ' - ' : '' ?><?php echo SITE_NAME; ?></title>
+    <!-- <title><?= isset($page_title) ? $page_title . ' - ' : '' ?><?php echo SITE_NAME; ?></title> -->
+    <title><?php echo SITE_NAME; ?></title>
     
     <link rel="shortcut icon" href="" type="image/x-icon">
     <link rel="shortcut icon" href="<?= base_url('img/rssmico.png') ?>" type="image/png">

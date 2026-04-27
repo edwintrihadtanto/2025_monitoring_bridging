@@ -27,7 +27,7 @@
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted">2xx Success</small>
-                            <h5 class="mb-0"><?= number_format($rekap['code200'], 0, ',', '.') ?></h5>
+                            <h3 class="mb-0"><?= number_format($rekap['code200'], 0, ',', '.') ?></h3>
                         </div>
                         <div class="badge bg-success">
                             <i class="bi bi-check-circle"></i>
@@ -41,7 +41,7 @@
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted">3xx Redirect</small>
-                            <h5 class="mb-0"><?= number_format($rekap['code300'], 0, ',', '.') ?></h5>
+                            <h3 class="mb-0"><?= number_format($rekap['code300'], 0, ',', '.') ?></h3>
                         </div>
                         <div class="badge bg-info">
                             <i class="bi bi-arrow-left-right"></i>
@@ -55,7 +55,7 @@
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted">4xx Client</small>
-                            <h5 class="mb-0"><?= number_format($rekap['code400'], 0, ',', '.') ?></h5>
+                            <h3 class="mb-0"><?= number_format($rekap['code400'], 0, ',', '.') ?></h3>
                         </div>
                         <div class="badge bg-warning">
                             <i class="bi bi-exclamation-triangle"></i>
@@ -69,7 +69,7 @@
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted">5xx Server</small>
-                            <h5 class="mb-0"><?= number_format($rekap['code500'], 0, ',', '.') ?></h5>
+                            <h3 class="mb-0"><?= number_format($rekap['code500'], 0, ',', '.') ?></h3>
                         </div>
                         <div class="badge bg-danger">
                             <i class="bi bi-x-circle"></i>
@@ -143,7 +143,7 @@
                                 </td>
 
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-outline-dark btn-detail-log"
+                                    <button class="btn btn-sm btn-outline-primary btn-detail-log"
                                         data-request='<?= htmlspecialchars($log['endpoint'], ENT_QUOTES, 'UTF-8') ?>'
                                         data-requestbody='<?= htmlspecialchars($log['request_body'], ENT_QUOTES, 'UTF-8') ?>'
                                         data-response='<?= htmlspecialchars($log['response_body'], ENT_QUOTES, 'UTF-8') ?>'>

@@ -20,7 +20,7 @@
 
                         <!-- UNIT -->
                         <div class="col-md-3">
-                            <label class="form-label small text-muted mb-1">Unit</label>
+                            <label class="form-label text-muted mb-1">Unit</label>
                             <div class="d-flex gap-2 flex-wrap">
                                 <label class="form-check form-check-inline m-0">
                                     <input class="form-check-input" type="radio" name="option_radio" value="2" checked>
@@ -41,7 +41,7 @@
                         <div class="col-md-2">
                             <label class="form-label small text-muted mb-1">Tgl Awal</label>
                             <input type="date" name="tgl_awal" class="form-control form-control-sm"
-                                   value="<?= date('2026-03-08') ?>" required>
+                                   value="<?= date('Y-m-d') ?>" required>
                         </div>
 
                         <div class="col-md-2">
