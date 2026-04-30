@@ -570,14 +570,42 @@ class ResepModel extends Model
 
     public function deleteMappingResepBPJS($no_resep, $no_apotik, $alasan_hapus)
     {
-        return $this->db->table('apt_bridging_resep_bpjs')
+        $this->db->transBegin();
+
+        // ================= HEADER =================
+        $update = $this->db->table('apt_bridging_resep_bpjs')
             ->where('noresep_bpjs', $no_resep)
             ->where('noApotik', $no_apotik)
             ->update([
                 'status_kirim' => false,
-                'sts_batal' => true,
+                'sts_batal'    => true,
                 'alasan_batal' => $alasan_hapus
             ]);
+
+        if (!$update) {
+            $error = $this->db->error();
+            log_message('error', 'UPDATE HEADER GAGAL: ' . json_encode($error));
+
+            $this->db->transRollback();
+            return false;
+        }
+
+        // ================= DETAIL =================
+        $delete = $this->db->table('apt_bridging_resep_detail')
+            ->where('noresep_bpjs', $no_resep)
+            ->where('no_apotik', $no_apotik)
+            ->delete();
+
+        if (!$delete) {
+            $error = $this->db->error();
+            log_message('error', 'DELETE DETAIL GAGAL: ' . json_encode($error));
+
+            $this->db->transRollback();
+            return false;
+        }
+
+        $this->db->transCommit();
+        return true;
     }
 
     public function insertLogDetailResepBPJS(
