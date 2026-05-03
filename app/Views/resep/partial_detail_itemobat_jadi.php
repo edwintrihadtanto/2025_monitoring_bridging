@@ -1,4 +1,4 @@
-<div class="obat-item py-1 px-2">
+<div class="obat-item obat-jadi py-1 px-2">
     <div class="d-flex align-items-start gap-2">
 
         <input type="checkbox"
@@ -6,36 +6,10 @@
                data-kdobat="<?= esc($item['kd_prd'])?>"
                data-qty="<?= esc($item['jml_out']) ?>"
                data-racikan="<?= esc($item['nm_racikan']) ?>"
+               data-catatan="<?= esc($item['catatan']) ?>"
                >
 
         <div class="flex-grow-1">
-
-            <!-- NAMA -->
-            <!-- <div class="d-flex align-items-center gap-1 flex-wrap"> -->
-            <!-- <div class="d-flex justify-content-between align-items-start gap-1">
-                <div class="d-flex align-items-start gap-1 flex-grow-1">
-                    <?php if ($item['kd_obat_bpjs'] != 0): ?>
-                        <i class="bi bi-check-circle text-success" data-bs-toggle="tooltip" title="Sudah mapping BPJS"></i>
-                    <?php endif; ?>
-
-                    <span class="fw-semibold text-truncate">
-                        <?= esc($item['nama_obat']) ?>
-                    </span>
-
-                    <span class="text-muted small">
-                        (<?= esc($item['kd_prd']) ?>)
-                    </span>
-                </div>
-
-                <div class="d-flex align-items-center gap-1">
-                    <span class="small text-muted">Qty:</span>
-                    <input type="number"
-                           class="form-control form-control-sm qty"
-                           value="<?= esc($item['jml_out']) ?>"
-                           style="width:65px">
-                </div>
-            </div> -->
-
             <!-- Pastikan elemen obat punya class="obat-item" dan data-kdobat -->
             <div class="obat-item py-1" data-kdobat="<?= esc($item['kd_prd']) ?>">
                 <div class="d-flex justify-content-between align-items-start gap-1">
@@ -82,14 +56,6 @@
                         <input type="number" class="form-control form-control-sm signa2" style="width:55px">
                     </span>
 
-                    <!-- QTY -->
-                    <!-- <span class="d-flex align-items-center gap-1">
-                        Qty:
-                        <input type="number"
-                               class="form-control form-control-sm qty"
-                               style="width:60px"
-                               value="<?= esc($item['jml_out']) ?>">
-                    </span> -->
                     <!-- JHO -->
                     <span class="d-flex align-items-center gap-1">
                         JHO:

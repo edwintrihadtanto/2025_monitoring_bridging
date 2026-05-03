@@ -63,13 +63,188 @@ function initSIMRS() {
     });
 }
 
-function initProsesObatSIMRS() {
+function initProsesObatSIMRSXX() {
 
     const wrapper = document.getElementById('resepWrapper');
     if (!wrapper) return;
 
     wrapper.removeEventListener('click', handleProsesObatClick);
     wrapper.addEventListener('click', handleProsesObatClick);
+}
+
+function initProsesObatSIMRS() {
+    const wrapper = document.getElementById('resepWrapper');
+    if (!wrapper) return;
+
+    // ===============================
+    // CLICK HANDLER
+    // ===============================
+    wrapper.removeEventListener('click', handleProsesObatClick);
+    wrapper.addEventListener('click', handleProsesObatClick);
+
+    // ===============================
+    // INPUT JHO (ANTI DOUBLE BIND)
+    // ===============================
+    wrapper.removeEventListener('input', handleInputJHO);
+    wrapper.addEventListener('input', handleInputJHO);
+}
+
+function handleInputJHO(e) {
+
+    /*if (!e.target.matches('.qty, .signa1, .signa2')) return;
+
+    const obatItem = e.target.closest('.obat-jadi');
+    if (!obatItem) return;
+
+    let qty    = parseFloat(obatItem.querySelector('.qty')?.value) || 0;
+    let signa1 = parseFloat(obatItem.querySelector('.signa1')?.value) || 0;
+    let signa2 = parseFloat(obatItem.querySelector('.signa2')?.value) || 0;
+
+    let jho = 0;
+
+    if (signa1 > 0 && signa2 > 0) {
+        jho = qty / (signa1 * signa2);
+    }
+
+    const jhoInput = obatItem.querySelector('.jho');
+    if (jhoInput) {
+        jhoInput.value = Math.floor(jho);
+    }*/
+
+    if (!e.target.matches('.qty, .signa1, .signa2')) return;
+
+    // OBAT JADI
+    const obatItem = e.target.closest('.obat-jadi');
+
+    if (obatItem) {
+        let qty    = parseFloat(obatItem.querySelector('.qty')?.value) || 0;
+        let signa1 = parseFloat(obatItem.querySelector('.signa1')?.value) || 0;
+        let signa2 = parseFloat(obatItem.querySelector('.signa2')?.value) || 0;
+
+        let jho = 0;
+
+        if (signa1 > 0 && signa2 > 0) {
+            jho = qty / (signa1 * signa2);
+        }
+
+        const jhoInput = obatItem.querySelector('.jho');
+        if (jhoInput) {
+            jhoInput.value = Math.floor(jho);
+        }
+
+        return;
+    }
+
+    // RACIKAN
+    const racikanBox = e.target.closest('.racikan-box');
+
+    if (racikanBox) {
+
+        // total qty semua item racikan
+        let totalQty = 0;
+
+        racikanBox.querySelectorAll('.racikan-item .qty').forEach(input => {
+            totalQty += parseFloat(input.value) || 0;
+        });
+
+        let signa1 = parseFloat(racikanBox.querySelector('.signa1')?.value) || 0;
+        let signa2 = parseFloat(racikanBox.querySelector('.signa2')?.value) || 0;
+
+        let jho = 0;
+
+        if (signa1 > 0 && signa2 > 0) {
+            jho = totalQty / (signa1 * signa2);
+        }
+
+        const jhoInput = racikanBox.querySelector('.jho');
+        if (jhoInput) {
+            jhoInput.value = Math.floor(jho);
+        }
+    }
+}
+
+function parseSigna(text) {
+    if (!text) return { s1: 0, s2: 0 };
+
+    text = text.toUpperCase();
+
+    // =========================
+    // PRIORITAS 1: FORMAT X (1X1, 3X1, dll)
+    // =========================
+    let match = text.match(/(\d+)\s*[X]\s*(\d+)/);
+    if (match) {
+        return {
+            s1: parseInt(match[1]),
+            s2: parseInt(match[2])
+        };
+    }
+
+    // =========================
+    // PRIORITAS 2: FORMAT (1 0 0)
+    // =========================
+    match = text.match(/\((\d+)\s+(\d+)\s+(\d+)\)/);
+    if (match) {
+        const pagi = parseInt(match[1]);
+        const siang = parseInt(match[2]);
+        const malam = parseInt(match[3]);
+
+        const s1 = [pagi, siang, malam].filter(v => v > 0).length;
+        const s2 = Math.max(pagi, siang, malam);
+
+        return { s1, s2 };
+    }
+
+    return { s1: 0, s2: 0 };
+}
+
+function initAutoSigna(wrapper) {
+    // const items = wrapper.querySelectorAll('.obat-jadi');
+    // alert('jumlah: ' + items.length);
+    wrapper.querySelectorAll('.obat-jadi').forEach(item => {
+        const label = item.querySelector('.badge.bg-danger');
+        if (!label) return;
+
+        const text = label.textContent.trim();
+
+        const { s1, s2 } = parseSigna(text);
+
+        if (s1 > 0 && s2 > 0) {
+
+            const input1 = item.querySelector('.signa1');
+            const input2 = item.querySelector('.signa2');
+
+            // isi hanya jika kosong
+            if (input1 && !input1.value) input1.value = s1;
+            if (input2 && !input2.value) input2.value = s2;
+
+            // trigger hitung JHO
+            input2?.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+    });
+
+    // const items2 = wrapper.querySelectorAll('.racikan-box');
+    // alert('jumlah rac: ' + items2.length);
+    // RACIKAN
+    wrapper.querySelectorAll('.racikan-box').forEach(box => {
+
+        const label = box.querySelector('.badge.bg-danger');
+        if (!label) return;
+
+        const text = label.textContent.trim();
+
+        const { s1, s2 } = parseSigna(text);
+
+        if (s1 > 0 && s2 > 0) {
+
+            const input1 = box.querySelector('.signa1');
+            const input2 = box.querySelector('.signa2');
+
+            if (input1 && !input1.value) input1.value = s1;
+            if (input2 && !input2.value) input2.value = s2;
+
+            input2?.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+    });
 }
 
 function fungsi_sidebar_resepSIMRS() {
@@ -278,6 +453,8 @@ function fungsi_sidebar_resepSIMRS() {
             }
 
             updateCounter();
+            // AUTO SIGNA
+            initAutoSigna(target);
         })
         .catch(() => {
             target.innerHTML =
@@ -329,7 +506,8 @@ function handleProsesObatClick(e) {
 
             let data = {
                 kd_obat : o.dataset.kdobat,
-                racikan : o.dataset.racikan || ''
+                racikan : o.dataset.racikan || '',
+                catatan : o.dataset.catatan || ''
             };
 
             if (racikanBox) {
@@ -358,8 +536,8 @@ function handleProsesObatClick(e) {
             return;
         }
         
-        const kdJnsObat = resepItem.dataset.kdjnsobat || '1';
-        const iterasi = resepItem.dataset.sts_iter || '0';
+        const kdjnsobat = resepItem.dataset.kdjnsobat || '1';
+        const iterasi = resepItem.dataset.iterasi || '0';
         
         const payload = [{
             noresep   : resepItem.dataset.noresep,
@@ -370,7 +548,7 @@ function handleProsesObatClick(e) {
             kd_unit   : resepItem.dataset.kd_unit,
             kd_dokter : resepItem.dataset.kd_dokter,
             iterasi   : iterasi,
-            kdjnsobat : kdJnsObat,
+            kdjnsobat : kdjnsobat,
             kdmodulresep : document.querySelector('input[name="option_radio"]:checked')?.value,
             detailobat: detail
         }];
@@ -441,8 +619,8 @@ function handleProsesObatClick(e) {
 
         if (detail.length === 0) return;
         
-        const kdJnsObat = resepItem.dataset.kdjnsobat || '1';
-        const iterasi = resepItem.dataset.sts_iter || '0';
+        const kdjnsobat = resepItem.dataset.kdjnsobat || '1';
+        const iterasi = resepItem.dataset.iterasi || '0';
         payload.push({
             noresep   : resepItem.dataset.noresep,
             sep       : resepItem.dataset.sep,
@@ -452,7 +630,7 @@ function handleProsesObatClick(e) {
             kd_unit   : resepItem.dataset.kd_unit,
             kd_dokter : resepItem.dataset.kd_dokter,
             iterasi   : iterasi,
-            kdjnsobat : kdJnsObat,
+            kdjnsobat : kdjnsobat,
             kdmodulresep : document.querySelector('input[name="option_radio"]:checked')?.value,
             detailobat: detail
         });
@@ -494,6 +672,7 @@ function prosesBatchSIMRS(payload) {
         .then(res => res.json())
         .then(data => {
             console.log('Response server:', data);
+            
             // ==========================================
             // HELPER: UPDATE BADGE NO RESEP
             // ==========================================

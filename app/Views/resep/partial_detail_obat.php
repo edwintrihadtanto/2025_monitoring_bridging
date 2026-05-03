@@ -143,6 +143,7 @@ foreach ($detail as $item) {
                                                                    data-kdobat="<?= esc($item['kd_prd'])?>"
                                                                    data-qty="<?= esc($item['jml_out']) ?>"
                                                                    data-racikan="<?= esc($item['nm_racikan']) ?>"
+                                                                   data-catatan="<?= esc($item['catatan']) ?>"
                                                                    >
 
                                                             <?php if ($item['kd_obat_bpjs'] != 0): ?>

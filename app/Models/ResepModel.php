@@ -287,6 +287,7 @@ class ResepModel extends Model
             abrb.status_kirim,
             abrb.response_message,
             abrb.kdjnsobat,
+            COALESCE(NULLIF(o.sts_iter,0), abrb.kdjnsobat, o.sts_iter) AS sts_iter_final,
             abrb.iterasi
         ");
 
@@ -623,7 +624,9 @@ class ResepModel extends Model
         ?string $jho,
         ?string $cat_khusus,
         bool $status_kirim,
-        $response_bpjs
+        $response_bpjs,
+        ?string $permintaan,
+        ?string $jenisracikan
     ) {
         $data = [
             'noresep'       => $noresep,
@@ -641,7 +644,9 @@ class ResepModel extends Model
             'cat_khusus'    => $cat_khusus,
             'status_kirim'  => $status_kirim, // Langsung boolean, tanpa ? 1 : 0
             'response_bpjs' => is_array($response_bpjs) ? json_encode($response_bpjs) : $response_bpjs,
-            'created_at'    => date('Y-m-d H:i:s')
+            'created_at'    => date('Y-m-d H:i:s'),
+            'permintaan'    => $permintaan,
+            'jenisracikan'  => $jenisracikan,
         ];
 
         $this->db->table('apt_bridging_resep_detail')->insert($data);
@@ -688,5 +693,31 @@ class ResepModel extends Model
             ->where('status_kirim', true) // true di PostgreSQL akan dibaca sebagai boolean true
             ->get()
             ->getResultArray();
+    }
+
+    public function getTipeObat($no_resep, $no_apotik, $kd_obat)
+    {
+        return $this->db->table('apt_bridging_resep_detail')
+            ->select('id, jenisracikan')
+            ->where('noresep_bpjs', $no_resep)
+            ->where('no_apotik', $no_apotik)
+            ->where('kd_obat_bpjs', $kd_obat)
+            ->where('status_kirim', true)
+            ->orderBy('id', 'DESC')
+            ->limit(1)
+            ->get()
+            ->getRowArray();
+
+        // $tipe = $data['jenisracikan'] ?? null;
+
+        // if (empty($tipe)) {
+        //     return null; // tidak ada data valid
+        // }
+
+        // if (strtoupper($tipe) === 'N') {
+        //     return 'N';
+        // }
+
+        // return 'R';
     }
 }

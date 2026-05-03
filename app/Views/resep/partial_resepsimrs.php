@@ -91,8 +91,8 @@
                          data-tgl_out="<?= esc($item['tgl_out']) ?>"
                          data-kd_unit="<?= esc($item['kd_unit']) ?>"
                          data-kd_dokter="<?= esc($item['dokter']) ?>"
-                         data-sts_iter="<?= esc($item['sts_iter']) ?>"
-                         data-kdjnsobat="1"
+                         data-iterasi="<?= esc($item['iterasi']) ?>"
+                         data-kdjnsobat="<?= esc($item['sts_iter_final']) ?>"
                          data-search="<?= strtolower(
                              ($item['no_sep'] ?? '') . ' ' .
                              $item['kd_pasienapt'] . ' ' .
@@ -181,15 +181,15 @@
                                     <div class="d-flex gap-1 flex-shrink-0">
                                         <select class="form-select form-select-sm" style="width:auto; min-width:90px"
                                                 onchange="this.closest('.resep-item').dataset.kdjnsobat=this.value">
-                                            <option value="1">PRB</option>
-                                            <option value="2">Kronis</option>
-                                            <option value="3">Kemo</option>
+                                            <option value="1" <?= $item['sts_iter_final'] == '1' ? 'selected' : '' ?>>PRB</option>
+                                            <option value="2" <?= $item['sts_iter_final'] == '2' ? 'selected' : '' ?>>Kronis</option>
+                                            <option value="3" <?= $item['sts_iter_final'] == '3' ? 'selected' : '' ?>>Kemo</option>
                                         </select>
                                         <select class="form-select form-select-sm" style="width:auto; min-width:110px"
-                                                onchange="this.closest('.resep-item').dataset.sts_iter=this.value">
-                                            <option value="0" <?= $item['sts_iter'] == '0' ? 'selected' : '' ?>>Non Iterasi</option>
-                                            <option value="1" <?= $item['sts_iter'] == '1' ? 'selected' : '' ?>>Iterasi 1 Kali</option>
-                                            <option value="2" <?= $item['sts_iter'] == '2' ? 'selected' : '' ?>>Iterasi 2 Kali</option>                                            
+                                                onchange="this.closest('.resep-item').dataset.iterasi=this.value">
+                                            <option value="0" <?= $item['iterasi'] == '0' ? 'selected' : '' ?>>Non Iterasi</option>
+                                            <option value="1" <?= $item['iterasi'] == '1' ? 'selected' : '' ?>>Iterasi 1 Kali</option>
+                                            <option value="2" <?= $item['iterasi'] == '2' ? 'selected' : '' ?>>Iterasi 2 Kali</option>                                            
                                         </select>
                                     </div>
 
