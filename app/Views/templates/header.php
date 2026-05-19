@@ -728,6 +728,119 @@
         .sidebar-collapsed .logo-img {
             height: 40px;
         }
+
+        :root{
+            --pelayanan-scale: 1;
+        }
+
+        /* =========================
+           WRAPPER UTAMA
+        ========================= */
+        #resepWrapper{
+            font-size: calc(0.875rem * var(--pelayanan-scale));
+            line-height: 1.4;
+        }
+
+        /* semua elemen ikut inherit */
+        #resepWrapper *{
+            font-size: inherit;
+            box-sizing: border-box;
+        }
+
+        /* =========================
+           TRANSITION
+        ========================= */
+        #resepWrapper .card,
+        #resepWrapper .list-group-item,
+        #resepWrapper .form-control,
+        #resepWrapper .form-select,
+        #resepWrapper .btn,
+        #resepWrapper .badge,
+        #resepWrapper .nama-obat{
+            transition: all .2s ease;
+        }
+
+        /* =========================
+           LIST ITEM
+        ========================= */
+        #resepWrapper .list-group-item{
+            padding: calc(.75rem * var(--pelayanan-scale));
+        }
+
+        /* =========================
+           NAMA OBAT
+        ========================= */
+        #resepWrapper .nama-obat{
+            font-size: calc(0.95rem * var(--pelayanan-scale)) !important;
+            line-height: 1.35;
+            display: inline-block;
+            word-break: break-word;
+        }
+
+        /* mode zoom besar */
+        #resepWrapper.zoom-large .nama-obat{
+            font-size: calc(1.05rem * var(--pelayanan-scale)) !important;
+            font-weight: 600;
+        }
+
+        /* mode zoom kecil */
+        #resepWrapper.zoom-small .nama-obat{
+            font-size: calc(0.78rem * var(--pelayanan-scale)) !important;
+        }
+
+        /* =========================
+           BADGE
+        ========================= */
+        #resepWrapper .badge{
+            font-size: calc(.72rem * var(--pelayanan-scale));
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+        #resepWrapper .btn-sm{
+            padding: calc(.25rem * var(--pelayanan-scale))
+                     calc(.5rem * var(--pelayanan-scale));
+
+            font-size: calc(.82rem * var(--pelayanan-scale));
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+        #resepWrapper .form-control,
+        #resepWrapper .form-select{
+            font-size: calc(.85rem * var(--pelayanan-scale));
+        }
+
+        /* =========================
+           HEADER CARD
+        ========================= */
+        #resepWrapper .card-header{
+            padding-top: calc(.5rem * var(--pelayanan-scale));
+            padding-bottom: calc(.5rem * var(--pelayanan-scale));
+        }
+
+        /* =========================
+           TEXT KECIL
+        ========================= */
+        #resepWrapper small,
+        #resepWrapper .small,
+        #resepWrapper .text-muted{
+            font-size: calc(.74rem * var(--pelayanan-scale));
+        }
+
+        /* =========================
+           ICON COLLAPSE
+        ========================= */
+        .toggle-detail i{
+            transition: transform .2s ease;
+        }
+
+        .toggle-detail.active i{
+            transform: rotate(180deg);
+        }
+
     </style>
 </head>
 <body>

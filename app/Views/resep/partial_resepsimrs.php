@@ -39,6 +39,30 @@
         </div>
 
         <div class="ms-auto d-flex align-items-center gap-2">
+            <button
+                type="button"
+                class="btn bg-light btn-sm border"
+                onclick="zoomOutPelayanan()"
+                title="Perkecil layar">
+                <i class="bi bi-zoom-out"></i>
+            </button>
+
+            <button 
+                type="button"
+                class="btn bg-light btn-sm border"
+                onclick="zoomResetPelayanan()"
+                title="Reset layar">
+                <i class="bi bi-aspect-ratio"></i>
+            </button>
+
+            <button 
+                type="button"
+                class="btn bg-light btn-sm border mr-1"
+                onclick="zoomInPelayanan()"
+                title="Perbesar layar">
+                <i class="bi bi-zoom-in"></i>
+            </button>
+
             <span class="badge bg-primary" id="selectedCounter">0</span>
 
             <button id="btnProsesTerpilih"
@@ -106,16 +130,15 @@
                             </div>
                         </div>
                     
-                        <div class="row align-items-center">
-
-                            <!-- LEFT -->
-                            <div class="col-md-5 d-flex align-items-center gap-2 toggle-detail cursor-pointer"
-                                 data-target="<?= $collapseId ?>"
+                        <div class="row align-items-center toggle-detail cursor-pointer" data-target="<?= $collapseId ?>"
                                  data-noout="<?= $item['no_out'] ?>"
                                  data-tglout="<?= $item['tgl_out'] ?>">
 
+                            <!-- LEFT -->
+                            <div class="col-md-5 d-flex align-items-center gap-2">
+
                                 <input type="checkbox"
-                                       class="form-check-input resep-check"
+                                       class="form-check-input resep-check prevent-collapse"
                                        data-id="<?= $item['no_resep'] ?>">
 
                                 <i class="bi bi-chevron-down text-muted"></i>
@@ -161,8 +184,6 @@
                                 </div>
                             </div>
 
-                            <!-- ✅ RIGHT (DIGABUNG, KARENA MIDDLE SUDAH DIHAPUS) -->
-                                                        <!-- RIGHT -->
                             <div class="col-md-7">
                                 <div class="gap-2" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end;">
                                     
@@ -179,13 +200,13 @@
 
                                     <!-- KANAN: SELECT BOX (Tidak memuai / Shrink) -->
                                     <div class="d-flex gap-1 flex-shrink-0">
-                                        <select class="form-select form-select-sm" style="width:auto; min-width:90px"
+                                        <select class="form-select form-select-sm prevent-collapse" style="width:auto; min-width:90px"
                                                 onchange="this.closest('.resep-item').dataset.kdjnsobat=this.value">
                                             <option value="1" <?= $item['sts_iter_final'] == '1' ? 'selected' : '' ?>>PRB</option>
                                             <option value="2" <?= $item['sts_iter_final'] == '2' ? 'selected' : '' ?>>Kronis</option>
                                             <option value="3" <?= $item['sts_iter_final'] == '3' ? 'selected' : '' ?>>Kemo</option>
                                         </select>
-                                        <select class="form-select form-select-sm" style="width:auto; min-width:110px"
+                                        <select class="form-select form-select-sm prevent-collapse" style="width:auto; min-width:110px"
                                                 onchange="this.closest('.resep-item').dataset.iterasi=this.value">
                                             <option value="0" <?= $item['iterasi'] == '0' ? 'selected' : '' ?>>Non Iterasi</option>
                                             <option value="1" <?= $item['iterasi'] == '1' ? 'selected' : '' ?>>Iterasi 1 Kali</option>

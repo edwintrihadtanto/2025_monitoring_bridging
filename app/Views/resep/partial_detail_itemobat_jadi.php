@@ -18,7 +18,7 @@
                             <i class="bi bi-check-circle text-success" data-bs-toggle="tooltip" title="Sudah mapping BPJS"></i>
                         <?php endif; ?>
 
-                        <span class="fw-semibold text-truncate">
+                        <span class="fw-semibold text-truncate nama-obat">
                             <?= esc($item['nama_obat']) ?>
                         </span>
 

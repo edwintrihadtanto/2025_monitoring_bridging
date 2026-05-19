@@ -1,4 +1,62 @@
 function initSIMRS() {
+    let pelayananZoom = 1;
+
+    const MIN_ZOOM = 0.5;
+    const MAX_ZOOM = 1.4;
+    const STEP_ZOOM = 0.05;
+
+    function applyPelayananZoom() {
+
+        const wrapper = document.getElementById('resepWrapper');
+
+        if (!wrapper) return;
+
+        document.documentElement
+            .style
+            .setProperty('--pelayanan-scale', pelayananZoom);
+
+        wrapper.classList.remove('zoom-small', 'zoom-large');
+
+        if (pelayananZoom <= 0.9) {
+            wrapper.classList.add('zoom-small');
+        }
+
+        if (pelayananZoom >= 1.2) {
+            wrapper.classList.add('zoom-large');
+        }
+
+        localStorage.setItem('pelayananZoom', pelayananZoom);
+    }
+
+    // expose ke global
+    window.zoomInPelayanan = function () {
+
+        pelayananZoom += STEP_ZOOM;
+
+        if (pelayananZoom > MAX_ZOOM) {
+            pelayananZoom = MAX_ZOOM;
+        }
+
+        applyPelayananZoom();
+    };
+
+    window.zoomOutPelayanan = function () {
+
+        pelayananZoom -= STEP_ZOOM;
+
+        if (pelayananZoom < MIN_ZOOM) {
+            pelayananZoom = MIN_ZOOM;
+        }
+
+        applyPelayananZoom();
+    };
+
+    window.zoomResetPelayanan = function () {
+
+        pelayananZoom = 1;
+
+        applyPelayananZoom();
+    };
 
     window.handleResepSIMRSSubmit = function(e, form) {
         e.preventDefault();
@@ -26,6 +84,14 @@ function initSIMRS() {
                 resultContainer.innerHTML = data.html;
                 fungsi_sidebar_resepSIMRS();
                 initProsesObatSIMRS();
+
+                const savedZoom = localStorage.getItem('pelayananZoom');
+
+                if (savedZoom) {
+                    pelayananZoom = parseFloat(savedZoom);
+                }
+
+                applyPelayananZoom();
             } else {
                 alertContainer.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
             }
@@ -404,7 +470,13 @@ function fungsi_sidebar_resepSIMRS() {
        COLLAPSE + LAZY LOAD
     ====================== */
     wrapper.addEventListener('click', function (e) {
-
+        if (
+            e.target.closest(
+                'input, select, option, button, textarea, .prevent-collapse'
+            )
+        ) {
+            return;
+        }
         const toggle = e.target.closest('.toggle-detail');
         if (!toggle) return;
 
@@ -485,7 +557,7 @@ function handleProsesObatClick(e) {
         if (!resepItem) return;
 
         const detail = [];
-
+        let isValid = true;
         /*resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
             const parent = o.closest('.py-1'); // wrapper item obat
             detail.push({
@@ -501,6 +573,7 @@ function handleProsesObatClick(e) {
         });*/
         resepItem.querySelectorAll('.obat-check:checked').forEach(o => {
 
+            if (!isValid) return;
             const racikanBox = o.closest('.racikan-box');
             const obatItem   = o.closest('.obat-item, .racikan-item');
 
@@ -515,10 +588,21 @@ function handleProsesObatClick(e) {
                 data.signa1     = parseFloat(getInputValueDetailItem(racikanBox, '.signa1')) || 0;
                 data.signa2     = parseFloat(getInputValueDetailItem(racikanBox, '.signa2')) || 0;
                 data.jho        = parseFloat(getInputValueDetailItem(racikanBox, '.jho')) || 0;
-                data.permintaan = getInputValueDetailItem(racikanBox, '.permintaan');
+                // data.permintaan = getInputValueDetailItem(racikanBox, '.permintaan');
+                const permintaan = getInputValueDetailItem(racikanBox, '.permintaan');
 
+                if (!permintaan) {
+                    Toast.fire({
+                        icon: 'warning',
+                        title: 'Kolom Permintaan Racikan masih kosong!'
+                    });
+                    isValid = false;
+                    return;
+                }
+
+                data.permintaan = permintaan;
                 data.qty        = parseFloat(getInputValueDetailItem(obatItem, '.qty')) || 0;
-
+                
             } else {
                 // ✅ NON RACIKAN
                 data.signa1     = parseFloat(getInputValueDetailItem(obatItem, '.signa1')) || 0;
@@ -530,9 +614,17 @@ function handleProsesObatClick(e) {
 
             detail.push(data);
         });
+        
+        if (!isValid) return;
 
         if (detail.length === 0) {
-            alert('Pilih minimal satu obat');
+            // alert('Pilih minimal satu obat');
+            // return;
+
+            Toast.fire({
+                icon: 'warning',
+                title: 'Pilih minimal satu obat!'
+            });
             return;
         }
         
