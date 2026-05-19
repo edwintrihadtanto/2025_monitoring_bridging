@@ -104,10 +104,14 @@ class BpjsInsertController extends BaseController
         // }
 
         if ($prbCheck['flagprb'] !== '0' ) {
-            return $this->response->setJSON([
-                'status'  => false,
-                'message' => "Resep tidak dapat diproses. Status PRB Aktif (".($prbCheck['namaprb'].")" ?: "-")
-            ]);
+            // return $this->response->setJSON([
+            //     'status'  => false,
+            //     'message' => "Resep tidak dapat diproses. Status PRB Aktif (".($prbCheck['namaprb'].")" ?: "-")                
+            // ]);
+            $infoPrb = [
+                'statusprb' => true,
+                'message'   => "Status PRB Aktif (" . ($prbCheck['namaprb'] ?: '-') . ")"
+            ];
         }
 
         try {
@@ -126,7 +130,10 @@ class BpjsInsertController extends BaseController
                 $kd_dokterbpjs = $dokterBPJS[0]['kd_dokter_bpjs'];
             } else {
                 $poli = 'INT';
-                $kd_dokterbpjs = '299693';
+                // $kd_dokterbpjs = '299693';
+                $dokterBPJS = $ResepModel->getMappingDokterBPJS($kd_dokter);
+                if (!$dokterBPJS) return $this->response->setJSON(['status' => false, 'message' => 'Mapping Dokter BPJS tidak ditemukan!']);
+                $kd_dokterbpjs = $dokterBPJS[0]['kd_dokter_bpjs'];
             }
 
             // ==========================================
@@ -242,7 +249,8 @@ class BpjsInsertController extends BaseController
                 return $this->response->setJSON([
                     'status'  => true,
                     'message' => "Resep & Detail Obat berhasil dikirim. No Apotik: {$noApotik}",
-                    'data'    => ['noApotik' => $noApotik, 'noResep' => $noResepBPJS]
+                    'data'    => ['noApotik' => $noApotik, 'noResep' => $noResepBPJS],
+                    'prb'     => $infoPrb
                 ]);
             } else {
                 // Ada obat yang gagal, rollback status header menjadi FALSE
@@ -260,7 +268,8 @@ class BpjsInsertController extends BaseController
                     'status'  => false, 
                     'message' => "Header Resep tersimpan (No Apotik: {$noApotik}), namun ada obat yang gagal dikirim ke BPJS.",
                     'data'    => ['noApotik' => $noApotik, 'noResep' => $noResepBPJS],
-                    'errors'  => $resultObat['errors'] // ✅ Langsung kirim array error terstruktur
+                    'errors'  => $resultObat['errors'], // ✅ Langsung kirim array error terstruktur
+                    'prb'     => $infoPrb
                 ]);
             }
 

@@ -35,6 +35,9 @@
     <script src="<?= base_url('assets/dist/assets/extensions/sweetalert2/sweetalert2.js')?>"></script>
     <script src="<?= base_url('assets/dist/assets/extensions/apexcharts/apexcharts.min.js')?>"></script>
     <script src="<?= base_url('assets/dist/assets/extensions/apexcharts/apexcharts.js')?>"></script>
+    <script src="<?= base_url('assets/dist/assets/extensions/toastify-js/src/toastify.js')?>"></script>
+    
+
     <script src="<?= base_url('js/page-dashboard.js') ?>"></script>
     <script src="<?= base_url('js/page-pasien.js') ?>"></script>
     <script src="<?= base_url('js/page-sep.js') ?>"></script>
@@ -76,6 +79,53 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
           }
         })
+
+        window.AppToast = function ({
+            text = '',
+            type = 'success',
+            duration = 5000,
+            position = 'left',
+            gravity = 'top'
+        } = {}) {
+
+            let backgroundColor = '#4fbe87';
+
+            switch (type) {
+
+                case 'success':
+                    backgroundColor = '#198754';
+                    break;
+
+                case 'error':
+                    backgroundColor = '#dc3545';
+                    break;
+
+                case 'warning':
+                    backgroundColor = '#ffc107';
+                    break;
+
+                case 'info':
+                    backgroundColor = '#0dcaf0';
+                    break;
+
+                default:
+                    backgroundColor = '#6c757d';
+            }
+
+            Toastify({
+                text,
+                duration,
+                close: true,
+                gravity,
+                position,
+                stopOnFocus: true,
+                style: {
+                    background: backgroundColor,
+                    borderRadius: '8px',
+                    fontSize: '13px'
+                }
+            }).showToast();
+        };
 
         // --- 1. GLOBAL VARIABLES (Agar bisa diakses semua fungsi) ---
         let detailModalInstance = null;

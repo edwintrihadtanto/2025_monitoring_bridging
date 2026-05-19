@@ -155,6 +155,7 @@
 
 <body>
     <script src="<?= base_url('public/assets/dist/assets/static/js/initTheme.js') ?>"></script>
+    
     <div id="auth" style="background: url('<?= base_url('public/img/monitoring_AI.png') ?>') center/cover no-repeat fixed; min-height: 100vh; display: flex; align-items: center;">
         
         <div class="container-fluid h-100">

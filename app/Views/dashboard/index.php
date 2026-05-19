@@ -1,4 +1,4 @@
-<div id="dashboard-container" class="page-heading dashboard-bpjs">
+<div id="dashboard-container" class="dashboard-bpjs container-fluid py-4">
 
     <!-- HEADER -->
     <section class="dashboard-header card">
@@ -21,131 +21,232 @@
         </div>
     </section>
 
+    <section class="row g-4 kpi-section">
 
-    <!-- KPI -->
-    <section class="row kpi-section">
+        <?php foreach ($rekap as $jenis => $r): ?>
 
-        <div class="col-xl-3 col-md-6">
-            <div class="card kpi-card">
-                <div class="card-body">
-
-                    <div class="kpi-info">
-                        <span class="kpi-title">Total Resep</span>
-                        <h3>128</h3>
-                        <small>Hari ini</small>
-                    </div>
-                    <a href="" class="btn icon btn-lg btn-primary"><i class="bi bi-receipt"></i></a>
-                </div>
+            <div class="col-12">
+                <h5 class="fw-bold mb-3">
+                    <?= esc($jenis) ?>
+                </h5>
             </div>
-        </div>
 
+            <!-- TOTAL -->
+            <div class="col-xl-2 col-md-4 col-6">
 
-        <div class="col-xl-3 col-md-6">
-            <div class="card kpi-card">
-                <div class="card-body">
+                <div class="card kpi-card border-0 shadow-sm">
 
-                    <div class="kpi-info">
-                        <span class="kpi-title">Berhasil</span>
-                        <h3 class="text-success">120</h3>
-                        <small>Bridging sukses</small>
+                    <div class="card-body">
+
+                        <div class="kpi-info">
+                            <span class="kpi-title">Total Resep</span>
+
+                            <h3>
+                                <?= number_format($r['total_resep']) ?>
+                            </h3>
+
+                            <small>Hari ini</small>
+                        </div>
+
+                        <div class="kpi-icon bg-primary">
+                            <i class="bi bi-receipt"></i>
+                        </div>
+
                     </div>
-                    <a href="" class="btn icon btn-lg btn-success"><i class="bi bi-check-circle"></i></a>
+
                 </div>
+
             </div>
-        </div>
 
 
-        <div class="col-xl-3 col-md-6">
-            <div class="card kpi-card">
-                <div class="card-body">
 
-                    <div class="kpi-info">
-                        <span class="kpi-title">Gagal</span>
-                        <h3 class="text-danger">5</h3>
-                        <small>Error API</small>
+            <!-- SUCCESS -->
+            <div class="col-xl-2 col-md-4 col-6">
+
+                <div class="card kpi-card border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <div class="kpi-info">
+                            <span class="kpi-title">Success</span>
+
+                            <h3 class="text-success">
+                                <?= number_format($r['success']) ?>
+                            </h3>
+
+                            <small>Bridging sukses</small>
+                        </div>
+
+                        <div class="kpi-icon bg-success">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+
                     </div>
-                    <a href="" class="btn icon btn-lg btn-danger"><i class="bi bi-x-circle"></i></a>
+
                 </div>
+
             </div>
-        </div>
 
 
-        <div class="col-xl-3 col-md-6">
-            <div class="card kpi-card">
-                <div class="card-body">
 
-                    <div class="kpi-info">
-                        <span class="kpi-title">Pending</span>
-                        <h3 class="text-warning">3</h3>
-                        <small>Menunggu proses</small>
+            <!-- WARNING -->
+            <div class="col-xl-2 col-md-4 col-6">
+
+                <div class="card kpi-card border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <div class="kpi-info">
+                            <span class="kpi-title">Warning</span>
+
+                            <h3 class="text-warning">
+                                <?= number_format($r['warning']) ?>
+                            </h3>
+
+                            <small>Warning BPJS</small>
+                        </div>
+
+                        <div class="kpi-icon bg-warning">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+
                     </div>
-                    <a href="" class="btn icon btn-lg btn-warning"><i class="bi bi-clock"></i></a>
+
                 </div>
+
             </div>
-        </div>
+
+
+
+            <!-- FAILED -->
+            <div class="col-xl-2 col-md-4 col-6">
+
+                <div class="card kpi-card border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <div class="kpi-info">
+                            <span class="kpi-title">Failed</span>
+
+                            <h3 class="text-danger">
+                                <?= number_format($r['failed']) ?>
+                            </h3>
+
+                            <small>Error API</small>
+                        </div>
+
+                        <div class="kpi-icon bg-danger">
+                            <i class="bi bi-x-circle"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PENDING -->
+            <div class="col-xl-2 col-md-4 col-6">
+
+                <div class="card kpi-card border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <div class="kpi-info">
+                            <span class="kpi-title">Pending</span>
+
+                            <h3 class="text-secondary">
+                                <?= number_format($r['pending']) ?>
+                            </h3>
+
+                            <small>Menunggu proses</small>
+                        </div>
+
+                        <div class="kpi-icon bg-secondary">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SUCCESS RATE -->
+            <div class="col-xl-2 col-md-4 col-6">
+
+                <div class="card kpi-card border-0 shadow-sm">
+
+                    <div class="card-body">
+
+                        <div class="kpi-info">
+                            <span class="kpi-title">Success Rate</span>
+
+                            <h3 class="text-primary">
+                                <?= $r['success_rate'] ?>%
+                            </h3>
+
+                            <small>Kinerja bridging</small>
+                        </div>
+
+                        <div class="kpi-icon bg-info">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <?php endforeach; ?>
 
     </section>
 
 
-
-    <!-- CHART -->
-    <section class="row">
+    <!-- CHARTS -->
+    <section class="row g-4 mb-4">
 
         <div class="col-lg-8">
-            <div class="card dashboard-chart">
-                <div class="card-header">
-                    Trend Resep BPJS
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-bold">
+                        Trend Bridging BPJS
+                    </h5>
                 </div>
 
                 <div class="card-body">
                     <div id="chartResep"></div>
                 </div>
+
             </div>
+
         </div>
 
 
+
         <div class="col-lg-4">
-            <div class="card dashboard-chart">
-                <div class="card-header">
-                    Status Bridging
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0 fw-bold">
+                        Distribusi Status
+                    </h5>
                 </div>
 
                 <div class="card-body">
                     <div id="chartStatus"></div>
                 </div>
+
             </div>
-        </div>
 
-    </section>
-
-
-
-    <!-- SECOND CHART -->
-    <section class="row">
-
-        <div class="col-lg-6">
-            <div class="card dashboard-chart">
-                <div class="card-header">
-                    Top Obat BPJS
-                </div>
-
-                <div class="card-body">
-                    <div id="chartObat"></div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-lg-6">
-            <div class="card dashboard-chart">
-                <div class="card-header">
-                    Distribusi Resep per Poli
-                </div>
-
-                <div class="card-body">
-                    <div id="chartPoli"></div>
-                </div>
-            </div>
         </div>
 
     </section>
@@ -156,49 +257,155 @@
     <section class="row">
 
         <div class="col-12">
-            <div class="card">
 
-                <div class="card-header">
-                    Error Bridging BPJS
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-white border-0 d-flex justify-content-between">
+
+                    <h5 class="fw-bold mb-0">
+                        Error Bridging BPJS
+                    </h5>
+
+                    <span class="badge bg-danger">
+                        Realtime Monitoring
+                    </span>
+
                 </div>
 
                 <div class="card-body">
 
-                    <table class="table table-hover">
+                    <div class="table-responsive">
 
-                        <thead>
-                            <tr>
-                                <th>Waktu</th>
-                                <th>No Resep</th>
-                                <th>Error</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
+                        <table class="table table-hover align-middle">
 
-                        <tbody>
+                            <thead class="table-light">
 
-                            <tr>
-                                <td>10:21</td>
-                                <td>RX20250321</td>
-                                <td>Token Expired</td>
-                                <td><span class="badge bg-danger">FAILED</span></td>
-                            </tr>
+                                <tr>
+                                    <th>Waktu</th>
+                                    <th>Endpoint</th>
+                                    <th>No Resep</th>
+                                    <th>Response</th>
+                                    <th>Status</th>
+                                </tr>
 
-                            <tr>
-                                <td>10:35</td>
-                                <td>RX20250322</td>
-                                <td>Timeout API</td>
-                                <td><span class="badge bg-danger">FAILED</span></td>
-                            </tr>
+                            </thead>
 
-                        </tbody>
+                            <tbody>
 
-                    </table>
+                                <?php if (!empty($errors)): ?>
+
+                                    <?php foreach ($errors as $e): ?>
+
+                                        <tr>
+
+                                            <td>
+                                                <?= date('H:i:s', strtotime($e['created_at'])) ?>
+                                            </td>
+
+                                            <td>
+                                                <span class="badge bg-light-primary text-primary">
+                                                    <?= esc($e['jenis_endpoint']) ?>
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <?= esc($e['noresep']) ?>
+                                            </td>
+
+                                            <td>
+
+                                                <small class="text-danger">
+                                                    <?= esc($e['response_message']) ?>
+                                                </small>
+
+                                            </td>
+
+                                            <td>
+
+                                                <span class="badge bg-danger">
+                                                    <?= $e['response_code'] ?>
+                                                </span>
+
+                                            </td>
+
+                                        </tr>
+
+                                    <?php endforeach; ?>
+
+                                <?php else: ?>
+
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted py-4">
+                                            Tidak ada error hari ini
+                                        </td>
+                                    </tr>
+
+                                <?php endif; ?>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
 
                 </div>
+
             </div>
+
         </div>
 
     </section>
 
 </div>
+
+
+
+<style>
+
+body{
+    background:#f4f7fb;
+}
+
+.bg-gradient-primary{
+    background:linear-gradient(135deg,#2563eb,#1e40af);
+}
+
+.dashboard-card{
+    border-radius:18px;
+    transition:.3s;
+    overflow:hidden;
+}
+
+.dashboard-card:hover{
+    transform:translateY(-5px);
+}
+
+.icon-box{
+    width:55px;
+    height:55px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:24px;
+}
+
+.card{
+    border-radius:20px;
+}
+
+.table td,
+.table th{
+    vertical-align:middle;
+}
+
+.progress{
+    border-radius:20px;
+}
+
+.progress-bar{
+    border-radius:20px;
+}
+
+</style>

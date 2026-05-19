@@ -14,6 +14,7 @@
     <!-- PENTING: Pastikan CSS jQuery DataTables juga terpanggil -->
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/dist/assets/extensions/sweetalert2/sweetalert2.min.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/dist/assets/extensions/toastify-js/src/toastify.css') ?>">
     <link rel="stylesheet" href="<?= base_url('js/log.css') ?>">
     <style>
         /* --- PAKSA STYLE BOOTSTRAP 5 PAGINATION --- */
@@ -440,26 +441,70 @@
             opacity:0.8;
         }
 
+       .kpi-card{
+            border-radius:18px;
+            transition:.3s;
+            overflow:hidden;
+            background:#fff;
+        }
+
+        .kpi-card:hover{
+            transform:translateY(-4px);
+        }
+
         .kpi-card .card-body{
             display:flex;
             justify-content:space-between;
             align-items:center;
+            padding:1.2rem;
         }
 
         .kpi-title{
-            color:#6b7280;
-            font-size:14px;
+            display:block;
+            color:#94a3b8;
+            font-size:.85rem;
+            margin-bottom:6px;
+        }
+
+        .kpi-info h3{
+            margin:0;
+            font-weight:700;
         }
 
         .kpi-icon{
-            width:48px;
-            height:48px;
+            width:52px;
+            height:52px;
+            border-radius:16px;
             display:flex;
             align-items:center;
             justify-content:center;
-            border-radius:12px;
-            color:white;
-            font-size:20px;
+            color:#fff;
+            font-size:22px;
+            box-shadow:0 8px 20px rgba(0,0,0,.08);
+        }
+
+        .bg-primary{
+            background:linear-gradient(135deg,#3b82f6,#2563eb)!important;
+        }
+
+        .bg-success{
+            background:linear-gradient(135deg,#22c55e,#16a34a)!important;
+        }
+
+        .bg-warning{
+            background:linear-gradient(135deg,#facc15,#eab308)!important;
+        }
+
+        .bg-danger{
+            background:linear-gradient(135deg,#ef4444,#dc2626)!important;
+        }
+
+        .bg-secondary{
+            background:linear-gradient(135deg,#94a3b8,#64748b)!important;
+        }
+
+        .bg-info{
+            background:linear-gradient(135deg,#06b6d4,#0891b2)!important;
         }
 
         .dashboard-chart{

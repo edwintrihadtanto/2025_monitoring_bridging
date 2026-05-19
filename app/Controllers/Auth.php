@@ -12,12 +12,31 @@ class Auth extends BaseController
             return redirect()->to('/dashboard');
         }
 
-        $data = [
+        /*$data = [
             'validation' => \Config\Services::validation(),
             'captcha_question' => $this->generateCaptcha() // Panggil fungsi captcha
         ];
 
-        return view('auth/login', $data);
+        return view('auth/login', $data);*/
+        try {
+
+            // test koneksi DB ringan (optional tapi bagus)
+            db_connect()->connect();
+
+        } catch (\Throwable $e) {
+
+            return view('auth/login', [
+                'validation' => \Config\Services::validation(),
+                'captcha_question' => $this->generateCaptcha(),
+                'db_error' => true
+            ]);
+        }
+
+        return view('auth/login', [
+            'validation' => \Config\Services::validation(),
+            'captcha_question' => $this->generateCaptcha(),
+            'db_error' => false
+        ]);
     }
 
     // Fungsi Helper Captcha (Private)
