@@ -475,11 +475,11 @@
             width:52px;
             height:52px;
             border-radius:16px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
             color:#fff;
-            font-size:22px;
+            /*display:flex;
+            align-items:center;
+            justify-content:center;            
+            font-size:22px;*/
             box-shadow:0 8px 20px rgba(0,0,0,.08);
         }
 

@@ -48,9 +48,10 @@
                             <small>Hari ini</small>
                         </div>
 
-                        <div class="kpi-icon bg-primary">
+                        <div class="btn icon btn-lg bg-primary kpi-icon">
                             <i class="bi bi-receipt"></i>
                         </div>
+
 
                     </div>
 
@@ -77,7 +78,7 @@
                             <small>Bridging sukses</small>
                         </div>
 
-                        <div class="kpi-icon bg-success">
+                        <div class="btn icon btn-lg bg-success kpi-icon">
                             <i class="bi bi-check-circle"></i>
                         </div>
 
@@ -106,7 +107,7 @@
                             <small>Warning BPJS</small>
                         </div>
 
-                        <div class="kpi-icon bg-warning">
+                        <div class="btn icon btn-lg bg-warning kpi-icon">
                             <i class="bi bi-exclamation-triangle"></i>
                         </div>
 
@@ -135,7 +136,7 @@
                             <small>Error API</small>
                         </div>
 
-                        <div class="kpi-icon bg-danger">
+                        <div class="btn icon btn-lg bg-danger kpi-icon">
                             <i class="bi bi-x-circle"></i>
                         </div>
 
@@ -164,7 +165,7 @@
                             <small>Menunggu proses</small>
                         </div>
 
-                        <div class="kpi-icon bg-secondary">
+                        <div class="btn icon btn-lg bg-secondary kpi-icon">
                             <i class="bi bi-clock-history"></i>
                         </div>
 
@@ -193,7 +194,7 @@
                             <small>Kinerja bridging</small>
                         </div>
 
-                        <div class="kpi-icon bg-info">
+                        <div class="btn icon btn-lg bg-info kpi-icon">
                             <i class="bi bi-graph-up-arrow"></i>
                         </div>
 
@@ -408,4 +409,4 @@ body{
     border-radius:20px;
 }
 
-</style>
+</style> 
