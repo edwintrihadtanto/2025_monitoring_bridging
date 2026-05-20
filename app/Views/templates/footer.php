@@ -44,6 +44,7 @@
     <script src="<?= base_url('js/page-monitoring.js') ?>"></script>
     <script src="<?= base_url('js/page-insert.js') ?>"></script>
     <script src="<?= base_url('js/page-simrs.js') ?>"></script>
+    <script src="<?= base_url('js/page-koneksi.js') ?>"></script>
 
     <script>
 
@@ -330,6 +331,7 @@
             const pelObatList           = document.getElementById('pencarianListPelyananObatForm');
             const pelObatRiwayat        = document.getElementById('pencarianRiwayatPelyananObatForm');
             const simrsResep            = document.getElementById('pencarianResepSIMRS');
+            const koneksiMonitor        = document.getElementById('koneksi-monitor');
              
             if (pasienForm) {
                 
@@ -393,6 +395,12 @@
             if (simrsResep) {
                 if (typeof initSIMRS === 'function') {
                     initSIMRS();
+                }
+            }
+
+            if (koneksiMonitor) {
+                if (typeof initKoneksiPage === 'function') {
+                    initKoneksiPage();
                 }
             }
 

@@ -558,6 +558,200 @@
             border-radius: 8px;
         }
 
+        .connection-shell {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .connection-toolbar {
+            background: var(--bs-card-bg);
+            border: 1px solid var(--bs-border-color);
+            border-radius: 10px;
+            padding: .85rem 1rem;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
+        }
+
+        .connection-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--bs-border-color);
+            border-radius: 10px;
+            background: var(--bs-card-bg);
+            box-shadow: 0 10px 28px rgba(15, 23, 42, .08);
+            transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+        }
+
+        .connection-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 34px rgba(15, 23, 42, .12);
+        }
+
+        .connection-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 4px;
+            background: var(--connection-accent, var(--bs-secondary));
+        }
+
+        .connection-card.is-ok {
+            --connection-accent: var(--bs-success);
+        }
+
+        .connection-card.is-warning {
+            --connection-accent: var(--bs-warning);
+        }
+
+        .connection-card.is-down {
+            --connection-accent: var(--bs-danger);
+        }
+
+        .connection-icon {
+            min-width: 34px;
+            height: 30px;
+            border-radius: 8px;
+            padding: 0 .6rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background: var(--connection-accent, var(--bs-secondary));
+            box-shadow: 0 8px 18px rgba(15, 23, 42, .14);
+            font-size: .95rem;
+        }
+
+        .connection-status {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            border-radius: 999px;
+            padding: .28rem .62rem;
+            color: var(--connection-accent, var(--bs-secondary));
+            background: color-mix(in srgb, var(--connection-accent, var(--bs-secondary)) 14%, transparent);
+            font-size: .72rem;
+            font-weight: 700;
+        }
+
+        .connection-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            border: 1px solid var(--bs-border-color);
+            border-radius: 999px;
+            padding: .28rem .58rem;
+            color: var(--bs-body-color);
+            background: var(--bs-tertiary-bg);
+            font-size: .72rem;
+        }
+
+        .connection-note {
+            border: 1px solid var(--bs-border-color);
+            border-radius: 10px;
+            background: var(--bs-card-bg);
+            padding: .85rem 1rem;
+            color: #111827;
+            box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
+        }
+
+        .speed-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            border-radius: 999px;
+            padding: .28rem .58rem;
+            font-size: .72rem;
+            font-weight: 700;
+            border: 1px solid transparent;
+        }
+
+        .speed-fast {
+            color: #15803d;
+            background: rgba(34, 197, 94, .14);
+            border-color: rgba(34, 197, 94, .25);
+        }
+
+        .speed-normal {
+            color: #1d4ed8;
+            background: rgba(59, 130, 246, .14);
+            border-color: rgba(59, 130, 246, .25);
+        }
+
+        .speed-slow {
+            color: #a16207;
+            background: rgba(234, 179, 8, .18);
+            border-color: rgba(234, 179, 8, .3);
+        }
+
+        .speed-critical {
+            color: #b91c1c;
+            background: rgba(239, 68, 68, .14);
+            border-color: rgba(239, 68, 68, .25);
+        }
+
+        .connection-endpoint {
+            border-radius: 8px;
+            background: var(--bs-tertiary-bg);
+            border: 1px solid var(--bs-border-color);
+            color: var(--bs-secondary-color);
+            padding: .45rem .6rem;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: .72rem;
+        }
+
+        .connection-card .connection-label,
+        .connection-card .connection-message,
+        .connection-card .connection-title {
+            color: #111827 !important;
+        }
+
+        .connection-card .connection-label {
+            opacity: .72;
+        }
+
+        .connection-card .connection-endpoint {
+            color: #1f2937;
+        }
+
+        [data-bs-theme="dark"] .connection-toolbar,
+        [data-bs-theme="dark"] .connection-card {
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
+        }
+
+        [data-bs-theme="dark"] .connection-card .connection-label,
+        [data-bs-theme="dark"] .connection-card .connection-message,
+        [data-bs-theme="dark"] .connection-card .connection-title {
+            color: var(--bs-body-color) !important;
+        }
+
+        [data-bs-theme="dark"] .connection-card .connection-label {
+            opacity: .78;
+        }
+
+        [data-bs-theme="dark"] .connection-card .connection-endpoint {
+            color: var(--bs-secondary-color);
+        }
+
+        [data-bs-theme="dark"] .connection-note {
+            color: var(--bs-body-color);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
+        }
+
+        [data-bs-theme="dark"] .speed-fast {
+            color: #86efac;
+        }
+
+        [data-bs-theme="dark"] .speed-normal {
+            color: #93c5fd;
+        }
+
+        [data-bs-theme="dark"] .speed-slow {
+            color: #fde68a;
+        }
+
+        [data-bs-theme="dark"] .speed-critical {
+            color: #fca5a5;
+        }
+
         .detail-obat-wrapper .accordion-button {
             background: #f8f9fa;
             box-shadow: none;

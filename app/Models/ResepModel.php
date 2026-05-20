@@ -232,12 +232,101 @@ class ResepModel extends Model
         return array_values($grouped);
     }
 
-    public function getResepHeader(array $filter = [])
+    private function applyResepHeaderFilter($builder, array $filter = [])
+    {
+        // WHERE utama
+        // $builder->whereIn('kun.kd_customer', ['0000000043', '0000000044']);
+        $builder->where('o.returapt', 0);
+        // $builder->where('o.tutup', 1);
+
+        // Filter tanggal
+        if (!empty($filter['tgl_awal']) && !empty($filter['tgl_akhir'])) {
+            $builder->where('o.tgl_out >=', $filter['tgl_awal'].' 00:00:00');
+            $builder->where('o.tgl_out <=', $filter['tgl_akhir'].' 00:00:00');
+        }
+
+        if (!empty($filter['medrec'])) {
+            $medrec = trim($filter['medrec']);
+            $builder->where("REPLACE(o.kd_pasienapt, '-', '') = '{$medrec}'", null, false);
+        }
+
+        if (!empty($filter['nama_pasien'])) {
+            $builder->where("LOWER(o.nmpasien) LIKE '%" . strtolower($filter['nama_pasien']) . "%'", null, false);
+        }
+
+        if (!empty($filter['unit'])) {
+            if ($filter['unit'] === '1') {
+                // Rawat Inap
+                $builder->where("LEFT(kun.kd_unit, 1) = '1'", null, false);
+            }
+
+            if ($filter['unit'] === '2') {
+                // Rawat Jalan
+                $builder->where("LEFT(kun.kd_unit, 1) = '2'", null, false);
+            }
+
+            if ($filter['unit'] === '3') {
+                // Rawat IGD
+                $builder->where("LEFT(kun.kd_unit, 1) = '3'", null, false);
+            }
+        }
+
+        return $builder;
+    }
+
+    private function buildResepHeaderBaseQuery()
+    {
+        $builder = $this->builder('apt_barang_out o');
+        $builder->distinct();
+
+        // JOIN
+        $builder->join('unit u', 'o.kd_unit = u.kd_unit', 'left');
+        $builder->join('dokter d', 'o.dokter = d.kd_dokter', 'left');
+        $builder->join('customer C', 'C.kd_customer = o.kd_customer', 'left');
+        $builder->join('kontraktor ko', 'C.kd_customer = ko.kd_customer', 'left');
+        // $builder->join('apt_barang_out_detail bo', 'bo.no_out = o.no_out AND bo.tgl_out = o.tgl_out', 'left');
+        $builder->join('transaksi T', 'T.no_transaksi = o.apt_no_transaksi AND T.kd_kasir = o.apt_kd_kasir', 'left');
+        $builder->join('kunjungan kun',
+            'T.kd_pasien = kun.kd_pasien 
+             AND T.kd_unit = kun.kd_unit 
+             AND T.urut_masuk = kun.urut_masuk 
+             AND T.tgl_transaksi = kun.tgl_masuk 
+             ',
+            'left'
+        );
+        $builder->join('payment py', 'py.kd_customer = o.kd_customer', 'inner');
+        $builder->join('payment_type pyt', 'pyt.jenis_pay = py.jenis_pay', 'inner');
+        $builder->join('sjp_kunjungan sjp',
+            'sjp.kd_pasien = kun.kd_pasien 
+             AND sjp.tgl_masuk = kun.tgl_masuk 
+             AND sjp.kd_unit = kun.kd_unit 
+             AND sjp.urut_masuk = kun.urut_masuk',
+            'left'
+        );
+        $builder->join('mr_resep mr', 'o.id_mrresep = mr.id_mrresep', 'left');
+        $builder->join('apt_bridging_resep_bpjs abrb', "abrb.no_out = o.no_out and abrb.tgl_out = o.tgl_out and abrb.sts_batal = 'false'", 'left');
+
+        return $builder;
+    }
+
+    public function countResepHeader(array $filter = []): int
+    {
+        $builder = $this->buildResepHeaderBaseQuery();
+        $this->applyResepHeaderFilter($builder, $filter);
+
+        $row = $builder
+            ->select("COUNT(DISTINCT CONCAT(o.no_out, '|', o.tgl_out)) AS total", false)
+            ->get()
+            ->getRowArray();
+
+        return (int) ($row['total'] ?? 0);
+    }
+
+    public function getResepHeader(array $filter = [], ?int $limit = null, int $offset = 0)
     {
         // $builder = $this->builder();
 
-        $builder = $this->builder('apt_barang_out o');
-        $builder->distinct();
+        $builder = $this->buildResepHeaderBaseQuery();
 
         $builder->select("
             o.no_resep,
@@ -291,94 +380,15 @@ class ResepModel extends Model
             abrb.iterasi
         ");
 
-        // JOIN
-        $builder->join('unit u', 'o.kd_unit = u.kd_unit', 'left');
-        $builder->join('dokter d', 'o.dokter = d.kd_dokter', 'left');
-        $builder->join('customer C', 'C.kd_customer = o.kd_customer', 'left');
-        $builder->join('kontraktor ko', 'C.kd_customer = ko.kd_customer', 'left');
-        // $builder->join('apt_barang_out_detail bo', 'bo.no_out = o.no_out AND bo.tgl_out = o.tgl_out', 'left');
-        $builder->join('transaksi T', 'T.no_transaksi = o.apt_no_transaksi AND T.kd_kasir = o.apt_kd_kasir', 'left');
-        $builder->join('kunjungan kun',
-            'T.kd_pasien = kun.kd_pasien 
-             AND T.kd_unit = kun.kd_unit 
-             AND T.urut_masuk = kun.urut_masuk 
-             AND T.tgl_transaksi = kun.tgl_masuk 
-             ',
-            'left'
-        );
-        $builder->join('payment py', 'py.kd_customer = o.kd_customer', 'inner');
-        $builder->join('payment_type pyt', 'pyt.jenis_pay = py.jenis_pay', 'inner');
-        $builder->join('sjp_kunjungan sjp',
-            'sjp.kd_pasien = kun.kd_pasien 
-             AND sjp.tgl_masuk = kun.tgl_masuk 
-             AND sjp.kd_unit = kun.kd_unit 
-             AND sjp.urut_masuk = kun.urut_masuk',
-            'left'
-        );
-        $builder->join('mr_resep mr', 'o.id_mrresep = mr.id_mrresep', 'left');
-        $builder->join('apt_bridging_resep_bpjs abrb', "abrb.no_out = o.no_out and abrb.tgl_out = o.tgl_out and abrb.sts_batal = 'false'", 'left');
-
-        // WHERE utama
-        // $builder->whereIn('kun.kd_customer', ['0000000043', '0000000044']);
-        $builder->where('o.returapt', 0);
-        // $builder->where('o.tutup', 1);
-
-        // Filter tanggal
-        if (!empty($filter['tgl_awal']) && !empty($filter['tgl_akhir'])) {
-            $builder->where('o.tgl_out >=', $filter['tgl_awal'].' 00:00:00');
-            $builder->where('o.tgl_out <=', $filter['tgl_akhir'].' 00:00:00');
-        }
-
-        if (!empty($filter['medrec'])) {
-            // $builder->where('abo.kd_pasienapt', $filter['medrec']);
-            $medrec = trim($filter['medrec']); //6485474
-
-            $builder->where("REPLACE(o.kd_pasienapt, '-', '') = '{$medrec}'", null, false);
-            // $builder->where(
-            //     "REPLACE(kun.kd_pasien, '-', '') =",
-            //     $medrec,
-            //     false
-            // );
-        }
-
-        if (!empty($filter['nama_pasien'])) {
-            $builder->where("LOWER(o.nmpasien) LIKE '%" . strtolower($filter['nama_pasien']) . "%'",null,false);
-            // $builder->like('LOWER(o.nmpasien)', strtolower($filter['nama_pasien']), 'both', false);
-
-        }
-
-        if (!empty($filter['unit'])) {
-            if ($filter['unit'] === '1') {
-                // Rawat Inap
-                $builder->where(
-                    "LEFT(kun.kd_unit, 1) = '1'",
-                    null,
-                    false
-                );
-            }
-
-            if ($filter['unit'] === '2') {
-                // Rawat Jalan
-                $builder->where(
-                    "LEFT(kun.kd_unit, 1) = '2'",
-                    null,
-                    false
-                );
-            }
-
-            if ($filter['unit'] === '3') {
-                // Rawat IGD
-                $builder->where(
-                    "LEFT(kun.kd_unit, 1) = '3'",
-                    null,
-                    false
-                );
-            }
-
-        }
+        $this->applyResepHeaderFilter($builder, $filter);
 
         $builder->orderBy('o.tgl_out', 'ASC');
         $builder->orderBy('o.nmpasien', 'ASC');
+        
+        if ($limit !== null) {
+            $builder->limit($limit, $offset);
+        }
+
         //         ->get()
         //         ->getResultArray();
         // echo $this->db->getLastQuery()->getQuery();

@@ -58,27 +58,37 @@ function initSIMRS() {
         applyPelayananZoom();
     };
 
-    window.handleResepSIMRSSubmit = function(e, form) {
-        e.preventDefault();
-
+    function loadResepSIMRSPage(form, page = 1, perPage = 50) {
         const btnSubmit = form.querySelector('button[type="submit"]');
         const resultContainer = document.getElementById('result-container');
         const alertContainer = document.getElementById('alert-container');
+        const formData = new FormData(form);
+
+        formData.set('page', page);
+        formData.set('per_page', perPage);
         
-        btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari Data...';
-        resultContainer.innerHTML = '';
+        if (btnSubmit) {
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mencari Data...';
+        }
+
+        if (resultContainer) {
+            resultContainer.innerHTML = '';
+        }
+
         alertContainer.innerHTML = '';
 
         fetch(form.action, {
             method: 'POST',
-            body: new FormData(form),
+            body: formData,
             headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
         .then(response => response.json())
         .then(data => {
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = '<i class="bi bi-search"></i>';
+            if (btnSubmit) {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i class="bi bi-search"></i>';
+            }
 
             if (data.status) {
                 resultContainer.innerHTML = data.html;
@@ -98,9 +108,47 @@ function initSIMRS() {
         })
         .catch(error => {
             console.error('Error:', error);
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = '<i class="bi bi-search"></i>';
+            if (btnSubmit) {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i class="bi bi-search"></i>';
+            }
             alertContainer.innerHTML = `<div class="alert alert-danger">Terjadi kesalahan sistem.</div>`;
+        });
+    }
+
+    window.handleResepSIMRSSubmit = function(e, form) {
+        e.preventDefault();
+
+        const perPage = parseInt(document.querySelector('.simrs-per-page')?.value || '50', 10);
+        loadResepSIMRSPage(form, 1, perPage);
+    }
+
+    const resultContainer = document.getElementById('result-container');
+    if (resultContainer && resultContainer.dataset.simrsPaginationBound !== '1') {
+        resultContainer.dataset.simrsPaginationBound = '1';
+
+        resultContainer.addEventListener('click', function(e) {
+            const btn = e.target.closest('.simrs-page-btn');
+            if (!btn || btn.disabled) return;
+
+            const form = document.getElementById('pencarianResepSIMRS');
+            if (!form) return;
+
+            const wrapper = document.getElementById('resepWrapper');
+            const page = parseInt(btn.dataset.page || '1', 10);
+            const perPage = parseInt(wrapper?.dataset.perPage || '50', 10);
+
+            loadResepSIMRSPage(form, page, perPage);
+        });
+
+        resultContainer.addEventListener('change', function(e) {
+            if (!e.target.classList.contains('simrs-per-page')) return;
+
+            const form = document.getElementById('pencarianResepSIMRS');
+            if (!form) return;
+
+            const perPage = parseInt(e.target.value || '50', 10);
+            loadResepSIMRSPage(form, 1, perPage);
         });
     }
 

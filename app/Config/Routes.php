@@ -92,6 +92,8 @@ use CodeIgniter\Router\RouteCollection;
 
     // Sidebar
     $routes->get('monitoring', 'MonitoringController::index', ['filter' => 'auth']);
+    $routes->get('koneksi', 'MonitoringController::koneksi', ['filter' => 'auth']);
+    $routes->get('koneksi/status', 'MonitoringController::koneksiStatus', ['filter' => 'auth']);
 
     $routes->get('sidebar-faskes', 'ReferensiController::viewfaskes', ['filter' => 'auth']);
     $routes->post('ref/search_faskes', 'ReferensiController::search_faskes', ['filter' => 'auth']);

@@ -1,9 +1,24 @@
-<div id="resepWrapper">
+<?php
+    $pagination = $pagination ?? [
+        'current_page' => 1,
+        'per_page'     => 50,
+        'total_rows'   => 0,
+        'total_pages'  => 1,
+        'has_prev'     => false,
+        'has_next'     => false,
+        'from'         => 0,
+        'to'           => 0,
+    ];
+?>
+
+<div id="resepWrapper"
+     data-page="<?= esc($pagination['current_page']) ?>"
+     data-per-page="<?= esc($pagination['per_page']) ?>">
 
     <div class="resep-toolbar d-flex flex-wrap gap-2 mb-2 align-items-center">
 
         <div class="input-group input-group-sm" style="max-width:260px">
-            <span class="input-group-text">🔍</span>
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
             <input type="text" id="searchResep" class="form-control"
                    placeholder="Cari SEP/Medrec/Nm Pasien">
         </div>
@@ -79,7 +94,43 @@
         </div>
 
     </div>
-    <!-- 📦 GROUP BY TANGGAL -->
+
+    <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-2">
+        <div class="small text-muted">
+            Menampilkan
+            <strong><?= esc($pagination['from']) ?>-<?= esc($pagination['to']) ?></strong>
+            dari
+            <strong><?= esc($pagination['total_rows']) ?></strong>
+            resep
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+            <select class="form-select form-select-sm simrs-per-page" style="width:auto">
+                <option value="50" <?= (int) $pagination['per_page'] === 50 ? 'selected' : '' ?>>50 / halaman</option>
+                <option value="100" <?= (int) $pagination['per_page'] === 100 ? 'selected' : '' ?>>100 / halaman</option>
+            </select>
+
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary simrs-page-btn"
+                    data-page="<?= esc((int) $pagination['current_page'] - 1) ?>"
+                    <?= $pagination['has_prev'] ? '' : 'disabled' ?>>
+                <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <span class="small text-muted">
+                Halaman <?= esc($pagination['current_page']) ?> / <?= esc($pagination['total_pages']) ?>
+            </span>
+
+            <button type="button"
+                    class="btn btn-sm btn-outline-secondary simrs-page-btn"
+                    data-page="<?= esc((int) $pagination['current_page'] + 1) ?>"
+                    <?= $pagination['has_next'] ? '' : 'disabled' ?>>
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- GROUP BY TANGGAL -->
     <div id="resepContainer">
 
         <?php foreach ($groups as $gIndex => $group): ?>
@@ -88,9 +139,9 @@
                 <!-- HEADER GROUP -->
                 <div class="card-header py-2 bg-light d-flex justify-content-between align-items-center">
                     <div class="fw-semibold">
-                        📦 <?= date('d M Y', strtotime($group['tgl'])) ?>
+                        <i class="bi bi-box-seam me-1"></i><?= date('d M Y', strtotime($group['tgl'])) ?>
                         <span class="badge bg-secondary ms-2">
-                            Total : <?= count($group['data']) ?> Resep per Hari
+                            Ditampilkan : <?= count($group['data']) ?> Resep
                         </span>
                     </div>
 
@@ -159,11 +210,11 @@
                                         <div class="no-resep-bpjs">
                                             <?php if ($item['status_kirim'] == 'f'): ?>
                                                 <span class="badge bg-danger" title="<?= esc($item['response_message']) ?>">
-                                                    ⚠️ <?= esc($item['noresep_bpjs']) ?>
+                                                    <i class="bi bi-exclamation-triangle-fill me-1"></i><?= esc($item['noresep_bpjs']) ?>
                                                 </span>
                                             <?php elseif ($item['status_kirim'] == 't'): ?>
                                                 <span class="badge bg-primary" title="<?= esc($item['response_message']) ?>">
-                                                    ✅ <?= esc($item['noresep_bpjs']) ?>
+                                                    <i class="bi bi-check-circle-fill me-1"></i><?= esc($item['noresep_bpjs']) ?>
                                                 </span>
                                             <?php endif; ?>
                                         </div>
@@ -171,7 +222,7 @@
 
                                     <?php if ($item['kd_customer_apt_brangout'] !== '0000000044' && $item['kd_customer_apt_brangout'] !== '0000000043'): ?>
                                         <span class="badge bg-danger" title="<?= esc($item['response_message']) ?>">
-                                            ⚠️ Resep: <?= esc($item['no_resep']) ?> /
+                                            <i class="bi bi-exclamation-triangle-fill me-1"></i>Resep: <?= esc($item['no_resep']) ?> /
                                             <?= esc($item['customer']) ?>
                                         </span>
                                     <?php else: ?>

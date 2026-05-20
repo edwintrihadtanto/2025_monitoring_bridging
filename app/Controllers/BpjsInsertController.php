@@ -1273,6 +1273,18 @@ class BpjsInsertController extends BaseController
             'unit'      => trim($this->request->getPost('option_radio')),
         ];
 
+        $page = (int) ($this->request->getPost('page') ?? 1);
+        $perPage = (int) ($this->request->getPost('per_page') ?? 50);
+        $allowedPerPage = [50, 100];
+
+        if ($page < 1) {
+            $page = 1;
+        }
+
+        if (!in_array($perPage, $allowedPerPage, true)) {
+            $perPage = 50;
+        }
+
         if ($searchType === 'medrec') {
             $filter['medrec'] = trim($this->request->getPost('medrec'));
         } else {
@@ -1300,7 +1312,15 @@ class BpjsInsertController extends BaseController
 
         try {
 
-            $rekap = $ResepModel->getResepHeader($filter);
+            $totalRows = $ResepModel->countResepHeader($filter);
+            $totalPages = max(1, (int) ceil($totalRows / $perPage));
+
+            if ($page > $totalPages) {
+                $page = $totalPages;
+            }
+
+            $offset = ($page - 1) * $perPage;
+            $rekap = $ResepModel->getResepHeader($filter, $perPage, $offset);
 
             if (empty($rekap)) {
                 return $this->response->setJSON([
@@ -1329,7 +1349,17 @@ class BpjsInsertController extends BaseController
                 'status'  => true,
                 'message' => 'Data ditemukan',
                 'html'    => view('resep/partial_resepsimrs', [
-                    'groups' => $grouped
+                    'groups' => $grouped,
+                    'pagination' => [
+                        'current_page' => $page,
+                        'per_page'     => $perPage,
+                        'total_rows'   => $totalRows,
+                        'total_pages'  => $totalPages,
+                        'has_prev'     => $page > 1,
+                        'has_next'     => $page < $totalPages,
+                        'from'         => $totalRows > 0 ? $offset + 1 : 0,
+                        'to'           => min($offset + count($rekap), $totalRows),
+                    ],
                 ])
             ]);
 
