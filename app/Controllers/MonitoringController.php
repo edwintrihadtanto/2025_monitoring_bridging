@@ -341,7 +341,7 @@ class MonitoringController extends BaseController
     private function checkBpjsFarmasiService(): array
     {
         $baseUrl = env('BPJS.api.baseURL');
-        $endpoint = $baseUrl ? rtrim($baseUrl, '/') . '/referensi/dpho' : null;
+        $endpoint = $baseUrl ? rtrim($baseUrl, '/') . '/referensi/spesialistik' : null;
 
         if (!$endpoint) {
             return $this->makeCheckResult(

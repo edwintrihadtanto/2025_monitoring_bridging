@@ -1,79 +1,61 @@
-<div class="obat-item obat-jadi py-1 px-2">
-    <div class="d-flex align-items-start gap-2">
+<div class="obat-item obat-jadi border-bottom" data-kdobat="<?= esc($item['kd_prd']) ?>">
+    <div class="d-flex align-items-center gap-1">
 
         <input type="checkbox"
-               class="form-check-input mt-1 obat-check"
-               data-kdobat="<?= esc($item['kd_prd'])?>"
+               class="form-check-input m-0 obat-check flex-shrink-0"
+               data-kdobat="<?= esc($item['kd_prd']) ?>"
                data-qty="<?= esc($item['jml_out']) ?>"
                data-racikan="<?= esc($item['nm_racikan']) ?>"
-               data-catatan="<?= esc($item['catatan']) ?>"
-               >
+               data-catatan="<?= esc($item['catatan']) ?>">
 
-        <div class="flex-grow-1">
-            <!-- Pastikan elemen obat punya class="obat-item" dan data-kdobat -->
-            <div class="obat-item py-1" data-kdobat="<?= esc($item['kd_prd']) ?>">
-                <div class="d-flex justify-content-between align-items-start gap-1">
-                    <div class="d-flex align-items-start gap-1 flex-grow-1">
-                        <?php if ($item['kd_obat_bpjs'] != 0): ?>
-                            <i class="bi bi-check-circle text-success" data-bs-toggle="tooltip" title="Sudah mapping BPJS"></i>
-                        <?php endif; ?>
-
-                        <span class="fw-semibold text-truncate nama-obat">
-                            <?= esc($item['nama_obat']) ?>
-                        </span>
-
-                        <!-- ✅ TAMBAHKAN SPAN INI UNTUK ICON STATUS -->
-                        <span class="obat-bpjs-status small text-muted" data-kdobat="<?= esc($item['kd_prd']) ?>"></span>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-1">
-                        <span class="small text-muted">Qty:</span>
-                        <input type="number"
-                               class="form-control form-control-sm qty"
-                               value="<?= esc($item['jml_out']) ?>"
-                               style="width:65px">
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex-grow-1" style="margin-top: -12px;">
-                <!-- SIGNA (ATAS SENDIRI) -->
-                <?php if (!empty($item['lbl_signa'])): ?>
-                    <div class="mt-1">
-                        <span class="badge bg-danger">
-                            <?= esc($item['lbl_signa']) ?>
-                        </span>
-                    </div>
+        <div class="flex-grow-1" style="min-width:0">
+            <div class="d-flex align-items-center gap-1">
+                <?php if ($item['kd_obat_bpjs'] != 0): ?>
+                    <i class="bi bi-check-circle text-success flex-shrink-0" data-bs-toggle="tooltip" title="Sudah mapping BPJS"></i>
                 <?php endif; ?>
 
-                <!-- INPUT & INFO -->
-                <div class="d-flex align-items-center flex-wrap gap-2 mt-1 small text-muted">
+                <span class="fw-semibold text-truncate nama-obat flex-grow-1" style="min-width:0">
+                    <?= esc($item['nama_obat']) ?>
+                </span>
 
-                    <!-- INPUT SIGNA -->
-                    <span class="d-flex align-items-center gap-1">
-                        <input type="number" class="form-control form-control-sm signa1" style="width:55px">
-                        x
-                        <input type="number" class="form-control form-control-sm signa2" style="width:55px">
-                    </span>
+                <span class="obat-bpjs-status small text-muted flex-shrink-0" data-kdobat="<?= esc($item['kd_prd']) ?>"></span>
 
-                    <!-- JHO -->
-                    <span class="d-flex align-items-center gap-1">
-                        JHO:
-                        <input type="number"
-                               class="form-control form-control-sm jho"
-                               style="width:60px"
-                               value="0">
+                <?php if (!empty($item['lbl_signa'])): ?>
+                    <span class="badge bg-danger">
+                        <?= esc($item['lbl_signa']) ?>
                     </span>
-                    <!-- CATATAN -->
-                    <?php if (!empty($item['catatan'])): ?>
-                        <span class="text-warning">
-                            📝 <?= esc($item['catatan']) ?>
-                        </span>
-                    <?php endif; ?>
-                    
-                </div>
+                <?php endif; ?>
             </div>
 
+            <?php if (!empty($item['catatan'])): ?>
+                <div class="text-warning small text-truncate lh-sm" title="<?= esc($item['catatan']) ?>">
+                    Cat: <?= esc($item['catatan']) ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="d-flex align-items-center gap-1 flex-shrink-0 small text-muted">
+            <span class="d-flex align-items-center gap-1">
+                <input type="number" class="form-control form-control-sm signa1 px-1 py-0" style="width:42px">
+                x
+                <input type="number" class="form-control form-control-sm signa2 px-1 py-0" style="width:42px">
+            </span>
+
+            <span class="d-flex align-items-center gap-1">
+                JHO
+                <input type="number"
+                       class="form-control form-control-sm jho px-1 py-0"
+                       style="width:46px"
+                       value="0">
+            </span>
+
+            <span class="d-flex align-items-center gap-1">
+                Qty
+                <input type="number"
+                       class="form-control form-control-sm qty px-1 py-0"
+                       value="<?= esc($item['jml_out']) ?>"
+                       style="width:52px">
+            </span>
         </div>
     </div>
 </div>

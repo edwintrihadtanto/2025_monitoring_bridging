@@ -186,7 +186,7 @@
                                  data-tglout="<?= $item['tgl_out'] ?>">
 
                             <!-- LEFT -->
-                            <div class="col-md-5 d-flex align-items-center gap-2">
+                            <div class="col-md-4 d-flex align-items-center gap-2">
 
                                 <input type="checkbox"
                                        class="form-check-input resep-check prevent-collapse"
@@ -194,48 +194,53 @@
 
                                 <i class="bi bi-chevron-down text-muted"></i>
 
-                                <div>
-                                    <div class="fw-bold d-flex gap-2 flex-wrap">
+                                <div class="d-flex align-items-stretch gap-2">
+                                    <span class="badge bg-primary d-flex align-items-center justify-content-center px-2">
+                                        <?= esc($item['no_out']) ?>
+                                    </span>
 
-                                        <?php if (!empty($item['no_sep'])): ?>
-                                            <span class="badge bg-success">
-                                                <?= esc($item['no_sep']) ?> <i class="fa fa-copy"></i>
-                                            </span>
-                                        <?php else: ?>
-                                            <span class="badge bg-danger">
-                                                SEP Kosong
-                                            </span>
-                                        <?php endif; ?>
+                                    <div>
+                                        <div class="fw-bold d-flex gap-2 flex-wrap">
 
-                                        <div class="no-resep-bpjs">
-                                            <?php if ($item['status_kirim'] == 'f'): ?>
-                                                <span class="badge bg-danger" title="<?= esc($item['response_message']) ?>">
-                                                    <i class="bi bi-exclamation-triangle-fill me-1"></i><?= esc($item['noresep_bpjs']) ?>
+                                            <?php if (!empty($item['no_sep'])): ?>
+                                                <span class="badge bg-success">
+                                                    <?= esc($item['no_sep']) ?> <i class="bi bi-copy"></i>
                                                 </span>
-                                            <?php elseif ($item['status_kirim'] == 't'): ?>
-                                                <span class="badge bg-primary" title="<?= esc($item['response_message']) ?>">
-                                                    <i class="bi bi-check-circle-fill me-1"></i><?= esc($item['noresep_bpjs']) ?>
+                                            <?php else: ?>
+                                                <span class="badge bg-danger">
+                                                    SEP Kosong
                                                 </span>
                                             <?php endif; ?>
-                                        </div>
-                                    </div>
 
-                                    <?php if ($item['kd_customer_apt_brangout'] !== '0000000044' && $item['kd_customer_apt_brangout'] !== '0000000043'): ?>
-                                        <span class="badge bg-danger" title="<?= esc($item['response_message']) ?>">
-                                            <i class="bi bi-exclamation-triangle-fill me-1"></i>Resep: <?= esc($item['no_resep']) ?> /
-                                            <?= esc($item['customer']) ?>
-                                        </span>
-                                    <?php else: ?>
-                                        <small class="text-muted">
-                                            Resep: <?= esc($item['no_resep']) ?> /
-                                            <?= esc($item['customer']) ?>
-                                        </small>
-                                    <?php endif; ?>
-                                    
+                                            <div class="no-resep-bpjs">
+                                                <?php if ($item['status_kirim'] == 'f'): ?>
+                                                    <span class="badge bg-danger" title="<?= esc($item['response_message']) ?>">
+                                                        <i class="bi bi-exclamation-triangle-fill me-1"></i><?= esc($item['noresep_bpjs']) ?>
+                                                    </span>
+                                                <?php elseif ($item['status_kirim'] == 't'): ?>
+                                                    <span class="badge bg-primary" title="<?= esc($item['response_message']) ?>">
+                                                        <i class="bi bi-check-circle-fill me-1"></i><?= esc($item['noresep_bpjs']) ?>
+                                                    </span>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+
+                                        <?php if ($item['kd_customer_apt_brangout'] !== '0000000044' && $item['kd_customer_apt_brangout'] !== '0000000043'): ?>
+                                            <span class="badge bg-danger" title="<?= esc($item['response_message']) ?>">
+                                                <i class="bi bi-exclamation-triangle-fill me-1"></i>Resep: <?= esc($item['no_resep']) ?> /
+                                                <?= esc($item['customer']) ?>
+                                            </span>
+                                        <?php else: ?>
+                                            <small class="text-muted">
+                                                Resep: <?= esc($item['no_resep']) ?> /
+                                                <?= esc($item['customer']) ?>
+                                            </small>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-7">
+                            <div class="col-md-8">
                                 <div class="gap-2" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end;">
                                     
                                     <!-- KIRI: NAMA PASIEN (Flex Grow) -->

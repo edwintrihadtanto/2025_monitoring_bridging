@@ -4,9 +4,7 @@
         <div class="connection-toolbar d-flex flex-wrap justify-content-between align-items-center gap-3">
             <div>
                 <div class="d-flex align-items-center gap-2 mb-1">
-                    
-                        <i class="bi bi-router-fill"></i>
-                    <h4 class="connection-title mb-0">Cek Koneksi</h4>
+                    <h4 class="connection-title mb-0"><i class="bi bi-router-fill"></i> Monitoring Koneksi</h4>
                 </div>
                 <p class="connection-message mb-0" style="font-size: 0.85rem;">
                     Monitoring akses internet server dan koneksi BPJS

@@ -386,6 +386,7 @@ class ResepModel extends Model
 
         $builder->orderBy('o.tgl_out', 'ASC');
         $builder->orderBy('o.nmpasien', 'ASC');
+        // $builder->orderBy('o.no_out', 'ASC');
         
         if ($limit !== null) {
             $builder->limit($limit, $offset);
