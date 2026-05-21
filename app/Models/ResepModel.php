@@ -305,6 +305,7 @@ class ResepModel extends Model
         );
         $builder->join('mr_resep mr', 'o.id_mrresep = mr.id_mrresep', 'left');
         $builder->join('apt_bridging_resep_bpjs abrb', "abrb.no_out = o.no_out and abrb.tgl_out = o.tgl_out and abrb.sts_batal = 'false'", 'left');
+        $builder->join('pasien', "pasien.kd_pasien = kun.kd_pasien", 'left');
 
         return $builder;
     }
@@ -377,7 +378,8 @@ class ResepModel extends Model
             abrb.response_message,
             abrb.kdjnsobat,
             COALESCE(NULLIF(o.sts_iter,0), abrb.kdjnsobat, o.sts_iter) AS sts_iter_final,
-            abrb.iterasi
+            abrb.iterasi,
+            no_asuransi
         ");
 
         $this->applyResepHeaderFilter($builder, $filter);
@@ -389,7 +391,7 @@ class ResepModel extends Model
             $builder->limit($limit, $offset);
         }
 
-        //         ->get()
+        // $builder->get()
         //         ->getResultArray();
         // echo $this->db->getLastQuery()->getQuery();
         // die;

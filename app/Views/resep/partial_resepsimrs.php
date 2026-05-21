@@ -96,7 +96,7 @@
     </div>
 
     <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-2">
-        <div class="small text-muted">
+        <div class="small text-danger">
             Menampilkan
             <strong><?= esc($pagination['from']) ?>-<?= esc($pagination['to']) ?></strong>
             dari
@@ -239,9 +239,16 @@
                                 <div class="gap-2" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end;">
                                     
                                     <!-- KIRI: NAMA PASIEN (Flex Grow) -->
-                                    <div class="text-truncate">
-                                        <div class="fw-semibold text-primary text-truncate">
-                                            <?= esc($item['nmpasien']) ?>
+                                    <div class="text-truncate" style="text-align: end;">
+                                        <div class="gap-2" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end;">
+                                            <?php if (!empty($item['no_asuransi'])): ?>
+                                            <span class="text-danger">
+                                                ( <?= esc($item['no_asuransi']) ?> )
+                                            </span>
+                                            <?php endif; ?>
+                                            <div class="fw-semibold text-primary text-truncate">
+                                                <?= esc($item['nmpasien']) ?>
+                                            </div>
                                         </div>
                                         <small class="text-muted">
                                             <?= esc($item['kd_pasienapt']) ?> /
@@ -263,6 +270,9 @@
                                             <option value="1" <?= $item['iterasi'] == '1' ? 'selected' : '' ?>>Iterasi 1 Kali</option>
                                             <option value="2" <?= $item['iterasi'] == '2' ? 'selected' : '' ?>>Iterasi 2 Kali</option>                                            
                                         </select>
+                                        <div class="col-md-auto">                                            
+                                            <input type="date" name="tgl_pelayanan" class="form-control form-control-sm" value="<?= esc(date('Y-m-d', strtotime($item['tgl_out']))) ?>" required>
+                                        </div>
                                     </div>
 
                                 </div>

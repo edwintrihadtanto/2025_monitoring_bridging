@@ -571,7 +571,7 @@
             box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
         }
 
-        .connection-card {
+        .connection-toolbar {
             position: relative;
             overflow: hidden;
             border: 1px solid var(--bs-border-color);
@@ -581,12 +581,12 @@
             transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
         }
 
-        .connection-card:hover {
+        .connection-toolbar:hover {
             transform: translateY(-2px);
             box-shadow: 0 14px 34px rgba(15, 23, 42, .12);
         }
 
-        .connection-card::before {
+        .connection-toolbar::before {
             content: "";
             position: absolute;
             inset: 0 auto 0 0;
@@ -594,15 +594,15 @@
             background: var(--connection-accent, var(--bs-secondary));
         }
 
-        .connection-card.is-ok {
+        .connection-toolbar.is-ok {
             --connection-accent: var(--bs-success);
         }
 
-        .connection-card.is-warning {
+        .connection-toolbar.is-warning {
             --connection-accent: var(--bs-warning);
         }
 
-        .connection-card.is-down {
+        .connection-toolbar.is-down {
             --connection-accent: var(--bs-danger);
         }
 
@@ -699,35 +699,39 @@
         }
 
         .connection-card .connection-label,
-        .connection-card .connection-message,
-        .connection-card .connection-title {
+        .connection-toolbar .connection-label,
+        .connection-toolbar .connection-message,
+        .connection-toolbar .connection-title {
             color: #111827 !important;
         }
 
-        .connection-card .connection-label {
+        .connection-card .connection-label,
+        .connection-toolbar .connection-label {
             opacity: .72;
         }
 
-        .connection-card .connection-endpoint {
+        .connection-toolbar .connection-endpoint {
             color: #1f2937;
         }
 
-        [data-bs-theme="dark"] .connection-toolbar,
-        [data-bs-theme="dark"] .connection-card {
+        [data-bs-theme="dark"] .connection-card,
+        [data-bs-theme="dark"] .connection-toolbar {
             box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
         }
 
         [data-bs-theme="dark"] .connection-card .connection-label,
-        [data-bs-theme="dark"] .connection-card .connection-message,
-        [data-bs-theme="dark"] .connection-card .connection-title {
+        [data-bs-theme="dark"] .connection-toolbar .connection-label,
+        [data-bs-theme="dark"] .connection-toolbar .connection-message,
+        [data-bs-theme="dark"] .connection-toolbar .connection-title {
             color: var(--bs-body-color) !important;
         }
 
-        [data-bs-theme="dark"] .connection-card .connection-label {
+        [data-bs-theme="dark"] .connection-card .connection-label, 
+        [data-bs-theme="dark"] .connection-toolbar .connection-label {
             opacity: .78;
         }
 
-        [data-bs-theme="dark"] .connection-card .connection-endpoint {
+        [data-bs-theme="dark"] .connection-toolbar .connection-endpoint {
             color: var(--bs-secondary-color);
         }
 

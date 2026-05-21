@@ -20,9 +20,12 @@
 }
 
 .monitoring-theme .text-muted {
-    color: #9ca3af !important;
+    color: #000000 !important;
 }
 
+[data-bs-theme="dark"] .monitoring-theme .text-muted  {
+    color: var(--bs-body-color) !important;
+}
 /* STAT CARD */
 .monitoring-theme .stat-card {
     background: linear-gradient(145deg, #111827, #0b1220);

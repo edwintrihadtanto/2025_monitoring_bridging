@@ -32,6 +32,7 @@ class BpjsInsertController extends BaseController
 
         $no_out     = $request['no_out'] ?? null;
         $tgl_out    = $request['tgl_out'] ?? null;
+        $tgl_pelayanan = $request['tgl_pelayanan'] ?? null;
         $kdpasien   = $request['kdpasien'] ?? null;
         $noresep    = $request['noresep'] ?? null;
         $refasalsjp = $request['sep'] ?? null;
@@ -117,7 +118,7 @@ class BpjsInsertController extends BaseController
         try {
             $ResepModel = new \App\Models\ResepModel();
             $tglresep       = $tgl_out;
-            $tglpelayanan   = $tgl_out;
+            $tglpelayanan   = $tgl_pelayanan ?: $tgl_out;
             $userID         = session()->get('id');
 
             if ($kdmodulresep !== '1'){

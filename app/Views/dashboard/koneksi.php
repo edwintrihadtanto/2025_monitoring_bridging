@@ -18,9 +18,9 @@
                     <i class="bi bi-clock-history"></i>
                     <span id="koneksiCheckedAt"><?= esc($checked_at) ?></span>
                 </span>
-                <button type="button" class="btn btn-primary btn-sm d-inline-flex align-items-center gap-1" id="btnRefreshKoneksi">
+                <button type="button" class="btn btn-primary btn-sm" id="btnRefreshKoneksi">
                     <i class="bi bi-arrow-clockwise"></i>
-                    <span>Cek Ulang</span>
+                    <!-- <span>Cek Ulang</span> -->
                 </button>
             </div>
         </div>

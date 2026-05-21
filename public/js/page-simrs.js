@@ -678,6 +678,10 @@ function handleProsesObatClick(e) {
         
         const kdjnsobat = resepItem.dataset.kdjnsobat || '1';
         const iterasi = resepItem.dataset.iterasi || '0';
+        const tglPelayanan = getInputValueDetailItem(
+            resepItem,
+            'input[name="tgl_pelayanan"]'
+        ) || resepItem.dataset.tgl_out;
         
         const payload = [{
             noresep   : resepItem.dataset.noresep,
@@ -685,6 +689,7 @@ function handleProsesObatClick(e) {
             kdpasien  : resepItem.dataset.kdpasien,
             no_out    : resepItem.dataset.no_out,
             tgl_out   : resepItem.dataset.tgl_out,
+            tgl_pelayanan: tglPelayanan,
             kd_unit   : resepItem.dataset.kd_unit,
             kd_dokter : resepItem.dataset.kd_dokter,
             iterasi   : iterasi,
@@ -761,12 +766,18 @@ function handleProsesObatClick(e) {
         
         const kdjnsobat = resepItem.dataset.kdjnsobat || '1';
         const iterasi = resepItem.dataset.iterasi || '0';
+        const tglPelayanan = getInputValueDetailItem(
+            resepItem,
+            'input[name="tgl_pelayanan"]'
+        ) || resepItem.dataset.tgl_out;
+
         payload.push({
             noresep   : resepItem.dataset.noresep,
             sep       : resepItem.dataset.sep,
             kdpasien  : resepItem.dataset.kdpasien,
             no_out    : resepItem.dataset.no_out,
             tgl_out   : resepItem.dataset.tgl_out,
+            tgl_pelayanan: tglPelayanan,
             kd_unit   : resepItem.dataset.kd_unit,
             kd_dokter : resepItem.dataset.kd_dokter,
             iterasi   : iterasi,
