@@ -242,7 +242,7 @@ class ResepModel extends Model
         // Filter tanggal
         if (!empty($filter['tgl_awal']) && !empty($filter['tgl_akhir'])) {
             $builder->where('o.tgl_out >=', $filter['tgl_awal'].' 00:00:00');
-            $builder->where('o.tgl_out <=', $filter['tgl_akhir'].' 00:00:00');
+            $builder->where('o.tgl_out <=', $filter['tgl_akhir'].' 23:59:59');
         }
 
         if (!empty($filter['medrec'])) {
@@ -257,17 +257,17 @@ class ResepModel extends Model
         if (!empty($filter['unit'])) {
             if ($filter['unit'] === '1') {
                 // Rawat Inap
-                $builder->where("LEFT(kun.kd_unit, 1) = '1'", null, false);
+                $builder->where("LEFT(o.kd_unit, 1) = '1'", null, false);
             }
 
             if ($filter['unit'] === '2') {
                 // Rawat Jalan
-                $builder->where("LEFT(kun.kd_unit, 1) = '2'", null, false);
+                $builder->where("LEFT(o.kd_unit, 1) = '2'", null, false);
             }
 
             if ($filter['unit'] === '3') {
                 // Rawat IGD
-                $builder->where("LEFT(kun.kd_unit, 1) = '3'", null, false);
+                $builder->where("LEFT(o.kd_unit, 1) = '3'", null, false);
             }
         }
 
@@ -277,7 +277,7 @@ class ResepModel extends Model
     private function buildResepHeaderBaseQuery()
     {
         $builder = $this->builder('apt_barang_out o');
-        $builder->distinct();
+        // $builder->distinct();
 
         // JOIN
         $builder->join('unit u', 'o.kd_unit = u.kd_unit', 'left');
@@ -312,7 +312,8 @@ class ResepModel extends Model
 
     public function countResepHeader(array $filter = []): int
     {
-        $builder = $this->buildResepHeaderBaseQuery();
+        // Query hitung dibuat ringan: cukup tabel header resep + filter.
+        $builder = $this->builder('apt_barang_out o');
         $this->applyResepHeaderFilter($builder, $filter);
 
         $row = $builder
@@ -325,8 +326,23 @@ class ResepModel extends Model
 
     public function getResepHeader(array $filter = [], ?int $limit = null, int $offset = 0)
     {
-        // $builder = $this->builder();
+        // STEP 1: Ambil ID header resep untuk paging (query ringan, tanpa join berat).
+        $idBuilder = $this->builder('apt_barang_out o');
+        $this->applyResepHeaderFilter($idBuilder, $filter);
+        $idBuilder->select('o.no_out, o.tgl_out');
+        $idBuilder->orderBy('o.tgl_out', 'ASC');
+        $idBuilder->orderBy('o.nmpasien', 'ASC');
 
+        if ($limit !== null) {
+            $idBuilder->limit($limit, $offset);
+        }
+
+        $headerRows = $idBuilder->get()->getResultArray();
+        if (empty($headerRows)) {
+            return [];
+        }
+
+        // STEP 2: Query lengkap hanya untuk ID yang sudah terpilih.
         $builder = $this->buildResepHeaderBaseQuery();
 
         $builder->select("
@@ -382,7 +398,14 @@ class ResepModel extends Model
             no_asuransi
         ");
 
-        $this->applyResepHeaderFilter($builder, $filter);
+        $builder->groupStart();
+        foreach ($headerRows as $row) {
+            $builder->orGroupStart()
+                ->where('o.no_out', $row['no_out'])
+                ->where('o.tgl_out', $row['tgl_out'])
+                ->groupEnd();
+        }
+        $builder->groupEnd();
 
         $builder->orderBy('o.tgl_out', 'ASC');
         $builder->orderBy('o.nmpasien', 'ASC');

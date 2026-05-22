@@ -208,8 +208,8 @@ foreach ($detail as $item) {
 
     </div>
 
-    <div class="text-end">
-        <button type="button" class="btn btn-sm btn-success btn-proses-detail">
+    <div class="text-center">
+        <button type="button" class="btn btn-sm btn-success btn-proses-detail" style="width: stretch;">
             <i class="bi bi-check2-circle"></i> Proses
         </button>
     </div>
