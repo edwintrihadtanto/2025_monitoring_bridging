@@ -242,7 +242,7 @@ class ResepModel extends Model
         // Filter tanggal
         if (!empty($filter['tgl_awal']) && !empty($filter['tgl_akhir'])) {
             $builder->where('o.tgl_out >=', $filter['tgl_awal'].' 00:00:00');
-            $builder->where('o.tgl_out <=', $filter['tgl_akhir'].' 23:59:59');
+            $builder->where('o.tgl_out <=', $filter['tgl_akhir'].' 00:00:00');
         }
 
         if (!empty($filter['medrec'])) {
@@ -257,20 +257,21 @@ class ResepModel extends Model
         if (!empty($filter['unit'])) {
             if ($filter['unit'] === '1') {
                 // Rawat Inap
-                $builder->where("LEFT(o.kd_unit, 1) = '1'", null, false);
+                $builder->where("LEFT(kun.kd_unit, 1) = '1'", null, false);
             }
 
             if ($filter['unit'] === '2') {
                 // Rawat Jalan
-                $builder->where("LEFT(o.kd_unit, 1) = '2'", null, false);
+                $builder->where("LEFT(kun.kd_unit, 1) = '2'", null, false);
+                $builder->where("o.kd_unit_far in ('APA')");
             }
 
             if ($filter['unit'] === '3') {
                 // Rawat IGD
-                $builder->where("LEFT(o.kd_unit, 1) = '3'", null, false);
+                $builder->where("LEFT(kun.kd_unit, 1) = '3'", null, false);
             }
         }
-
+        $builder->where("o.kd_customer IN ('0000000043', '0000000044')");
         return $builder;
     }
 
@@ -287,11 +288,11 @@ class ResepModel extends Model
         // $builder->join('apt_barang_out_detail bo', 'bo.no_out = o.no_out AND bo.tgl_out = o.tgl_out', 'left');
         $builder->join('transaksi T', 'T.no_transaksi = o.apt_no_transaksi AND T.kd_kasir = o.apt_kd_kasir', 'left');
         $builder->join('kunjungan kun',
-            'T.kd_pasien = kun.kd_pasien 
+            "T.kd_pasien = kun.kd_pasien 
              AND T.kd_unit = kun.kd_unit 
              AND T.urut_masuk = kun.urut_masuk 
-             AND T.tgl_transaksi = kun.tgl_masuk 
-             ',
+             AND T.tgl_transaksi = kun.tgl_masuk
+             ",
             'left'
         );
         $builder->join('payment py', 'py.kd_customer = o.kd_customer', 'inner');
@@ -303,7 +304,7 @@ class ResepModel extends Model
              AND sjp.urut_masuk = kun.urut_masuk',
             'left'
         );
-        $builder->join('mr_resep mr', 'o.id_mrresep = mr.id_mrresep', 'left');
+        // $builder->join('mr_resep mr', 'o.id_mrresep = mr.id_mrresep', 'left');
         $builder->join('apt_bridging_resep_bpjs abrb', "abrb.no_out = o.no_out and abrb.tgl_out = o.tgl_out and abrb.sts_batal = 'false'", 'left');
         $builder->join('pasien', "pasien.kd_pasien = kun.kd_pasien", 'left');
 
@@ -312,8 +313,7 @@ class ResepModel extends Model
 
     public function countResepHeader(array $filter = []): int
     {
-        // Query hitung dibuat ringan: cukup tabel header resep + filter.
-        $builder = $this->builder('apt_barang_out o');
+        $builder = $this->buildResepHeaderBaseQuery();
         $this->applyResepHeaderFilter($builder, $filter);
 
         $row = $builder
@@ -326,23 +326,8 @@ class ResepModel extends Model
 
     public function getResepHeader(array $filter = [], ?int $limit = null, int $offset = 0)
     {
-        // STEP 1: Ambil ID header resep untuk paging (query ringan, tanpa join berat).
-        $idBuilder = $this->builder('apt_barang_out o');
-        $this->applyResepHeaderFilter($idBuilder, $filter);
-        $idBuilder->select('o.no_out, o.tgl_out');
-        $idBuilder->orderBy('o.tgl_out', 'ASC');
-        $idBuilder->orderBy('o.nmpasien', 'ASC');
+        // $builder = $this->builder();
 
-        if ($limit !== null) {
-            $idBuilder->limit($limit, $offset);
-        }
-
-        $headerRows = $idBuilder->get()->getResultArray();
-        if (empty($headerRows)) {
-            return [];
-        }
-
-        // STEP 2: Query lengkap hanya untuk ID yang sudah terpilih.
         $builder = $this->buildResepHeaderBaseQuery();
 
         $builder->select("
@@ -377,7 +362,7 @@ class ResepModel extends Model
             pyt.deskripsi AS payment_type,
             o.tgl_resep,            
             o.id_mrresep,
-            mr.cat_alergi,
+            o.catatandr as cat_alergi,
             o.siapa,
             o.sts_kronis,
             o.sts_iter,
@@ -398,18 +383,11 @@ class ResepModel extends Model
             no_asuransi
         ");
 
-        $builder->groupStart();
-        foreach ($headerRows as $row) {
-            $builder->orGroupStart()
-                ->where('o.no_out', $row['no_out'])
-                ->where('o.tgl_out', $row['tgl_out'])
-                ->groupEnd();
-        }
-        $builder->groupEnd();
+        $this->applyResepHeaderFilter($builder, $filter);
 
-        $builder->orderBy('o.tgl_out', 'ASC');
-        $builder->orderBy('o.nmpasien', 'ASC');
-        // $builder->orderBy('o.no_out', 'ASC');
+        // $builder->orderBy('o.tgl_out', 'ASC');
+        // $builder->orderBy('o.nmpasien', 'ASC');
+        $builder->orderBy('o.no_out', 'ASC');
         
         if ($limit !== null) {
             $builder->limit($limit, $offset);

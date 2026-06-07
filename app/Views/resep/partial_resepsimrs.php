@@ -25,7 +25,7 @@
 
         <div class="d-flex align-items-center gap-2">
 
-            <label class="form-check m-0">
+            <label class="form-check m-0 d-none">
                 <input class="form-check-input"
                        type="radio"
                        name="filter_sep"
@@ -34,7 +34,7 @@
                 <span class="form-check-label small text-danger">SEP Kosong</span>
             </label>
 
-            <label class="form-check m-0">
+            <label class="form-check m-0 d-none">
                 <input class="form-check-input"
                        type="radio"
                        name="filter_sep"
@@ -108,6 +108,8 @@
             <select class="form-select form-select-sm simrs-per-page" style="width:auto">
                 <option value="50" <?= (int) $pagination['per_page'] === 50 ? 'selected' : '' ?>>50 / halaman</option>
                 <option value="100" <?= (int) $pagination['per_page'] === 100 ? 'selected' : '' ?>>100 / halaman</option>
+                <option value="500" <?= (int) $pagination['per_page'] === 500 ? 'selected' : '' ?>>500 / halaman</option>
+                <option value="1000" <?= (int) $pagination['per_page'] === 1000 ? 'selected' : '' ?>>1000 / halaman</option>
             </select>
 
             <button type="button"

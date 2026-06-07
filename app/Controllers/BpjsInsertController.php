@@ -1276,7 +1276,7 @@ class BpjsInsertController extends BaseController
 
         $page = (int) ($this->request->getPost('page') ?? 1);
         $perPage = (int) ($this->request->getPost('per_page') ?? 50);
-        $allowedPerPage = [50, 100];
+        $allowedPerPage = [50, 100, 500, 1000];
 
         if ($page < 1) {
             $page = 1;
