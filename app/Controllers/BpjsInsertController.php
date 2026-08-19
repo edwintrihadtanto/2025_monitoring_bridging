@@ -54,6 +54,8 @@ class BpjsInsertController extends BaseController
         // CEK FLAG PRB
         // ==========================================
         $prbCheck = $this->_cekSepPasien($refasalsjp);
+        // var_dump($prbCheck['flagprb']);
+        // exit;
         if (!$prbCheck['status']) {
             return $this->response->setJSON([
                 'status'  => false,
@@ -111,7 +113,12 @@ class BpjsInsertController extends BaseController
             // ]);
             $infoPrb = [
                 'statusprb' => true,
-                'message'   => "Status PRB Aktif (" . ($prbCheck['namaprb'] ?: '-') . ")"
+                'message'   => "BPJS Status PRB : (" . ($prbCheck['namaprb'] ?: '-') . ")"
+            ];
+        }else{
+            $infoPrb = [
+                'statusprb' => true,
+                'message'   => "BPJS Status PRB : (" . ($prbCheck['namaprb'] ?: '-') . ")"
             ];
         }
 

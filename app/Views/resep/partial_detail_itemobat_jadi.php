@@ -1,3 +1,31 @@
+<?php
+    $bpjsMessage = '';
+    $bpjsStatus  = '';
+
+    if (!empty($item['response_bpjs'])) {
+
+        $response = json_decode($item['response_bpjs'], true);
+
+        if (json_last_error() === JSON_ERROR_NONE && is_array($response)) {
+
+            // Ambil status dari field yang tersedia
+            $bpjsStatus = $response['status']
+                        ?? $response['status_code']
+                        ?? '';
+
+            // Ambil pesan
+            $bpjsMessage = $response['message']
+                         ?? $response['msg']
+                         ?? $response['metadata']['message']
+                         ?? '';
+
+        } else {
+
+            // Kalau ternyata bukan JSON
+            $bpjsMessage = $item['response_bpjs'];
+        }
+    }
+?>
 <div class="obat-item obat-jadi border-bottom" data-kdobat="<?= esc($item['kd_prd']) ?>">
     <div class="d-flex align-items-center gap-1">
 
@@ -12,14 +40,32 @@
             <div class="d-flex align-items-center gap-1">
                 <?php if ($item['kd_obat_bpjs'] != 0): ?>
                     <i class="bi bi-check-circle text-success flex-shrink-0" data-bs-toggle="tooltip" title="Sudah mapping BPJS"></i>
+                    <span class="badge bg-info" style="font-size:10px;">
+                        <?= esc($item['kd_obat_bpjs']) ?>
+                    </span>
                 <?php endif; ?>
-
                 <span class="fw-semibold text-truncate nama-obat flex-grow-1" style="min-width:0">
                     <?= esc($item['nama_obat']) ?>
                 </span>
-
+                
                 <span class="obat-bpjs-status small text-muted flex-shrink-0" data-kdobat="<?= esc($item['kd_prd']) ?>"></span>
+                <?php
+                $icon = 'bi-info-circle-fill text-secondary';
 
+                if ($bpjsStatus == 'gagal' || $bpjsStatus == 'error') {
+                    $icon = 'bi-exclamation-triangle-fill text-danger';
+                } elseif ($bpjsStatus == '200') {
+                    $icon = 'bi-check-circle-fill text-success';
+                }
+                ?>
+
+                <?php if ($bpjsMessage != ''): ?>
+                    <i class="bi <?= $icon ?>"
+                       data-bs-toggle="tooltip"
+                       title="<?= esc($bpjsMessage) ?>">
+                    </i>
+                <?php endif; ?>
+                
                 <?php if (!empty($item['lbl_signa'])): ?>
                     <span class="badge bg-danger">
                         <?= esc($item['lbl_signa']) ?>

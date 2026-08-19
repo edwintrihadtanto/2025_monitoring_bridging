@@ -678,9 +678,9 @@ function handleProsesObatClick(e) {
         
         const kdjnsobat = resepItem.dataset.kdjnsobat || '1';
         const iterasi = resepItem.dataset.iterasi || '0';
-        const tglPelayanan = getInputValueDetailItem(
+        const tglPelayananan = getInputValueDetailItem(
             resepItem,
-            'input[name="tgl_pelayanan"]'
+            'input[name="tgl_pelayananan"]'
         ) || resepItem.dataset.tgl_out;
         
         const payload = [{
@@ -689,7 +689,7 @@ function handleProsesObatClick(e) {
             kdpasien  : resepItem.dataset.kdpasien,
             no_out    : resepItem.dataset.no_out,
             tgl_out   : resepItem.dataset.tgl_out,
-            tgl_pelayanan: tglPelayanan,
+            tgl_pelayananan: tglPelayananan,
             kd_unit   : resepItem.dataset.kd_unit,
             kd_dokter : resepItem.dataset.kd_dokter,
             iterasi   : iterasi,
@@ -766,9 +766,9 @@ function handleProsesObatClick(e) {
         
         const kdjnsobat = resepItem.dataset.kdjnsobat || '1';
         const iterasi = resepItem.dataset.iterasi || '0';
-        const tglPelayanan = getInputValueDetailItem(
+        const tglPelayananan = getInputValueDetailItem(
             resepItem,
-            'input[name="tgl_pelayanan"]'
+            'input[name="tgl_pelayananan"]'
         ) || resepItem.dataset.tgl_out;
 
         payload.push({
@@ -777,7 +777,7 @@ function handleProsesObatClick(e) {
             kdpasien  : resepItem.dataset.kdpasien,
             no_out    : resepItem.dataset.no_out,
             tgl_out   : resepItem.dataset.tgl_out,
-            tgl_pelayanan: tglPelayanan,
+            tgl_pelayananan: tglPelayananan,
             kd_unit   : resepItem.dataset.kd_unit,
             kd_dokter : resepItem.dataset.kd_dokter,
             iterasi   : iterasi,
@@ -855,17 +855,19 @@ function prosesBatchSIMRS(payload) {
                 // ✅ PROSES ERROR SPESIFIK UNTUK DETAIL OBAT
                 if (data.errors && data.errors.length > 0) {
                     let detailMsg = "<ul class='text-start mb-0' style='font-size:13px;'>";
+                    let headerMsg = "<br><p style='font-size:13px;'>";
                     
                     // 1. Tampilkan pesan di SweetAlert
                     data.errors.forEach(err => {
                         detailMsg += `<li><strong>${err.nama_obat}</strong>: ${err.error}</li>`;
                     });
+                    headerMsg += data.message;
                     detailMsg += "</ul>";
 
                     Swal.fire({
                         icon: 'warning',
-                        title: `Gagal Kirim Obat (No Apotek: ${data.data?.noApotik || '-'})`,
-                        html: detailMsg,
+                        title: `<h6>(No Apotek: ${data.data?.noApotik || '-'}), Gagal Kirim Obat</h6>`,
+                        html: detailMsg+headerMsg,
                         timer: 6000,
                         timerProgressBar: true,
                         showConfirmButton: false,
