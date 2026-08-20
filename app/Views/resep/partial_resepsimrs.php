@@ -248,6 +248,11 @@
                                     <!-- KIRI: NAMA PASIEN (Flex Grow) -->
                                     <div class="text-truncate" style="text-align: end;">
                                         <div class="gap-2" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end;">
+                                            <?php if ($item['sts_iter'] == '1'): ?>
+                                            <span class="fw-semibold text-primary">
+                                                ( <?= 'Iter' ?> )
+                                            </span>
+                                            <?php endif; ?>
                                             <?php if (!empty($item['no_asuransi'])): ?>
                                             <span class="text-danger">
                                                 ( <?= esc($item['no_asuransi']) ?> )

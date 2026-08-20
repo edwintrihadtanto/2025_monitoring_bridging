@@ -130,12 +130,33 @@ class BpjsInsertController extends BaseController
 
             if ($kdmodulresep !== '1'){
                 $poliData = $ResepModel->getMappingUnitBPJS($kd_unit);
-                if (!$poliData) return $this->response->setJSON(['status' => false, 'message' => 'Mapping Unit BPJS tidak ditemukan!']);
+
+                if (
+                    empty($poliData) ||
+                    empty($poliData[0]['unit_bpjs'])
+                ) {
+                    return $this->response->setJSON([
+                        'status'  => false,
+                        'message' => 'Mapping Unit BPJS tidak ditemukan!'
+                    ]);
+                }
+
                 $poli = $poliData[0]['unit_bpjs'];
 
                 $dokterBPJS = $ResepModel->getMappingDokterBPJS($kd_dokter);
-                if (!$dokterBPJS) return $this->response->setJSON(['status' => false, 'message' => 'Mapping Dokter BPJS tidak ditemukan!']);
+
+                if (
+                    empty($dokterBPJS) ||
+                    empty($dokterBPJS[0]['kd_dokter_bpjs'])
+                ) {
+                    return $this->response->setJSON([
+                        'status'  => false,
+                        'message' => 'Mapping Dokter BPJS tidak ditemukan!'
+                    ]);
+                }
+
                 $kd_dokterbpjs = $dokterBPJS[0]['kd_dokter_bpjs'];
+
             } else {
                 $poli = 'INT';
                 // $kd_dokterbpjs = '299693';
@@ -144,6 +165,7 @@ class BpjsInsertController extends BaseController
                 $kd_dokterbpjs = $dokterBPJS[0]['kd_dokter_bpjs'];
             }
 
+            
             // ==========================================
             // CEK LOG HEADER SEBELUM KIRIM KE BPJS
             // ==========================================

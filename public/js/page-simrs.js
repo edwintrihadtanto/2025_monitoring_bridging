@@ -827,13 +827,42 @@ function prosesBatchSIMRS(payload) {
             // ==========================================
             // HELPER: UPDATE BADGE NO RESEP
             // ==========================================
-            const updateNoResepBadge = (icon, bgClass, tooltipText) => {
+            /*const updateNoResepBadge = (icon, bgClass, tooltipText) => {
                 const noResepDiv = resepItem.querySelector('.no-resep-bpjs');
                 if (noResepDiv && data.data && data.data.noResep) {
                     noResepDiv.innerHTML = `<span class="badge ${bgClass}" data-bs-toggle="tooltip" title="${tooltipText}">${icon} ${data.data.noResep}</span>`;
                 }
-            };
+            };*/
 
+            const updateNoResepBadge = (icon, bgClass, tooltipText, noResep = null) => {
+                const noResepDiv = resepItem.querySelector('.no-resep-bpjs');
+
+                if (!noResepDiv) return;
+
+                // Ambil noResep dari parameter atau data response
+                const nomorResep = noResep || data.data?.noResep;
+
+                if (!nomorResep) return;
+
+                noResepDiv.innerHTML = `
+                    <span 
+                        class="badge ${bgClass}" 
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top"
+                        title="${tooltipText}">
+                        ${icon} ${nomorResep}
+                    </span>
+                `;
+
+                // Inisialisasi ulang Bootstrap Tooltip
+                const tooltipEl = noResepDiv.querySelector('[data-bs-toggle="tooltip"]');
+
+                if (tooltipEl && typeof bootstrap !== 'undefined') {
+                    bootstrap.Tooltip.getInstance(tooltipEl)?.dispose();
+                    new bootstrap.Tooltip(tooltipEl);
+                }
+            };
+            
             if(data.status){
                 Toast.fire({
                     icon: 'success',
